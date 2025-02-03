@@ -98,10 +98,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/form-pengawas/auto-save', [FormPengawasController::class, 'autoSave'])->name('form-pengawas.auto-save');
 
     //Form Pengawas Baru
-    Route::get('/form-pengawas-new/show', [FormPengawasNewController::class, 'show'])->name('form-pengawas-new.show');
-    Route::get('/form-pengawas-new/index', [FormPengawasNewController::class, 'index'])->name('form-pengawas-new.index');
-    Route::post('/save-draft', [FormPengawasNewController::class, 'saveAsDraft'])->name('daily-report.saveAsDraft');
-    Route::get('/form-pengawas-new/get-draft/{uuid}', [FormPengawasNewController::class, 'getDraft'])->name('get-draft');
+    // Route::get('/form-pengawas-new/show', [FormPengawasNewController::class, 'show'])->name('form-pengawas-new.show');
+    // Route::get('/form-pengawas-new/index', [FormPengawasNewController::class, 'index'])->name('form-pengawas-new.index');
+    // Route::post('/save-draft', [FormPengawasNewController::class, 'saveAsDraft'])->name('daily-report.saveAsDraft');
+    // Route::get('/form-pengawas-new/get-draft/{uuid}', [FormPengawasNewController::class, 'getDraft'])->name('get-draft');
+    // Route::post('/form-pengawas-new/post', [FormPengawasNewController::class, 'post'])->name('form-pengawas-new.post');
 
     //Front Loading
     Route::get('/front-loading/index', [FrontLoadingController::class, 'index'])->name('front-loading.index');
