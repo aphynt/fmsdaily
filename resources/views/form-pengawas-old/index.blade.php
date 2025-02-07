@@ -115,7 +115,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form action="{{ route('form-pengawas-old.post') }}" method="post"
-                                onsubmit="return validateForm()" id="submitFormKerja">
+                                onsubmit="validateForm(event)" id="submitFormKerja">
                                 @csrf
                                 <div class="tab-content">
                                     <!-- START: Define your progress bar here -->
@@ -625,12 +625,10 @@
     const submitButtonKerja = document.getElementById('submitButtonKerja');
 
     formKerja.addEventListener('submit', function() {
+        event.preventDefault();
         submitButtonKerja.disabled = true;
         submitButtonKerja.innerText = 'Processing...';
-        setTimeout(function() {
-            submitButtonKerja.disabled = false;
-            submitButtonKerja.innerText = 'Submit';
-        }, 7000);
+
     });
 </script>
 
@@ -938,7 +936,7 @@
         Swal.fire({
             icon: 'success',
             title: 'Berhasil',
-            text: 'Data support berhasil ditambahkan!',
+            text: 'Data support ditambahkan!',
             timer: 2000,
             showConfirmButton: false
         }).then(() => {
@@ -977,7 +975,7 @@
             Swal.fire({
                 icon: 'info',
                 title: 'Baris Dihapus',
-                text: 'Baris berhasil dihapus!',
+                text: 'Baris dihapus!',
                 timer: 2000,
                 showConfirmButton: false
             });
@@ -1064,7 +1062,7 @@
         Swal.fire({
             icon: 'success',
             title: 'Berhasil',
-            text: 'Catatan berhasil ditambahkan!',
+            text: 'Catatan ditambahkan!',
             timer: 2000,
             showConfirmButton: false
         }).then(() => {
@@ -1101,26 +1099,34 @@
 
 {{-- Script Finishing --}}
 <script>
-    function validateForm() {
-       const date = document.getElementById("pc-datepicker-1");
+    function validateForm(event) {
+        event.preventDefault();
+        const date = document.getElementById("pc-datepicker-1");
         const select1 = document.getElementById("exampleFormControlSelect1");
         const select2 = document.getElementById("exampleFormControlSelect2");
         const select3 = document.getElementById("exampleFormControlSelect3");
         const select4 = document.getElementById("nikSupervisor");
         const select5 = document.getElementById("nikSuperintendent");
+        const formKerja = document.getElementById('submitFormKerja');
 
         console.log(select3.value == 3);
 
 
 
         if (!date.value || !select1.value || !select2.value || !select3.value || !select4.value || !select5.value) {
+
             Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
                 text: "Kolom Tanggal, Shift, Area, Unit Kerja, Supervisor dan Superintendent harus diisi",
                 confirmButtonText: 'OK'
+            }).then((result) => {
+                // Setelah pengguna menekan OK pada Swal, ubah tombol submit kembali
+                submitButtonKerja.disabled = false;
+                submitButtonKerja.innerText = 'Submit';
             });
-            return false;
+
+            return;
         }
 
         const frontcheckboxes = document.querySelectorAll('input[name^="front_loading"]');
@@ -1135,36 +1141,52 @@
         var frontN = document.getElementById("frontUnitNumber");
         if(select3.value == 3){
             if(!frontN.value){
+
                 Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
                 text: 'Nomor Unit harus diisi pada form Front Loading',
                 confirmButtonText: 'OK'
-                });
-                return false;
+                }).then((result) => {
+                // Setelah pengguna menekan OK pada Swal, ubah tombol submit kembali
+                submitButtonKerja.disabled = false;
+                submitButtonKerja.innerText = 'Submit';
+            });
+                return;
             }
             if(!isChecked){
+
                 Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
                 text: 'Harap centang minimal 1 kotak pada form Front Loading',
                 confirmButtonText: 'OK'
-                });
-                return false;
+                }).then((result) => {
+                // Setelah pengguna menekan OK pada Swal, ubah tombol submit kembali
+                submitButtonKerja.disabled = false;
+                submitButtonKerja.innerText = 'Submit';
+            });
+                return;
             }
         }
 
         var checkBox = document.getElementById("customCheck1");
         if (!checkBox.checked) {
+
             Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
                 text: 'Harap centang kotak untuk menyatakan bahwa Anda sudah mengisi form ini dengan benar.',
                 confirmButtonText: 'OK'
+            }).then((result) => {
+                submitButtonKerja.disabled = false;
+                submitButtonKerja.innerText = 'Submit';
             });
-            return false;
+            return;
         }
-        return true;
+            formKerja.submit();
+
+        // return true;
     }
 
 </script>

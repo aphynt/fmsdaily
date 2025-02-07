@@ -121,6 +121,7 @@
                                                 @if ($rs->$i == 'S1') style="text-align: center;background-color: #92D050" @endif
                                                 @if ($rs->$i == 'OFF') style="text-align: center;background-color: #FF0000" @endif
                                                 @if ($rs->$i == 'CT') style="text-align: center;background-color: #00B0F0" @endif
+                                                @if ($rs->$i == 'C') style="text-align: center;background-color: #00B0F0" @endif
                                                 @if ($rs->$i == 'M') style="text-align: center;background-color: #D9D9D9" @endif
                                                 @if ($rs->$i == 'S') style="text-align: center;background-color: #FFF2CC" @endif
                                                 @if ($rs->$i == 'R') style="text-align: center;background-color: #F6C3FF" @endif
