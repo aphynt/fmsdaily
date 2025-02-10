@@ -439,6 +439,7 @@ class FormPengawasOldController extends Controller
             'sh.keterangan as shift',
             'al.tanggal_operator as tanggal',
         )
+        ->where('al.statusenabled', true)
         ->where('al.daily_report_uuid', $uuid)->get();
 
         $catatan = DB::table('catatan_pengawas_t as cp')
@@ -448,6 +449,7 @@ class FormPengawasOldController extends Controller
             'cp.jam_stop',
             'cp.keterangan',
         )
+        ->where('cp.statusenabled', true)
         ->where('cp.daily_report_uuid', $uuid)->get();
 
         $timeSlots = [
