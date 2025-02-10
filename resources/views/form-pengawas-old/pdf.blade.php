@@ -483,8 +483,11 @@
                 <tbody>
                     @foreach ($data['catatan'] as $cp)
                         <tr>
-                            <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
-                                ({{ \Carbon\Carbon::parse($cp->jam_start)->format('H:i') }} - {{ \Carbon\Carbon::parse($cp->jam_stop)->format('H:i') }}) {{ $cp->keterangan }}
+                            <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:17px;">
+                                @if($cp->jam_start && $cp->jam_stop)
+                                    ({{ \Carbon\Carbon::parse($cp->jam_start)->format('H:i') }} - {{ \Carbon\Carbon::parse($cp->jam_stop)->format('H:i') }})
+                                @endif
+                                {{ $cp->keterangan }}
                             </td>
                         </tr>
                     @endforeach
