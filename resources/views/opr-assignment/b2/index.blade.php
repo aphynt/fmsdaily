@@ -16,10 +16,10 @@
 
 <style>
     p{
-        font-size:11px;
+        font-size:14px;
     }
     p.anymore{
-        font-size:12px;
+        font-size:14px;
     }
     .custom-tooltip {
     font-size: 11px;
