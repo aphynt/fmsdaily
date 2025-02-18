@@ -56,6 +56,10 @@
     span{
         font-size: 9px;
     }
+
+    .badge{
+        --bs-badge-font-weight: 500;
+    }
 </style>
 
 
