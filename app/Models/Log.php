@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Log extends Model
 {
     //
-    protected $table = 'log_t';
+    protected $table = 'HIS_LOG';
 
     protected $guarded = [];
 }

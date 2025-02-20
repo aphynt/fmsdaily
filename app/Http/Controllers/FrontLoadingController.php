@@ -36,9 +36,9 @@ class FrontLoadingController extends Controller
 
         $front = DB::table('front_loading_t as fl')
         ->leftJoin('daily_report_t as dr', 'fl.daily_report_id', '=', 'dr.id')
-        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
-        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
         // ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
@@ -151,5 +151,15 @@ class FrontLoadingController extends Controller
         // return $pdf->stream();
         return Excel::download(new FrontLoading, 'users.xlsx');
         // return view('front-loading.modal.download');
+    }
+
+    public function destroy($uuid)
+    {
+        try {
+            FrontLoading::where('uuid', $uuid)->delete();
+            return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal menghapus data', 'error' => $e->getMessage()], 500);
+        }
     }
 }

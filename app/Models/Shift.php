@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shift extends Model
 {
     //
-    protected $table = 'shift_m';
+    protected $table = 'REF_SHIFT';
 
     protected $guarded = [];
 }

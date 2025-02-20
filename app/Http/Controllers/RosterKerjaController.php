@@ -24,7 +24,7 @@ class RosterKerjaController extends Controller
         }
 
 
-        $roster = DB::table('roster_kerja_m as rs')
+        $roster = DB::table('REF_ROSTER_KERJA as rs')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'rs.nik', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_TITLE as title', 'gl.ROLETYPE', '=', 'title.PTL_ID')
         ->select('rs.*', 'gl.PERSONALNAME as nama', 'title.PTL_DESC as jabatan')

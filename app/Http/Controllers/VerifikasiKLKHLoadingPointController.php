@@ -34,8 +34,8 @@ class VerifikasiKLKHLoadingPointController extends Controller
 
         $baseQuery = DB::table('klkh_loadingpoint_t as lp')
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
-        ->leftJoin('area_m as ar', 'lp.pit_id', '=', 'ar.id')
-        ->leftJoin('shift_m as sh', 'lp.shift_id', '=', 'sh.id')
+        ->leftJoin('REF_AREA as ar', 'lp.pit_id', '=', 'ar.id')
+        ->leftJoin('REF_SHIFT as sh', 'lp.shift_id', '=', 'sh.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')

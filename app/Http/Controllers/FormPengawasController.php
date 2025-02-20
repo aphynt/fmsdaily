@@ -231,9 +231,9 @@ class FormPengawasController extends Controller
 
         $daily = DB::table('daily_report_t as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
-        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
-        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
@@ -292,9 +292,9 @@ class FormPengawasController extends Controller
     {
         $daily = DB::table('daily_report_t as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
-        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
-        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
@@ -349,7 +349,7 @@ class FormPengawasController extends Controller
 
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
-        ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
+        ->leftJoin('REF_SHIFT as sh', 'al.shift_operator_id', '=', 'sh.id')
         ->select(
             'al.alat_unit as nomor_unit',
             'al.nama_operator',
@@ -426,9 +426,9 @@ class FormPengawasController extends Controller
 
         $daily = DB::table('daily_report_t as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
-        ->leftJoin('shift_m as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('area_m as ar', 'dr.area_id', '=', 'ar.id')
-        ->leftJoin('lokasi_m as lok', 'dr.lokasi_id', '=', 'lok.id')
+        ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
+        ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
+        ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
@@ -483,7 +483,7 @@ class FormPengawasController extends Controller
 
         $support = DB::table('alat_support_t as al')
         ->leftJoin('daily_report_t as dr', 'al.daily_report_id', '=', 'dr.id')
-        ->leftJoin('shift_m as sh', 'al.shift_operator_id', '=', 'sh.id')
+        ->leftJoin('REF_SHIFT as sh', 'al.shift_operator_id', '=', 'sh.id')
         ->select(
             'al.alat_unit as nomor_unit',
             'al.nama_operator',
