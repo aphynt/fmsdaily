@@ -78,7 +78,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'lp.id',
             'lp.uuid',
@@ -146,7 +146,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'hr.id',
             'hr.uuid',
@@ -212,7 +212,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dp.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dp.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dp.superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'dp.id',
             'dp.uuid',
@@ -277,7 +277,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lum.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lum.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lum.superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'lum.id',
             'lum.uuid',
@@ -342,7 +342,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'ogs.id',
             'ogs.uuid',
@@ -407,7 +407,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'lp.id',
             'lp.uuid',
@@ -473,7 +473,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'se.id',
             'se.uuid',
@@ -540,7 +540,7 @@ class MonitoringLaporanKerjaKLKHController extends Controller
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
-        ->leftJoin('roster_kerja_m as rs', 'us.nik', '=', 'rs.nik')
+        ->leftJoin('REF_ROSTER_KERJA as rs', 'us.nik', '=', 'rs.nik')
         ->select(
             'dr.id',
             'dr.uuid',
