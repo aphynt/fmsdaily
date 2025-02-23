@@ -38,7 +38,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -79,7 +79,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -118,7 +118,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -157,7 +157,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -197,7 +197,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -236,7 +236,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -277,7 +277,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -319,7 +319,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -369,7 +369,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -419,7 +419,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
@@ -469,7 +469,7 @@ class FuelServiceURLController extends Controller
         if ($transStatus != false) {
             $result = array(
                 "data" => $data,
-                "status" => 201,
+                "status" => 200,
                 "message" => $transMessage,
             );
         } else {
