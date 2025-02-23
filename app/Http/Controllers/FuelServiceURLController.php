@@ -350,14 +350,14 @@ class FuelServiceURLController extends Controller
             $endTimeFormatted = $end->format('Y-m-d');
 
 
-            $data = FueJournal::whereBetween(DB::raw('CONVERT(varchar, TRANSTIMESTAMP, 23)'), [$startTimeFormatted, $endTimeFormatted])->where('TRANSTYPE', 1)->get();
+            $data = FueJournal::whereBetween(DB::raw('CONVERT(varchar, TRANSDATE, 23)'), [$startTimeFormatted, $endTimeFormatted])->where('TRANSTYPE', "1")->get();
 
             if($data){
                 $transStatus = true;
                 $transMessage = "Success";
             }else{
                 $transStatus = true;
-                $transMessage = "Token tidak ditemukam";
+                $transMessage = "Data tidak ditemukan";
             }
 
 
@@ -384,7 +384,7 @@ class FuelServiceURLController extends Controller
     public function getDataFuelOutgoing(Request $request)
     {
         try {
-            if (empty($request->rangeStart) || empty($request->rangeEnd)){
+            if (empty($request->rangeStart) && empty($request->rangeEnd)){
                 $time = new DateTime();
                 $startDate = $time->format('Y-m-d');
                 $endDate = $time->format('Y-m-d');
@@ -400,14 +400,14 @@ class FuelServiceURLController extends Controller
             $endTimeFormatted = $end->format('Y-m-d');
 
 
-            $data = FueJournal::whereBetween(DB::raw('CONVERT(varchar, TRANSTIMESTAMP, 23)'), [$startTimeFormatted, $endTimeFormatted])->where('TRANSTYPE', 2)->get();
 
+            $data = FueJournal::whereBetween(DB::raw('CONVERT(varchar, TRANSDATE, 23)'), [$startTimeFormatted, $endTimeFormatted])->where('TRANSTYPE', "2")->get();
             if($data){
                 $transStatus = true;
                 $transMessage = "Success";
             }else{
                 $transStatus = true;
-                $transMessage = "Token tidak ditemukam";
+                $transMessage = "Data tidak ditemukan";
             }
 
 
@@ -450,14 +450,14 @@ class FuelServiceURLController extends Controller
             $endTimeFormatted = $end->format('Y-m-d');
 
 
-            $data = FueJournal::whereBetween(DB::raw('CONVERT(varchar, TRANSTIMESTAMP, 23)'), [$startTimeFormatted, $endTimeFormatted])->where('TRANSTYPE', 3)->get();
+            $data = FueJournal::whereBetween(DB::raw('CONVERT(varchar, TRANSDATE, 23)'), [$startTimeFormatted, $endTimeFormatted])->where('TRANSTYPE', "3")->get();
 
             if($data){
                 $transStatus = true;
                 $transMessage = "Success";
             }else{
                 $transStatus = true;
-                $transMessage = "Token tidak ditemukam";
+                $transMessage = "Data tidak ditemukan";
             }
 
 
