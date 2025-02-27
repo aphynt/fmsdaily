@@ -1449,7 +1449,7 @@ function generateUUID() {
             Swal.fire({
                 icon: 'warning',
                 title: 'Peringatan',
-                text: "Kolom Tanggal, Shift, Area, Unit Kerja, Supervisor dan Superintendent harus diisi",
+                text: "Kolom Tanggal, Shift, Supervisor dan Superintendent harus diisi",
                 confirmButtonText: 'OK'
             });
             return false;
