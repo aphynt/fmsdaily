@@ -678,7 +678,7 @@ class FormPengawasNewController extends Controller
 
         $timeSlots = [
             'siang' => ['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'],
-            // 'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
+            'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
         ];
 
         // Menghasilkan data seperti '✓' untuk menandakan waktu yang dicentang
@@ -706,12 +706,25 @@ class FormPengawasNewController extends Controller
                         'keterangan' => '', // No keterangan
                     ];
                 });
+                $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $malamTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => '√', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
+                });
                 return [
                     'brand' => $unit->brand,
                     'type' => $unit->type,
                     'nomor_unit' => $unit->nomor_unit,
                     'siang' => $siangResult,
-                    // 'malam' => $malamResult,
+                    'malam' => $malamResult,
                 ];
             });
         });
@@ -722,6 +735,7 @@ class FormPengawasNewController extends Controller
             'support' => $support,
             'catatan' => $catatan,
         ];
+        // dd($data);
 
         return view('form-pengawas-new.preview', compact(['data', 'timeSlots']));
     }
@@ -1191,7 +1205,7 @@ class FormPengawasNewController extends Controller
 
         $timeSlots = [
             'siang' => ['07.00 - 08.00', '08.00 - 09.00', '09.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00'],
-            // 'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
+            'malam' => ['19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 24.00', '24.00 - 01.00', '01.00 - 02.00', '02.00 - 03.00', '03.00 - 04.00', '04.00 - 05.00', '05.00 - 06.00', '06.00 - 07.00'],
         ];
 
         // Menghasilkan data seperti '✓' untuk menandakan waktu yang dicentang
@@ -1219,12 +1233,25 @@ class FormPengawasNewController extends Controller
                         'keterangan' => '', // No keterangan
                     ];
                 });
+                $malamResult = collect($timeSlots['malam'])->map(function ($slot) use ($malamTimes, $checked, $keterangan) {
+                    $index = array_search($slot, $malamTimes);
+                    if ($index !== false && $checked[$index] === true) {
+                        return (object)[
+                            'status' => '√', // Checkmark
+                            'keterangan' => $keterangan[$index] ?? '', // Get corresponding keterangan
+                        ];
+                    }
+                    return (object)[
+                        'status' => '',
+                        'keterangan' => '', // No keterangan
+                    ];
+                });
                 return [
                     'brand' => $unit->brand,
                     'type' => $unit->type,
                     'nomor_unit' => $unit->nomor_unit,
                     'siang' => $siangResult,
-                    // 'malam' => $malamResult,
+                    'malam' => $malamResult,
                 ];
             });
         });
