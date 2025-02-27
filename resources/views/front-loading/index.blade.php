@@ -55,6 +55,7 @@
                                         <th colspan="2">Foreman</th>
                                         <th colspan="2">Supervisor</th>
                                         <th colspan="2">Superintendent</th>
+                                        <th rowspan="2">Status Draft</th>
                                     </tr>
                                     <tr>
                                         <th>NIK</th>
@@ -82,6 +83,13 @@
                                             <td>{{ $item['nama_supervisor'] }}</td>
                                             <td>{{ $item['nik_superintendent'] }}</td>
                                             <td>{{ $item['nama_superintendent'] }}</td>
+                                            <td>
+                                                @if ($item['is_draft'] == true)
+                                                    <span style="color:orange">Ya</span>
+                                                @else
+                                                    <span  style="color:green">Tidak</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
 

@@ -23,6 +23,7 @@
     <link rel="icon" href="{{ asset('dashboard/assets') }}/images/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/plugins/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/plugins/buttons.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/css/plugins/dropzone.min.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/inter/inter.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/phosphor/duotone/style.css">
     <link rel="stylesheet" href="{{ asset('dashboard/assets') }}/fonts/tabler-icons.min.css">

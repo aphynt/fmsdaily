@@ -42,6 +42,7 @@ class AlatSupportExport implements FromCollection, WithEvents, WithHeadings, Wit
                 $event->sheet->getDelegate()->getColumnDimension('N')->setWidth(20);
                 $event->sheet->getDelegate()->getColumnDimension('P')->setWidth(20);
                 $event->sheet->getDelegate()->getColumnDimension('U')->setWidth(40);
+                $event->sheet->getDelegate()->getColumnDimension('V')->setWidth(20);
             },
         ];
     }
@@ -51,7 +52,7 @@ class AlatSupportExport implements FromCollection, WithEvents, WithHeadings, Wit
     {
         return [
             // Gaya untuk header multilevel
-            'A1:U2' => [
+            'A1:V2' => [
                 'font' => [
                     'bold' => true,
                 ],
@@ -74,8 +75,8 @@ class AlatSupportExport implements FromCollection, WithEvents, WithHeadings, Wit
     public function headings(): array
     {
         return [
-            ['TANGGAL PELAPORAN', 'SHIFT', 'AREA', 'LOKASI', 'JENIS UNIT', 'NOMOR UNIT', 'OPERATOR', '', '', '', 'FOREMAN', '', 'SUPERVISOR', '' ,'SUPERINTENDENT', '' ,'HM', '', '', '', 'KETERANGAN'],
-            ['', '', '', '', '', '', 'NIK', 'NAMA', 'TANGGAL', 'SHIFT', 'NIK', 'NAMA', 'NIK', 'NAMA', 'NIK', 'NAMA', 'AWAL', 'AKHIR', 'TOTAL', 'CASH', ''],
+            ['TANGGAL PELAPORAN', 'SHIFT', 'AREA', 'LOKASI', 'JENIS UNIT', 'NOMOR UNIT', 'OPERATOR', '', '', '', 'FOREMAN', '', 'SUPERVISOR', '' ,'SUPERINTENDENT', '' ,'HM', '', '', '', 'KETERANGAN', 'STATUS DRAFT'],
+            ['', '', '', '', '', '', 'NIK', 'NAMA', 'TANGGAL', 'SHIFT', 'NIK', 'NAMA', 'NIK', 'NAMA', 'NIK', 'NAMA', 'AWAL', 'AKHIR', 'TOTAL', 'CASH', '', ''],
         ];
     }
 
@@ -117,7 +118,8 @@ class AlatSupportExport implements FromCollection, WithEvents, WithHeadings, Wit
                 'al.hm_akhir',
                 DB::raw('(al.hm_akhir - al.hm_awal) AS total_hm'),
                 'al.hm_cash',
-                'al.keterangan'
+                'al.keterangan',
+                'al.is_draft'
             )
             ->where('al.statusenabled', true)
             ->where('dr.statusenabled', true)

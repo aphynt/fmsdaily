@@ -64,7 +64,7 @@
         <div>
             <div id="basicwizard" class="form-wizard row justify-content-center">
                 <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
-                    <h3>Laporan Harian Foreman</h3>
+                    <h3>Laporan Foreman Produksi</h3>
                 </div>
                 <div class="col-12">
                     <div class="card">
@@ -105,24 +105,26 @@
                             </ul>
                         </div>
                     </div>
-                    @if ($daily != null && $daily['is_draft'] == 0)
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @if ($daily == null)
+                    <div class="alert alert-dark alert-dismissible fade show" role="alert">
                         <strong>Info!</strong>
-                        Anda sudah mengisi Laporan Harian hari ini
+                        Belum mengisi Laporan Harian
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @else
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
                         <strong>Info!</strong>
-                        Anda sedang mengisi Laporan Harian sebagai draft
+                        Sedang membuat draft Laporan Harian.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('form-pengawas-old.post') }}" method="post"
+                            <form action="{{ route('form-pengawas-new.post') }}" method="post"
                                 onsubmit="return validateForm()" id="submitFormKerja">
                                 @csrf
+                                <input type="text" style="display: none;" name="uuid" id="uuid" value="{{ old('uuid', $daily['uuid'] ?? '') }}">
+
                                 <div class="tab-content">
                                     <!-- START: Define your progress bar here -->
                                     <div id="bar" class="progress mb-3" style="height: 7px">
@@ -140,7 +142,6 @@
                                                 <div class="row">
                                                     <div class="col-sm-6">
 
-                                                        <input type="hidden" name="uuid" id="uuid" value="{{ old('uuid', $data['uuid'] ?? '') }}">
 
                                                         <div class="mb-3"><label class="form-label">Tanggal</label>
                                                             <input type="text" class="form-control" id="pc-datepicker-1"
@@ -155,7 +156,10 @@
                                                                 name="shift_dasar">
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['shift'] as $sh)
-                                                                <option value="{{ $sh->id }}" {{ $daily['shift_dasar_id'] == $sh->id ? 'selected' : '' }}>
+                                                                {{-- <option value="{{ $sh->id }}" {{ $daily['shift_dasar_id'] == $sh->id ? 'selected' : '' }}>
+                                                                    {{ $sh->keterangan }}
+                                                                </option> --}}
+                                                                <option value="{{ $sh->id }}" {{ isset($daily) && $daily['shift_dasar_id'] == $sh->id ? 'selected' : '' }}>
                                                                     {{ $sh->keterangan }}
                                                                 </option>
                                                             @endforeach
@@ -169,8 +173,8 @@
                                                                 name="area">
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['area'] as $ar)
-                                                                    <option value="{{ $ar->id }}" {{ $daily['area_id'] == $ar->id ? 'selected' : '' }}>
-                                                                        {{ $ar->keterangan }}
+                                                                <option value="{{ $ar->id }}" {{ (optional($daily)['area_id'] ?? null) == $ar->id ? 'selected' : '' }}>
+                                                                    {{ $ar->keterangan }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -183,7 +187,7 @@
                                                                 name="lokasi">
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['lokasi'] as $lok)
-                                                                    <option value="{{ $lok->id }}" {{ $daily['lokasi_id'] == $lok->id ? 'selected' : '' }}>
+                                                                    <option value="{{ $lok->id }}" {{ (optional($daily)['lokasi_id'] ?? null) == $lok->id ? 'selected' : '' }}>
                                                                         {{ $lok->keterangan }}
                                                                     </option>
                                                                 @endforeach
@@ -198,7 +202,7 @@
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['supervisor'] as $sv)
                                                                 <option value="{{ $sv->NRP }}|{{ $sv->PERSONALNAME }}"
-                                                                    {{ $daily['nik_supervisor'] == $sv->NRP . '|' . $sv->PERSONALNAME ? 'selected' : '' }}>
+                                                                    {{ (optional($daily)['nik_supervisor'] ?? null) == ($sv->NRP . '|' . $sv->PERSONALNAME) ? 'selected' : '' }}>
                                                                     {{ $sv->NRP }}|{{ $sv->PERSONALNAME }}
                                                                 </option>
                                                                 @endforeach
@@ -213,8 +217,8 @@
                                                                 <option selected disabled></option>
                                                                 @foreach ($data['superintendent'] as $st)
                                                                 <option value="{{ $st->NRP }}|{{ $st->PERSONALNAME }}"
-                                                                    {{ $daily['nik_superintendent'] == $st->NRP . '|' . $st->PERSONALNAME ? 'selected' : '' }}>
-                                                                    {{ $st->NRP }}|{{ $st->PERSONALNAME }}
+                                                                    {{ (optional($daily)['nik_superintendent'] ?? null) == ($st->NRP . '|' . $st->PERSONALNAME) ? 'selected' : '' }}>
+                                                                    {{ $st->NRP }}|{{ $st->PERSONALNAME }} ({{ $st->JABATAN }})
                                                                 </option>
                                                                 @endforeach
                                                             </select>
@@ -231,97 +235,84 @@
                                         </div>
                                         <div class="row mt-4">
                                             <div class="mt-2">
-                                                <button type="button" id="addColumnBtn"
-                                                    class="btn btn-primary mb-3">Tambah Kolom</button>
-                                                <button type="button" id="removeColumnBtn"
-                                                    class="btn btn-danger mb-3">Hapus Kolom</button>
+                                                <button type="button" id="addColumnBtn" class="btn btn-primary mb-3">Tambah Kolom</button>
+                                                @php
+                                                    $frontUUID = !empty($front_loading) && count($front_loading) > 0 ? $front_loading[count($front_loading) - 1]->uuid : null;
+                                                @endphp
+
+                                                <button type="button" onclick="removeColumnBtn('{{ $frontUUID }}')" class="btn btn-danger mb-3">Hapus Kolom</button>
                                                 <div class="table-responsive">
                                                     <table id="dynamicTable" class="table table-bordered">
                                                         <thead style="text-align: center; vertical-align: middle;">
                                                             <tr id="headerRow1">
                                                                 <th colspan="2" id="thJam">Jam</th>
-                                                                <th class="unitHeader" scope="col">Nomor Unit 1</th>
+                                                                @foreach ($front_loading as $index => $loading)
+                                                                    <th class="unitHeader" scope="col">Nomor Unit {{ $index + 1 }}</th>
+                                                                @endforeach
                                                             </tr>
                                                             <tr id="headerRow2">
                                                                 <th id="thSiang">Siang</th>
                                                                 <th id="thMalam">Malam</th>
-                                                                <th>
-
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tableBody">
-                                                            @foreach ($staticTimeSlots as $index => $slot)
-                                                            @php
-
-
-
-                                                                // Cari data yang cocok di $frontLoading berdasarkan siang dan malam
-                                                                $item = $frontLoading->firstWhere(function ($loading) use ($slot) {
-                                                                    $loadingSiang = trim($loading['siang'] ?? '');
-                                                                    $loadingMalam = trim($loading['malam'] ?? '');
-                                                                    return $loadingSiang === trim($slot['siang']) && $loadingMalam === trim($slot['malam']);
-                                                                });
-
-                              //  use Illuminate\Support\Facades\Log;
-
-// Tambahkan ini di dalam loop
-Log::info('FrontLoading:', $frontLoading->toArray());
-
-Log::info('Slot:', ['slot' => $slot]);
-Log::info('Item:', ['item' => $item]);
-
-
-
-                                // Ambil nilai dari $item jika ditemukan, atau set nilai default
-                                $checked = $item && $item['checked'] == '1' ? 'checked' : '';
-                                $keterangan = $item['keterangan'] ?? '';
-                                $nomorUnit = $item['nomor_unit'] ?? '';
-
-
-                                                            @endphp
-                                                            <tr>
-                                                                <!-- Kolom Siang -->
-                                                                <td>
-                                                                    <input type="hidden" value="{{ $slot['siang'] }}" name="front_loading[{{ $index }}][siang]">
-                                                                    {{ $slot['siang'] }}
-                                                                </td>
-
-                                                                <!-- Kolom Malam -->
-                                                                <td>
-                                                                    <input type="hidden" value="{{ $slot['malam'] }}" name="front_loading[{{ $index }}][malam]">
-                                                                    {{ $slot['malam'] }}
-                                                                </td>
-
-                                                                <!-- Kolom Nomor Unit, Checkbox, dan Keterangan -->
-                                                                <td>
-                                                                    <div class="grid gap-3 d-flex align-items-center justify-content-center">
-                                                                        <!-- Dropdown Nomor Unit -->
-                                                                        <select name="front_loading[{{ $index }}][nomor_unit]" class="form-control">
-                                                                            <option value="" disabled {{ empty($nomorUnit) ? 'selected' : '' }}>Pilih</option>
+                                                                @foreach ($front_loading as $index => $loading)
+                                                                    <th>
+                                                                        <select name="front_loading[{{ $index }}][nomor_unit]" id="frontUnitNumber_{{ $index }}" class="form-control">
+                                                                            <option value="" disabled {{ empty($loading->nomor_unit) ? 'selected' : '' }}>Pilih</option>
                                                                             @foreach ($data['EX'] as $exa)
-                                                                                <option value="{{ $exa->VHC_ID }}" {{ $exa->VHC_ID === $nomorUnit ? 'selected' : '' }}>
+                                                                                <option value="{{ $exa->VHC_ID }}"
+                                                                                    {{ $loading->nomor_unit == $exa->VHC_ID ? 'selected' : '' }}>
                                                                                     {{ $exa->VHC_ID }}
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
-
-                                                                        <!-- Checkbox -->
-                                                                        <input type="hidden" value="false" name="front_loading[{{ $index }}][checked]">
-                                                                        <input type="checkbox" value="true" name="front_loading[{{ $index }}][checked]" class="form-check-input" {{ $checked }}>
-
-                                                                        <!-- Input Keterangan -->
-                                                                        <input type="text" name="front_loading[{{ $index }}][keterangan]" class="form-control" placeholder="Keterangan" value="{{ $keterangan }}">
-                                                                    </div>
-                                                                </td>
+                                                                    </th>
+                                                                @endforeach
                                                             </tr>
-                                                        @endforeach
+                                                        </thead>
+                                                        <tbody id="tableBody">
+
+                                                            @foreach ($staticTimeSlots as $slotIndex => $slot)
+                                                                <tr>
+                                                                    <!-- Waktu Siang -->
+                                                                    <td>
+                                                                        <input type="hidden" name="staticTimeSlots[{{ $slotIndex }}][siang]" value="{{ $slot['siang'] }}">
+                                                                        {{ $slot['siang'] }}
+                                                                    </td>
+                                                                    <!-- Waktu Malam -->
+                                                                    <td>
+                                                                        <input type="hidden" name="staticTimeSlots[{{ $slotIndex }}][malam]" value="{{ $slot['malam'] }}">
+                                                                        {{ $slot['malam'] }}
+                                                                    </td>
+                                                                    <!-- Input Data untuk Setiap Unit -->
+                                                                    @foreach ($front_loading as $unitIndex => $loading)
+                                                                        @php
+                                                                            $checked = $loading->checked[$slotIndex] ?? false;
+                                                                            $keterangan = $loading->keterangan[$slotIndex] ?? '';
+                                                                           $frontloadingUuid = $loading->front_loading_uuid;
+                                                                        @endphp
+                                                                        <td>
+                                                                            <input type="hidden" class="d-none" name="front_loading[{{ $unitIndex }}][time][{{ $slotIndex }}][front_loading_uuid]" value="{{ $frontloadingUuid }}">
+                                                                            <div class="d-flex align-items-center gap-2">
+                                                                                <input type="checkbox" value="true"
+                                                                                    name="front_loading[{{ $unitIndex }}][time][{{ $slotIndex }}][checked]"
+                                                                                    class="form-check-input"
+                                                                                    {{ $checked ? 'checked' : '' }}>
+                                                                                <input type="text"
+                                                                                    name="front_loading[{{ $unitIndex }}][time][{{ $slotIndex }}][keterangan]"
+                                                                                    value="{{ $keterangan }}"
+                                                                                    placeholder="Keterangan"
+                                                                                    class="form-control">
+                                                                            </div>
+                                                                        </td>
+                                                                    @endforeach
+                                                                </tr>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <!-- end job detail tab pane -->
                                     <div class="tab-pane" id="alatSupport">
                                         <div class="text-center">
@@ -333,7 +324,7 @@ Log::info('Item:', ['item' => $item]);
                                                     data-bs-toggle="modal" data-bs-target="#tambahSupportModal">
                                                     <i class="fa-solid fa-add"></i> Tambah Alat Support
                                                 </button>
-                                                @include('form-pengawas-old.modal.alat-support')
+                                                @include('form-pengawas-new.modal.alat-support')
                                                 <div class="accordion" id="accordionSupport"></div>
                                             </div>
                                         </div>
@@ -348,7 +339,7 @@ Log::info('Item:', ['item' => $item]);
                                                     data-bs-toggle="modal" data-bs-target="#tambahCatatan">
                                                     <i class="fa-solid fa-add"></i> Tambah Catatan
                                                 </button>
-                                                @include('form-pengawas-old.modal.catatan-pengawas')
+                                                @include('form-pengawas-new.modal.catatan-pengawas')
                                                 <div class="accordion" id="accordionCatatan"></div>
 
                                             </div>
@@ -365,7 +356,7 @@ Log::info('Item:', ['item' => $item]);
                                                         melanjutkan ke tahap akhir.</p>
                                                     <div class="mb-3">
                                                         <div class="form-check d-inline-block"><input type="checkbox"
-                                                                class="form-check-input" id="customCheck1"> <label
+                                                                class="form-check-input" id="customCheck1" checked> <label
                                                                 class="form-check-label" for="customCheck1">Saya sudah
                                                                 mengisi form ini dengan benar</label></div>
                                                     </div>
@@ -378,20 +369,14 @@ Log::info('Item:', ['item' => $item]);
 
                                     <div class="d-flex wizard justify-content-end flex-wrap gap-2 mt-5">
                                         <div class="d-flex">
-                                            <div class="save-as-draft me-2">
+                                            <div id="save_as_draft_id" class="save-as-draft me-2">
                                                 <a href="javascript:void(0);" onclick="saveAsDraft()"><span class="badge bg-warning" style="font-size:14px"><i class="fa-solid fa-save"></i> Simpan Draft</span></a>
                                             </div>
-                                            <div class="previous me-2">
+                                            <div class="previous me-2" id="kembaliButton">
                                                 <a href="javascript:void(0);"><span class="badge bg-secondary" style="font-size:14px"><i class="fa-solid fa-arrow-left"></i> Kembali</span></a>
-                                                {{-- <a href="javascript:void(0);" class="btn btn-secondary btn-md">
-                                                    <i class="fa-solid fa-arrow-left"></i> Kembali
-                                                </a> --}}
                                             </div>
-                                            <div class="next me-3">
-                                                <a href="javascript:void(0);"><span class="badge bg-success" style="font-size:14px">Lanjut <i class="fa-solid fa-arrow-right"></i></span></a>
-                                                {{-- <a href="javascript:void(0);" class="btn btn-success btn-md">
-                                                    Lanjut <i class="fa-solid fa-arrow-right"></i>
-                                                </a> --}}
+                                            <div class="next me-3" id="lanjutButton">
+                                                <a href="javascript:void(0);"><span class="badge bg-success" style="font-size:14px" >Lanjut <i class="fa-solid fa-arrow-right"></i></span></a>
                                             </div>
                                         </div>
 
@@ -419,10 +404,34 @@ Log::info('Item:', ['item' => $item]);
         </div>
     </div>
 </div>
-</div>
 
 @include('layout.footer')
+<script>
+    $(document).ready(function() {
+        // Mengecek tab yang aktif saat halaman dimuat
+        checkTabActive();
 
+        // Menambahkan event listener untuk saat tab berubah
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
+            checkTabActive();
+        });
+
+        function checkTabActive() {
+            if ($('#finish').hasClass('active')) {
+                $('#lanjutButton').hide();
+                $('#save_as_draft_id').hide();
+            } else if($('#contactDetail').hasClass('active')){
+                $('#kembaliButton').hide();
+                $('#lanjutButton').show();
+                $('#save_as_draft_id').show();
+            }else {
+                $('#lanjutButton').show();
+                $('#save_as_draft_id').show();
+                $('#kembaliButton').show();
+            }
+        }
+    });
+</script>
 
 <!-- untuk save as draft -->
 <script>
@@ -439,37 +448,173 @@ Log::info('Item:', ['item' => $item]);
         formData.append('shift_dasar', document.querySelector('#exampleFormControlSelect1').value);
         formData.append('area', document.querySelector('#exampleFormControlSelect2').value);
         formData.append('lokasi', document.querySelector('#exampleFormControlSelect3').value);
-        formData.append('nik_supervisor', document.querySelector('#nikSupervisor').value);
-        formData.append('nik_superintendent', document.querySelector('#nikSuperintendent').value);
 
-        // Front loading data
-        const table = document.querySelector('#dynamicTable');
-        const tableData = [];
-        const rows = table.querySelectorAll('tbody tr');
+        const supervisorSelect = document.querySelector('#nikSupervisor');
+        const supervisorValue = supervisorSelect && supervisorSelect.value !== '' ? supervisorSelect.value : null;
+        formData.append('nik_supervisor', supervisorValue);
 
-        // Iterasi setiap baris tabel
+        // Ambil Superintendent
+        const superintendentSelect = document.querySelector('#nikSuperintendent');
+        const superintendentValue = superintendentSelect && superintendentSelect.value !== '' ? superintendentSelect.value : null;
+        formData.append('nik_superintendent', superintendentValue);
+
+    // Front loading data
+    const unitSelects = document.querySelectorAll('#headerRow2 select.form-control');
+   // console.log("Jumlah Unit Ditemukan:", unitSelects.length);
+
+    const frontLoadingData = [];
+
+    unitSelects.forEach((select, unitIndex) => {
+        const nomorUnit = select.value;
+        if (!nomorUnit) return;
+
+        console.log(`Mengambil data untuk unit: ${nomorUnit}`);
+
+        const siangData = [];
+        const malamData = [];
+        const checkedData = [];
+        const keteranganData = [];
+        const uuidData = [];
+
+        const rows = document.querySelectorAll('#tableBody tr');
+
         rows.forEach((row, rowIndex) => {
             const jamSiang = row.querySelector('td:nth-child(1) input[type="hidden"]').value;
             const jamMalam = row.querySelector('td:nth-child(2) input[type="hidden"]').value;
-            const checkbox = row.querySelector('td:nth-child(3) input[type="checkbox"]').checked;
-            const keterangan = row.querySelector('td:nth-child(3) input[type="text"]').value;
-            const nomorUnitSelect = table.querySelector(`#frontUnitNumber`); // Ambil nilai select dalam tabel
-            const nomorUnit = nomorUnitSelect ? nomorUnitSelect.value : null;
 
-            // Simpan data dalam format array
-            tableData.push({
-                siang: jamSiang,
-                malam: jamMalam,
-                checked: checkbox,
-                keterangan: keterangan,
-                nomor_unit: nomorUnit,
-            });
+            const unitColumnIndex = unitIndex + 3;
+            const frontloadingUuidInput = row.querySelector(`td:nth-child(${unitColumnIndex}) input[name^="front_loading"][type="hidden"]`);
+
+            if (frontloadingUuidInput) {
+                uuidData.push(frontloadingUuidInput.value || generateUUID());
+            } else {
+                uuidData.push(generateUUID());
+            }
+            console.log(`Kolom Unit Index untuk Unit ${nomorUnit}:`, unitColumnIndex);
+
+            const checkbox = row.querySelector(`td:nth-child(${unitColumnIndex}) input[type="checkbox"]`);
+            const keteranganInput = row.querySelector(`td:nth-child(${unitColumnIndex}) input[type="text"]`);
+
+            if (!checkbox || !keteranganInput) {
+                console.warn(`Baris ${rowIndex} tidak memiliki input untuk unit ${nomorUnit}, dilewati.`);
+                return;
+            }
+
+            siangData.push(jamSiang);
+            malamData.push(jamMalam);
+            checkedData.push(checkbox.checked);
+            keteranganData.push(keteranganInput.value);
         });
 
-        // Tambahkan data ke formData
-        formData.append('front_loading', JSON.stringify(tableData));
+        frontLoadingData.push({
+            nomor_unit: nomorUnit,
+            siang: siangData,
+            malam: malamData,
+            checked: checkedData,
+            keterangan: keteranganData,
+        });
 
-        // Kirim data ke server
+        console.log(`Data untuk unit ${nomorUnit}:`, JSON.stringify(frontLoadingData[unitIndex], null, 2));
+    });
+
+   // console.log('FormData yang akan dikirim:', frontLoadingData);
+
+    // Kirim data ke backend
+    formData.append('front_loading', JSON.stringify(frontLoadingData));
+
+
+
+
+
+
+
+    const alatSupportData = [];
+const alatSupportAccordions = document.querySelectorAll('#accordionSupport .accordion-item');
+
+alatSupportAccordions.forEach((accordion, index) => {
+
+    let uuid = accordion.querySelector(`input[name="alat_support[${index}][uuidSupport]"]`)?.value || null;
+    const unit = accordion.querySelector(`input[name="alat_support[${index}][unitSupport]"]`)?.value || null;
+    let nama = accordion.querySelector(`input[name="alat_support[${index}][namaSupport]"]`)?.value || null;
+    let nik = null;
+
+    if (nama && nama.includes('|')) {
+        [nik, nama] = nama.split('|');
+    }
+
+    if(uuid == null){
+
+    }
+
+    const tanggal = accordion.querySelector(`input[name="alat_support[${index}][tanggalSupport]"]`)?.value || null;
+    const shift = accordion.querySelector(`input[name="alat_support[${index}][shiftSupport]"]`)?.value || null;
+    const hmAwal = accordion.querySelector(`input[name="alat_support[${index}][hmAwalSupport]"]`)?.value || null;
+    const hmAkhir = accordion.querySelector(`input[name="alat_support[${index}][hmAkhirSupport]"]`)?.value || null;
+    const total = accordion.querySelector(`input[name="alat_support[${index}][totalSupport]"]`)?.value || null;
+    const hmCash = accordion.querySelector(`input[name="alat_support[${index}][hmCashSupport]"]`)?.value || null;
+    const keterangan = accordion.querySelector(`input[name="alat_support[${index}][keteranganSupport]"]`)?.value || null;
+
+    const formattedTanggal = tanggal ? new Date(tanggal).toISOString().split('T')[0] : null;
+
+    alatSupportData.push({
+        uuid:uuid,
+        alat_unit: unit,
+        nama_operator: nama,
+        nik_operator: nik,
+        tanggal_operator: formattedTanggal,
+        shift_operator: shift,
+        hm_awal: hmAwal,
+        hm_akhir: hmAkhir,
+        total,
+        hm_cash: hmCash,
+        keterangan,
+    });
+});
+
+console.log('Data yang akan disimpan:', JSON.stringify(alatSupportData, null, 2));
+
+formData.append('alat_support', JSON.stringify(alatSupportData));
+
+
+        // Catatan Pengawas
+      const catatanData = [];
+
+    // // Ambil semua catatan dari accordion
+    // const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
+    // catatanAccordions.forEach((accordion, index) => {
+    //     const start = accordion.querySelector(`input[name="catatan[${index}][start_catatan]"]`)?.value || null;
+    //     const end = accordion.querySelector(`input[name="catatan[${index}][end_catatan]"]`)?.value || null;
+    //     const description = accordion.querySelector(`input[name="catatan[${index}][description_catatan]"]`)?.value || null;
+
+    //     catatanData.push({
+    //         start_catatan: start,
+    //         end_catatan: end,
+    //         description_catatan: description,
+    //     });
+    // });
+
+    const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
+
+    catatanAccordions.forEach((accordion) => {
+    const start = accordion.querySelector(`input[name$="[start_catatan]"]`)?.value || null;
+    const end = accordion.querySelector(`input[name$="[end_catatan]"]`)?.value || null;
+    const description = accordion.querySelector(`input[name$="[description_catatan]"]`)?.value || null;
+
+    catatanData.push({
+        start_catatan: start,
+        end_catatan: end,
+        description_catatan: description,
+    });
+});
+
+
+    // Debugging payload
+  //  console.log(JSON.stringify(catatanData, null, 2));
+
+    // Tambahkan catatan ke formData
+    formData.append('catatan', JSON.stringify(catatanData));
+
+
         fetch('/save-draft', {
             method: 'POST',
             body: formData,
@@ -478,141 +623,273 @@ Log::info('Item:', ['item' => $item]);
             },
         })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 return response.json();
             })
             .then(data => {
                 if (data.success) {
-                    console.log('Draft saved successfully:', data);
+                    document.getElementById('uuid').value = data.uuid;
 
-                    // Perbarui UUID di frontend jika diperlukan
-                    if (uuidElement) {
-                        uuidElement.value = data.uuid; // Perbarui elemen UUID
-                    } else {
-                        console.warn('UUID element not found to update.');
-                    }
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Draft Disimpan',
+                        text: 'Berhasil menyimpan draft laporan',
+                    }).then(() => {
+                        location.reload();  // Halaman akan di-reload setelah popup Swal ditutup
+                    });
+
                 } else {
-                    console.error('Failed to save draft:', data.error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: `Failed to save draft: ${data.error}`,
+                    });
                 }
             })
             .catch(error => {
-                console.error('Error saving draft:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `Error saving draft: ${error.message}`,
+                });
             });
     }
 </script>
 
 
 <script>
-    // Auto-save function
-// function startAutoSaveLogOn() {
-//     setInterval(() => {
-//         const formData = new FormData();
-//         formData.append('uuid', document.getElementById('uuid').value);
-//         formData.append('tanggal_dasar', document.querySelector('#pc-datepicker-1').value);
-//         formData.append('shift_dasar', document.querySelector('#exampleFormControlSelect1').value);
-//         formData.append('area', document.querySelector('#exampleFormControlSelect2').value);
-//         formData.append('lokasi', document.querySelector('#exampleFormControlSelect3').value);
-//         formData.append('nik_supervisor', document.querySelector('#nikSupervisor').value);
-//         formData.append('nik_superintendent', document.querySelector('#nikSuperintendent').value);
 
-//         fetch('/save-draft', {
-//             method: 'POST',
-//             body: formData,
-//             headers: {
-//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-//             },
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 console.log('Draft saved:', data);
-//                 document.getElementById('uuid').value = data.uuid; // Update hidden UUID field
 
-//                 // Update form values to reflect the saved data
-//                 console.log('line 654:', data.data);
-//                 updateFormValues(data.data);
-//             })
-//             .catch(error => {
-//                 console.error('Error saving draft:', error);
-//             });
-//     }, 10000); // Auto-save every 10 seconds
-// }
 
-// // Function to update form values
-// function updateFormValues(data) {
-//     console.log('Updating form values:', data);
-
-//     // Safely update form inputs
-//     document.querySelector('#pc-datepicker-1').value = data.tanggal_dasar || '';
-//     document.querySelector('#exampleFormControlSelect1').value = data.shift_dasar_id || '';
-//     document.querySelector('#exampleFormControlSelect2').value = data.area_id || '';
-//     document.querySelector('#exampleFormControlSelect3').value = data.lokasi_id || '';
-
-//     // Handle null supervisor and superintendent
-//     const supervisorValue = data.nik_supervisor ? `${data.nik_supervisor}|${data.nama_supervisor}` : '';
-//     document.querySelector('#nikSupervisor').value = supervisorValue;
-
-//     const superintendentValue = data.nik_superintendent ? `${data.nik_superintendent}|${data.nama_superintendent}` : '';
-//     document.querySelector('#nikSuperintendent').value = superintendentValue;
-// }
-
-// // Document ready
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Start auto-save
-//     startAutoSaveLogOn();
-
-//     // Fetch draft if UUID exists
-//     const uuid = document.getElementById('uuid').value;
-
-//     if (uuid) {
-//         fetch(`/form-pengawas-old/get-draft/${uuid}`, {
-//             method: 'GET',
-//             headers: {
-//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-//             },
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     console.log('Draft loaded:', data);
-
-//                     // Populate form with the retrieved data
-//                     updateFormValues(data.data);
-//                 } else {
-//                     console.error('Error loading draft:', data.message);
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error fetching draft:', error);
-//             });
-//     }
-// });
-
-</script>
-
-<script>
-    // Ambil elemen form dan tombol submit
     const formKerja = document.getElementById('submitFormKerja');
     const submitButtonKerja = document.getElementById('submitButtonKerja');
 
-    // Event listener untuk menangani submit
-    formKerja.addEventListener('submit', function() {
-        // Nonaktifkan tombol submit ketika form sedang diproses
+    formKerja.addEventListener('submit', function (event) {
+        event.preventDefault(); // Mencegah submit default form
         submitButtonKerja.disabled = true;
-        submitButtonKerja.innerText = 'Processing...'; // Ubah teks tombol jika diperlukan
+        submitButtonKerja.innerText = 'Processing...';
+
+        const formData = new FormData();
+
+        // Ambil UUID atau null jika tidak ada
+        const uuidElement = document.getElementById('uuid');
+        const uuid = uuidElement ? uuidElement.value : null;
+        formData.append('uuid', uuid);
+
+        // Logon data
+        formData.append('tanggal_dasar', document.querySelector('#pc-datepicker-1').value);
+        formData.append('shift_dasar', document.querySelector('#exampleFormControlSelect1').value);
+        formData.append('area', document.querySelector('#exampleFormControlSelect2').value);
+        formData.append('lokasi', document.querySelector('#exampleFormControlSelect3').value);
+
+        // Supervisor
+        const supervisorSelect = document.querySelector('#nikSupervisor');
+        const supervisorValue = supervisorSelect && supervisorSelect.value !== '' ? supervisorSelect.value : null;
+        formData.append('nik_supervisor', supervisorValue);
+
+        // Superintendent
+        const superintendentSelect = document.querySelector('#nikSuperintendent');
+        const superintendentValue = superintendentSelect && superintendentSelect.value !== '' ? superintendentSelect.value : null;
+        formData.append('nik_superintendent', superintendentValue);
+
+        // Front loading data
+        const unitSelects = document.querySelectorAll('#headerRow2 select.form-control');
+        console.log("Jumlah Unit Ditemukan:", unitSelects.length);
+
+        const frontLoadingData = [];
+
+        unitSelects.forEach((select, unitIndex) => {
+            const nomorUnit = select.value;
+            if (!nomorUnit) return;
+
+            console.log(`Mengambil data untuk unit: ${nomorUnit}`);
+
+            const siangData = [];
+            const malamData = [];
+            const checkedData = [];
+            const keteranganData = [];
+            const uuidData = [];
+
+            const rows = document.querySelectorAll('#tableBody tr');
+
+            rows.forEach((row, rowIndex) => {
+                const jamSiang = row.querySelector('td:nth-child(1) input[type="hidden"]').value;
+                const jamMalam = row.querySelector('td:nth-child(2) input[type="hidden"]').value;
+
+                const unitColumnIndex = unitIndex + 3;
+                const frontloadingUuidInput = row.querySelector(`td:nth-child(${unitColumnIndex}) input[name^="front_loading"][type="hidden"]`);
+
+                if (frontloadingUuidInput) {
+                    uuidData.push(frontloadingUuidInput.value || generateUUID());
+                } else {
+                    uuidData.push(generateUUID());
+                }
+                console.log(`Kolom Unit Index untuk Unit ${nomorUnit}:`, unitColumnIndex);
+
+                const checkbox = row.querySelector(`td:nth-child(${unitColumnIndex}) input[type="checkbox"]`);
+                const keteranganInput = row.querySelector(`td:nth-child(${unitColumnIndex}) input[type="text"]`);
+
+                if (!checkbox || !keteranganInput) {
+                    console.warn(`Baris ${rowIndex} tidak memiliki input untuk unit ${nomorUnit}, dilewati.`);
+                    return;
+                }
+
+                siangData.push(jamSiang);
+                malamData.push(jamMalam);
+                checkedData.push(checkbox.checked);
+                keteranganData.push(keteranganInput.value);
+            });
+
+            frontLoadingData.push({
+                nomor_unit: nomorUnit,
+                siang: siangData,
+                malam: malamData,
+                checked: checkedData,
+                keterangan: keteranganData,
+            });
+
+            console.log(`Data untuk unit ${nomorUnit}:`, JSON.stringify(frontLoadingData[unitIndex], null, 2));
+        });
+
+        console.log('FormData yang akan dikirim:', frontLoadingData);
+
+        // Kirim data ke backend
+        formData.append('front_loading', JSON.stringify(frontLoadingData));
+
+
+
+        // Alat Support
+          const alatSupportData = [];
+        const alatSupportAccordions = document.querySelectorAll('#accordionSupport .accordion-item');
+
+        //console.log(alatSupportAccordions);
+
+        alatSupportAccordions.forEach((accordion, index) => {
+            const unit = accordion.querySelector(`input[name="alat_support[${index}][unitSupport]"]`)?.value || null;
+
+            //sesuaikan lagi untuk menyimpan nama dan nik, karena format nya "0009JKM|Ferdinand L."
+            let nama = accordion.querySelector(`input[name="alat_support[${index}][namaSupport]"]`)?.value || null;
+            let nik = null;
+
+            if (nama && nama.includes('|')) {
+                [nik, nama] = nama.split('|');
+            }
+
+
+
+            const tanggal = accordion.querySelector(`input[name="alat_support[${index}][tanggalSupport]"]`)?.value || null;
+            const shift = accordion.querySelector(`input[name="alat_support[${index}][shiftSupport]"]`)?.value || null;
+            const hmAwal = accordion.querySelector(`input[name="alat_support[${index}][hmAwalSupport]"]`)?.value || null;
+            const hmAkhir = accordion.querySelector(`input[name="alat_support[${index}][hmAkhirSupport]"]`)?.value || null;
+            const total = accordion.querySelector(`input[name="alat_support[${index}][totalSupport]"]`)?.value || null;
+            const hmCash = accordion.querySelector(`input[name="alat_support[${index}][hmCashSupport]"]`)?.value || null;
+            const keterangan = accordion.querySelector(`input[name="alat_support[${index}][keteranganSupport]"]`)?.value || null;
+
+            const formattedTanggal = new Date(tanggal).toISOString().split('T')[0];
+
+
+            alatSupportData.push({
+                alat_unit: unit,
+                nama_operator: nama,
+                nik_operator: nik,
+                tanggal_operator: formattedTanggal,
+                shift_operator: shift,
+                hm_awal: hmAwal,
+                hm_akhir: hmAkhir,
+                total,
+                hm_cash: hmCash,
+                keterangan,
+            });
+        });
+
+        // console.log(JSON.stringify(alatSupportData, null, 2)); // Debugging
+
+        formData.append('alat_support', JSON.stringify(alatSupportData));
+
+
+
+        // Catatan Pengawas
+        const catatanData = [];
+        const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
+        catatanAccordions.forEach((accordion, index) => {
+            const start = accordion.querySelector(`input[name="catatan[${index}][start_catatan]"]`)?.value || null;
+            const end = accordion.querySelector(`input[name="catatan[${index}][end_catatan]"]`)?.value || null;
+            const description = accordion.querySelector(`input[name="catatan[${index}][description_catatan]"]`)?.value || null;
+
+            catatanData.push({
+                start_catatan: start,
+                end_catatan: end,
+                description_catatan: description,
+            });
+        }); const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
+
+            catatanAccordions.forEach((accordion) => {
+            const start = accordion.querySelector(`input[name$="[start_catatan]"]`)?.value || null;
+            const end = accordion.querySelector(`input[name$="[end_catatan]"]`)?.value || null;
+            const description = accordion.querySelector(`input[name$="[description_catatan]"]`)?.value || null;
+
+            catatanData.push({
+                start_catatan: start,
+                end_catatan: end,
+                description_catatan: description,
+            });
+        formData.append('catatan', JSON.stringify(catatanData));
+
+        fetch('/form-pengawas-new/post', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+        })
+            .then((response) => {
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: data.message,
+                    });
+                    window.location.href = data.redirect;
+                } else {
+                    throw new Error(data.error || 'Unknown error');
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `Error submit laporan: ${error.message}`,
+                });
+                submitButtonKerja.disabled = false;
+                submitButtonKerja.innerText = 'Submit';
+            });
     });
+});
 </script>
 
+
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const selectShift = document.getElementById("exampleFormControlSelect1");
+    if (selectShift) {
+        handleChangeShift(selectShift.value); // Panggil fungsi saat halaman dimuat
+    }
+});
+
     function handleChangeShift(value) {
     const thJam = document.getElementById('thJam');
     const thSiang = document.getElementById('thSiang');
     const thMalam = document.getElementById('thMalam');
     const tableRows = document.querySelectorAll('#tableBody tr');
 
-    if(value == 1) value = "Siang";
-    if(value == 2) value = "Malam";
+    if (value == 1) value = "Siang";
+    if (value == 2) value = "Malam";
+
+
     // Atur colspan di header
     if (value === "Siang") {
     thJam.colSpan = 1;
@@ -690,13 +967,20 @@ Log::info('Item:', ['item' => $item]);
 
 {{-- Script Form Front Loading --}}
 <script>
+function generateUUID() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
+
     const addColumnBtn = document.getElementById('addColumnBtn');
-    const removeColumnBtn = document.getElementById('removeColumnBtn');
+    // const removeColumnBtn = document.getElementById('removeColumnBtn');
     const headerRow1 = document.getElementById('headerRow1');
     const headerRow2 = document.getElementById('headerRow2');
     const tableBody = document.getElementById('tableBody');
 
-    let unitCount = 1;
+    let unitCount = document.querySelectorAll('.unitHeader').length || 1;
 
     const exa = @json($data['EX']);
 
@@ -705,13 +989,14 @@ Log::info('Item:', ['item' => $item]);
 
         const newHeader1 = document.createElement('th');
         newHeader1.classList.add('unitHeader');
-        newHeader1.textContent = `Nomor Unit ${unitCount}`;
+        newHeader1.textContent = `Nomor Unit`;
         headerRow1.appendChild(newHeader1);
 
         const newHeader2 = document.createElement('th');
         const selectElement = document.createElement('select');
         selectElement.name = `front_loading[${unitCount}][nomor_unit]`;
-        selectElement.classList.add('form-control');
+        selectElement.id = `frontUnitNumber_${unitCount}`;
+        selectElement.classList.add('form-control', 'unit-select');
 
         const emptyOption = document.createElement('option');
         emptyOption.value = '';
@@ -745,46 +1030,100 @@ Log::info('Item:', ['item' => $item]);
         ];
         var index = 0;
         for (const row of tableBody.rows) {
-            const newCell = document.createElement('td');
-            newCell.innerHTML =
-           `<div class="grid gap-3 d-flex align-items-center justify-content-center">
-                <input type="hidden" value="false" name="front_loading[${unitCount}][time][${index}][checked]">
-                <input type="hidden" value="${values[index]}" name="front_loading[${unitCount}][time][${index}][value]">
+        const newCell = document.createElement('td');
+        const uuid = generateUUID(); // Generate UUID here
+
+        newCell.innerHTML = `
+            <input type="hidden" name="front_loading[${unitCount}][time][${index}][front_loading_uuid]" value="${uuid}">
+            <div class="d-flex align-items-center gap-2">
                 <input type="checkbox" value="true" name="front_loading[${unitCount}][time][${index}][checked]" class="form-check-input">
                 <input type="text" name="front_loading[${unitCount}][time][${index}][keterangan]" placeholder="Keterangan" class="form-control">
             </div>`;
-
-            row.appendChild(newCell);
-            index++;
-        }
+        row.appendChild(newCell);
+        index++;
+    }
     });
 
-    removeColumnBtn.addEventListener('click', () => {
-        if (unitCount > 1) {
-            Swal.fire({
+    function removeColumnBtn(frontUUID) {
+
+        console.log('Menghapus front loading dengan UUID:', frontUUID);
+        if(frontUUID){
+                Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: `Anda akan menghapus Nomor Unit ${unitCount}.`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
+                cancelButtonText: 'Batal',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    headerRow1.lastElementChild.remove();
-                    headerRow2.lastElementChild.remove();
-                    for (const row of tableBody.rows) {
-                        row.lastElementChild.remove();
-                    }
-                    unitCount--;
-                    Swal.fire('Dihapus!', `Nomor Unit ${unitCount + 1} telah dihapus.`, 'success');
+                    console.log('Menghapus data support dengan ID:', frontUUID);
+                        // Jika frontUUID ada, kirim permintaan ke server
+                        fetch(`/delete-front-loading/${frontUUID}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            },
+                        })
+                            .then((response) => {
+                                Swal.fire(
+                                        'Dihapus!',
+                                        'Data berhasil dihapus.',
+                                        'success'
+                                        ).then(() => {
+                                        location.reload();  // Halaman akan di-reload setelah popup Swal ditutup
+                                    });
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Terjadi kesalahan saat menghapus data.',
+                                    'error'
+                                );
+                            });
                 }
             });
-        } else {
-            Swal.fire('Tidak Bisa Dihapus', 'Kolom Nomor Unit 1 tidak boleh dihapus.', 'error');
-        }
-    });
+        }else{
+            Swal.fire(
+                'Gagal!',
+                'Front Loading Kosong...',
+                'error'
+            );
+         }
+
+
+    }
+
+    // removeColumnBtn.addEventListener('click', () => {
+    //     if (unitCount > 1) {
+    //         Swal.fire({
+    //             title: 'Apakah Anda yakin?',
+    //             text: `Anda akan menghapus Nomor Unit ${unitCount}.`,
+    //             icon: 'warning',
+    //             showCancelButton: true,
+    //             confirmButtonColor: '#3085d6',
+    //             cancelButtonColor: '#d33',
+    //             confirmButtonText: 'Ya, Hapus!',
+    //             cancelButtonText: 'Batal'
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 headerRow1.lastElementChild.remove();
+    //                 headerRow2.lastElementChild.remove();
+    //                 for (const row of tableBody.rows) {
+    //                     row.lastElementChild.remove();
+    //                 }
+    //                 unitCount--;
+    //                 Swal.fire('Dihapus!', `Nomor Unit ${unitCount + 1} telah dihapus.`, 'success');
+    //             }
+    //         });
+    //     } else {
+    //         Swal.fire('Tidak Bisa Dihapus', 'Kolom Nomor Unit 1 tidak boleh dihapus.', 'error');
+    //     }
+    // });
 
     function validateCheckboxes() {
         let isChecked = false;
@@ -808,14 +1147,100 @@ Log::info('Item:', ['item' => $item]);
 <script>
     let supportCount = 0;
 
+    document.addEventListener("DOMContentLoaded", function () {
+        const alatSupports = @json($alatSupports);
+        console.log(alatSupports);
+         // Data dari backend
+
+        const accordionContainer = document.getElementById('accordionSupport');
+
+        // Render ulang data alatSupports dari backend
+        alatSupports.forEach((support, index) => {
+
+            const accordionId = `support${index + supportCount}`;
+            const collapseId = `collapseSupport${index + supportCount}`;
+            const namaOperator = `${support.nik_operator}|${support.nama_operator}`;
+
+            const shiftText = document.querySelector(`#shiftSupport option[value="${support.shift_operator_id}"]`)?.text.trim() || '';
+
+            const accordionItem = `
+            <div class="accordion-item" id="${accordionId}" data-support-id="${support.id}">
+                    <h2 class="accordion-header" id="heading${accordionId}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                            #${support.alat_unit}
+                        </button>
+                    </h2>
+                    <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionSupport">
+                        <div class="accordion-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>UUID</th>
+                                            <td><input type="hidden" name="alat_support[${index}][uuidSupport]" value="${support.uuid}">${support.uuid}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Unit</th>
+                                            <td><input type="hidden" name="alat_support[${index}][unitSupport]" value="${support.alat_unit}">${support.alat_unit}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nama</th>
+                                        <td><input type="hidden" name="alat_support[${index}][namaSupport]" value="${namaOperator}">${namaOperator}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <td><input type="hidden" name="alat_support[${index}][tanggalSupport]" value="${support.tanggal_operator}">${support.tanggal_operator}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shift</th>
+                                            <td><input type="hidden" name="alat_support[${index}][shiftSupport]" value="${support.shift_operator_id}">${shiftText}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>HM Awal</th>
+                                            <td><input type="hidden" name="alat_support[${index}][hmAwalSupport]" value="${support.hm_awal}">${support.hm_awal}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>HM Akhir</th>
+                                            <td><input type="hidden" name="alat_support[${index}][hmAkhirSupport]" value="${support.hm_akhir}">${support.hm_akhir}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total</th>
+                                            <td><input type="hidden" name="alat_support[${index}][totalSupport]" value="${support.hm_total}">${support.hm_total}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>HM Cash</th>
+                                            <td><input type="hidden" name="alat_support[${index}][hmCashSupport]" value="${support.hm_cash}">${support.hm_cash}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Keterangan</th>
+                                            <td><input type="hidden" name="alat_support[${index}][keteranganSupport]" value="${support.keterangan}">${support.keterangan}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeSupport('${accordionId}')">Hapus</button>
+                        </div>
+                    </div>
+                </div>`;
+            accordionContainer.insertAdjacentHTML('beforeend', accordionItem);
+            supportCount = index + 1; // Update support count
+        });
+    });
+
     // Menghitung Total otomatis berdasarkan HM Akhir - HM Awal
     document.getElementById('hmAwalSupport').addEventListener('input', calculateTotal);
     document.getElementById('hmAkhirSupport').addEventListener('input', calculateTotal);
 
+
     function calculateTotal() {
         const hmAwal = parseFloat(document.getElementById('hmAwalSupport').value) || 0;
         const hmAkhir = parseFloat(document.getElementById('hmAkhirSupport').value) || 0;
+
+        // console.log(hmAwal, hmAkhir);
+
+
         const total = hmAkhir - hmAwal;
+        // console.log(total);
         document.getElementById('totalSupport').value = (total >= 0 ? total : 0).toFixed(2);
     }
 
@@ -850,7 +1275,7 @@ Log::info('Item:', ['item' => $item]);
         const newAccordionItem = `<div class="accordion-item" id="${accordionId}">
                                         <h2 class="accordion-header" id="heading${accordionId}">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
-                                                #${supportCount}. ${unit}
+                                                #${unit}
                                             </button>
                                         </h2>
                                         <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionSupport">
@@ -858,7 +1283,10 @@ Log::info('Item:', ['item' => $item]);
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered">
                                                         <tbody>
-
+                                                            <tr>
+                                                                <th>Unit</th>
+                                                                <td><input type="hidden" name="alat_support[${supportCount-1}][uuidSupport]" value="${generateUUID()}">${generateUUID()}</td>
+                                                            </tr>
                                                             <tr>
                                                                 <th>Unit</th>
                                                                 <td><input type="hidden" name="alat_support[${supportCount-1}][unitSupport]" value="${unit}">${unit}</td>
@@ -908,9 +1336,9 @@ Log::info('Item:', ['item' => $item]);
         Swal.fire({
             icon: 'success',
             title: 'Berhasil',
-            text: 'Data support berhasil ditambahkan!',
-            timer: 2000,
-            showConfirmButton: false
+            text: 'Berhasil ditambahkan, mohon klik Simpan Draft',
+            // timer: 2000,
+            showConfirmButton: true
         }).then(() => {
             const modalElement = document.getElementById('tambahSupportModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -941,23 +1369,143 @@ Log::info('Item:', ['item' => $item]);
 
     // Fungsi untuk menghapus item support
     function removeSupport(accordionId) {
-        const item = document.getElementById(accordionId);
-        if (item) {
-            item.remove();
-            Swal.fire({
-                icon: 'info',
-                title: 'Baris Dihapus',
-                text: 'Baris berhasil dihapus!',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
-    }
+//get data from controller with compact: $alatSupports
+         const alatSupports = @json($alatSupports); // Data dari backend
+
+
+         console.log(alatSupports);
+
+         const item = document.getElementById(accordionId);
+
+         const supportId = item ? item.getAttribute('data-support-id') : null;
+
+        console.log('Menghapus data support dengan ID:', supportId);
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: 'Data ini akan dihapus!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (supportId) {
+                    console.log('Menghapus data support dengan ID:', supportId);
+                    // Jika supportId ada, kirim permintaan ke server
+                    fetch(`/delete-support/${supportId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        },
+                    })
+                        .then((response) => {
+                            if (response.ok) {
+                                // Hapus elemen dari DOM jika berhasil
+                                const item = document.getElementById(accordionId);
+                                if (item) {
+                                    item.remove();
+                                }
+                                Swal.fire(
+                                    'Dihapus!',
+                                    'Data berhasil dihapus.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Terjadi kesalahan saat menghapus data.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            Swal.fire(
+                                'Gagal!',
+                                'Terjadi kesalahan saat menghapus data.',
+                                'error'
+                            );
+                        });
+                } else {
+                    // Jika supportId tidak ada, cukup hapus elemen dari DOM
+                    const item = document.getElementById(accordionId);
+                    if (item) {
+                        item.remove();
+                    }
+                    Swal.fire(
+                        'Dihapus!',
+                        'Data berhasil dihapus.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                }
+            }
+        });
+}
+
 </script>
 
 {{-- Script Form Catatan Pengawas --}}
 <script>
     let catatanCount = 0;
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const catatanPengawas = @json($supervisorNotes);
+    const accordionCatatan = document.getElementById('accordionCatatan');
+
+    // Render ulang data catatan pengawas dari backend
+    catatanPengawas.forEach((catatan, index) => {
+        const accordionId = `catatan${index + 1}`;
+        const collapseId = `collapse${index + 1}`;
+
+        const accordionItem = `
+            <div class="accordion-item" id="${accordionId}" data-catatan-id="${catatan.id}">
+                <h2 class="accordion-header" id="heading${accordionId}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                        Catatan #${index + 1}
+                    </button>
+                </h2>
+                <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="heading${accordionId}" data-bs-parent="#accordionCatatan">
+                    <div class="accordion-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>Start</th>
+                                    <td><input type="hidden" name="catatan[${index}][start_catatan]" value="${catatan.jam_start || ''}">${catatan.jam_start || ''}</td>
+                                </tr>
+                                <tr>
+                                    <th>End</th>
+                                    <td><input type="hidden" name="catatan[${index}][end_catatan]" value="${catatan.jam_stop || ''}">${catatan.jam_stop || ''}</td>
+                                </tr>
+                                <tr>
+                                    <th>Deskripsi</th>
+                                    <td style="word-wrap: break-word; white-space: normal; max-width: 100%; overflow-wrap: break-word;">
+                                        <input type="hidden" name="catatan[${index}][description_catatan]" value="${catatan.keterangan || ''}">${catatan.keterangan || ''}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-end">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="hapusCatatan('${accordionId}')">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        accordionCatatan.insertAdjacentHTML('beforeend', accordionItem);
+        catatanCount = index + 1; // Update catatan count
+    });
+});
+
 
     // Event saat tombol "Tambah" di klik
     document.getElementById('saveCatatan').addEventListener('click', () => {
@@ -1034,9 +1582,9 @@ Log::info('Item:', ['item' => $item]);
         Swal.fire({
             icon: 'success',
             title: 'Berhasil',
-            text: 'Catatan berhasil ditambahkan!',
-            timer: 2000,
-            showConfirmButton: false
+            text: 'Berhasil ditambahkan, mohon klik Simpan Draft',
+            // timer: 2000,
+            showConfirmButton: true
         }).then(() => {
             // Tutup modal setelah SweetAlert ditutup
             const modalElement = document.getElementById('tambahCatatan');
@@ -1054,17 +1602,83 @@ Log::info('Item:', ['item' => $item]);
 
     // Fungsi untuk menghapus item accordion
     function hapusCatatan(accordionId) {
-        const item = document.getElementById(accordionId);
-        if (item) {
-            item.remove();
-            Swal.fire({
-                icon: 'info',
-                title: 'Catatan Dihapus',
-                text: 'Catatan berhasil dihapus!',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
+        const supervisorNotes = @json($supervisorNotes); // Data dari backend
+
+
+         console.log(supervisorNotes);
+
+         const item = document.getElementById(accordionId);
+
+         const catatanId = item ? item.getAttribute('data-catatan-id') : null;
+
+        console.log('Menghapus data catatan dengan ID:', catatanId);
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: 'Data ini akan dihapus!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (catatanId) {
+                    console.log('Menghapus data catatan dengan ID:', catatanId);
+                    // Jika catatanId ada, kirim permintaan ke server
+                    fetch(`/delete/catatan-pengawas/${catatanId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        },
+                    })
+                        .then((response) => {
+                            if (response.ok) {
+                                // Hapus elemen dari DOM jika berhasil
+                                const item = document.getElementById(accordionId);
+                                if (item) {
+                                    item.remove();
+                                }
+                                Swal.fire(
+                                    'Dihapus!',
+                                    'Data berhasil dihapus.',
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Terjadi kesalahan saat menghapus data.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            Swal.fire(
+                                'Gagal!',
+                                'Terjadi kesalahan saat menghapus data.',
+                                'error'
+                            );
+                        });
+                } else {
+                    // Jika catatanId tidak ada, cukup hapus elemen dari DOM
+                    const item = document.getElementById(accordionId);
+                    if (item) {
+                        item.remove();
+                    }
+                    Swal.fire(
+                        'Dihapus!',
+                        'Data berhasil dihapus.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                }
+            }
+        });
     }
 </script>
 

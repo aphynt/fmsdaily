@@ -52,7 +52,8 @@ class CatatanPengawasController extends Controller
             'spt.PERSONALNAME as nama_superintendent',
             'cp.jam_start',
             'cp.jam_stop',
-            'cp.keterangan'
+            'cp.keterangan',
+            'cp.is_draft'
         )
         ->where('cp.statusenabled', true)
         ->where('dr.statusenabled', true)

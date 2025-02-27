@@ -70,7 +70,8 @@ class AlatSupportController extends Controller
             'al.hm_awal',
             'al.hm_akhir',
             'al.hm_cash',
-            'al.keterangan'
+            'al.keterangan',
+            'al.is_draft'
         )
         ->where('al.statusenabled', true)
         ->where('dr.statusenabled', true)
@@ -181,6 +182,7 @@ class AlatSupportController extends Controller
                 DB::raw('(al.hm_akhir - al.hm_awal) AS total_hm'),
                 'al.hm_cash',
                 'al.keterangan',
+                'al.is_draft',
             )
             ->where('al.statusenabled', true)
             ->where('dr.statusenabled', true)

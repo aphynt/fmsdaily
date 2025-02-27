@@ -12,7 +12,7 @@
                     {{-- <form class="form-search"><i class="search-icon"><svg class="pc-icon">
                                 <use xlink:href="#custom-search-normal-1"></use>
                             </svg> </i><input type="search" class="form-control" placeholder="Ctrl + K"></form> --}}
-                            <span class="badge bg-light-success rounded-pill ms-2 theme-version">Daily Pengawas</span>
+                            <span class="badge bg-light-success rounded-pill ms-2 theme-version">{{ config('app.name') }}</span>
                 </li>
             </ul>
         </div><!-- [Mobile Media Block end] -->

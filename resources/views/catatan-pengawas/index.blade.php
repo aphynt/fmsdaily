@@ -53,6 +53,7 @@
                                         <th colspan="2">Superintendent</th>
                                         <th colspan="2">Jam</th>
                                         <th rowspan="2">Keterangan</th>
+                                        <th rowspan="2">Status Draft</th>
                                     </tr>
                                     <tr>
                                         <th>NIK</th>
@@ -81,6 +82,13 @@
                                             <td>{{ $item->jam_start }}</td>
                                             <td>{{ $item->jam_stop }}</td>
                                             <td>{{ $item->keterangan }}</td>
+                                            <td>
+                                                @if ($item->is_draft == true)
+                                                    <span style="color:orange">Ya</span>
+                                                @else
+                                                    <span  style="color:green">Tidak</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
 

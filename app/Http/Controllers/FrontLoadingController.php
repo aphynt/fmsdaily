@@ -59,6 +59,7 @@ class FrontLoadingController extends Controller
             'fl.siang',
             'fl.malam',
             'fl.keterangan',
+            'fl.is_draft',
             'dr.created_at',
             'dr.updated_at',
         )
@@ -98,6 +99,7 @@ class FrontLoadingController extends Controller
                     'nama_supervisor' => $item->nama_supervisor,
                     'nik_superintendent' => $item->nik_superintendent,
                     'nama_superintendent' => $item->nama_superintendent,
+                    'is_draft' => $item->is_draft,
                     'shift_dasar' => 'Malam',
                     'keterangan' => $keteranganMalam,  // Keterangan malam yang sesuai
                     'created_at' => $item->created_at,
@@ -127,6 +129,7 @@ class FrontLoadingController extends Controller
                     'nama_supervisor' => $item->nama_supervisor,
                     'nik_superintendent' => $item->nik_superintendent,
                     'nama_superintendent' => $item->nama_superintendent,
+                    'is_draft' => $item->is_draft,
                     'shift_dasar' => 'Siang',
                     'keterangan' => $keteranganSiang,  // Keterangan siang yang sesuai
                     'created_at' => $item->created_at,

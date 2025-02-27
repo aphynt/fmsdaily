@@ -55,6 +55,7 @@
                                         <th colspan="2">Superintendent</th>
                                         <th colspan="4">HM</th>
                                         <th rowspan="2">Keterangan</th>
+                                        <th rowspan="2">Status Draft</th>
                                         <th rowspan="2">Aksi</th>
 
                                     </tr>
@@ -143,6 +144,18 @@
                 { data: 'total_hm' },
                 { data: 'hm_cash' },
                 { data: 'keterangan' },
+                {
+                    data: 'is_draft',
+                    render: function(data, type, row) {
+                        if (data == 1) {
+                            return '<span style="color: orange;">Ya</span>';
+                        } else {
+                            return '<span style="color: green;">Tidak</span>';
+                        }
+                    }
+                },
+
+
                 {
                     data: 'aksi',
                     render: function(data, type, row) {

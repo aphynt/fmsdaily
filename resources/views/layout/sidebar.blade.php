@@ -2,7 +2,7 @@
     <div class="navbar-wrapper">
         <div class="m-header"><a href="#" class="b-brand text-primary">
                 <img src="{{ asset('dashboard/assets') }}/images/icon.png" class="img-fluid" width="100px" alt="logo">
-                <span class="badge bg-light-success rounded-pill ms-2 theme-version">Daily Pengawas</span></a></div>
+                <span class="badge bg-light-success rounded-pill ms-2 theme-version">{{ config('app.name') }}</span></a></div>
         <div class="navbar-content">
             <a style="color:#001932;" data-bs-toggle="collapse" href="#pc_sidebar_userlink">
                 <div class="card pc-user-card">
@@ -37,12 +37,25 @@
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/dashboard.png" alt="DS"> </span><span class="pc-mtext">Dashboard</span> <span class="pc-arrow"><i
-                                data-feather="chevron-right"></i></span> <span class="pc-badge">3</span>
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">2</span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ route('front-loading.index') }}">Front Loading</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('alat-support.index') }}">Alat Support</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('catatan-pengawas.index') }}">Catatan Pengawas</a></li>
+                        <li class="pc-item pc-hasmenu"><a href="#!" class="pc-link">Produksi<span
+                                    class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                            <ul class="pc-submenu">
+                                <li class="pc-item"><a class="pc-link" href="{{ route('front-loading.index') }}">Front Loading</a></li>
+                                <li class="pc-item"><a class="pc-link" href="{{ route('alat-support.index') }}">Alat Support</a></li>
+                                <li class="pc-item"><a class="pc-link" href="{{ route('catatan-pengawas.index') }}">Catatan Pengawas</a></li>
+                            </ul>
+                        </li>
+                        <li class="pc-item pc-hasmenu"><a href="#!" class="pc-link">Batu Bara<span
+                                    class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                            <ul class="pc-submenu">
+                                <li class="pc-item"><a class="pc-link" href="{{ route('bb.loading-point.index') }}">Loading Point</a></li>
+                                <li class="pc-item"><a class="pc-link" href="{{ route('bb.unit-support.index') }}">Unit Support</a></li>
+                                <li class="pc-item"><a class="pc-link" href="{{ route('bb.catatan-pengawas.index') }}">Catatan Pengawas</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 
@@ -50,25 +63,46 @@
                         <use xlink:href="#custom-presentation-chart"></use>
                     </svg>
                 </li>
-                {{-- <li class="pc-item"><a href="#" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/excavator.png" alt="EX"></span><span class="pc-mtext">Front Loading</span></a></li> --}}
-                <li class="pc-item"><a href="{{ route('form-pengawas.show') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="BD"></span><span class="pc-mtext">Daftar Laporan</span></a></li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon">
+                        <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="DS"> </span><span class="pc-mtext">Daftar Laporan</span> <span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">3</span>
+                    </a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-new.show') }}">Pengawas Produksi</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.show') }}">Pengawas Batu Bara</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.show') }}">Laporan SAP</a></li>
+                    </ul>
+                </li>
                 @if(Auth::user()->role != 'ADMIN' && Auth::user()->role != 'MANAGER')
-                    <li class="pc-item"><a href="{{ route('form-pengawas-old.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="NT"></span><span class="pc-mtext">Form Pengawas</span></a></li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="#!" class="pc-link"><span class="pc-micon">
+                            <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="DS"> </span><span class="pc-mtext">Form Laporan Kerja</span> <span class="pc-arrow"><i
+                                    data-feather="chevron-right"></i></span> <span class="pc-badge">2</span>
+                        </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-new.index') }}">Pengawas Produksi</a></li>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.index') }}">Pengawas Batu Bara</a></li>
+                            {{-- <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.index') }}">Laporan SAP</a></li> --}}
+                        </ul>
+                    </li>
+                    {{-- <li class="pc-item"><a href="{{ route('form-pengawas-sap.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/kpi.png" alt="NT"></span><span class="pc-mtext">Form SAP</span></a></li> --}}
                 @endif
 
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
-                        <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="DS"> </span><span class="pc-mtext">KLKH</span> <span class="pc-arrow"><i
-                                data-feather="chevron-right"></i></span> <span class="pc-badge">7</span>
+                        <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="DS"> </span><span class="pc-mtext">Form SAP</span> <span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">8</span>
                     </a>
                     <ul class="pc-submenu">
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.loading-point') }}">Loading Point</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.haul-road') }}">Haul Road</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.disposal') }}">Disposal/Dumping Point</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.lumpur') }}">Dumping di Kolam Air/Lumpur</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.ogs') }}">OGS</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.batubara') }}">Batu Bara</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.simpangempat') }}">Intersection (Simpang Empat)</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.index') }}">Inspeksi</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.loading-point') }}">KLKH Loading Point</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.haul-road') }}">KLKH Haul Road</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.disposal') }}">KLKH Disposal/Dumping Point</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.lumpur') }}">KLKH Dumping di Kolam Air/Lumpur</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.ogs') }}">KLKH OGS</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.batubara') }}">KLKH Batu Bara</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('klkh.simpangempat') }}">KLKH Intersection (Simpang Empat)</a></li>
                     </ul>
                 </li>
                 @if (!in_array(Auth::user()->role, ['FOREMAN', 'MANAGER']))
