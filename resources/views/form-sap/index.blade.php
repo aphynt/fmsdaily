@@ -104,7 +104,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Foto Temuan:</label>
-                                <input type="file" class="form-control" name="file_temuan[]" multiple required/>
+                                <input type="file" class="form-control" name="file_temuan[]" multiple/>
                             </div>
                             <hr>
                             <div class="mb-3">
@@ -120,11 +120,11 @@
                             <hr>
                             <div class="mb-3">
                                 <label class="form-label">Tindak Lanjut</label>
-                                <textarea class="form-control" placeholder="Masukkan Temuan" name="tindakLanjut" required></textarea>
+                                <textarea class="form-control" placeholder="Masukkan Temuan" name="tindakLanjut"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Foto Bukti Tindak Lanjut:</label>
-                                <input type="file" class="form-control" name="file_tindakLanjut[]" multiple required/>
+                                <input type="file" class="form-control" name="file_tindakLanjut[]" multiple/>
                             </div>
 
                             <!-- Risiko -->
