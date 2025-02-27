@@ -31,7 +31,7 @@
         </div>
         <div class="mt-2">
             @foreach($assignments as $assignment)
-                <div class="card mb-3 border-0 shadow-sm text-white"
+                <div class="card mb-2 border-0 shadow-sm text-white"
                     @if ($assignment->NIK_FGR_ORI == null)
                         style="background-color:#afeeee;"
                     @elseif ($assignment->NAMA_FGR != null)
@@ -46,16 +46,16 @@
                     <br>Status: {{ $assignment->STATUSDESCTRUCK }}">
                     <div class="text-center">
                         @if ($assignment->IS_SETTING == 0)
-                            <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px">
+                            <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="13px">
                         @endif
                         @if ($assignment->IS_LOGIN == 0)
-                            <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px">
+                            <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="13px">
                         @endif
                         @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING > 0)
-                            <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px">
+                            <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="13px">
                         @endif
                         @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING == 0)
-                            <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px">
+                            <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="13px">
                         @endif
                         <p class="fw-bold text-black mb-1">{{ $assignment->VHC_ID }}</p>
                         <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ?: '______' }}</p>
