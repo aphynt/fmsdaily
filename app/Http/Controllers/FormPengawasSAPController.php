@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\SAPReport;
 use App\Models\SAPReportImage;
 use App\Models\Shift;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -149,8 +150,26 @@ class FormPengawasSAPController extends Controller
         }
     }
 
-    public function show()
+    public function show(Request $request)
     {
+
+        if (empty($request->rangeStart) || empty($request->rangeEnd)){
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate = $time->format('Y-m-d');
+
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+
+        }else{
+            $start = new DateTime("$request->rangeStart");
+            $end = new DateTime("$request->rangeEnd");
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
         $report = DB::table('SAP_REPORT as sr')
         ->leftJoin('users as us', 'sr.foreman_id', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'sr.shift', 'sh.id')
@@ -166,14 +185,16 @@ class FormPengawasSAPController extends Controller
             'sr.temuan',
             'sr.risiko',
             'sr.pengendalian',
+            'sr.tindak_lanjut',
         )
+        ->whereBetween(DB::raw('CONVERT(varchar, sr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
         ->where('sr.statusenabled', true);
         $report = $report->where(function($query) {
             if (!in_array(Auth::user()->role, ['ADMIN', 'MANAGER'])) {
                 $query->where('sr.foreman_id', Auth::user()->id);
             }
         });
-        $report = $report->get();
+        $report = $report->orderBy('created_at', 'DESC')->get();
 
         return view('form-sap.daftar.index', compact('report'));
     }

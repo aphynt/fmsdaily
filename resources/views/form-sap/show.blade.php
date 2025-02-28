@@ -233,15 +233,15 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label>Shift</label>
-                                <input type="text" class="form-control" value="{{ $data['report']->shift }}" readonly>
+                                <input type="text" class="form-control" value="{{ $data['report']->shift ? $data['report']->shift : "-" }}" readonly>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label>Area</label>
-                                <input type="text" class="form-control" value="{{ $data['report']->area }}" readonly>
+                                <input type="text" class="form-control" value="{{ $data['report']->area ? $data['report']->area : "-" }}" readonly>
                             </div>
                             <div class="mb-3">
                                 <label>Temuan KTA/TTA</label>
-                                <textarea type="text"  class="form-control" rows="8" readonly>{{ $data['report']->temuan }}</textarea>
+                                <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->temuan ? $data['report']->temuan : "-" }}</textarea>
                             </div>
                             <h4>Foto Temuan</h4>
 
@@ -254,15 +254,15 @@
                             </div>
                             <div class="mb-3">
                                 <label>Risiko</label>
-                                <textarea type="text"  class="form-control" rows="8" readonly>{{ $data['report']->risiko }}</textarea>
+                                <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->risiko ? $data['report']->risiko : "-" }}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label>Pengendalian</label>
-                                <textarea type="text"  class="form-control" rows="8" readonly>{{ $data['report']->pengendalian }}</textarea>
+                                <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->pengendalian ? $data['report']->pengendalian : "-" }}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label>Tindak Lanjut</label>
-                                <textarea type="text"  class="form-control" rows="8" readonly>{{ $data['report']->tindak_lanjut }}</textarea>
+                                <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->tindak_lanjut ? $data['report']->tindak_lanjut : "-" }}</textarea>
                             </div>
                             <h4>Foto Tindak Lanjut</h4>
 

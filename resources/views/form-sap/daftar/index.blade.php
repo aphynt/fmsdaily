@@ -1,6 +1,28 @@
-@include('layout.head', ['title' => 'Daftar Laporan Pengawas Batu Bara'])
+@include('layout.head', ['title' => 'Daftar Laporan Inspeksi'])
 @include('layout.sidebar')
 @include('layout.header')
+
+<style>
+    /* Default: Untuk layar lebih besar dari 768px */
+    .mode-desktop {
+        display: block;
+    }
+    .mode-hp {
+        display: none;
+    }
+
+    /* Untuk layar lebih kecil atau sama dengan 768px */
+    @media (max-width: 768px) {
+        .mode-desktop {
+            display: none;
+        }
+        .mode-hp {
+            display: block;
+        }
+    }
+</style>
+
+
 
 <section class="pc-container">
     <div class="pc-content">
@@ -10,7 +32,7 @@
                     <div class="col-md-12">
                         <ul class="breadcrumb">
                             {{-- <li class="breadcrumb-item"><a href="javascript: void(0)">Home</a></li> --}}
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">Daftar Laporan Pengawas Batu Bara</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0)">Daftar Laporan Inspeksi</a></li>
                         </ul>
                     </div>
                     <div class="col-12">
@@ -25,18 +47,87 @@
                                     </div>
                                 </form>
                             </div>
-                            @if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER']))
+                            {{-- @if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER']))
                                 <div class="col-sm-12 col-md-2 mb-2 text-md-end">
                                     <a href="{{ route('form-pengawas-batubara.bundlepdf') }}" target="_blank"><span class="badge bg-primary" style="font-size:14px"><i class="fas fa-download"></i> Bundle PDF</span></a>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
-        <div class="row">
+
+        <div class="row mode-hp">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        @foreach ($report as $item)
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    {{ $loop->iteration }}. {{ date('d-m-Y', strtotime($item->created_at)) }} {{ date('H:i', strtotime($item->jam_kejadian)) }}
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold">Shift</h5>
+                                        <p class="ms-3">{{ $item->shift ? $item->shift : "-" }}</p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold">Area</h5>
+                                        <p class="ms-3">{{ $item->area ? $item->area : "-" }}</p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold">Temuan KTA/TTA:</h5>
+                                        <p class="ms-3">{{ $item->temuan ? $item->temuan : "-" }}</p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold">Risiko:</h5>
+                                        <p class="ms-3">{{ $item->risiko ? $item->risiko : "-" }}</p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold">Pengendalian:</h5>
+                                        <p class="ms-3">{{ $item->pengendalian ? $item->pengendalian : "-" }}</p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold">Tindak Lanjut:</h5>
+                                        <p class="ms-3">{{ $item->tindak_lanjut ? $item->tindak_lanjut : "-" }}</p>
+                                    </div>
+                                    <div class="mt-4">
+                                        <h5 class="fw-bold">Aksi</h5>
+                                        <div class="ms-3">
+                                            <a href="{{ route('form-pengawas-sap.rincian', $item->uuid) }}" class="badge bg-success me-2">
+                                                Rincian
+                                            </a>
+                                            @if (Auth::user()->role == 'ADMIN')
+                                                <a href="#" class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#deleteLaporanSAP{{ $item->uuid }}">
+                                                    <i class="fas fa-trash-alt"></i> Hapus
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        @include('form-sap.delete')
+
+                        @endforeach
+
+                      </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mode-desktop">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
