@@ -104,18 +104,12 @@
                             </ul>
                         </div>
                     </div>
-                    @if ($daily == null)
-                    <div class="alert alert-dark alert-dismissible fade show" role="alert">
-                        <strong>Info!</strong>
-                        Belum mengisi Laporan Harian.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @else
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        <strong>Info!</strong>
-                        Sedang membuat draft Laporan Harian.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    @if ($daily != null)
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <strong>Info!</strong>
+                            Sedang membuat draft Laporan Harian.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     @endif
                     <div class="card">
                         <div class="card-body">
@@ -263,7 +257,7 @@
                                                                 class="form-check-label" for="customCheck1">Saya sudah
                                                                 mengisi form ini dengan benar</label></div>
                                                     </div>
-                                                    <button type="submit" class="btn btn-success" id="submitButtonKerja">Submit</button>
+                                                    <a href="javascript:void(0);" onclick="saveAsDraft('finish')"><span class="badge bg-success" style="font-size:14px"><i class="fa-solid fa-save"></i> Submit</span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -273,7 +267,7 @@
                                     <div class="d-flex wizard justify-content-end flex-wrap gap-2 mt-5">
                                         <div class="d-flex">
                                             <div id="save_as_draft_id" class="save-as-draft me-2">
-                                                <a href="javascript:void(0);" onclick="saveAsDraft()"><span class="badge bg-warning" style="font-size:14px"><i class="fa-solid fa-save"></i> Simpan Draft</span></a>
+                                                <a href="javascript:void(0);" onclick="saveAsDraft('draft')"><span class="badge bg-warning" style="font-size:14px"><i class="fa-solid fa-save"></i> Simpan Draft</span></a>
                                             </div>
                                             <div id="kembaliButton" class="previous me-2">
                                                 <a href="javascript:void(0);"><span class="badge bg-secondary" style="font-size:14px"><i class="fa-solid fa-arrow-left"></i> Kembali</span></a>
@@ -346,13 +340,17 @@
 
 <!-- untuk save as draft -->
 <script>
-    function saveAsDraft() {
+    function saveAsDraft(actionType) {
+        if (!validateForm()) {
+            return;
+        }
         const formData = new FormData();
 
         // Ambil UUID atau set null jika tidak ada
         const uuidElement = document.getElementById('uuid');
         const uuid = uuidElement ? uuidElement.value : null;
         formData.append('uuid', uuid);
+        formData.append('actionType', actionType);
 
         // Logon data
         formData.append('tanggal_dasar', document.querySelector('#pc-datepicker-1').value);
@@ -464,17 +462,21 @@
 
                         Swal.fire({
                             icon: 'success',
-                            title: 'Draft Disimpan',
-                            text: 'Berhasil menyimpan draft laporan',
+                            title: 'Success',
+                            text:"Saving Success",
                         }).then(() => {
-                            location.reload();  // Halaman akan di-reload setelah popup Swal ditutup
+                            if(actionType == 'finish'){
+                            window.location.href = "{{ route('form-pengawas-batubara.show') }}";
+                            }else{
+                                location.reload();
+                            }
                         });
 
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: `Failed to save draft: ${data.error}`,
+                            text: `Failed to save: ${data.error}`,
                         });
                     }
                 })
@@ -482,7 +484,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: `Error saving draft: ${error.message}`,
+                        text: `Error saving: ${error.message}`,
                     });
                 });
         }
@@ -1464,26 +1466,7 @@ function generateUUID() {
                 isChecked = true;
             }
         });
-        var frontN = document.getElementById("frontUnitNumber");
 
-        if(!frontN.value){
-            Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Nomor Unit harus diisi pada form Front Loading',
-            confirmButtonText: 'OK'
-            });
-            return false;
-        }
-        if(!isChecked){
-            Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Harap centang minimal 1 kotak pada form Front Loading',
-            confirmButtonText: 'OK'
-            });
-            return false;
-        }
         var checkBox = document.getElementById("customCheck1");
         if (!checkBox.checked) {
             Swal.fire({

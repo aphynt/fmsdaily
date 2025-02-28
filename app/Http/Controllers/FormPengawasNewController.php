@@ -44,9 +44,6 @@ class FormPengawasNewController extends Controller
             ->first();
 
 
-
-
-
         // Jika laporan hari ini sudah final (is_draft = false), kosongkan $daily
         if ($daily == null) {
             $daily = null;
@@ -247,8 +244,13 @@ class FormPengawasNewController extends Controller
     public function saveAsDraft(Request $request)
     {
 
+
         try {
             return DB::transaction(function () use ($request) {
+                $typeDraft = true;
+                if($request->actionType == 'finish'){
+                    $typeDraft = false;
+                }
                 $uuid = $request->uuid;
 
             // Jika UUID tidak kosong, cek apakah draft sudah ada
@@ -292,7 +294,7 @@ class FormPengawasNewController extends Controller
                 'nama_superintendent' => $namaSuperintendent,
                 'nik_supervisor' => $nikSupervisor,
                 'nama_supervisor' => $namaSupervisor,
-                'is_draft' => true, // Default sebagai draft
+                'is_draft' => $typeDraft, // Default sebagai draft
             ];
 
             // Tambahkan data berdasarkan role pengguna
@@ -350,7 +352,7 @@ class FormPengawasNewController extends Controller
                         'malam' => json_encode($nightSlots),
                         'checked' => json_encode($checkedStatus),
                         'keterangan' => json_encode($descriptions),
-                        'is_draft' => true,
+                        'is_draft' => $typeDraft,
                     ]
                 );
             }
@@ -397,7 +399,7 @@ class FormPengawasNewController extends Controller
                             'hm_total' => $hmTotal,
                             'hm_cash' => $value['hm_cash'] ?? null,
                             'keterangan' => $value['keterangan'] ?? null,
-                            'is_draft' => true,
+                            'is_draft' => $typeDraft,
                         ]
                     );
 
@@ -442,7 +444,7 @@ class FormPengawasNewController extends Controller
                             'jam_start' => $catatan['start_catatan'] ?? null,
                             'jam_stop' => $catatan['end_catatan'] ?? null,
                             'keterangan' => $catatan['description_catatan'] ?? null,
-                            'is_draft' => true,
+                            'is_draft' => $typeDraft,
                         ]
                     );
                 }

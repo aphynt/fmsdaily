@@ -955,6 +955,10 @@ class FormPengawasBatuBaraController extends Controller
 
         try {
             return DB::transaction(function () use ($request) {
+                $typeDraft = true;
+                if($request->actionType == 'finish'){
+                    $typeDraft = false;
+                }
                 $uuid = $request->uuid;
 
             // Jika UUID tidak kosong, cek apakah draft sudah ada
@@ -996,7 +1000,7 @@ class FormPengawasBatuBaraController extends Controller
                 'nama_superintendent' => $namaSuperintendent,
                 'nik_supervisor' => $nikSupervisor,
                 'nama_supervisor' => $namaSupervisor,
-                'is_draft' => true, // Default sebagai draft
+                'is_draft' => $typeDraft, // Default sebagai draft
             ];
 
             // Tambahkan data berdasarkan role pengguna
@@ -1040,7 +1044,7 @@ class FormPengawasBatuBaraController extends Controller
                             'seam_bb' => $value['seam_bb'] ?? null,
                             'jarak' => $value['jarak'] ?? null,
                             'keterangan' => $value['keterangan'] ?? null,
-                            'is_draft' => true,
+                            'is_draft' => $typeDraft,
                         ]
                     );
                 }
@@ -1063,7 +1067,7 @@ class FormPengawasBatuBaraController extends Controller
                             'nomor_unit' => $value['nomor_unit'] ?? null,
                             'area' => $value['area'] ?? null,
                             'keterangan' => $value['keterangan'] ?? null,
-                            'is_draft' => true,
+                            'is_draft' => $typeDraft,
                         ]
                     );
                 }
@@ -1088,7 +1092,7 @@ class FormPengawasBatuBaraController extends Controller
                             'jam_start' => $catatan['start_catatan'] ?? null,
                             'jam_stop' => $catatan['end_catatan'] ?? null,
                             'keterangan' => $catatan['description_catatan'] ?? null,
-                            'is_draft' => true,
+                            'is_draft' => $typeDraft,
                         ]
                     );
                 }
