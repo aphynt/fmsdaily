@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use DateTimeImmutable;
@@ -362,9 +363,11 @@ class FormPengawasNewController extends Controller
 
             if (!empty($request->alat_support)) {
                 $alatSupports = json_decode($request->alat_support, true); // Decode JSON dari request alat_support
+                // dd($alatSupports);
 
                 foreach ($alatSupports as $value) {
                     // dd($value);
+                    // dd($value['tanggal_operator']);
 
                     $nikOperator = $value['nik_operator'] ?? null;
                     $namaOperator = $value['nama_operator'] ?? null;
@@ -392,7 +395,7 @@ class FormPengawasNewController extends Controller
                             'alat_unit' => $value['alat_unit'],
                             'nik_operator' => $nikOperator,
                             'nama_operator' => $namaOperator,
-                            'tanggal_operator' => isset($value['tanggal_operator']) ? \Carbon\Carbon::createFromFormat('Y-m-d', $value['tanggal_operator'])->format('Y-m-d') : null,
+                            'tanggal_operator' => isset($value['tanggal_operator']) ? Carbon::createFromFormat( strpos($value['tanggal_operator'], '/') !== false ? 'm/d/Y' : 'Y-m-d', $value['tanggal_operator'])->format('Y-m-d'): null,
                             'shift_operator_id' => $value['shift_operator'] ?? null,
                             'hm_awal' => $hmAwal,
                             'hm_akhir' => $hmAkhir,

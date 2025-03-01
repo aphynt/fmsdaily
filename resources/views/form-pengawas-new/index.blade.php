@@ -545,14 +545,14 @@ alatSupportAccordions.forEach((accordion) => {
     const hmCash = accordion.querySelector('input[name*="hmCashSupport"]')?.value || null;
     const keterangan = accordion.querySelector('input[name*="keteranganSupport"]')?.value || null;
 
-    const formattedTanggal = tanggal ? new Date(tanggal).toISOString().split('T')[0] : null;
+    // const formattedTanggal = tanggal ? new Date(tanggal).toISOString().split('T')[0] : null;
 
     alatSupportData.push({
         uuid: uuid,
         alat_unit: unit,
         nama_operator: nama,
         nik_operator: nik,
-        tanggal_operator: formattedTanggal,
+        tanggal_operator: tanggal,
         shift_operator: shift,
         hm_awal: hmAwal,
         hm_akhir: hmAkhir,
@@ -788,7 +788,7 @@ formData.append('alat_support', JSON.stringify(alatSupportData));
                 alat_unit: unit,
                 nama_operator: nama,
                 nik_operator: nik,
-                tanggal_operator: formattedTanggal,
+                tanggal_operator: tanggal,
                 shift_operator: shift,
                 hm_awal: hmAwal,
                 hm_akhir: hmAkhir,
