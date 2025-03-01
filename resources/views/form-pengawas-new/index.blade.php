@@ -519,43 +519,36 @@
 
     // Kirim data ke backend
     formData.append('front_loading', JSON.stringify(frontLoadingData));
-
-
-
-
-
-
-
     const alatSupportData = [];
 const alatSupportAccordions = document.querySelectorAll('#accordionSupport .accordion-item');
 
-alatSupportAccordions.forEach((accordion, index) => {
-
-    let uuid = accordion.querySelector(`input[name="alat_support[${index}][uuidSupport]"]`)?.value || null;
-    const unit = accordion.querySelector(`input[name="alat_support[${index}][unitSupport]"]`)?.value || null;
-    let nama = accordion.querySelector(`input[name="alat_support[${index}][namaSupport]"]`)?.value || null;
+alatSupportAccordions.forEach((accordion) => {
+    const uuid = accordion.querySelector('input[name*="uuidSupport"]')?.value || null;
+    const unit = accordion.querySelector('input[name*="unitSupport"]')?.value || null;
+    let nama = accordion.querySelector('input[name*="namaSupport"]')?.value || null;
     let nik = null;
 
     if (nama && nama.includes('|')) {
         [nik, nama] = nama.split('|');
     }
 
-    if(uuid == null){
-
+    // Cek jika uuid adalah null, berarti data sudah dihapus, maka kita lewati data ini
+    if (uuid === null) {
+        return; // Skip jika uuid tidak ada (data dihapus)
     }
 
-    const tanggal = accordion.querySelector(`input[name="alat_support[${index}][tanggalSupport]"]`)?.value || null;
-    const shift = accordion.querySelector(`input[name="alat_support[${index}][shiftSupport]"]`)?.value || null;
-    const hmAwal = accordion.querySelector(`input[name="alat_support[${index}][hmAwalSupport]"]`)?.value || null;
-    const hmAkhir = accordion.querySelector(`input[name="alat_support[${index}][hmAkhirSupport]"]`)?.value || null;
-    const total = accordion.querySelector(`input[name="alat_support[${index}][totalSupport]"]`)?.value || null;
-    const hmCash = accordion.querySelector(`input[name="alat_support[${index}][hmCashSupport]"]`)?.value || null;
-    const keterangan = accordion.querySelector(`input[name="alat_support[${index}][keteranganSupport]"]`)?.value || null;
+    const tanggal = accordion.querySelector('input[name*="tanggalSupport"]')?.value || null;
+    const shift = accordion.querySelector('input[name*="shiftSupport"]')?.value || null;
+    const hmAwal = accordion.querySelector('input[name*="hmAwalSupport"]')?.value || null;
+    const hmAkhir = accordion.querySelector('input[name*="hmAkhirSupport"]')?.value || null;
+    const total = accordion.querySelector('input[name*="totalSupport"]')?.value || null;
+    const hmCash = accordion.querySelector('input[name*="hmCashSupport"]')?.value || null;
+    const keterangan = accordion.querySelector('input[name*="keteranganSupport"]')?.value || null;
 
     const formattedTanggal = tanggal ? new Date(tanggal).toISOString().split('T')[0] : null;
 
     alatSupportData.push({
-        uuid:uuid,
+        uuid: uuid,
         alat_unit: unit,
         nama_operator: nama,
         nik_operator: nik,
@@ -565,11 +558,12 @@ alatSupportAccordions.forEach((accordion, index) => {
         hm_akhir: hmAkhir,
         total,
         hm_cash: hmCash,
-        keterangan,
+        keterangan: keterangan,
     });
 });
 
 console.log('Data yang akan disimpan:', JSON.stringify(alatSupportData, null, 2));
+
 
 formData.append('alat_support', JSON.stringify(alatSupportData));
 
@@ -594,9 +588,9 @@ formData.append('alat_support', JSON.stringify(alatSupportData));
     const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
 
     catatanAccordions.forEach((accordion) => {
-    const start = accordion.querySelector(`input[name$="[start_catatan]"]`)?.value || null;
-    const end = accordion.querySelector(`input[name$="[end_catatan]"]`)?.value || null;
-    const description = accordion.querySelector(`input[name$="[description_catatan]"]`)?.value || null;
+    const start = accordion.querySelector(`input[name*="[start_catatan]"]`)?.value || null;
+    const end = accordion.querySelector(`input[name*="[end_catatan]"]`)?.value || null;
+    const description = accordion.querySelector(`input[name*="[description_catatan]"]`)?.value || null;
 
     catatanData.push({
         start_catatan: start,
@@ -769,10 +763,9 @@ formData.append('alat_support', JSON.stringify(alatSupportData));
         //console.log(alatSupportAccordions);
 
         alatSupportAccordions.forEach((accordion, index) => {
-            const unit = accordion.querySelector(`input[name="alat_support[${index}][unitSupport]"]`)?.value || null;
 
-            //sesuaikan lagi untuk menyimpan nama dan nik, karena format nya "0009JKM|Ferdinand L."
-            let nama = accordion.querySelector(`input[name="alat_support[${index}][namaSupport]"]`)?.value || null;
+            const unit = accordion.querySelector('input[name*="unitSupport"]')?.value || null;
+            let nama = accordion.querySelector('input[name*="namaSupport"]')?.value || null;
             let nik = null;
 
             if (nama && nama.includes('|')) {
@@ -780,14 +773,13 @@ formData.append('alat_support', JSON.stringify(alatSupportData));
             }
 
 
-
-            const tanggal = accordion.querySelector(`input[name="alat_support[${index}][tanggalSupport]"]`)?.value || null;
-            const shift = accordion.querySelector(`input[name="alat_support[${index}][shiftSupport]"]`)?.value || null;
-            const hmAwal = accordion.querySelector(`input[name="alat_support[${index}][hmAwalSupport]"]`)?.value || null;
-            const hmAkhir = accordion.querySelector(`input[name="alat_support[${index}][hmAkhirSupport]"]`)?.value || null;
-            const total = accordion.querySelector(`input[name="alat_support[${index}][totalSupport]"]`)?.value || null;
-            const hmCash = accordion.querySelector(`input[name="alat_support[${index}][hmCashSupport]"]`)?.value || null;
-            const keterangan = accordion.querySelector(`input[name="alat_support[${index}][keteranganSupport]"]`)?.value || null;
+            const tanggal = accordion.querySelector('input[name*="tanggalSupport"]')?.value || null;
+            const shift = accordion.querySelector('input[name*="shiftSupport"]')?.value || null;
+            const hmAwal = accordion.querySelector('input[name*="hmAwalSupport"]')?.value || null;
+            const hmAkhir = accordion.querySelector('input[name*="hmAkhirSupport"]')?.value || null;
+            const total = accordion.querySelector('input[name*="totalSupport"]')?.value || null;
+            const hmCash = accordion.querySelector('input[name*="hmCashSupport"]')?.value || null;
+            const keterangan = accordion.querySelector('input[name*="keteranganSupport"]')?.value || null;
 
             const formattedTanggal = new Date(tanggal).toISOString().split('T')[0];
 
@@ -802,7 +794,7 @@ formData.append('alat_support', JSON.stringify(alatSupportData));
                 hm_akhir: hmAkhir,
                 total,
                 hm_cash: hmCash,
-                keterangan,
+                keterangan: keterangan,
             });
         });
 
@@ -815,22 +807,11 @@ formData.append('alat_support', JSON.stringify(alatSupportData));
         // Catatan Pengawas
         const catatanData = [];
         const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
-        catatanAccordions.forEach((accordion, index) => {
-            const start = accordion.querySelector(`input[name="catatan[${index}][start_catatan]"]`)?.value || null;
-            const end = accordion.querySelector(`input[name="catatan[${index}][end_catatan]"]`)?.value || null;
-            const description = accordion.querySelector(`input[name="catatan[${index}][description_catatan]"]`)?.value || null;
-
-            catatanData.push({
-                start_catatan: start,
-                end_catatan: end,
-                description_catatan: description,
-            });
-        }); const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
 
             catatanAccordions.forEach((accordion) => {
-            const start = accordion.querySelector(`input[name$="[start_catatan]"]`)?.value || null;
-            const end = accordion.querySelector(`input[name$="[end_catatan]"]`)?.value || null;
-            const description = accordion.querySelector(`input[name$="[description_catatan]"]`)?.value || null;
+            const start = accordion.querySelector(`input[name*="[start_catatan]"]`)?.value || null;
+            const end = accordion.querySelector(`input[name*="[end_catatan]"]`)?.value || null;
+            const description = accordion.querySelector(`input[name*="[description_catatan]"]`)?.value || null;
 
             catatanData.push({
                 start_catatan: start,
@@ -1094,8 +1075,8 @@ function generateUUID() {
         }else{
             Swal.fire(
                 'Gagal!',
-                'Front Loading Kosong...',
-                'error'
+                'Maaf, Data Front Loading harus disimpan terlebih dahulu...',
+                'info'
             );
          }
 
@@ -1373,85 +1354,83 @@ function generateUUID() {
 
     // Fungsi untuk menghapus item support
     function removeSupport(accordionId) {
-//get data from controller with compact: $alatSupports
-         const alatSupports = @json($alatSupports); // Data dari backend
+    const alatSupports = @json($alatSupports); // Data dari backend
 
+    console.log(alatSupports);
+    console.log(alatSupports.length);
 
-         console.log(alatSupports);
+    const item = document.getElementById(accordionId);
+    const supportId = item ? item.getAttribute('data-support-id') : null;
 
-         const item = document.getElementById(accordionId);
-
-         const supportId = item ? item.getAttribute('data-support-id') : null;
-
-        console.log('Menghapus data support dengan ID:', supportId);
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: 'Data ini akan dihapus!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (supportId) {
-                    console.log('Menghapus data support dengan ID:', supportId);
-                    // Jika supportId ada, kirim permintaan ke server
-                    fetch(`/delete-support/${supportId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        },
-                    })
-                        .then((response) => {
-                            if (response.ok) {
-                                // Hapus elemen dari DOM jika berhasil
-                                const item = document.getElementById(accordionId);
-                                if (item) {
-                                    item.remove();
-                                }
-                                Swal.fire(
-                                    'Dihapus!',
-                                    'Data berhasil dihapus.',
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Gagal!',
-                                    'Terjadi kesalahan saat menghapus data.',
-                                    'error'
-                                );
+    console.log('Menghapus data support dengan ID:', supportId);
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: 'Data ini akan dihapus!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (supportId) {
+                console.log('Menghapus data support dengan ID:', supportId);
+                // Jika supportId ada, kirim permintaan ke server
+                fetch(`/delete-support/${supportId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            // Hapus elemen dari DOM jika berhasil
+                            const item = document.getElementById(accordionId);
+                            if (item) {
+                                item.remove();
                             }
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
+                            Swal.fire(
+                                'Dihapus!',
+                                'Data berhasil dihapus.',
+                                'success'
+                            ).then(() => {
+                                location.reload(); // Reload halaman hanya jika supportId ada
+                            });
+                        } else {
                             Swal.fire(
                                 'Gagal!',
                                 'Terjadi kesalahan saat menghapus data.',
                                 'error'
                             );
-                        });
-                } else {
-                    // Jika supportId tidak ada, cukup hapus elemen dari DOM
-                    const item = document.getElementById(accordionId);
-                    if (item) {
-                        item.remove();
-                    }
-                    Swal.fire(
-                        'Dihapus!',
-                        'Data berhasil dihapus.',
-                        'success'
-                    ).then(() => {
-                        location.reload();
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Gagal!',
+                            'Terjadi kesalahan saat menghapus data.',
+                            'error'
+                        );
                     });
+            } else {
+                // Jika supportId tidak ada, cukup hapus elemen dari DOM
+                const item = document.getElementById(accordionId);
+                if (item) {
+                    item.remove();
                 }
+                Swal.fire(
+                    'Dihapus!',
+                    'Data berhasil dihapus.',
+                    'success'
+                );
+                // Jangan reload halaman jika supportId == null
             }
-        });
+        }
+    });
 }
+
 
 </script>
 
@@ -1606,84 +1585,83 @@ function generateUUID() {
 
     // Fungsi untuk menghapus item accordion
     function hapusCatatan(accordionId) {
-        const supervisorNotes = @json($supervisorNotes); // Data dari backend
+    const supervisorNotes = @json($supervisorNotes); // Data dari backend
 
+    console.log(supervisorNotes);
 
-         console.log(supervisorNotes);
+    const item = document.getElementById(accordionId);
 
-         const item = document.getElementById(accordionId);
+    const catatanId = item ? item.getAttribute('data-catatan-id') : null;
 
-         const catatanId = item ? item.getAttribute('data-catatan-id') : null;
-
-        console.log('Menghapus data catatan dengan ID:', catatanId);
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: 'Data ini akan dihapus!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (catatanId) {
-                    console.log('Menghapus data catatan dengan ID:', catatanId);
-                    // Jika catatanId ada, kirim permintaan ke server
-                    fetch(`/delete/catatan-pengawas/${catatanId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        },
-                    })
-                        .then((response) => {
-                            if (response.ok) {
-                                // Hapus elemen dari DOM jika berhasil
-                                const item = document.getElementById(accordionId);
-                                if (item) {
-                                    item.remove();
-                                }
-                                Swal.fire(
-                                    'Dihapus!',
-                                    'Data berhasil dihapus.',
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Gagal!',
-                                    'Terjadi kesalahan saat menghapus data.',
-                                    'error'
-                                );
+    console.log('Menghapus data catatan dengan ID:', catatanId);
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: 'Data ini akan dihapus!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (catatanId) {
+                console.log('Menghapus data catatan dengan ID:', catatanId);
+                // Jika catatanId ada, kirim permintaan ke server
+                fetch(`/delete/catatan-pengawas/${catatanId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            // Hapus elemen dari DOM jika berhasil
+                            const item = document.getElementById(accordionId);
+                            if (item) {
+                                item.remove();
                             }
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
+                            Swal.fire(
+                                'Dihapus!',
+                                'Data berhasil dihapus.',
+                                'success'
+                            ).then(() => {
+                                location.reload(); // Reload hanya jika catatanId ada
+                            });
+                        } else {
                             Swal.fire(
                                 'Gagal!',
                                 'Terjadi kesalahan saat menghapus data.',
                                 'error'
                             );
-                        });
-                } else {
-                    // Jika catatanId tidak ada, cukup hapus elemen dari DOM
-                    const item = document.getElementById(accordionId);
-                    if (item) {
-                        item.remove();
-                    }
-                    Swal.fire(
-                        'Dihapus!',
-                        'Data berhasil dihapus.',
-                        'success'
-                    ).then(() => {
-                        location.reload();
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Gagal!',
+                            'Terjadi kesalahan saat menghapus data.',
+                            'error'
+                        );
                     });
+            } else {
+                // Jika catatanId tidak ada, cukup hapus elemen dari DOM
+                const item = document.getElementById(accordionId);
+                if (item) {
+                    item.remove();
                 }
+                Swal.fire(
+                    'Dihapus!',
+                    'Data berhasil dihapus.',
+                    'success'
+                );
+                // Jangan reload halaman jika catatanId == null
             }
-        });
-    }
+        }
+    });
+}
+
 </script>
 
 

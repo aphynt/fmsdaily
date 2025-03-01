@@ -398,7 +398,7 @@ class FormPengawasNewController extends Controller
                             'hm_akhir' => $hmAkhir,
                             'hm_total' => $hmTotal,
                             'hm_cash' => $value['hm_cash'] ?? null,
-                            'keterangan' => $value['keterangan'] ?? null,
+                            'keterangan' => ($value['keterangan'] == 'null' ? null : $value['keterangan']) ?? null,
                             'is_draft' => $typeDraft,
                         ]
                     );

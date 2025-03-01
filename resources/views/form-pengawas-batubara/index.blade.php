@@ -370,16 +370,16 @@
         const loadingPointAccordions = document.querySelectorAll('#accordionLoading .accordion-item');
 
 
-        loadingPointAccordions.forEach((accordion, index) => {
-            let uuid = accordion.querySelector(`input[name="loading_point[${index}][uuidLoading]"]`)?.value || null;
-            const subcont = accordion.querySelector(`input[name="loading_point[${index}][subcontLoading]"]`)?.value || null;
-            const area = accordion.querySelector(`input[name="loading_point[${index}][areaLoading]"]`)?.value || null;
-            const pengawas = accordion.querySelector(`input[name="loading_point[${index}][pengawasLoading]"]`)?.value || null;
-            const fleet = accordion.querySelector(`input[name="loading_point[${index}][fleetLoading]"]`)?.value || null;
-            const jumlahDT = accordion.querySelector(`input[name="loading_point[${index}][jumlahDTLoading]"]`)?.value || null;
-            const seamBB = accordion.querySelector(`input[name="loading_point[${index}][seamBBLoading]"]`)?.value || null;
-            const jarak = accordion.querySelector(`input[name="loading_point[${index}][jarakLoading]"]`)?.value || null;
-            const keterangan = accordion.querySelector(`input[name="loading_point[${index}][keteranganLoading]"]`)?.value || null;
+        loadingPointAccordions.forEach((accordion) => {
+            let uuid = accordion.querySelector(`input[name*="uuidLoading"]`)?.value || null;
+            const subcont = accordion.querySelector(`input[name*="subcontLoading"]`)?.value || null;
+            const area = accordion.querySelector(`input[name*="areaLoading"]`)?.value || null;
+            const pengawas = accordion.querySelector(`input[name*="pengawasLoading"]`)?.value || null;
+            const fleet = accordion.querySelector(`input[name*="fleetLoading"]`)?.value || null;
+            const jumlahDT = accordion.querySelector(`input[name*="jumlahDTLoading"]`)?.value || null;
+            const seamBB = accordion.querySelector(`input[name*="seamBBLoading"]`)?.value || null;
+            const jarak = accordion.querySelector(`input[name*="jarakLoading"]`)?.value || null;
+            const keterangan = accordion.querySelector(`input[name*="keteranganLoading"]`)?.value || null;
 
             loadingPointData.push({
                 uuid:uuid,
@@ -403,13 +403,13 @@
         const unitSupportAccordions = document.querySelectorAll('#accordionSupport .accordion-item');
 
 
-        unitSupportAccordions.forEach((accordion, index) => {
-            let uuid = accordion.querySelector(`input[name="unit_support[${index}][uuidSupport]"]`)?.value || null;
-            const jenis = accordion.querySelector(`input[name="unit_support[${index}][jenisSupport]"]`)?.value || null;
-            const subcont = accordion.querySelector(`input[name="unit_support[${index}][subcontSupport]"]`)?.value || null;
-            const noUnit = accordion.querySelector(`input[name="unit_support[${index}][noUnitSupport]"]`)?.value || null;
-            const area = accordion.querySelector(`input[name="unit_support[${index}][areaSupport]"]`)?.value || null;
-            const keterangan = accordion.querySelector(`input[name="unit_support[${index}][keteranganSupport]"]`)?.value || null;
+        unitSupportAccordions.forEach((accordion) => {
+            let uuid = accordion.querySelector(`input[name*="[uuidSupport]"]`)?.value || null;
+            const jenis = accordion.querySelector(`input[name*="[jenisSupport]"]`)?.value || null;
+            const subcont = accordion.querySelector(`input[name*="[subcontSupport]"]`)?.value || null;
+            const noUnit = accordion.querySelector(`input[name*="[noUnitSupport]"]`)?.value || null;
+            const area = accordion.querySelector(`input[name*="[areaSupport]"]`)?.value || null;
+            const keterangan = accordion.querySelector(`input[name*="[keteranganSupport]"]`)?.value || null;
 
             unitSupportData.push({
                 uuid:uuid,
@@ -417,7 +417,7 @@
                 subcont: subcont,
                 nomor_unit: noUnit,
                 area: area,
-                keterangan,
+                keterangan: keterangan,
             });
         });
 
@@ -431,9 +431,9 @@
         const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
 
         catatanAccordions.forEach((accordion) => {
-        const start = accordion.querySelector(`input[name$="[start_catatan]"]`)?.value || null;
-        const end = accordion.querySelector(`input[name$="[end_catatan]"]`)?.value || null;
-        const description = accordion.querySelector(`input[name$="[description_catatan]"]`)?.value || null;
+        const start = accordion.querySelector(`input[name*="[start_catatan]"]`)?.value || null;
+        const end = accordion.querySelector(`input[name*="[end_catatan]"]`)?.value || null;
+        const description = accordion.querySelector(`input[name*="[description_catatan]"]`)?.value || null;
 
             catatanData.push({
                 start_catatan: start,
@@ -530,16 +530,16 @@
 
         //console.log(loadingPointAccordions);
 
-        loadingPointAccordions.forEach((accordion, index) => {
+        loadingPointAccordions.forEach((accordion) => {
 
-            const subcont = accordion.querySelector(`input[name="loading_point[${index}][subcontLoading]"]`)?.value || null;
-            const area = accordion.querySelector(`input[name="loading_point[${index}][areaLoading]"]`)?.value || null;
-            const pengawas = accordion.querySelector(`input[name="loading_point[${index}][pengawasLoading]"]`)?.value || null;
-            const fleet = accordion.querySelector(`input[name="loading_point[${index}][fleetLoading]"]`)?.value || null;
-            const jumlahDT = accordion.querySelector(`input[name="loading_point[${index}][jumlahDTLoading]"]`)?.value || null;
-            const seamBB = accordion.querySelector(`input[name="loading_point[${index}][seamBBLoading]"]`)?.value || null;
-            const jarak = accordion.querySelector(`input[name="loading_point[${index}][jarakLoading]"]`)?.value || null;
-            const keterangan = accordion.querySelector(`input[name="loading_point[${index}][keteranganLoading]"]`)?.value || null;
+            const subcont = accordion.querySelector(`input[name*="[subcontLoading]"]`)?.value || null;
+            const area = accordion.querySelector(`input[name*="[areaLoading]"]`)?.value || null;
+            const pengawas = accordion.querySelector(`input[name*="[pengawasLoading]"]`)?.value || null;
+            const fleet = accordion.querySelector(`input[name*="[fleetLoading]"]`)?.value || null;
+            const jumlahDT = accordion.querySelector(`input[name*="[jumlahDTLoading]"]`)?.value || null;
+            const seamBB = accordion.querySelector(`input[name*="[seamBBLoading]"]`)?.value || null;
+            const jarak = accordion.querySelector(`input[name*="[jarakLoading]"]`)?.value || null;
+            const keterangan = accordion.querySelector(`input[name*="[keteranganLoading]"]`)?.value || null;
 
             loadingPointData.push({
                 uuid:uuid,
@@ -563,11 +563,11 @@
 
         //console.log(unitSupportAccordions);
 
-        unitSupportAccordions.forEach((accordion, index) => {
-            const unit = accordion.querySelector(`input[name="unit_support[${index}][unitSupport]"]`)?.value || null;
+        unitSupportAccordions.forEach((accordion) => {
+            const unit = accordion.querySelector(`input[name*="[unitSupport]"]`)?.value || null;
 
             //sesuaikan lagi untuk menyimpan nama dan nik, karena format nya "0009JKM|Ferdinand L."
-            let nama = accordion.querySelector(`input[name="unit_support[${index}][namaSupport]"]`)?.value || null;
+            let nama = accordion.querySelector(`input[name*="[namaSupport]"]`)?.value || null;
             let nik = null;
 
             if (nama && nama.includes('|')) {
@@ -576,11 +576,11 @@
 
 
 
-            const jenis = accordion.querySelector(`input[name="unit_support[${index}][jenisSupport]"]`)?.value || null;
-            const subcont = accordion.querySelector(`input[name="unit_support[${index}][subcontSupport]"]`)?.value || null;
-            const noUnit = accordion.querySelector(`input[name="unit_support[${index}][noUnitSupport]"]`)?.value || null;
-            const area = accordion.querySelector(`input[name="unit_support[${index}][areaSupport]"]`)?.value || null;
-            const keterangan = accordion.querySelector(`input[name="unit_support[${index}][keteranganSupport]"]`)?.value || null;
+            const jenis = accordion.querySelector(`input[name*="[jenisSupport]"]`)?.value || null;
+            const subcont = accordion.querySelector(`input[name*="[subcontSupport]"]`)?.value || null;
+            const noUnit = accordion.querySelector(`input[name*="[noUnitSupport]"]`)?.value || null;
+            const area = accordion.querySelector(`input[name*="[areaSupport]"]`)?.value || null;
+            const keterangan = accordion.querySelector(`input[name*="[keteranganSupport]"]`)?.value || null;
 
 
             unitSupportData.push({
@@ -597,10 +597,10 @@
         // Catatan Pengawas
         const catatanData = [];
         const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
-        catatanAccordions.forEach((accordion, index) => {
-            const start = accordion.querySelector(`input[name="catatan[${index}][start_catatan]"]`)?.value || null;
-            const end = accordion.querySelector(`input[name="catatan[${index}][end_catatan]"]`)?.value || null;
-            const description = accordion.querySelector(`input[name="catatan[${index}][description_catatan]"]`)?.value || null;
+        catatanAccordions.forEach((accordion) => {
+            const start = accordion.querySelector(`input[name*="[start_catatan]"]`)?.value || null;
+            const end = accordion.querySelector(`input[name*="[end_catatan]"]`)?.value || null;
+            const description = accordion.querySelector(`input[name*="[description_catatan]"]`)?.value || null;
 
             catatanData.push({
                 start_catatan: start,
@@ -610,9 +610,9 @@
         }); const catatanAccordions = document.querySelectorAll('#accordionCatatan .accordion-item');
 
             catatanAccordions.forEach((accordion) => {
-            const start = accordion.querySelector(`input[name$="[start_catatan]"]`)?.value || null;
-            const end = accordion.querySelector(`input[name$="[end_catatan]"]`)?.value || null;
-            const description = accordion.querySelector(`input[name$="[description_catatan]"]`)?.value || null;
+            const start = accordion.querySelector(`input[name*="[start_catatan]"]`)?.value || null;
+            const end = accordion.querySelector(`input[name*="[end_catatan]"]`)?.value || null;
+            const description = accordion.querySelector(`input[name*="[description_catatan]"]`)?.value || null;
 
             catatanData.push({
                 start_catatan: start,
@@ -874,14 +874,11 @@ function generateUUID() {
 
         // Fungsi untuk menghapus item support
         function removeLoading(accordionId) {
-    //get data from controller with compact: $loadingPoints
             const loadingPoints = @json($loadingPoints); // Data dari backend
-
 
             console.log(loadingPoints);
 
             const item = document.getElementById(accordionId);
-
             const supportId = item ? item.getAttribute('data-loading-id') : null;
 
             console.log('Menghapus data support dengan ID:', supportId);
@@ -898,7 +895,7 @@ function generateUUID() {
                 if (result.isConfirmed) {
                     if (supportId) {
                         console.log('Menghapus data support dengan ID:', supportId);
-                        // Jika supportId ada, kirim permintaan ke server
+                        // Jika supportId ada, kirim permintaan ke server untuk menghapus data
                         fetch(`/batu-bara/delete-loading-point/${supportId}`, {
                             method: 'DELETE',
                             headers: {
@@ -918,7 +915,7 @@ function generateUUID() {
                                         'Data berhasil dihapus.',
                                         'success'
                                     ).then(() => {
-                                        location.reload();
+                                        location.reload(); // Reload halaman jika data dihapus dari server
                                     });
                                 } else {
                                     Swal.fire(
@@ -937,7 +934,7 @@ function generateUUID() {
                                 );
                             });
                     } else {
-                        // Jika supportId tidak ada, cukup hapus elemen dari DOM
+                        // Jika supportId tidak ada, hanya hapus elemen dari DOM
                         const item = document.getElementById(accordionId);
                         if (item) {
                             item.remove();
@@ -947,12 +944,13 @@ function generateUUID() {
                             'Data berhasil dihapus.',
                             'success'
                         ).then(() => {
-                            location.reload();
+                            // Tidak reload halaman jika supportId tidak ada
                         });
                     }
                 }
             });
-    }
+        }
+
 
 </script>
 
@@ -1124,17 +1122,15 @@ function generateUUID() {
 
         // Fungsi untuk menghapus item support
         function removeSupport(accordionId) {
-    //get data from controller with compact: $unitSupports
             const unitSupports = @json($unitSupports); // Data dari backend
-
 
             console.log(unitSupports);
 
             const item = document.getElementById(accordionId);
-
             const supportId = item ? item.getAttribute('data-loading-id') : null;
 
             console.log('Menghapus data support dengan ID:', supportId);
+
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: 'Data ini akan dihapus!',
@@ -1148,7 +1144,7 @@ function generateUUID() {
                 if (result.isConfirmed) {
                     if (supportId) {
                         console.log('Menghapus data support dengan ID:', supportId);
-                        // Jika supportId ada, kirim permintaan ke server
+                        // Jika supportId ada, kirim permintaan ke server untuk menghapus data
                         fetch(`/batu-bara/delete-support/${supportId}`, {
                             method: 'DELETE',
                             headers: {
@@ -1168,7 +1164,7 @@ function generateUUID() {
                                         'Data berhasil dihapus.',
                                         'success'
                                     ).then(() => {
-                                        location.reload();
+                                        location.reload(); // Reload halaman setelah penghapusan berhasil
                                     });
                                 } else {
                                     Swal.fire(
@@ -1187,7 +1183,7 @@ function generateUUID() {
                                 );
                             });
                     } else {
-                        // Jika supportId tidak ada, cukup hapus elemen dari DOM
+                        // Jika supportId tidak ada, hanya hapus elemen dari DOM
                         const item = document.getElementById(accordionId);
                         if (item) {
                             item.remove();
@@ -1197,12 +1193,13 @@ function generateUUID() {
                             'Data berhasil dihapus.',
                             'success'
                         ).then(() => {
-                            location.reload();
+                            // Jangan reload halaman jika supportId tidak ada
                         });
                     }
                 }
             });
-    }
+        }
+
 
 </script>
 
@@ -1359,14 +1356,13 @@ function generateUUID() {
     function hapusCatatan(accordionId) {
         const supervisorNotes = @json($supervisorNotes); // Data dari backend
 
+        console.log(supervisorNotes);
 
-         console.log(supervisorNotes);
-
-         const item = document.getElementById(accordionId);
-
-         const catatanId = item ? item.getAttribute('data-catatan-id') : null;
+        const item = document.getElementById(accordionId);
+        const catatanId = item ? item.getAttribute('data-catatan-id') : null;
 
         console.log('Menghapus data catatan dengan ID:', catatanId);
+
         Swal.fire({
             title: 'Apakah Anda yakin?',
             text: 'Data ini akan dihapus!',
@@ -1380,7 +1376,7 @@ function generateUUID() {
             if (result.isConfirmed) {
                 if (catatanId) {
                     console.log('Menghapus data catatan dengan ID:', catatanId);
-                    // Jika catatanId ada, kirim permintaan ke server
+                    // Jika catatanId ada, kirim permintaan ke server untuk menghapus data
                     fetch(`/batu-bara/delete/catatan-pengawas/${catatanId}`, {
                         method: 'DELETE',
                         headers: {
@@ -1400,7 +1396,7 @@ function generateUUID() {
                                     'Data berhasil dihapus.',
                                     'success'
                                 ).then(() => {
-                                    location.reload();
+                                    location.reload();  // Reload halaman setelah penghapusan berhasil
                                 });
                             } else {
                                 Swal.fire(
@@ -1419,7 +1415,7 @@ function generateUUID() {
                             );
                         });
                 } else {
-                    // Jika catatanId tidak ada, cukup hapus elemen dari DOM
+                    // Jika catatanId tidak ada, hanya hapus elemen dari DOM
                     const item = document.getElementById(accordionId);
                     if (item) {
                         item.remove();
@@ -1429,12 +1425,13 @@ function generateUUID() {
                         'Data berhasil dihapus.',
                         'success'
                     ).then(() => {
-                        location.reload();
+                        // Jangan reload halaman jika catatanId tidak ada
                     });
                 }
             }
         });
     }
+
 </script>
 
 

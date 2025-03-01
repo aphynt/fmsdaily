@@ -110,7 +110,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas-new/preview/{uuid}', [FormPengawasNewController::class, 'preview'])->name('form-pengawas-new.preview');
     Route::post('/save-draft', [FormPengawasNewController::class, 'saveAsDraft'])->name('daily-report.saveAsDraft');
     Route::get('/form-pengawas-new/get-draft/{uuid}', [FormPengawasNewController::class, 'getDraft'])->name('get-draft');
-    Route::post('/form-pengawas-new/post', [FormPengawasNewController::class, 'post'])->name('form-pengawas-new.post');
+    Route::get('/form-pengawas-new/post', [FormPengawasNewController::class, 'post'])->name('form-pengawas-new.post');
     Route::get('/form-pengawas-new/download/pdf/{uuid}', [FormPengawasNewController::class, 'pdf'])->name('form-pengawas-new.pdf');
     Route::get('/form-pengawas-new/download/{uuid}', [FormPengawasNewController::class, 'download'])->name('form-pengawas-new.download');
     Route::get('/form-pengawas-new/verified/all/{uuid}', [FormPengawasNewController::class, 'verifiedAll'])->name('form-pengawas-new.verified.all');

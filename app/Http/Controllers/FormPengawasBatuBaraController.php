@@ -1066,7 +1066,7 @@ class FormPengawasBatuBaraController extends Controller
                             'subcont' => $value['subcont'] ?? null,
                             'nomor_unit' => $value['nomor_unit'] ?? null,
                             'area' => $value['area'] ?? null,
-                            'keterangan' => $value['keterangan'] ?? null,
+                            'keterangan' => ($value['keterangan'] == 'null' ? null : $value['keterangan']) ?? null,
                             'is_draft' => $typeDraft,
                         ]
                     );
