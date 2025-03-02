@@ -244,14 +244,20 @@
                                 <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->temuan ? $data['report']->temuan : "-" }}</textarea>
                             </div>
                             <h4>Foto Temuan</h4>
-
                             <div class="row">
-                                @foreach ($data['imageTemuan'] as $imageTemuan)
-                                    <div class="{{ $gridClass }} mb-3">
-                                        <img src="{{ asset('storage') }}/{{ $imageTemuan->path }}" alt="Photo Temuan" class="img-thumbnail custom-img">
+                                @if (count($data['imageTemuan']) > 0)
+                                    @foreach ($data['imageTemuan'] as $imageTemuan)
+                                        <div class="{{ $gridClass }} mb-3">
+                                            <img src="{{ asset('storage') }}/{{ $imageTemuan->path }}" alt="Photo Temuan" class="img-thumbnail custom-img">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="col-12">
+                                        <p>-</p>
                                     </div>
-                                @endforeach
+                                @endif
                             </div>
+
                             <div class="mb-3">
                                 <label>Risiko</label>
                                 <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->risiko ? $data['report']->risiko : "-" }}</textarea>
@@ -265,15 +271,19 @@
                                 <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->tindak_lanjut ? $data['report']->tindak_lanjut : "-" }}</textarea>
                             </div>
                             <h4>Foto Tindak Lanjut</h4>
-
                             <div class="row">
-                                @foreach ($data['imageTindakLanjut'] as $imageTindakLanjut)
-                                    <div class="{{ $gridClass }} mb-3">
-                                        <img src="{{ asset('storage') }}/{{ $imageTindakLanjut->path }}" alt="Photo Kejadian" class="img-thumbnail custom-img">
+                                @if (count($data['imageTindakLanjut']) > 0)
+                                    @foreach ($data['imageTindakLanjut'] as $imageTindakLanjut)
+                                        <div class="{{ $gridClass }} mb-3">
+                                            <img src="{{ asset('storage') }}/{{ $imageTindakLanjut->path }}" alt="Photo Kejadian" class="img-thumbnail custom-img">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="col-12">
+                                        <p>-</p>
                                     </div>
-                                @endforeach
+                                @endif
                             </div>
-
 
                         </div>
                     </div>

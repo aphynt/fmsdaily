@@ -141,6 +141,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas-sap/show', [FormPengawasSAPController::class, 'show'])->name('form-pengawas-sap.show');
     Route::get('/form-pengawas-sap/delete/{uuid}', [FormPengawasSAPController::class, 'delete'])->name('form-pengawas-sap.delete');
     Route::get('/form-pengawas-sap/rincian/{uuid}', [FormPengawasSAPController::class, 'rincian'])->name('form-pengawas-sap.rincian');
+    Route::post('/form-pengawas-sap/update/{uuid}', [FormPengawasSAPController::class, 'update'])->name('form-pengawas-sap.update');
 
     //Front Loading
     Route::get('/front-loading/index', [FrontLoadingController::class, 'index'])->name('front-loading.index');

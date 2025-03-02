@@ -101,6 +101,10 @@
                                         <h5 class="fw-bold">Tindak Lanjut:</h5>
                                         <p class="ms-3">{{ $item->tindak_lanjut ? $item->tindak_lanjut : "-" }}</p>
                                     </div>
+                                    <div class="mb-4">
+                                        <h5 class="fw-bold">Finish:</h5>
+                                        <p class="ms-3">{{ $item->is_finish ? 'Selesai' : 'Belum' }}</p>
+                                    </div>
                                     <div class="mt-4">
                                         <h5 class="fw-bold">Aksi</h5>
                                         <div class="ms-3">
@@ -145,6 +149,7 @@
                                         <th>Temuan KTA/TTA</th>
                                         <th>Risiko</th>
                                         <th>Pengendalian</th>
+                                        <th>Finish</th>
                                         <th>Aksi</th>
                                     </tr>
 
@@ -162,6 +167,7 @@
                                         <td>{{ \Illuminate\Support\Str::limit($item->temuan, 20) }}</td>
                                         <td>{{ \Illuminate\Support\Str::limit($item->risiko, 20) }}</td>
                                         <td>{{ \Illuminate\Support\Str::limit($item->pengendalian, 20) }}</td>
+                                        <td>{{ $item->is_finish ? 'Selesai' : 'Belum' }}</td>
                                             <td>
                                                 <a href="{{ route('form-pengawas-sap.rincian', $item->uuid) }}"><span class="badge bg-success">Rincian</span></a>
                                                 @if (Auth::user()->role == 'ADMIN')

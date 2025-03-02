@@ -69,6 +69,7 @@ class FormPengawasSAPController extends Controller
                 'tindak_lanjut' => $request->tindakLanjut,
                 'risiko' => $request->risiko,
                 'pengendalian' => $request->pengendalian,
+                'is_finish' => false,
             ]);
 
 
@@ -80,12 +81,42 @@ class FormPengawasSAPController extends Controller
                 $this->handleFileUpload($request->file('file_tindakLanjut'), $report->uuid, 'sap/file_tindakLanjut', 'TINDAK LANJUT');
             }
 
-            return response()->json(['message' => 'Report berhasil disimpan!']);
+            return response()->json(['message' => 'Report berhasil diposting!']);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Report gagal disimpan'. $th->getMessage()], 500);
+            return response()->json(['message' => 'Report gagal diposting'. $th->getMessage()], 500);
         }
 
 
+    }
+
+    public function update(Request $request, $uuid)
+    {
+        // return $request->all();
+        try {
+            $report = SAPReport::where('uuid', $uuid)->first();
+
+            $report->update([
+
+                'temuan' => $request->temuan,
+                'tindak_lanjut' => $request->tindakLanjut,
+                'risiko' => $request->risiko,
+                'pengendalian' => $request->pengendalian,
+                'is_finish' => true,  // Jika ingin tetap false saat update
+            ]);
+
+            // Cek jika ada file yang diupload dan menangani upload file
+            if ($request->hasFile('file_temuan')) {
+                $this->handleFileUpload($request->file('file_temuan'), $report->uuid, 'sap/file_temuan', 'TEMUAN');
+            }
+
+            if ($request->hasFile('file_tindakLanjut')) {
+                $this->handleFileUpload($request->file('file_tindakLanjut'), $report->uuid, 'sap/file_tindakLanjut', 'TINDAK LANJUT');
+            }
+
+            return response()->json(['message' => 'Report berhasil diupdate!']);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Report gagal diupdate'. $th->getMessage()], 500);
+        }
     }
 
     public function rincian($uuid)
@@ -106,6 +137,7 @@ class FormPengawasSAPController extends Controller
             'sr.risiko',
             'sr.tindak_lanjut',
             'sr.pengendalian',
+            'sr.is_finish'
         )
         ->where('sr.statusenabled', true)
         ->where('uuid', $uuid)->first();
@@ -128,7 +160,11 @@ class FormPengawasSAPController extends Controller
 
         // dd($data);
 
-        return view('form-sap.show', compact('data'));
+        if($report->is_finish == true){
+            return view('form-sap.show', compact('data'));
+        }else{
+            return view('form-sap.update', compact('data'));
+        }
     }
 
     public function delete($uuid)
@@ -186,6 +222,7 @@ class FormPengawasSAPController extends Controller
             'sr.risiko',
             'sr.pengendalian',
             'sr.tindak_lanjut',
+            'sr.is_finish',
         )
         ->whereBetween(DB::raw('CONVERT(varchar, sr.created_at, 23)'), [$startTimeFormatted, $endTimeFormatted])
         ->where('sr.statusenabled', true);

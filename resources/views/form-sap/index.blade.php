@@ -77,7 +77,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Shift:</label>
                                 <select class="form-select" id="exampleFormControlSelect2" name="shift" required>
-                                    <option selected disabled>Pilih shift</option>
+                                    {{-- <option selected disabled>Pilih shift</option> --}}
                                     @foreach ($shift as $sh)
                                     <option value="{{ $sh->id }}">{{ $sh->keterangan }}</option>
                                     @endforeach
@@ -86,7 +86,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Area:</label>
                                 <select class="form-select" id="exampleFormControlSelect2" name="area" required>
-                                    <option selected disabled>Pilih area</option>
+                                    {{-- <option selected disabled>Pilih area</option> --}}
                                     @foreach ($area as $ar)
                                     <option value="{{ $ar->id }}">{{ $ar->keterangan }}</option>
                                     @endforeach
@@ -109,13 +109,13 @@
                             <hr>
                             <div class="mb-3">
                                 <label class="form-label">Risiko:</label>
-                                <textarea class="form-control" placeholder="Masukkan Risiko" name="risiko" required></textarea>
+                                <textarea class="form-control" placeholder="Masukkan Risiko" name="risiko"></textarea>
                             </div>
 
                             <!-- Pengendalian -->
                             <div class="mb-3">
                                 <label class="form-label">Pengendalian:</label>
-                                <textarea class="form-control" placeholder="Masukkan Pengendalian" name="pengendalian" required></textarea>
+                                <textarea class="form-control" placeholder="Masukkan Pengendalian" name="pengendalian"></textarea>
                             </div>
                             <hr>
                             <div class="mb-3">
@@ -135,7 +135,7 @@
 
                             <!-- Submit Button -->
                             <div class="text-center m-t-20">
-                                <button type="submit" class="badge bg-success" style="font-size:14px" id="submitSAP">Submit</button>
+                                <button type="submit" class="badge bg-success" style="font-size:20px" id="submitSAP">Posting</button>
                             </div>
                         </form>
                     </div>

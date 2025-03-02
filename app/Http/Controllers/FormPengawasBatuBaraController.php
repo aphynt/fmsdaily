@@ -953,6 +953,8 @@ class FormPengawasBatuBaraController extends Controller
     public function saveAsDraft(Request $request)
     {
 
+        // return $request->all();
+
         try {
             return DB::transaction(function () use ($request) {
                 $typeDraft = true;
@@ -1040,8 +1042,8 @@ class FormPengawasBatuBaraController extends Controller
                             'pit' => $value['pit'] ?? null,
                             'pengawas' => $value['pengawas'] ?? null,
                             'fleet_ex' => $value['fleet_ex'] ?? null,
-                            'jumlah_dt' => $value['jumlah_dt'] ?? null,
-                            'seam_bb' => $value['seam_bb'] ?? null,
+                            'jumlah_dt' => ($value['jumlah_dt'] == 'null' ? null : $value['jumlah_dt']) ?? null,
+                            'seam_bb' => ($value['seam_bb'] == 'null' ? null : $value['seam_bb']) ?? null,
                             'jarak' => $value['jarak'] ?? null,
                             'keterangan' => $value['keterangan'] ?? null,
                             'is_draft' => $typeDraft,
