@@ -364,13 +364,13 @@
                                     <div class="d-flex wizard justify-content-end flex-wrap gap-2 mt-5">
                                         <div class="d-flex">
                                             <div id="save_as_draft_id" class="save-as-draft me-2">
-                                                <a href="javascript:void(0);" onclick="saveAsDraft('draft')"><span class="badge bg-warning" style="font-size:14px"><i class="fa-solid fa-save"></i> Simpan Draft</span></a>
+                                                <a href="javascript:void(0);" onclick="saveAsDraft('draft')"><span class="badge bg-warning" style="font-size:12px"><i class="fa-solid fa-save"></i> Simpan Draft</span></a>
                                             </div>
                                             <div class="previous me-2" id="kembaliButton">
-                                                <a href="javascript:void(0);"><span class="badge bg-secondary" style="font-size:14px"><i class="fa-solid fa-arrow-left"></i> Kembali</span></a>
+                                                <a href="javascript:void(0);"><span class="badge bg-secondary" style="font-size:12px"><i class="fa-solid fa-arrow-left"></i> Kembali</span></a>
                                             </div>
                                             <div class="next me-3" id="lanjutButton">
-                                                <a href="javascript:void(0);"><span class="badge bg-success" style="font-size:14px" >Lanjut <i class="fa-solid fa-arrow-right"></i></span></a>
+                                                <a href="javascript:void(0);"><span class="badge bg-success" style="font-size:12px" >Lanjut <i class="fa-solid fa-arrow-right"></i></span></a>
                                             </div>
                                         </div>
 

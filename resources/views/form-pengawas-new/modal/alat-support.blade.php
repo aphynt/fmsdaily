@@ -68,7 +68,7 @@
                     </div>
                     <div class="mb-3">
                         <label>HM Cash</label>
-                        <input type="text" id="hmCashSupport" class="form-control" name="hm_cash[]">
+                        <input type="number" id="hmCashSupport" class="form-control" name="hm_cash[]">
                     </div>
 
                     <div class="mb-3">
