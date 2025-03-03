@@ -71,7 +71,7 @@
                     <ul class="pc-submenu">
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-new.show') }}">Pengawas Produksi</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.show') }}">Pengawas Batu Bara</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.show') }}">Laporan SAP</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.show') }}">Laporan Inspeksi</a></li>
                     </ul>
                 </li>
                 @if(Auth::user()->role != 'ADMIN' && Auth::user()->role != 'MANAGER')
