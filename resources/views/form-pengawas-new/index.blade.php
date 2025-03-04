@@ -1243,7 +1243,7 @@ function generateUUID() {
         const total = document.getElementById('totalSupport').value || '';
         const keterangan = document.getElementById('keteranganSupport').value || '';
 
-        if ( !nama || !tanggal || !shift || !hmAwal || !hmAkhir) {
+        if ( !nama || !tanggal || !shift || !hmAwal || !hmAkhir || !hmCash) {
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal',
