@@ -57,7 +57,7 @@
                         @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING == 0)
                             <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="13px">
                         @endif
-                        <h5 class="fw-bold text-black mb-1">{{ $assignment->VHC_ID }}</h5>
+                        <p class="fw-bold text-black mb-1" style="font-size:13pt">{{ $assignment->VHC_ID }}</p>
                         <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ?: '______' }}</p>
                         <p class="mb-0 anymore text-black">{{ $assignment->NIK_FGR ?: '_____' }}</p>
                     </div>
