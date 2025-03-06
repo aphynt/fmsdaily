@@ -579,10 +579,14 @@
                             @endif
                         </td>
                         <td>
-                            {{ $data['daily']->verified_supervisor }}
-                            <br>
                             @if ($data['daily']->verified_supervisor != null)
+                                {!! $data['daily']->verified_supervisor !!}
+                                <br>
                                 {{ $data['daily']->nama_supervisor }}
+                            @elseif ($data['daily']->verified_superintendent != null)
+                                {!! $data['daily']->verified_superintendent !!}
+                                <br>
+                                {{ $data['daily']->nama_superintendent }}
                             @endif
                         </td>
                     </tr>

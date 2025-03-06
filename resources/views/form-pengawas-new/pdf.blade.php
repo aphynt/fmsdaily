@@ -564,10 +564,12 @@
                         <td>
                             @if ($data['daily']->verified_supervisor != null)
                                 <img src="data:image/png;base64, {!! $data['daily']->verified_supervisor !!}" style="max-width: 100px;">
-                            @endif
-                            <br>
-                            @if ($data['daily']->verified_supervisor != null)
+                                <br>
                                 {{ $data['daily']->nama_supervisor }}
+                            @elseif ($data['daily']->verified_superintendent != null)
+                                <img src="data:image/png;base64, {!! $data['daily']->verified_superintendent !!}" style="max-width: 100px;">
+                                <br>
+                                {{ $data['daily']->nama_superintendent }}
                             @endif
                         </td>
                     </tr>

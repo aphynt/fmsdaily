@@ -379,10 +379,15 @@
                                                         {{ $data['daily']->nama_foreman }}
                                                     @endif
                                                 </td>
-                                                <td style="padding-top: 5px;padding-bottom: 5px;">{!! $data['daily']->verified_supervisor !!}
-                                                    <br>
+                                                <td style="padding-top: 5px;padding-bottom: 5px;">
                                                     @if ($data['daily']->verified_supervisor != null)
+                                                        {!! $data['daily']->verified_supervisor !!}
+                                                        <br>
                                                         {{ $data['daily']->nama_supervisor }}
+                                                    @elseif ($data['daily']->verified_superintendent != null)
+                                                        {!! $data['daily']->verified_superintendent !!}
+                                                        <br>
+                                                        {{ $data['daily']->nama_superintendent }}
                                                     @endif
                                                 </td>
                                             </tr>

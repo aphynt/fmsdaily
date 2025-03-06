@@ -423,12 +423,15 @@
                             <td>
                                 @if ($koleksi['dailyReport']->verified_supervisor != null)
                                     <img src="data:image/png;base64, {!! $koleksi['dailyReport']->verified_supervisor !!}" style="max-width: 100px;">
-                                @endif
-                                <br>
-                                @if ($koleksi['dailyReport']->verified_supervisor != null)
+                                    <br>
                                     {{ $koleksi['dailyReport']->nama_supervisor }}
+                                @elseif ($koleksi['dailyReport']->verified_superintendent != null)
+                                    <img src="data:image/png;base64, {!! $koleksi['dailyReport']->verified_superintendent !!}" style="max-width: 100px;">
+                                    <br>
+                                    {{ $koleksi['dailyReport']->nama_superintendent }}
                                 @endif
                             </td>
+
                         </tr>
                     </tbody>
                     <thead>
