@@ -33,7 +33,7 @@ class BBUnitSupportController extends Controller
         ->leftJoin('BB_DAILY_REPORT as dr', 'us.daily_report_id', '=', 'dr.id')
         ->leftJoin('REF_SUBCONT as sc', 'us.subcont', '=', 'sc.id')
         ->leftJoin('REF_SUBCONT_UNIT as su', 'us.nomor_unit', '=', 'su.id')
-        ->leftJoin('REF_SUBCONT_JENIS_SUPPORT as js', 'su.jenis', '=', 'js.id')
+        ->leftJoin('REF_SUBCONT_JENIS_SUPPORT as js', 'us.jenis', '=', 'js.id')
         ->leftJoin('REF_AREA as ar', 'us.area', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
@@ -46,7 +46,7 @@ class BBUnitSupportController extends Controller
             'sh.keterangan as shift',
             'js.keterangan as jenis',
             'sc.keterangan as subcont',
-            'su.keterangan as nomor_unit',
+            'us.nomor_unit',
             'ar.keterangan as area',
             'dr.nik_foreman as nik_foreman',
             'gl.PERSONALNAME as nama_foreman',
