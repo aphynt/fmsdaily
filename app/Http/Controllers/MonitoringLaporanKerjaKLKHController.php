@@ -590,14 +590,16 @@ class MonitoringLaporanKerjaKLKHController extends Controller
                     ELSE NULL
                 END as roster_kerja
             "),
-            DB::raw("'Laporan Kerja' as jenis_laporan"),
-            DB::raw("'Laporan Kerja' as source_table")
+            DB::raw("'Laporan Kerja Produksi' as jenis_laporan"),
+            DB::raw("'Laporan Kerja Produksi' as source_table")
         )
         ->where('dr.statusenabled', true)
-        ->where('dr.is_draft', false)
+        // ->where('dr.is_draft', false)
         ->where('rs.tahun', DB::raw('YEAR(dr.created_at)'))
         ->where('rs.bulan', DB::raw('MONTH(dr.created_at)'))
         ->whereBetween(DB::raw('CONVERT(varchar, dr.tanggal_dasar, 120)'), [$startTimeFormatted, $endTimeFormatted]);
+
+        
 
         // dd($daily->get());
 
