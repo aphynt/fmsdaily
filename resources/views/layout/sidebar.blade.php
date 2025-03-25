@@ -37,7 +37,7 @@
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/dashboard.png" alt="DS"> </span><span class="pc-mtext">Dashboard</span> <span class="pc-arrow"><i
-                                data-feather="chevron-right"></i></span> <span class="pc-badge">2</span>
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">3</span>
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item pc-hasmenu"><a href="#!" class="pc-link">Produksi<span
@@ -56,6 +56,12 @@
                                 <li class="pc-item"><a class="pc-link" href="{{ route('bb.catatan-pengawas.index') }}">Catatan Pengawas</a></li>
                             </ul>
                         </li>
+                        <li class="pc-item pc-hasmenu"><a href="#!" class="pc-link">Kata Sandi<span
+                            class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="{{ route('laporan-kata-sandi.jamMonitor') }}">Jam Monitor</a></li>
+                    </ul>
+                </li>
                     </ul>
                 </li>
 
@@ -66,23 +72,25 @@
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="DS"> </span><span class="pc-mtext">Daftar Laporan</span> <span class="pc-arrow"><i
-                                data-feather="chevron-right"></i></span> <span class="pc-badge">3</span>
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">4</span>
                     </a>
                     <ul class="pc-submenu">
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-new.show') }}">Pengawas Produksi</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.show') }}">Pengawas Batu Bara</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.show') }}">Laporan Inspeksi</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('laporan-kata-sandi.show') }}">Laporan Kata Sandi</a></li>
                     </ul>
                 </li>
                 @if(Auth::user()->role != 'ADMIN' && Auth::user()->role != 'MANAGER')
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon">
                             <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="DS"> </span><span class="pc-mtext">Form Laporan Kerja</span> <span class="pc-arrow"><i
-                                    data-feather="chevron-right"></i></span> <span class="pc-badge">2</span>
+                                    data-feather="chevron-right"></i></span> <span class="pc-badge">3</span>
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-new.index') }}">Pengawas Produksi</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.index') }}">Pengawas Batu Bara</a></li>
+                            <li class="pc-item"><a class="pc-link" href="{{ route('laporan-kata-sandi.index') }}">Laporan Kata Sandi</a></li>
                             {{-- <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.index') }}">Laporan SAP</a></li> --}}
                         </ul>
                     </li>

@@ -20,6 +20,8 @@ use App\Http\Controllers\KLKHLoadingPointController;
 use App\Http\Controllers\KLKHLumpurController;
 use App\Http\Controllers\KLKHOGSController;
 use App\Http\Controllers\KLKHSimpangEmpatController;
+use App\Http\Controllers\LaporanKataSandi;
+use App\Http\Controllers\LaporanKataSandiController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\MonitoringLaporanKerjaKLKHController;
 use App\Http\Controllers\MonitoringPayloadController;
@@ -142,6 +144,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas-sap/delete/{uuid}', [FormPengawasSAPController::class, 'delete'])->name('form-pengawas-sap.delete');
     Route::get('/form-pengawas-sap/rincian/{uuid}', [FormPengawasSAPController::class, 'rincian'])->name('form-pengawas-sap.rincian');
     Route::post('/form-pengawas-sap/update/{uuid}', [FormPengawasSAPController::class, 'update'])->name('form-pengawas-sap.update');
+
+    //Laporan Kata Sandi
+    Route::get('/laporan-kata-sandi/index', [LaporanKataSandiController::class, 'index'])->name('laporan-kata-sandi.index');
+    Route::post('/laporan-kata-sandi/post', [LaporanKataSandiController::class, 'post'])->name('laporan-kata-sandi.post');
+    Route::get('/laporan-kata-sandi/show', [LaporanKataSandiController::class, 'show'])->name('laporan-kata-sandi.show');
+    Route::get('/laporan-kata-sandi/delete/{uuid}', [LaporanKataSandiController::class, 'delete'])->name('laporan-kata-sandi.delete');
+    Route::get('/laporan-kata-sandi/preview/{uuid}', [LaporanKataSandiController::class, 'preview'])->name('laporan-kata-sandi.preview');
+    Route::get('/laporan-kata-sandi/cetak/{uuid}', [LaporanKataSandiController::class, 'cetak'])->name('laporan-kata-sandi.cetak');
+    Route::get('/laporan-kata-sandi/pdf/{uuid}', [LaporanKataSandiController::class, 'pdf'])->name('laporan-kata-sandi.pdf');
+    Route::get('/laporan-kata-sandi/jamMonitor', [LaporanKataSandiController::class, 'jamMonitor'])->name('laporan-kata-sandi.jamMonitor');
 
     //Front Loading
     Route::get('/front-loading/index', [FrontLoadingController::class, 'index'])->name('front-loading.index');
