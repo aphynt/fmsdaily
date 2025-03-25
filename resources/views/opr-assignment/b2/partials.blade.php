@@ -46,16 +46,16 @@
                     <br>Status: {{ $assignment->STATUSDESCTRUCK }}">
                     <div class="text-center">
                         @if ($assignment->IS_SETTING == 0)
-                            <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="12px">
+                            <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="10px">
                         @endif
                         @if ($assignment->IS_LOGIN == 0)
-                            <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="12px">
+                            <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="10px">
                         @endif
                         @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING > 0)
-                            <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="12px">
+                            <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="10px">
                         @endif
                         @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING == 0)
-                            <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="12px">
+                            <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="10px">
                         @endif
                         <p class="fw-bold text-black mb-1" style="font-size:12pt">{{ $assignment->VHC_ID }}</p>
                         <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ?: '______' }}</p>
