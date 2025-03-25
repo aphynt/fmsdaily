@@ -2,16 +2,16 @@
     <div class="col">
         <div class="card border-0">
             @if ($assignments->first()->IS_SETTING_LOADR == 0)
-                <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px">
+                <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="10px">
             @endif
             @if ($assignments->first()->IS_LOGIN_LOADER == 0)
-                <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="15px">
+                <img src="{{ asset('oprAssignment/icon/belum-login.png') }}" width="10px">
             @endif
             @if ($assignments->first()->IS_LOGIN_LOADER > 0 && $assignments->first()->IS_SETTING_LOADR > 0)
-                <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="15px">
+                <img src="{{ asset('oprAssignment/icon/setting-sesuai.png') }}" width="10px">
             @endif
             @if ($assignments->first()->IS_LOGIN_LOADER > 0 && $assignments->first()->IS_SETTING_LOADR == 0)
-                <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="15px">
+                <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="10px">
             @endif
             <div class="text-center text-white"
                 @if ($assignments->first()->NIK_FINGER_LOADER_ORI == null)
