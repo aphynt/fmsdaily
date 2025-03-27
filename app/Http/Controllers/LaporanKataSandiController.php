@@ -20,7 +20,7 @@ class LaporanKataSandiController extends Controller
     public function index()
     {
         $shift = Shift::where('statusenabled', true)->get();
-        $unit = Unit::all();
+        $unit = Unit::select('VHC_ID')->where('VHC_ID', 'LIKE', 'HD%')->get();
 
         return view('laporan-kata-sandi.index', compact('shift', 'unit'));
     }
