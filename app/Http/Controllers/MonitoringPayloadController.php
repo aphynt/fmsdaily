@@ -46,10 +46,10 @@ class MonitoringPayloadController extends Controller
         $payload = Ritation::selectRaw('
             VHC_ID,
             CONVERT(DATE, OPR_REPORTTIME) AS report_date,
-            COUNT(CASE WHEN RIT_TONNAGE < 100 THEN 1 END) AS less_than_100,
-            COUNT(CASE WHEN RIT_TONNAGE BETWEEN 100 AND 115 THEN 1 END) AS between_100_and_115,
-            COUNT(CASE WHEN RIT_TONNAGE > 115 THEN 1 END) AS greater_than_115,
-            MAX(RIT_TONNAGE) AS max_payload
+            COUNT(CASE WHEN RIT_TONNAGE < 100 THEN 1 END) AS LESS_THAN_100,
+            COUNT(CASE WHEN RIT_TONNAGE BETWEEN 100 AND 115 THEN 1 END) AS BETWEEN_100_AND_115,
+            COUNT(CASE WHEN RIT_TONNAGE > 115 THEN 1 END) AS GREATHER_THAN_115,
+            MAX(RIT_TONNAGE) AS MAX_PAYLOAD
         ')
         ->whereBetween('OPR_REPORTTIME', [$startTimeFormatted, $endTimeFormatted]);
         if (!empty($request->unit)) {
@@ -69,10 +69,10 @@ class MonitoringPayloadController extends Controller
         ->select(
             'flt.VHC_ID',
             DB::raw('
-                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE < 100 THEN 1 ELSE 0 END), 0) AS less_than_100,
-                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE BETWEEN 100 AND 115 THEN 1 ELSE 0 END), 0) AS between_100_and_115,
-                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE > 115 THEN 1 ELSE 0 END), 0) AS greater_than_115,
-                COALESCE(MAX(prd.RIT_TONNAGE), 0) AS max_payload
+                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE < 100 THEN 1 ELSE 0 END), 0) AS LESS_THAN_100,
+                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE BETWEEN 100 AND 115 THEN 1 ELSE 0 END), 0) AS BETWEEN_100_AND_115,
+                COALESCE(SUM(CASE WHEN prd.RIT_TONNAGE > 115 THEN 1 ELSE 0 END), 0) AS GREATHER_THAN_115,
+                COALESCE(MAX(prd.RIT_TONNAGE), 0) AS MAX_PAYLOAD
             ')
         )
         ->groupBy('flt.VHC_ID')
@@ -91,6 +91,7 @@ class MonitoringPayloadController extends Controller
             'payload_2023' => $payload_2023,
             'unit' => $unit,
         ];
+        // dd($data);
 
         return view('monitoring-payload.index', compact('data'));
     }

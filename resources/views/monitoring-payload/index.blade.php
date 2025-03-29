@@ -25,34 +25,34 @@
 
 @php
 // Variabel untuk menghitung total di footer
-$total_less_than_100 = 0;
-$total_between_100_and_115 = 0;
-$total_greater_than_115 = 0;
-$total_max_payload = 0;
+$total_LESS_THAN_100 = 0;
+$total_BETWEEN_100_AND_115 = 0;
+$total_GREATHER_THAN_115 = 0;
+$total_MAX_PAYLOAD = 0;
 $count = 0;
 $sum_2 =  0;
 $count_a = 0;
 $count_b = 0;
 
-$total_less_than_100_khusus = 0;
-$total_between_100_and_115_khusus = 0;
-$total_greater_than_115_khusus = 0;
-$total_max_payload_khusus = 0;
+$total_LESS_THAN_100_khusus = 0;
+$total_BETWEEN_100_AND_115_khusus = 0;
+$total_GREATHER_THAN_115_khusus = 0;
+$total_MAX_PAYLOAD_khusus = 0;
 $count_khusus = 0;
 $sum_2_khusus =  0;
 $count_a_khusus = 0;
 $count_b_khusus = 0;
 
-$total_less_than_100_2023 = 0;
-$total_between_100_and_115_2023 = 0;
-$total_greater_than_115_2023 = 0;
-$total_max_payload_2023 = 0;
+$total_LESS_THAN_100_2023 = 0;
+$total_BETWEEN_100_AND_115_2023 = 0;
+$total_GREATHER_THAN_115_2023 = 0;
+$total_MAX_PAYLOAD_2023 = 0;
 $count_2023 = 0;
 $sum_2_2023 =  0;
 $count_a_2023 = 0;
 $count_b_2023 = 0;
 $total_ritasi_2023 = 0;
-$payload_average_2023 = 0;
+$PAYLOAD_AVERAGE_2023 = 0;
 $payload_max_2023 = 0;
 $grand_total_ritasi_2023 = 0;
 @endphp
@@ -113,27 +113,27 @@ $grand_total_ritasi_2023 = 0;
                                     @foreach ($data['payload'] as $py)
                                     @php
                                         $count++;
-                                        if ($py['greater_than_115'] > 0) {
+                                        if ($py['GREATHER_THAN_115'] > 0) {
                                             $count_a++;
                                         }
-                                        if ($py['max_payload'] > 0) {
+                                        if ($py['MAX_PAYLOAD'] > 0) {
                                             $count_b++;
                                         }
-                                        $sum_2 += $py['less_than_100'] + $py['between_100_and_115'] + $py['greater_than_115'];
+                                        $sum_2 += $py['LESS_THAN_100'] + $py['BETWEEN_100_AND_115'] + $py['GREATHER_THAN_115'];
 
                                         // Menambahkan nilai ke total
-                                        $total_less_than_100 += $py['less_than_100'];
-                                        $total_between_100_and_115 += $py['between_100_and_115'];
-                                        $total_greater_than_115 += $py['greater_than_115'];
-                                        $total_max_payload += $py['max_payload'];
+                                        $total_LESS_THAN_100 += $py['LESS_THAN_100'];
+                                        $total_BETWEEN_100_AND_115 += $py['BETWEEN_100_AND_115'];
+                                        $total_GREATHER_THAN_115 += $py['GREATHER_THAN_115'];
+                                        $total_MAX_PAYLOAD += $py['MAX_PAYLOAD'];
                                     @endphp
                                         <tr>
                                             <td>{{ $py['VHC_ID'] }}</td>
-                                            <td style="text-align: center">{{ round($py['less_than_100'], 1) }}</td>
-                                            <td style="text-align: center">{{ round($py['between_100_and_115'], 1) }}</td>
-                                            <td style="text-align: center">{{ round($py['greater_than_115'], 1) }}</td>
-                                            <td style="text-align: center">{{ round($py['greater_than_115'], 1) }}</td>
-                                            <td style="text-align: center">{{ round($py['max_payload'], 1) }}</td>
+                                            <td style="text-align: center">{{ round($py['LESS_THAN_100'], 1) }}</td>
+                                            <td style="text-align: center">{{ round($py['BETWEEN_100_AND_115'], 1) }}</td>
+                                            <td style="text-align: center">{{ round($py['GREATHER_THAN_115'], 1) }}</td>
+                                            <td style="text-align: center">{{ round($py['GREATHER_THAN_115'], 1) }}</td>
+                                            <td style="text-align: center">{{ round($py['MAX_PAYLOAD'], 1) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -141,11 +141,11 @@ $grand_total_ritasi_2023 = 0;
                                     {{-- @dd($sum_2) --}}
                                     <tr>
                                         <td>%</td>
-                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_less_than_100 / $sum_2, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_between_100_and_115 / $sum_2, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_greater_than_115 / $sum_2, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $count_a != 0 ? round($total_greater_than_115 / $count_a, 1) : 0 }}</td>
-                                        <td style="text-align: center">{{ $count_b != 0 ? round($total_max_payload / $count_b, 1) : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_LESS_THAN_100 / $sum_2, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_BETWEEN_100_AND_115 / $sum_2, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_GREATHER_THAN_115 / $sum_2, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $count_a != 0 ? round($total_GREATHER_THAN_115 / $count_a, 1) : 0 }}</td>
+                                        <td style="text-align: center">{{ $count_b != 0 ? round($total_MAX_PAYLOAD / $count_b, 1) : 0 }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -178,27 +178,27 @@ $grand_total_ritasi_2023 = 0;
                                     @foreach ($data['payload_khusus'] as $pk)
                                     @php
                                         $count_khusus++;
-                                        if ($pk->greater_than_115 > 0) {
+                                        if ($pk->GREATHER_THAN_115 > 0) {
                                             $count_a_khusus++;
                                         }
-                                        if ($pk->max_payload > 0) {
+                                        if ($pk->MAX_PAYLOAD > 0) {
                                             $count_b_khusus++;
                                         }
-                                        $sum_2_khusus += $pk->less_than_100 + $pk->between_100_and_115 + $pk->greater_than_115;
+                                        $sum_2_khusus += $pk->LESS_THAN_100 + $pk->BETWEEN_100_AND_115 + $pk->GREATHER_THAN_115;
 
                                         // Menambahkan nilai ke total
-                                        $total_less_than_100_khusus += $pk->less_than_100;
-                                        $total_between_100_and_115_khusus += $pk->between_100_and_115;
-                                        $total_greater_than_115_khusus += $pk->greater_than_115;
-                                        $total_max_payload_khusus += $pk->max_payload;
+                                        $total_LESS_THAN_100_khusus += $pk->LESS_THAN_100;
+                                        $total_BETWEEN_100_AND_115_khusus += $pk->BETWEEN_100_AND_115;
+                                        $total_GREATHER_THAN_115_khusus += $pk->GREATHER_THAN_115;
+                                        $total_MAX_PAYLOAD_khusus += $pk->MAX_PAYLOAD;
                                     @endphp
                                         <tr>
                                             <td>{{ $pk->VHC_ID }}</td>
-                                            <td style="text-align: center">{{ round($pk->less_than_100, 1) }}</td>
-                                            <td style="text-align: center">{{ round($pk->between_100_and_115, 1) }}</td>
-                                            <td style="text-align: center">{{ round($pk->greater_than_115, 1) }}</td>
-                                            <td style="text-align: center">{{ round($pk->greater_than_115, 1) }}</td>
-                                            <td style="text-align: center">{{ round($pk->max_payload, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->LESS_THAN_100, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->BETWEEN_100_AND_115, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->GREATHER_THAN_115, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->GREATHER_THAN_115, 1) }}</td>
+                                            <td style="text-align: center">{{ round($pk->MAX_PAYLOAD, 1) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -206,11 +206,11 @@ $grand_total_ritasi_2023 = 0;
                                     {{-- @dd($count_a_khusus) --}}
                                     <tr>
                                         <td>%</td>
-                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_less_than_100_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_between_100_and_115_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_greater_than_115_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $count_a_khusus != 0 ? round($total_greater_than_115_khusus / $count_a_khusus, 1) : 0 }}</td>
-                                        <td style="text-align: center">{{ $count_b_khusus != 0 ? round($total_max_payload_khusus / $count_b_khusus, 1) : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_LESS_THAN_100_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_BETWEEN_100_AND_115_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_khusus != 0 ? round($total_GREATHER_THAN_115_khusus / $sum_2_khusus, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $count_a_khusus != 0 ? round($total_GREATHER_THAN_115_khusus / $count_a_khusus, 1) : 0 }}</td>
+                                        <td style="text-align: center">{{ $count_b_khusus != 0 ? round($total_MAX_PAYLOAD_khusus / $count_b_khusus, 1) : 0 }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -244,44 +244,44 @@ $grand_total_ritasi_2023 = 0;
 
                                     @php
                                         $count_2023++;
-                                        if ($p2023->greater_than_115 > 0) {
+                                        if ($p2023->GREATHER_THAN_115 > 0) {
                                             $count_a_2023++;
                                         }
-                                        if ($p2023->max_payload > 0) {
+                                        if ($p2023->MAX_PAYLOAD > 0) {
                                             $count_b_2023++;
                                         }
-                                        $sum_2_2023 += $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
+                                        $sum_2_2023 += $p2023->LESS_THAN_100 + $p2023->BETWEEN_100_AND_115 + $p2023->GREATHER_THAN_115;
 
-                                        $total_ritasi_2023 = $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
-                                        $payload_average_2023 = $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
-                                        $payload_max_2023 = $p2023->less_than_100 + $p2023->between_100_and_115 + $p2023->greater_than_115;
+                                        $total_ritasi_2023 = $p2023->LESS_THAN_100 + $p2023->BETWEEN_100_AND_115 + $p2023->GREATHER_THAN_115;
+                                        $PAYLOAD_AVERAGE_2023 = $p2023->LESS_THAN_100 + $p2023->BETWEEN_100_AND_115 + $p2023->GREATHER_THAN_115;
+                                        $payload_max_2023 = $p2023->LESS_THAN_100 + $p2023->BETWEEN_100_AND_115 + $p2023->GREATHER_THAN_115;
 
                                         // Menambahkan nilai ke total
-                                        $total_less_than_100_2023 += $p2023->less_than_100;
-                                        $total_between_100_and_115_2023 += $p2023->between_100_and_115;
-                                        $total_greater_than_115_2023 += $p2023->greater_than_115;
+                                        $total_LESS_THAN_100_2023 += $p2023->LESS_THAN_100;
+                                        $total_BETWEEN_100_AND_115_2023 += $p2023->BETWEEN_100_AND_115;
+                                        $total_GREATHER_THAN_115_2023 += $p2023->GREATHER_THAN_115;
                                         $grand_total_ritasi_2023 += $total_ritasi_2023;
                                     @endphp
 
                                         <tr>
                                             <td>{{ $p2023->VHC_ID }}</td>
-                                            <td style="text-align: center">{{ number_format(round($p2023->less_than_100, 1), 0, ',', '.') }}</td>
-                                            <td style="text-align: center">{{ number_format(round($p2023->between_100_and_115, 1), 0, ',', '.') }}</td>
-                                            <td style="text-align: center">{{ number_format(round($p2023->greater_than_115, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->LESS_THAN_100, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->BETWEEN_100_AND_115, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->GREATHER_THAN_115, 1), 0, ',', '.') }}</td>
                                             <td style="text-align: center">{{ number_format(round($total_ritasi_2023, 1), 0, ',', '.') }}</td>
-                                            <td style="text-align: center">{{ number_format(round($p2023->payload_average, 1), 0, ',', '.') }}</td>
-                                            <td style="text-align: center">{{ number_format(round($p2023->max_payload, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->PAYLOAD_AVERAGE, 1), 0, ',', '.') }}</td>
+                                            <td style="text-align: center">{{ number_format(round($p2023->MAX_PAYLOAD, 1), 0, ',', '.') }}</td>
                                         </tr>
                                     @endforeach
-                                    {{-- @dd($total_less_than_100_2023) --}}
+                                    {{-- @dd($total_LESS_THAN_100_2023) --}}
                                 </tbody>
                                 <tfoot style="background-color:moccasin">
                                     {{-- @dd($sum_2) --}}
                                     <tr>
                                         <td>%</td>
-                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_less_than_100_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_between_100_and_115_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_greater_than_115_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_LESS_THAN_100_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_BETWEEN_100_AND_115_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2_2023 != 0 ? round($total_GREATHER_THAN_115_2023 / $sum_2_2023, 2 ) * 100 : 0 }}</td>
                                         <td style="text-align: center">{{ number_format($grand_total_ritasi_2023, 0, ',', '.') }}</td>
                                         <td style="text-align: center"></td>
                                         <td style="text-align: center"></td>
