@@ -15,12 +15,12 @@
 
 <style>
     p{
-        font-size:12px;
+        font-size:11px;
         margin-top:-3px;
         margin-bottom:-3px;
     }
     p.anymore{
-        font-size:12px;
+        font-size:11px;
     }
     .custom-tooltip {
     font-size: 11px;

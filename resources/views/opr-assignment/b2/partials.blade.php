@@ -24,7 +24,7 @@
                 data-bs-html="true"
                 data-bs-custom-class="custom-tooltip"
                 data-bs-title="Status: {{ $assignments->first()->STATUSDESCLOADER }}">
-                <h5 class="mb-0 text-white">{{ $loaderId }}</h5>
+                <h6 class="mb-0 text-white">{{ $loaderId }}</h6>
                 <p class="mb-0">{{ Str::limit($assignments->first()->NAMA_FGR_LOADER, 13) ?: '______' }}</p>
                 <p class="mb-0 anymore">{{ Str::limit($assignments->first()->NIK_FGR_LOADER, 13) ?: '______' }}</p>
             </div>
@@ -57,7 +57,7 @@
                         @if ($assignment->IS_LOGIN > 0 && $assignment->IS_SETTING == 0)
                             <img src="{{ asset('oprAssignment/icon/setting-berbeda.png') }}" width="10px">
                         @endif
-                        <p class="fw-bold text-black mb-1" style="font-size:12pt">{{ $assignment->VHC_ID }}</p>
+                        <p class="fw-bold text-black mb-1" style="font-size:11pt">{{ $assignment->VHC_ID }}</p>
                         <p class="mb-0 text-black">{{ Str::limit($assignment->NAMA_FGR, 13) ?: '______' }}</p>
                         <p class="mb-0 anymore text-black">{{ $assignment->NIK_FGR ?: '_____' }}</p>
                     </div>
