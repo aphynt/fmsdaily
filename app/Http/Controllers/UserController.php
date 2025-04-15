@@ -13,7 +13,7 @@ class UserController extends Controller
     //
     public function index()
     {
-        $user = User::where('role', '!=', 'ADMIN')->get();
+        $user = User::whereNotIn('role', ['0738ABM', 'admin', 'admin2', 'admin3'])->get();
         return view('user.index', compact('user'));
     }
 
