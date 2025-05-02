@@ -14,6 +14,11 @@
 @endphp
 
 <style>
+    body{
+        background-image: url('/oprAssignment/background.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+    }
     p{
         font-size:14px;
         margin-top:-3px;
@@ -63,10 +68,10 @@
     <!-- Spinner -->
     <div id="spinner" class="spinner" style="display:none;">Loading...</div>
 
-    <section class="bg-light py-1 py-xl-8">
+    <section class="py-1 py-xl-8">
         <div class="container">
             <!-- Badge Section -->
-            <div>
+            <div style="background-color: #F9ECD9;border-radius: 8px;">
                 <span class="badge" style="color: black; font-size:8pt; padding-left: 4px; padding-right: 4px;">
                     <img src="{{ asset('oprAssignment/icon/belum-disetting.png') }}" width="15px"> Belum Disetting
                 </span>
@@ -91,7 +96,7 @@
 
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7 text-center">
-                    <h2 class="text-white py-2" style="background-color: #001831;">SM-A3</h2>
+                    <h2 class="text-black py-2" style="background-color: #FFFAE6;border-radius: 8px;">SM-A3</h2>
                 </div>
             </div>
         </div>
