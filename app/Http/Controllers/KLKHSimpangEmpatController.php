@@ -380,7 +380,7 @@ class KLKHSimpangEmpatController extends Controller
         }
     }
 
-    public function verifiedAll($uuid)
+    public function verifiedAll(Request $request, $uuid)
     {
         $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
 
@@ -390,6 +390,9 @@ class KLKHSimpangEmpatController extends Controller
                 'verified_supervisor' => $klkh->supervisor,
                 'verified_superintendent' => $klkh->superintendent,
                 'updated_by' => Auth::user()->id,
+                'catatan_verified_foreman' => $request->catatan_verified_all,
+                'catatan_verified_supervisor' => $request->catatan_verified_all,
+                'catatan_verified_superintendent' => $request->catatan_verified_all,
             ]);
 
             return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');
@@ -399,7 +402,7 @@ class KLKHSimpangEmpatController extends Controller
         }
     }
 
-    public function verifiedForeman($uuid)
+    public function verifiedForeman(Request $request, $uuid)
     {
         $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
 
@@ -407,6 +410,7 @@ class KLKHSimpangEmpatController extends Controller
             KLKHSimpangEmpat::where('id', $klkh->id)->update([
                 'verified_foreman' => (string)Auth::user()->nik,
                 'updated_by' => Auth::user()->id,
+                'catatan_verified_foreman' => $request->catatan_verified_foreman,
             ]);
 
             return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');
@@ -416,7 +420,7 @@ class KLKHSimpangEmpatController extends Controller
         }
     }
 
-    public function verifiedSupervisor($uuid)
+    public function verifiedSupervisor(Request $request, $uuid)
     {
         $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
 
@@ -424,6 +428,7 @@ class KLKHSimpangEmpatController extends Controller
             KLKHSimpangEmpat::where('id', $klkh->id)->update([
                 'verified_supervisor' => (string)Auth::user()->nik,
                 'updated_by' => Auth::user()->id,
+                'catatan_verified_supervisor' => $request->catatan_verified_supervisor,
             ]);
 
             return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');
@@ -433,7 +438,7 @@ class KLKHSimpangEmpatController extends Controller
         }
     }
 
-    public function verifiedSuperintendent($uuid)
+    public function verifiedSuperintendent(Request $request, $uuid)
     {
         $klkh =  KLKHSimpangEmpat::where('uuid', $uuid)->first();
 
@@ -441,6 +446,7 @@ class KLKHSimpangEmpatController extends Controller
             KLKHSimpangEmpat::where('id', $klkh->id)->update([
                 'verified_superintendent' => (string)Auth::user()->nik,
                 'updated_by' => Auth::user()->id,
+                'catatan_verified_superintendent' => $request->catatan_verified_superintendent,
             ]);
 
             return redirect()->back()->with('success', 'KLKH Simpang Empat berhasil diverifikasi');

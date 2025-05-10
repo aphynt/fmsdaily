@@ -199,10 +199,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/loading-point/bundlepdf', [KLKHLoadingPointController::class, 'bundlepdf'])->name('klkh.loading-point.bundlepdf');
     Route::get('/klkh/loading-point/cetak/{uuid}', [KLKHLoadingPointController::class, 'cetak'])->name('klkh.loading-point.cetak');
     Route::get('/klkh/loading-point/download/{uuid}', [KLKHLoadingPointController::class, 'download'])->name('klkh.loading-point.download');
-    Route::get('/klkh/loading-point/verified/all/{uuid}', [KLKHLoadingPointController::class, 'verifiedAll'])->name('klkh.loading-point.verified.all');
-    Route::get('/klkh/loading-point/verified/foreman/{uuid}', [KLKHLoadingPointController::class, 'verifiedForeman'])->name('klkh.loading-point.verified.foreman');
-    Route::get('/klkh/loading-point/verified/supervisor/{uuid}', [KLKHLoadingPointController::class, 'verifiedSupervisor'])->name('klkh.loading-point.verified.supervisor');
-    Route::get('/klkh/loading-point/verified/superintendent/{uuid}', [KLKHLoadingPointController::class, 'verifiedSuperintendent'])->name('klkh.loading-point.verified.superintendent');
+    Route::post('/klkh/loading-point/verified/all/{uuid}', [KLKHLoadingPointController::class, 'verifiedAll'])->name('klkh.loading-point.verified.all');
+    Route::post('/klkh/loading-point/verified/foreman/{uuid}', [KLKHLoadingPointController::class, 'verifiedForeman'])->name('klkh.loading-point.verified.foreman');
+    Route::post('/klkh/loading-point/verified/supervisor/{uuid}', [KLKHLoadingPointController::class, 'verifiedSupervisor'])->name('klkh.loading-point.verified.supervisor');
+    Route::post('/klkh/loading-point/verified/superintendent/{uuid}', [KLKHLoadingPointController::class, 'verifiedSuperintendent'])->name('klkh.loading-point.verified.superintendent');
 
     //KLKH Haul Road
     Route::get('/klkh/haul-road', [KLKHHaulRoadController::class, 'index'])->name('klkh.haul-road');
@@ -213,10 +213,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/haul-road/bundlepdf', [KLKHHaulRoadController::class, 'bundlepdf'])->name('klkh.haul-road.bundlepdf');
     Route::get('/klkh/haul-road/cetak/{uuid}', [KLKHHaulRoadController::class, 'cetak'])->name('klkh.haul-road.cetak');
     Route::get('/klkh/haul-road/download/{uuid}', [KLKHHaulRoadController::class, 'download'])->name('klkh.haul-road.download');
-    Route::get('/klkh/haul-road/verified/all/{uuid}', [KLKHHaulRoadController::class, 'verifiedAll'])->name('klkh.haul-road.verified.all');
-    Route::get('/klkh/haul-road/verified/foreman/{uuid}', [KLKHHaulRoadController::class, 'verifiedForeman'])->name('klkh.haul-road.verified.foreman');
-    Route::get('/klkh/haul-road/verified/supervisor/{uuid}', [KLKHHaulRoadController::class, 'verifiedSupervisor'])->name('klkh.haul-road.verified.supervisor');
-    Route::get('/klkh/haul-road/verified/superintendent/{uuid}', [KLKHHaulRoadController::class, 'verifiedSuperintendent'])->name('klkh.haul-road.verified.superintendent');
+    Route::post('/klkh/haul-road/verified/all/{uuid}', [KLKHHaulRoadController::class, 'verifiedAll'])->name('klkh.haul-road.verified.all');
+    Route::post('/klkh/haul-road/verified/foreman/{uuid}', [KLKHHaulRoadController::class, 'verifiedForeman'])->name('klkh.haul-road.verified.foreman');
+    Route::post('/klkh/haul-road/verified/supervisor/{uuid}', [KLKHHaulRoadController::class, 'verifiedSupervisor'])->name('klkh.haul-road.verified.supervisor');
+    Route::post('/klkh/haul-road/verified/superintendent/{uuid}', [KLKHHaulRoadController::class, 'verifiedSuperintendent'])->name('klkh.haul-road.verified.superintendent');
 
     //KLKH Disposal
     Route::get('/klkh/disposal', [KLKHDisposalController::class, 'index'])->name('klkh.disposal');
@@ -227,10 +227,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/disposal/bundlepdf', [KLKHDisposalController::class, 'bundlepdf'])->name('klkh.disposal.bundlepdf');
     Route::get('/klkh/disposal/cetak/{uuid}', [KLKHDisposalController::class, 'cetak'])->name('klkh.disposal.cetak');
     Route::get('/klkh/disposal/download/{uuid}', [KLKHDisposalController::class, 'download'])->name('klkh.disposal.download');
-    Route::get('/klkh/disposal/verified/all/{uuid}', [KLKHDisposalController::class, 'verifiedAll'])->name('klkh.disposal.verified.all');
-    Route::get('/klkh/disposal/verified/foreman/{uuid}', [KLKHDisposalController::class, 'verifiedForeman'])->name('klkh.disposal.verified.foreman');
-    Route::get('/klkh/disposal/verified/supervisor/{uuid}', [KLKHDisposalController::class, 'verifiedSupervisor'])->name('klkh.disposal.verified.supervisor');
-    Route::get('/klkh/disposal/verified/superintendent/{uuid}', [KLKHDisposalController::class, 'verifiedSuperintendent'])->name('klkh.disposal.verified.superintendent');
+    Route::post('/klkh/disposal/verified/all/{uuid}', [KLKHDisposalController::class, 'verifiedAll'])->name('klkh.disposal.verified.all');
+    Route::post('/klkh/disposal/verified/foreman/{uuid}', [KLKHDisposalController::class, 'verifiedForeman'])->name('klkh.disposal.verified.foreman');
+    Route::post('/klkh/disposal/verified/supervisor/{uuid}', [KLKHDisposalController::class, 'verifiedSupervisor'])->name('klkh.disposal.verified.supervisor');
+    Route::post('/klkh/disposal/verified/superintendent/{uuid}', [KLKHDisposalController::class, 'verifiedSuperintendent'])->name('klkh.disposal.verified.superintendent');
 
     //KLKH Lumpur
     Route::get('/klkh/lumpur', [KLKHLumpurController::class, 'index'])->name('klkh.lumpur');
@@ -241,10 +241,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/lumpur/bundlepdf', [KLKHLumpurController::class, 'bundlepdf'])->name('klkh.lumpur.bundlepdf');
     Route::get('/klkh/lumpur/cetak/{uuid}', [KLKHLumpurController::class, 'cetak'])->name('klkh.lumpur.cetak');
     Route::get('/klkh/lumpur/download/{uuid}', [KLKHLumpurController::class, 'download'])->name('klkh.lumpur.download');
-    Route::get('/klkh/lumpur/verified/all/{uuid}', [KLKHLumpurController::class, 'verifiedAll'])->name('klkh.lumpur.verified.all');
-    Route::get('/klkh/lumpur/verified/foreman/{uuid}', [KLKHLumpurController::class, 'verifiedForeman'])->name('klkh.lumpur.verified.foreman');
-    Route::get('/klkh/lumpur/verified/supervisor/{uuid}', [KLKHLumpurController::class, 'verifiedSupervisor'])->name('klkh.lumpur.verified.supervisor');
-    Route::get('/klkh/lumpur/verified/superintendent/{uuid}', [KLKHLumpurController::class, 'verifiedSuperintendent'])->name('klkh.lumpur.verified.superintendent');
+    Route::post('/klkh/lumpur/verified/all/{uuid}', [KLKHLumpurController::class, 'verifiedAll'])->name('klkh.lumpur.verified.all');
+    Route::post('/klkh/lumpur/verified/foreman/{uuid}', [KLKHLumpurController::class, 'verifiedForeman'])->name('klkh.lumpur.verified.foreman');
+    Route::post('/klkh/lumpur/verified/supervisor/{uuid}', [KLKHLumpurController::class, 'verifiedSupervisor'])->name('klkh.lumpur.verified.supervisor');
+    Route::post('/klkh/lumpur/verified/superintendent/{uuid}', [KLKHLumpurController::class, 'verifiedSuperintendent'])->name('klkh.lumpur.verified.superintendent');
 
     //KLKH OGS
     Route::get('/klkh/ogs', [KLKHOGSController::class, 'index'])->name('klkh.ogs');
@@ -255,10 +255,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/ogs/bundlepdf', [KLKHOGSController::class, 'bundlepdf'])->name('klkh.ogs.bundlepdf');
     Route::get('/klkh/ogs/cetak/{uuid}', [KLKHOGSController::class, 'cetak'])->name('klkh.ogs.cetak');
     Route::get('/klkh/ogs/download/{uuid}', [KLKHOGSController::class, 'download'])->name('klkh.ogs.download');
-    Route::get('/klkh/ogs/verified/all/{uuid}', [KLKHOGSController::class, 'verifiedAll'])->name('klkh.ogs.verified.all');
-    Route::get('/klkh/ogs/verified/foreman/{uuid}', [KLKHOGSController::class, 'verifiedForeman'])->name('klkh.ogs.verified.foreman');
-    Route::get('/klkh/ogs/verified/supervisor/{uuid}', [KLKHOGSController::class, 'verifiedSupervisor'])->name('klkh.ogs.verified.supervisor');
-    Route::get('/klkh/ogs/verified/superintendent/{uuid}', [KLKHOGSController::class, 'verifiedSuperintendent'])->name('klkh.ogs.verified.superintendent');
+    Route::post('/klkh/ogs/verified/all/{uuid}', [KLKHOGSController::class, 'verifiedAll'])->name('klkh.ogs.verified.all');
+    Route::post('/klkh/ogs/verified/foreman/{uuid}', [KLKHOGSController::class, 'verifiedForeman'])->name('klkh.ogs.verified.foreman');
+    Route::post('/klkh/ogs/verified/supervisor/{uuid}', [KLKHOGSController::class, 'verifiedSupervisor'])->name('klkh.ogs.verified.supervisor');
+    Route::post('/klkh/ogs/verified/superintendent/{uuid}', [KLKHOGSController::class, 'verifiedSuperintendent'])->name('klkh.ogs.verified.superintendent');
 
     //KLKH Batu Bara
     Route::get('/klkh/batubara', [KLKHBatuBaraController::class, 'index'])->name('klkh.batubara');
@@ -269,10 +269,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/batubara/bundlepdf', [KLKHBatuBaraController::class, 'bundlepdf'])->name('klkh.batubara.bundlepdf');
     Route::get('/klkh/batubara/cetak/{uuid}', [KLKHBatuBaraController::class, 'cetak'])->name('klkh.batubara.cetak');
     Route::get('/klkh/batubara/download/{uuid}', [KLKHBatuBaraController::class, 'download'])->name('klkh.batubara.download');
-    Route::get('/klkh/batubara/verified/all/{uuid}', [KLKHBatuBaraController::class, 'verifiedAll'])->name('klkh.batubara.verified.all');
-    Route::get('/klkh/batubara/verified/foreman/{uuid}', [KLKHBatuBaraController::class, 'verifiedForeman'])->name('klkh.batubara.verified.foreman');
-    Route::get('/klkh/batubara/verified/supervisor/{uuid}', [KLKHBatuBaraController::class, 'verifiedSupervisor'])->name('klkh.batubara.verified.supervisor');
-    Route::get('/klkh/batubara/verified/superintendent/{uuid}', [KLKHBatuBaraController::class, 'verifiedSuperintendent'])->name('klkh.batubara.verified.superintendent');
+    Route::post('/klkh/batubara/verified/all/{uuid}', [KLKHBatuBaraController::class, 'verifiedAll'])->name('klkh.batubara.verified.all');
+    Route::post('/klkh/batubara/verified/foreman/{uuid}', [KLKHBatuBaraController::class, 'verifiedForeman'])->name('klkh.batubara.verified.foreman');
+    Route::post('/klkh/batubara/verified/supervisor/{uuid}', [KLKHBatuBaraController::class, 'verifiedSupervisor'])->name('klkh.batubara.verified.supervisor');
+    Route::post('/klkh/batubara/verified/superintendent/{uuid}', [KLKHBatuBaraController::class, 'verifiedSuperintendent'])->name('klkh.batubara.verified.superintendent');
 
     //KLKH Simpang Empat
     Route::get('/klkh/simpangempat', [KLKHSimpangEmpatController::class, 'index'])->name('klkh.simpangempat');
@@ -283,10 +283,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/klkh/simpangempat/bundlepdf', [KLKHSimpangEmpatController::class, 'bundlepdf'])->name('klkh.simpangempat.bundlepdf');
     Route::get('/klkh/simpangempat/cetak/{uuid}', [KLKHSimpangEmpatController::class, 'cetak'])->name('klkh.simpangempat.cetak');
     Route::get('/klkh/simpangempat/download/{uuid}', [KLKHSimpangEmpatController::class, 'download'])->name('klkh.simpangempat.download');
-    Route::get('/klkh/simpangempat/verified/all/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedAll'])->name('klkh.simpangempat.verified.all');
-    Route::get('/klkh/simpangempat/verified/foreman/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedForeman'])->name('klkh.simpangempat.verified.foreman');
-    Route::get('/klkh/simpangempat/verified/supervisor/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedSupervisor'])->name('klkh.simpangempat.verified.supervisor');
-    Route::get('/klkh/simpangempat/verified/superintendent/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedSuperintendent'])->name('klkh.simpangempat.verified.superintendent');
+    Route::post('/klkh/simpangempat/verified/all/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedAll'])->name('klkh.simpangempat.verified.all');
+    Route::post('/klkh/simpangempat/verified/foreman/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedForeman'])->name('klkh.simpangempat.verified.foreman');
+    Route::post('/klkh/simpangempat/verified/supervisor/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedSupervisor'])->name('klkh.simpangempat.verified.supervisor');
+    Route::post('/klkh/simpangempat/verified/superintendent/{uuid}', [KLKHSimpangEmpatController::class, 'verifiedSuperintendent'])->name('klkh.simpangempat.verified.superintendent');
 
     //Paylaod & Ritation
     Route::get('/payloadritation/all', [PayloadRitationController::class, 'index'])->name('payloadritation.index');

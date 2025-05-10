@@ -258,6 +258,11 @@
                                     @if ($dp->verified_foreman != null)
                                         <h5>{!! $dp->verified_foreman !!}</h5>
                                         <h5>{{ $dp->nama_foreman ? $dp->nama_foreman : '.......................' }}</h5>
+                                        <p>
+                                            {!! $dp->catatan_verified_foreman
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($dp->catatan_verified_foreman)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -267,6 +272,11 @@
                                     @if ($dp->verified_supervisor != null)
                                         <h5>{!! $dp->verified_supervisor !!}</h5>
                                         <h5>{{ $dp->nama_supervisor ? $dp->nama_supervisor : '.......................' }}</h5>
+                                        <p>
+                                            {!! $dp->catatan_verified_supervisor
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($dp->catatan_verified_supervisor)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -276,25 +286,34 @@
                                     @if ($dp->verified_superintendent != null)
                                         <h5>{!! $dp->verified_superintendent !!}</h5>
                                         <h5>{{ $dp->nama_superintendent ? $dp->nama_superintendent : '.......................' }}</h5>
+                                        <p>
+                                            {!! $dp->catatan_verified_superintendent
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($dp->catatan_verified_superintendent)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
                             <div class="card-body p-3">
                                 @if (Auth::user()->role == 'ADMIN')
-                                    <a href="{{ route('klkh.disposal.verified.all', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
-                                    <a href="{{ route('klkh.disposal.verified.foreman', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
-                                    <a href="{{ route('klkh.disposal.verified.supervisor', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
-                                    <a href="{{ route('klkh.disposal.verified.superintendent', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedAll{{ $dp->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedForeman{{ $dp->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSupervisor{{ $dp->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSuperintendent{{ $dp->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $dp->foreman && $dp->verified_foreman == null)
-                                    <a href="{{ route('klkh.disposal.verified.foreman', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedForeman{{ $dp->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $dp->supervisor && $dp->verified_supervisor == null)
-                                    <a href="{{ route('klkh.disposal.verified.supervisor', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSupervisor{{ $dp->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $dp->superintendent && $dp->verified_superintendent == null)
-                                    <a href="{{ route('klkh.disposal.verified.superintendent', $dp->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSuperintendent{{ $dp->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
+                                @include('klkh.disposal.modal.verifiedAll')
+                                @include('klkh.disposal.modal.verifiedForeman')
+                                @include('klkh.disposal.modal.verifiedSupervisor')
+                                @include('klkh.disposal.modal.verifiedSuperintendent')
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="#" onclick="window.history.back()" class="avtar avtar-s btn-link-secondary">

@@ -378,6 +378,23 @@
                     <td class="noborder nobg">{{ $bb->nama_supervisor ? $bb->nama_supervisor : '.......................' }}</td>
                     <td class="noborder nobg">{{ $bb->nama_superintendent ? $bb->nama_superintendent : '.......................' }}</td>
                 </tr>
+                <tr style="font-size:8pt;">
+                    <td class="noborder nobg">
+                        {!! $bb->catatan_verified_foreman != null
+                            ? '<img src="' . public_path("dashboard/assets/images/widget/writing.png") . '" alt="">: ' . $bb->catatan_verified_foreman
+                            : '' !!}
+                    </td>
+                    <td class="noborder nobg">
+                        {!! $bb->catatan_verified_supervisor != null
+                            ? '<img src="' . public_path("dashboard/assets/images/widget/writing.png") . '" alt="">: ' . $bb->catatan_verified_supervisor
+                            : '' !!}
+                    </td>
+                    <td class="noborder nobg">
+                        {!! $bb->catatan_verified_superintendent != null
+                            ? '<img src="' . public_path("dashboard/assets/images/widget/writing.png") . '" alt="">: ' . $bb->catatan_verified_superintendent
+                            : '' !!}
+                    </td>
+                </tr>
             </tbody>
         </table>
 

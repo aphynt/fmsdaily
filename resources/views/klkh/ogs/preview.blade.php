@@ -283,6 +283,11 @@
                                     @if ($ogs->verified_foreman != null)
                                         <h5>{!! $ogs->verified_foreman !!}</h5>
                                         <h5>{{ $ogs->nama_foreman ? $ogs->nama_foreman : '.......................' }}</h5>
+                                        <p>
+                                            {!! $ogs->catatan_verified_foreman
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($ogs->catatan_verified_foreman)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -292,6 +297,11 @@
                                     @if ($ogs->verified_supervisor != null)
                                         <h5>{!! $ogs->verified_supervisor !!}</h5>
                                         <h5>{{ $ogs->nama_supervisor ? $ogs->nama_supervisor : '.......................' }}</h5>
+                                        <p>
+                                            {!! $ogs->catatan_verified_supervisor
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($ogs->catatan_verified_supervisor)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -301,25 +311,34 @@
                                     @if ($ogs->verified_superintendent != null)
                                         <h5>{!! $ogs->verified_superintendent !!}</h5>
                                         <h5>{{ $ogs->nama_superintendent ? $ogs->nama_superintendent : '.......................' }}</h5>
+                                        <p>
+                                            {!! $ogs->catatan_verified_superintendent
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($ogs->catatan_verified_superintendent)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
                             <div class="card-body p-3">
                                 @if (Auth::user()->role == 'ADMIN')
-                                    <a href="{{ route('klkh.ogs.verified.all', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
-                                    <a href="{{ route('klkh.ogs.verified.foreman', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
-                                    <a href="{{ route('klkh.ogs.verified.supervisor', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
-                                    <a href="{{ route('klkh.ogs.verified.superintendent', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedAll{{ $ogs->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedForeman{{ $ogs->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSupervisor{{ $ogs->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSuperintendent{{ $ogs->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $ogs->foreman && $ogs->verified_foreman == null)
-                                    <a href="{{ route('klkh.ogs.verified.foreman', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedForeman{{ $ogs->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $ogs->supervisor && $ogs->verified_supervisor == null)
-                                    <a href="{{ route('klkh.ogs.verified.supervisor', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSupervisor{{ $ogs->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $ogs->superintendent && $ogs->verified_superintendent == null)
-                                    <a href="{{ route('klkh.ogs.verified.superintendent', $ogs->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSuperintendent{{ $ogs->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
+                                @include('klkh.ogs.modal.verifiedAll')
+                                @include('klkh.ogs.modal.verifiedForeman')
+                                @include('klkh.ogs.modal.verifiedSupervisor')
+                                @include('klkh.ogs.modal.verifiedSuperintendent')
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="#" onclick="window.history.back()" class="avtar avtar-s btn-link-secondary">

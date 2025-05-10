@@ -385,6 +385,23 @@
                     <td class="noborder nobg">{{ $orang->nama_supervisor ? $orang->nama_supervisor : '.......................' }}</td>
                     <td class="noborder nobg">{{ $orang->nama_superintendent ? $orang->nama_superintendent : '.......................' }}</td>
                 </tr>
+                <tr style="font-size:8pt;">
+                    <td class="noborder nobg">
+                        {!! $orang->catatan_verified_foreman != null
+                            ? '<img src="' . public_path("dashboard/assets/images/widget/writing.png") . '" alt="">: ' . $orang->catatan_verified_foreman
+                            : '' !!}
+                    </td>
+                    <td class="noborder nobg">
+                        {!! $orang->catatan_verified_supervisor != null
+                            ? '<img src="' . public_path("dashboard/assets/images/widget/writing.png") . '" alt="">: ' . $orang->catatan_verified_supervisor
+                            : '' !!}
+                    </td>
+                    <td class="noborder nobg">
+                        {!! $orang->catatan_verified_superintendent != null
+                            ? '<img src="' . public_path("dashboard/assets/images/widget/writing.png") . '" alt="">: ' . $orang->catatan_verified_superintendent
+                            : '' !!}
+                    </td>
+                </tr>
             </tbody>
         </table>
 

@@ -344,6 +344,11 @@
                                     @if ($lpr->verified_foreman != null)
                                         <h5>{!! $lpr->verified_foreman !!}</h5>
                                         <h5>{{ $lpr->nama_foreman ? $lpr->nama_foreman : '.......................' }}</h5>
+                                        <p>
+                                            {!! $lpr->catatan_verified_foreman
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($lpr->catatan_verified_foreman)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -353,6 +358,11 @@
                                     @if ($lpr->verified_supervisor != null)
                                         <h5>{!! $lpr->verified_supervisor !!}</h5>
                                         <h5>{{ $lpr->nama_supervisor ? $lpr->nama_supervisor : '.......................' }}</h5>
+                                        <p>
+                                            {!! $lpr->catatan_verified_supervisor
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($lpr->catatan_verified_supervisor)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
@@ -362,25 +372,34 @@
                                     @if ($lpr->verified_superintendent != null)
                                         <h5>{!! $lpr->verified_superintendent !!}</h5>
                                         <h5>{{ $lpr->nama_superintendent ? $lpr->nama_superintendent : '.......................' }}</h5>
+                                        <p>
+                                            {!! $lpr->catatan_verified_superintendent
+                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($lpr->catatan_verified_superintendent)
+                                                : '' !!}
+                                        </p>
                                     @endif
                                 </div>
                             </div>
                             <div class="card-body p-3">
                                 @if (Auth::user()->role == 'ADMIN')
-                                    <a href="{{ route('klkh.lumpur.verified.all', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
-                                    <a href="{{ route('klkh.lumpur.verified.foreman', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
-                                    <a href="{{ route('klkh.lumpur.verified.supervisor', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
-                                    <a href="{{ route('klkh.lumpur.verified.superintendent', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedAll{{ $lpr->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedForeman{{ $lpr->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSupervisor{{ $lpr->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSuperintendent{{ $lpr->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $lpr->foreman && $lpr->verified_foreman == null)
-                                    <a href="{{ route('klkh.lumpur.verified.foreman', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedForeman{{ $lpr->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $lpr->supervisor && $lpr->verified_supervisor == null)
-                                    <a href="{{ route('klkh.lumpur.verified.supervisor', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSupervisor{{ $lpr->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $lpr->superintendent && $lpr->verified_superintendent == null)
-                                    <a href="{{ route('klkh.lumpur.verified.superintendent', $lpr->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSuperintendent{{ $lpr->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
+                                @include('klkh.lumpur.modal.verifiedAll')
+                                @include('klkh.lumpur.modal.verifiedForeman')
+                                @include('klkh.lumpur.modal.verifiedSupervisor')
+                                @include('klkh.lumpur.modal.verifiedSuperintendent')
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="#" onclick="window.history.back()" class="avtar avtar-s btn-link-secondary">
