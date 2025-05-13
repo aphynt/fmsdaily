@@ -25,7 +25,7 @@
         <div class="row g-1">
             <h5 class="w-100">Fitur Pilihan</h5>
             @if (!in_array(Auth::user()->role, ['ADMIN', 'MANAGER']))
-                <div class="col-4 col-md-4 col-xxl-6">
+                <div class="col-4 col-md-4 col-xxl-4">
                     <a href="{{ route('form-pengawas-new.index') }}" class="text-decoration-none">
                         <div class="card mb-3">
                             <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
@@ -35,7 +35,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4 col-md-4 col-xxl-6">
+                <div class="col-4 col-md-4 col-xxl-4">
                     <a href="{{ route('form-pengawas-batubara.index') }}" class="text-decoration-none">
                         <div class="card mb-3">
                             <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">

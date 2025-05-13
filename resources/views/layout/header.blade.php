@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                 </div> --}}
-                                <p class="text-span">Manage</p><a href="#" class="dropdown-item"><span><svg
+                                <p class="text-span">Manage</p><a href="#" onclick="Swal.fire('Oops!', 'Fitur ini belum berfungsi', 'warning'); return false;" class="dropdown-item"><span><svg
                                             class="pc-icon text-muted me-2">
                                             <use xlink:href="#custom-setting-outline"></use>
                                         </svg> <span>Profil</span> </span></a>
