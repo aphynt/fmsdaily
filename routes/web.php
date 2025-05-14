@@ -26,6 +26,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\MonitoringLaporanKerjaKLKHController;
 use App\Http\Controllers\MonitoringPayloadController;
 use App\Http\Controllers\OprAssigntmentController;
+use App\Http\Controllers\P2HController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
@@ -342,6 +343,17 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/user/change-role/{id}', [UserController::class, 'changeRole'])->name('user.change-role');
     Route::get('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset-password');
     Route::get('/user/status-enabled/{id}', [UserController::class, 'statusEnabled'])->name('user.status-enabled');
+
+    //P2H
+    Route::get('/safety/p2h', [P2HController::class, 'index'])->name('p2h.index');
+    Route::get('/safety/p2h/api', [P2HController::class, 'api'])->name('p2h.api');
+    Route::get('/safety/p2h/detail', [P2HController::class, 'detail'])->name('p2h.detail');
+    Route::post('/safety/p2h/detail/post', [P2HController::class, 'detail_post'])->name('p2h.detail.post');
+    Route::get('/safety/p2h/show', [P2HController::class, 'show'])->name('p2h.show');
+    Route::get('/safety/p2h/preview/{uuid}', [P2HController::class, 'preview'])->name('p2h.preview');
+    Route::get('/safety/p2h/verified/superintendent/{uuid}', [P2HController::class, 'verifiedSuperintendent'])->name('p2h.verified.superintendent');
+    Route::get('/safety/p2h/cetak/{uuid}', [P2HController::class, 'cetak'])->name('p2h.cetak');
+    Route::get('/safety/p2h/download/{uuid}', [P2HController::class, 'download'])->name('p2h.download');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');

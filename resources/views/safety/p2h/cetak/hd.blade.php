@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    @php
+    use Carbon\Carbon;
+@endphp
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2H Motor Grader</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 5mm;
+            orientation: landscape;
+        }
+        @media print {
+            body {
+                margin: 0.2in;
+                padding: 0;
+                font-size: xx-small;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 0.8px;
+            text-align: center;
+        }
+        th {
+            background-color: #D9D9D9;
+        }
+        th[rowspan="3"] {
+            vertical-align: middle;
+        }
+        th[colspan="2"] {
+            background-color: #e0e0e0;
+        }
+        tr td:nth-child(2){
+            text-align: left;
+        }
+        .left{
+            text-align:left
+        }
+        .right{
+            text-align: right;
+        }
+        .no_border{
+            border-left: none;
+            border-right: none;
+        }
+        .header{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ asset('dashboard/assets') }}/images/logo-full.png" width="240px">
+        <h5 style="text-align: center;">FM-SHE-26/09/08/05/25</h5>
+    </div>
+    <h1 style="text-align: center;">
+        PEMERIKSAAN DAN PERAWATAN HARIAN ( P2H )
+    </h1>
+    <table>
+        <tr style="border-top:1px solid #000; border-right:1px solid #000">
+            <td style="border:none;text-align:left;" colspan="2">Unit</td>
+            <td style="border:none" colspan="6">: Heavy Dump Truck</td>
+            <td rowspan="2" colspan="2"><h3>HD</h3></td>
+        </tr>
+        <tr style="border-right:1px solid #000">
+            <td style="border:none;text-align:left;" colspan="2">No. Unit</td>
+            <td style="border:none;text-align:left;" colspan="6">: {{ $data->first()->VHC_ID }}</td>
+        </tr>
+        <tr style="border-right:1px solid #000">
+            <td style="border:none;text-align:left;" colspan="2">Tanggal</td>
+            <td style="border:none;text-align:left;" colspan="6">: {{ Carbon::parse($data->first()->DATEVERIFIED_OPERATOR)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</td>
+            <td rowspan="4" colspan="2"><img src="{{ asset('dashboard/assets') }}/images/K3.png" width="40px"></td>
+        </tr>
+        <tr style="border-right:1px solid #000">
+            <td style="border:none;text-align:left;" colspan="2">Shift</td>
+            <td style="border:none;text-align:left;" colspan="6">: {{ $data->first()->SHIFTDESC }}</td>
+        </tr>
+        <tr style="border-right:1px solid #000">
+            <td style="border:none;text-align:left;" colspan="2">Jam</td>
+            <td style="border:none;text-align:left;" colspan="6">: {{ Carbon::parse($data->first()->DATEVERIFIED_OPERATOR)->locale('id')->isoFormat('HH:mm') }}</td>
+        </tr>
+        <tr style="border-right:1px solid #000">
+            <td style="border:none;text-align:left;" colspan="2">Hm/Km</td>
+            <td style="border:none;text-align:left;" colspan="6">:</td>
+        </tr>
+    <!-- </table>
+    <table>
+        <thead> -->
+            <tr>
+                <th rowspan="2">No</th>
+                <th rowspan="2" colspan="">PIC</th>
+                <th rowspan="2">BAGIAN YANG HARUS DIPERIKSA</th>
+                <th rowspan="2">KODE BAHAYA</th>
+                <th rowspan="" colspan="2">KONDISI</th>
+                <th>CATATAN / TEMUAN</th>
+                <th colspan="2">COMMENT / JAWABAN</th>
+            </tr>
+            <tr>
+                <th>BAIK/NORMAL</th>
+                <th>RUSAK/TDK NORMAL</th>
+                <th>Oprt./ Driver/Mekanik</th>
+                <th colspan="2">Foreman/Spv atas temuan pada kolom 6</th>
+            </tr>
+            <tr>
+                <th colspan="">0</th>
+                <th colspan="">1</th>
+                <th colspan="">2</th>
+                <th colspan="">3</th>
+                <th colspan="">4</th>
+                <th colspan="">5</th>
+                <th colspan="">6</th>
+                <th colspan="2">7</th>
+            </tr>
+            @foreach ($data as $item)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td style="text-align: center">O</td>
+                    <td style="text-align: left">{{ $item->ITEMDESCRIPTION }}</td>
+                    <td>{{ $item->GROUPID }}</td>
+                    <td>
+                        @if ($item->VALUE == 1)
+                            ✔️
+                        @elseif($item->VALUE == 2)
+                            -
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item->VALUE == 0)
+                            ✔️
+                        @elseif($item->VALUE == 2)
+                            -
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td></td>
+                    <td style="text-align: left">{{ $item->KBJ }}</td>
+                    <td style="text-align: left">{{ $item->JAWABAN }}</td>
+                </tr>
+            @endforeach
+        <!-- </tbody> -->
+    </table>
+
+    <p>
+        <strong>PENTING:</strong>
+    </p>
+    <div class="container">
+        <p>
+            <ol style="display:flex;">
+                <div class="satu">
+                    <li>Kode ''AA" = Unit tidak bisa dioperasikan sebelum ada</li>
+                    <li>Kode " A" = Kerusakan yang harus diperbaiki dalam waktu 1 x 1 SHIFT</li>
+                    <li>P2H harus dilaksanakan diawal shift dan ditandatangani oleh Driver/Oprt sebelum dioperasikan kemudian diserahkan kepada Foreman/SPV</li>
+                    <li>Mengoperasikan alat dengan kerusakan kode bahaya AA, akan dikenai sanksi sesuai  peraturan.</li>
+                </div>
+                <div class="dua">
+                    <li>O =  Operator</li>
+                    <li>KBJ = Kode Bahaya setelah penilaian resiko</li>
+                </div>
+            </ol>
+        </p>
+
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2"></th>
+                <th>Oprt. / Driver</th>
+                <th colspan="3">Mekanik *)</th>
+                <th>Foreman / Spv</th>
+                <th colspan="2">S/Intendent**)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="2">Nama</td>
+                <td style="padding-left:10px">{{ $data->first()->NAMAOPERATOR }}</td>
+                <td style="padding-left:10px" colspan="3"></td>
+                <td style="padding-left:10px;text-align:left;">
+                    {{ $data->first()->NAMAFOREMAN
+                        ? $data->first()->NAMAFOREMAN
+                        : ($data->first()->NAMASUPERVISOR ?? '')
+                    }}
+                </td>
+                <td style="padding-left:10px;text-align:left;" colspan="2">{{ $data->first()->NAMASUPERINTENDENT }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">NIP</td>
+                <td style="padding-left:10px">{{ $data->first()->NRPOPERATOR }}</td>
+                <td style="padding-left:10px" colspan="3"></td>
+                <td style="padding-left:10px;text-align:left;">
+                    {{ $data->first()->NRPFOREMAN
+                        ? $data->first()->NRPFOREMAN
+                        : ($data->first()->NRPSUPERVISOR ?? '')
+                    }}
+                </td>
+                <td style="padding-left:10px;text-align:left;" colspan="2">{{ $data->first()->NRPSUPERINTENDENT }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">Tanggal</td>
+                <td style="padding-left:10px">{{ $data->first()->DATEVERIFIED_OPERATOR != null ? Carbon::parse($data->first()->DATEVERIFIED_OPERATOR)->locale('id')->isoFormat('D MMMM YYYY HH:mm') : '' }}</td>
+
+                <td style="padding-left:10px;text-align:left;" colspan="3">{{ $data->first()->DATEVERIFIED_MEKANIK != null ? Carbon::parse($data->first()->DATEVERIFIED_MEKANIK)->locale('id')->isoFormat('D MMMM YYYY HH:mm') : '' }}</td>
+
+                <td style="padding-left:10px;text-align:left;">
+                    {{
+                        $data->first()->DATEVERIFIED_FOREMAN
+                            ? Carbon::parse($data->first()->DATEVERIFIED_FOREMAN)->locale('id')->isoFormat('D MMMM YYYY HH:mm')
+                            : ($data->first()->DATEVERIFIED_SUPERVISOR
+                                ? Carbon::parse($data->first()->DATEVERIFIED_SUPERVISOR)->locale('id')->isoFormat('D MMMM YYYY HH:mm')
+                                : ''
+                            )
+                    }}
+                </td>
+
+                <td style="padding-left:10px" colspan="2">{{ $data->first()->DATEVERIFIED_SUPERINTENDENT != null ? Carbon::parse($data->first()->DATEVERIFIED_SUPERINTENDENT)->locale('id')->isoFormat('D MMMM YYYY HH:mm') : '' }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">T. Tangan</td>
+                <td style="padding-left:10px">@if ($data->first()->VERIFIED_OPERATOR != null){!! $data->first()->VERIFIED_OPERATOR !!}@endif</td>
+                <td style="padding-left:10px" colspan="3">@if ($data->first()->VERIFIED_MEKANIK != null){!! $data->first()->VERIFIED_MEKANIK !!}@endif</td>
+                <td style="padding-left:10px;text-align:left;">
+                    @if ($data->first()->VERIFIED_FOREMAN != null)
+                        {!! $data->first()->VERIFIED_FOREMAN !!}
+                    @elseif ($data->first()->VERIFIED_SUPERVISOR != null)
+                        {!! $data->first()->VERIFIED_SUPERVISOR !!}
+                    @endif
+                </td>
+                <td style="padding-left:10px;text-align:left;" colspan="2">@if ($data->first()->VERIFIED_SUPERINTENDENT != null){!! $data->first()->VERIFIED_SUPERINTENDENT !!}@endif</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        *) Bisa tidak di tanda tangani apabila tidak ada temuan<br/>
+        **) Memeriksa (Bulanan)  P2H  yang di isi untuk memastikan P2H dilaksanakan dengan baik<br/>
+        ***) Kerusakan akibat insiden harus dilaporkan dalam waktu 1 x 24 jam
+    </p>
+</body>
+<script>
+    window.print();
+</script>
+</html>
