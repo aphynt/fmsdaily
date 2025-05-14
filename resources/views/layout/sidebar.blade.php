@@ -79,7 +79,7 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.show') }}">Pengawas Batu Bara</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.show') }}">Laporan Inspeksi</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('laporan-kata-sandi.show') }}">Laporan Kata Sandi</a></li>
-                        <li class="pc-item"><a class="pc-link" href="{{ route('p2h.show') }}">Laporan P2H</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('pph.show') }}">Laporan P2H</a></li>
                     </ul>
                 </li>
                 @if(Auth::user()->role != 'ADMIN' && Auth::user()->role != 'MANAGER')
