@@ -28,7 +28,7 @@
                                 </select>
                             </div>
                             <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
-                                <button id="cariP2H" class="btn btn-primary w-100">Tampilkan</button>
+                                <button id="cariP2H" class="btn btn-primary w-100" style="padding-top:10px;padding-bottom:10px;">Tampilkan</button>
                             </div>
                         </div>
                     </div>
