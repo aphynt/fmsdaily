@@ -21,6 +21,9 @@
                         <select class="form-select" name="role" required>
                             <option selected disabled>Pilih role</option>
                             <option value="FOREMAN">FOREMAN</option>
+                            <option value="FOREMAN MEKANIK">FOREMAN MEKANIK</option>
+                            <option value="PJS FOREMAN MEKANIK">PJS FOREMAN MEKANIK</option>
+                            <option value="JR FOREMAN MEKANIK">JR FOREMAN MEKANIK</option>
                             <option value="SUPERVISOR">SUPERVISOR</option>
                             <option value="SUPERINTENDENT">SUPERINTENDENT</option>
                             <option value="MANAGER">MANAGER</option>

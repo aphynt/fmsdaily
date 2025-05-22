@@ -58,6 +58,7 @@
                                                 <th>Item</th>
                                                 <th>Value</th>
                                                 <th>Notes</th>
+                                                <th>KBJ</th>
                                                 <th>Komentar</th>
                                             </tr>
                                         </thead>

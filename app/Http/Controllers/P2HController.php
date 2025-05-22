@@ -106,6 +106,20 @@ class P2HController extends Controller
             $supportQuery->where('A.OPR_SHIFTDATE', $tanggalP2H);
         }
 
+        if(in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']) and Auth::user()->section == 'WHEEL') {
+            $supportQuery->where(function($query) {
+                $query->where('A.VHC_ID', 'like', 'MG%')
+                    ->orWhere('A.VHC_ID', 'like', 'HD%')
+                    ->orWhere('A.VHC_ID', 'like', 'WT%');
+            });
+        }elseif(in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']) and in_array(Auth::user()->section, ['TRACK EXCA', 'TRACK DOZER'])) {
+            $supportQuery->where(function($query) {
+                $query->where('A.VHC_ID', 'like', 'EX%')
+                    ->orWhere('A.VHC_ID', 'like', 'BD%');
+            });
+        }
+
+
         // Hanya ambil data yang sudah diverifikasi oleh foreman atau supervisor
         // $supportQuery->where(function($query) {
         //     $query->whereNotNull('p2h.VERIFIED_FOREMAN')
@@ -246,6 +260,11 @@ class P2HController extends Controller
         ->get();
 
 
+
+        $jumlahAATerisi = $detail->filter(function ($item) {
+            return $item->CHECKLISTGROUPID === 'AA' && !empty($item->CHECKLISTNOTES);
+        })->count();
+
         $checkdataP2H = ChecklistP2H::where('VHC_ID', $detail->first()->VHC_ID)
         ->where('OPR_SHIFTNO', $detail->first()->OPR_SHIFTNO)
         ->where('OPR_REPORTTIME', $detail->first()->OPR_REPORTTIME)->first();
@@ -266,19 +285,19 @@ class P2HController extends Controller
         }
 
         if(substr($detail->first()->VHC_ID, 0, 2) == 'EX'){
-            return view('safety.p2h.detail.ex', compact('detail'));
+            return view('safety.p2h.detail.ex', compact('detail', 'jumlahAATerisi'));
 
         }elseif(substr($detail->first()->VHC_ID, 0, 2) == 'HD'){
-            return view('safety.p2h.detail.hd', compact('detail'));
+            return view('safety.p2h.detail.hd', compact('detail', 'jumlahAATerisi'));
 
         }elseif(substr($detail->first()->VHC_ID, 0, 2) == 'BD'){
-            return view('safety.p2h.detail.bd', compact('detail'));
+            return view('safety.p2h.detail.bd', compact('detail', 'jumlahAATerisi'));
 
         }elseif(substr($detail->first()->VHC_ID, 0, 2) == 'MG'){
-            return view('safety.p2h.detail.mg', compact('detail'));
+            return view('safety.p2h.detail.mg', compact('detail', 'jumlahAATerisi'));
 
         }else{
-            return view('safety.p2h.detail.hd', compact('detail'));
+            return view('safety.p2h.detail.hd', compact('detail', 'jumlahAATerisi'));
 
         }
     }

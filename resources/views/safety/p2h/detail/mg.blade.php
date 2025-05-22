@@ -4,6 +4,34 @@
 @php
 use Carbon\Carbon;
 @endphp
+
+@if ($jumlahAATerisi >= 1)
+<div id="notifier" class="notifier-container">
+    <span id="notification-message"></span>
+</div>
+
+<script>
+    function showNotification(message, bgColor = '#f44336') {
+        const notifier = document.getElementById("notifier");
+        const notificationMessage = document.getElementById("notification-message");
+        notificationMessage.innerText = message;
+        notifier.style.backgroundColor = bgColor;
+        notifier.classList.add("show");
+        setTimeout(() => {
+            notifier.classList.add("hide");
+            setTimeout(() => {
+                notifier.classList.remove("show", "hide");
+            }, 500);
+        }, 7000);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        showNotification("Temuan kode AA harus diverifikasi oleh Pengawas Mekanik terlebih dahulu.");
+    });
+</script>
+
+@endif
+
 <section class="pc-container">
     <div class="pc-content">
         <div class="row">

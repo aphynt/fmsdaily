@@ -59,6 +59,10 @@
             <div class="loader-fill"></div>
         </div>
     </div>
+    <div id="notifier" class="notifier-container">
+            <span id="notification-message"></span>
+
+        </div>
     @include('layout.alert.general')
     <style>
         hr {

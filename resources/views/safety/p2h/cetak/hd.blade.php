@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P2H Motor Grader</title>
+    <title>P2H Heavy Dump Truck</title>
     <style>
         @page {
             size: A4;
@@ -156,8 +156,8 @@
                             -
                         @endif
                     </td>
-                    <td></td>
-                    <td style="text-align: left">{{ $item->KBJ }}</td>
+                    <td>{{ $item->NOTES }}</td>
+                    <td style="text-align: center;min-width:10px;">{{ $item->KBJ }}</td>
                     <td style="text-align: left">{{ $item->JAWABAN }}</td>
                 </tr>
             @endforeach

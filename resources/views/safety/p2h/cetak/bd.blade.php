@@ -156,8 +156,8 @@
                             -
                         @endif
                     </td>
-                    <td></td>
-                    <td style="text-align: left">{{ $item->KBJ }}</td>
+                    <td>{{ $item->NOTES }}</td>
+                    <td style="text-align: center;min-width:10px;">{{ $item->KBJ }}</td>
                     <td style="text-align: left">{{ $item->JAWABAN }}</td>
                 </tr>
             @endforeach

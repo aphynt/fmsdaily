@@ -6,10 +6,6 @@
 
 <div class="pc-container">
     <div class="pc-content">
-        <div id="notifier" class="notifier-container">
-            <span id="notification-message"></span>
-
-        </div>
         <div class="page-header">
             <div class="page-block">
                 <div class="row align-items-center">
