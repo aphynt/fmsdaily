@@ -219,7 +219,7 @@
             <tr>
                 <td colspan="2">Nama</td>
                 <td style="padding-left:10px">{{ $data->first()->NAMAOPERATOR }}</td>
-                <td style="padding-left:10px" colspan="3"></td>
+                <td style="padding-left:10px" colspan="3">{{ $data->first()->NAMAMEKANIK }}</td>
                 <td style="padding-left:10px;text-align:left;">
                     {{ $data->first()->NAMAFOREMAN
                         ? $data->first()->NAMAFOREMAN
@@ -231,7 +231,7 @@
             <tr>
                 <td colspan="2">NIP</td>
                 <td style="padding-left:10px">{{ $data->first()->NRPOPERATOR }}</td>
-                <td style="padding-left:10px" colspan="3"></td>
+                <td style="padding-left:10px" colspan="3">{{ $data->first()->NRPMEKANIK }}</td>
                 <td style="padding-left:10px;text-align:left;">
                     {{ $data->first()->NRPFOREMAN
                         ? $data->first()->NRPFOREMAN

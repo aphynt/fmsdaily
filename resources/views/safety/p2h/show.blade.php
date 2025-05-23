@@ -50,11 +50,14 @@
                                         <th rowspan="2">Tanggal Verifikasi</th>
                                         <th rowspan="2">Shift</th>
                                         <th colspan="2">Operator</th>
+                                        <th colspan="2">Mekanik</th>
                                         <th colspan="2">Foreman/Spv</th>
                                         <th colspan="2">S/Intendent</th>
                                         <th rowspan="2">Aksi</th>
                                     </tr>
                                     <tr>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
                                         <th>NIK</th>
@@ -74,6 +77,8 @@
                                         <td>{{ $item->SHIFTDESC }}</td>
                                         <td>{{ $item->VERIFIED_OPERATOR }}</td>
                                         <td>{{ $item->NAMAOPERATOR }}</td>
+                                        <td>{{ $item->VERIFIED_MEKANIK }}</td>
+                                        <td>{{ $item->NAMAMEKANIK }}</td>
                                         <td>
                                             {{ $item->VERIFIED_FOREMAN ? $item->VERIFIED_FOREMAN : $item->VERIFIED_SUPERVISOR }}
                                         </td>

@@ -57,7 +57,8 @@
                                                 <th>Group</th>
                                                 <th>Item</th>
                                                 <th>Value</th>
-                                                <th>Notes</th>
+                                                <th>CATATAN OPERATOR</th>
+                                                <th>CATATAN MEKANIK</th>
                                                 <th>KBJ</th>
                                                 <th>Komentar</th>
                                             </tr>
@@ -79,6 +80,7 @@
                                                         @endif
                                                     </td>
                                                     <td>{{ $dt->NOTES }}</td>
+                                                    <td>{{ $dt->CATATAN_MEKANIK }}</td>
                                                     <td>{{ $dt->KBJ }}</td>
                                                     <td>{{ $dt->JAWABAN }}</td>
                                                 </tr>
