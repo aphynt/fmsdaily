@@ -617,6 +617,7 @@ class P2HController extends Controller
             'ph.NOTES',
             'ph.KBJ',
             'ph.JAWABAN',
+            'ph.CATATAN_MEKANIK',
         )
         ->where('ph.UUID_OPR_CHECKLISTP2H', $uuid)
         ->where('p2h.STATUSENABLED', true)
@@ -715,6 +716,7 @@ class P2HController extends Controller
             'ph.NOTES',
             'ph.KBJ',
             'ph.JAWABAN',
+            'ph.CATATAN_MEKANIK',
         )
         ->where('ph.UUID_OPR_CHECKLISTP2H', $uuid)
         ->where('p2h.STATUSENABLED', true)

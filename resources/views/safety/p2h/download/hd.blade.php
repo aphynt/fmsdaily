@@ -179,7 +179,12 @@
                             -
                         @endif
                     </td>
-                    <td>{{ $item->NOTES }}</td>
+                    <td style="text-align: left">{{ $item->NOTES }}
+                        <br>
+                        @if ($item->CATATAN_MEKANIK != null)
+                            Mekanik: {{ $item->CATATAN_MEKANIK }}
+                        @endif
+                    </td>
                     <td style="text-align: center;min-width:10px;">{{ $item->KBJ }}</td>
                     <td style="text-align: left">{{ $item->JAWABAN }}</td>
                 </tr>
@@ -219,7 +224,7 @@
             <tr>
                 <td colspan="2">Nama</td>
                 <td style="padding-left:10px">{{ $data->first()->NAMAOPERATOR }}</td>
-                <td style="padding-left:10px" colspan="3">{{ $data->first()->NAMAMEKANIK }}</td>
+                <td style="padding-left:10px;text-align:left;" colspan="3">{{ $data->first()->NAMAMEKANIK }}</td>
                 <td style="padding-left:10px;text-align:left;">
                     {{ $data->first()->NAMAFOREMAN
                         ? $data->first()->NAMAFOREMAN
@@ -231,7 +236,7 @@
             <tr>
                 <td colspan="2">NIP</td>
                 <td style="padding-left:10px">{{ $data->first()->NRPOPERATOR }}</td>
-                <td style="padding-left:10px" colspan="3">{{ $data->first()->NRPMEKANIK }}</td>
+                <td style="padding-left:10px;text-align:left;" colspan="3">{{ $data->first()->NRPMEKANIK }}</td>
                 <td style="padding-left:10px;text-align:left;">
                     {{ $data->first()->NRPFOREMAN
                         ? $data->first()->NRPFOREMAN
@@ -262,7 +267,7 @@
             <tr>
                 <td colspan="2">T. Tangan</td>
                 <td style="padding-left:10px">@if ($data->first()->VERIFIED_OPERATOR != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_OPERATOR !!} " style="max-width: 100px;">@endif</td>
-                <td style="padding-left:10px" colspan="3">@if ($data->first()->VERIFIED_MEKANIK != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_MEKANIK !!} " style="max-width: 100px;">@endif</td>
+                <td style="padding-left:10px;text-align:left;" colspan="3">@if ($data->first()->VERIFIED_MEKANIK != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_MEKANIK !!} " style="max-width: 100px;">@endif</td>
                 <td style="padding-left:10px;text-align:left;">
                     @if ($data->first()->VERIFIED_FOREMAN != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_FOREMAN !!} " style="max-width: 100px;">
                     @elseif ($data->first()->VERIFIED_SUPERVISOR != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_SUPERVISOR !!} " style="max-width: 100px;">

@@ -156,7 +156,12 @@
                             -
                         @endif
                     </td>
-                    <td>{{ $item->NOTES }}</td>
+                    <td style="text-align: left">{{ $item->NOTES }}
+                        <br>
+                        @if ($item->CATATAN_MEKANIK != null)
+                            Mekanik: {{ $item->CATATAN_MEKANIK }}
+                        @endif
+                    </td>
                     <td style="text-align: center;min-width:10px;">{{ $item->KBJ }}</td>
                     <td style="text-align: left">{{ $item->JAWABAN }}</td>
                 </tr>
