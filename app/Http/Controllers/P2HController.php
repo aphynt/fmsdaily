@@ -115,15 +115,22 @@ class P2HController extends Controller
         if(in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']) and Auth::user()->section == 'WHEEL') {
             $supportQuery->where(function($query) {
                 $query->where('A.VHC_ID', 'like', 'MG%')
-                    ->orWhere('A.VHC_ID', 'like', 'HD%')
-                    ->orWhere('A.VHC_ID', 'like', 'WT%');
+                    ->orWhere('A.VHC_ID', 'like', 'HD%');
             });
-        }elseif(in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']) and in_array(Auth::user()->section, ['TRACK EXCA', 'TRACK DOZER'])) {
+        }elseif(in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']) and in_array(Auth::user()->section, ['TRACK EXCA'])) {
             $supportQuery->where(function($query) {
-                $query->where('A.VHC_ID', 'like', 'EX%')
-                    ->orWhere('A.VHC_ID', 'like', 'BD%');
+                $query->where('A.VHC_ID', 'like', 'EX%');
+            });
+        }elseif(in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']) and in_array(Auth::user()->section, ['TRACK DOZER'])) {
+            $supportQuery->where(function($query) {
+                $query->where('A.VHC_ID', 'like', 'BD%');
             });
         }
+
+        //menampilkan hanya P2H yang diatas 0, dengan role sbb
+        // if (in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK'])) {
+        //     $supportQuery->where('VAL_NOTOK', '>=', '1');
+        // }
 
 
         // Hanya ambil data yang sudah diverifikasi oleh foreman atau supervisor
@@ -143,6 +150,8 @@ class P2HController extends Controller
             ->offset($offset)
             ->limit($length)
             ->get();
+
+        // return $supportQuery;
 
 
 
@@ -747,15 +756,15 @@ class P2HController extends Controller
 
         }elseif(substr($data->first()->VHC_ID, 0, 2) == 'HD'){
             $pdf = PDF::loadView('safety.p2h.download.hd', compact('data'));
-            return $pdf->download('P2H Excavator-'. $data->first()->OPR_REPORTTIME .'-'. $data->first()->SHIFTDESC .'-'. $data->first()->VHC_ID .'.pdf');
+            return $pdf->download('P2H Heavy Dump Truck-'. $data->first()->OPR_REPORTTIME .'-'. $data->first()->SHIFTDESC .'-'. $data->first()->VHC_ID .'.pdf');
 
         }elseif(substr($data->first()->VHC_ID, 0, 2) == 'BD'){
             $pdf = PDF::loadView('safety.p2h.download.bd', compact('data'));
-            return $pdf->download('P2H Excavator-'. $data->first()->OPR_REPORTTIME .'-'. $data->first()->SHIFTDESC .'-'. $data->first()->VHC_ID .'.pdf');
+            return $pdf->download('P2H Bull Dozer-'. $data->first()->OPR_REPORTTIME .'-'. $data->first()->SHIFTDESC .'-'. $data->first()->VHC_ID .'.pdf');
 
         }elseif(substr($data->first()->VHC_ID, 0, 2) == 'MG'){
             $pdf = PDF::loadView('safety.p2h.download.mg', compact('data'));
-            return $pdf->download('P2H Excavator-'. $data->first()->OPR_REPORTTIME .'-'. $data->first()->SHIFTDESC .'-'. $data->first()->VHC_ID .'.pdf');
+            return $pdf->download('P2H Motor Grader-'. $data->first()->OPR_REPORTTIME .'-'. $data->first()->SHIFTDESC .'-'. $data->first()->VHC_ID .'.pdf');
 
         }else{
             return redirect()->back()->with('info', 'Data tidak ditemukan');
