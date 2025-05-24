@@ -13,6 +13,7 @@ use App\Http\Controllers\FormPengawasNewController;
 use App\Http\Controllers\FormPengawasOldController;
 use App\Http\Controllers\FormPengawasSAPController;
 use App\Http\Controllers\FrontLoadingController;
+use App\Http\Controllers\KKHController;
 use App\Http\Controllers\KLKHBatuBaraController;
 use App\Http\Controllers\KLKHDisposalController;
 use App\Http\Controllers\KLKHHaulRoadController;
@@ -354,6 +355,13 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/safety/p2h/verified/superintendent/{uuid}', [P2HController::class, 'verifiedSuperintendent'])->name('p2h.verified.superintendent');
     Route::get('/safety/p2h/cetak/{uuid}', [P2HController::class, 'cetak'])->name('p2h.cetak');
     Route::get('/safety/p2h/download/{uuid}', [P2HController::class, 'download'])->name('p2h.download');
+
+     //KKH
+    Route::get('/kkh/all', [KKHController::class, 'all'])->name('kkh.all');
+    Route::get('/kkh/all/api', [KKHController::class, 'all_api'])->name('kkh.all_api');
+    Route::get('/kkh/all/name', [KKHController::class, 'all_name'])->name('kkh.all_name');
+    Route::get('/kkh/name', [KKHController::class, 'name'])->name('kkh.name');
+    Route::post('/kkh/verifikasi', [KKHController::class, 'verifikasi'])->name('kkh.verifikasi');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');

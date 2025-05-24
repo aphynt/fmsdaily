@@ -144,6 +144,30 @@
                     </li>
                 @endif
                 <li class="pc-item"><a href="{{ route('p2h.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/worker.png" alt="NT"></span><span class="pc-mtext">P2H Unit</span></a></li>
+                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon">
+                        <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/ergonomic.png" alt="DS"> </span><span class="pc-mtext">KKH Produksi</span> <span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">2</span>
+                    </a>
+                    {{-- <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="{{ route('kkh.all') }}">Seleksi per Tanggal</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('kkh.name') }}">Seleksi per Nama</a></li>
+                    </ul> --}}
+                    <ul class="pc-submenu">
+                        <li class="pc-item">
+                            <a href="#" class="pc-link" onclick="Swal.fire('Coming Soon', 'Fitur ini akan segera tersedia!', 'info')">
+                            Seleksi per Tanggal
+                            </a>
+                        </li>
+                        <li class="pc-item">
+                            <a href="#" class="pc-link" onclick="Swal.fire('Coming Soon', 'Fitur ini akan segera tersedia!', 'info')">
+                            Seleksi per Nama
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
                 @if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER']))
                     <li class="pc-item"><a href="{{ route('rosterkerja') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/project.png" alt="NT"></span><span class="pc-mtext">Roster Kerja</span></a></li>
                     <li class="pc-item"><a href="{{ route('monitoringlaporankerjaklkh') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/spyware.png" alt="NT"></span><span class="pc-mtext">Monitoring LK & KLKH</span></a></li>

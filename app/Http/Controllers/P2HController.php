@@ -89,6 +89,9 @@ class P2HController extends Controller
             ->leftJoin('focus.dbo.PRS_PERSONAL as mec', 'p2h.VERIFIED_MEKANIK', '=', 'mec.NRP')
             ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'p2h.VERIFIED_FOREMAN', '=', 'gl.NRP')
             ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'p2h.VERIFIED_SUPERVISOR', '=', 'spv.NRP');
+            if (in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK'])) {
+            $supportQuery->where('VAL_NOTOK', '>=', '1');
+        }
 
         // Optional: filter berdasarkan kata kunci pencarian
         if ($request->search['value']) {
@@ -128,9 +131,7 @@ class P2HController extends Controller
         }
 
         //menampilkan hanya P2H yang diatas 0, dengan role sbb
-        // if (in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK'])) {
-        //     $supportQuery->where('VAL_NOTOK', '>=', '1');
-        // }
+
 
 
         // Hanya ambil data yang sudah diverifikasi oleh foreman atau supervisor
@@ -145,6 +146,7 @@ class P2HController extends Controller
         // Ambil data dengan urutan dan paginasi
         $supportQuery = $supportQuery
             ->orderByDesc('VAL_NOTOK')
+
             ->orderBy('A.VHC_ID')
             ->orderBy('A.OPR_REPORTTIME')
             ->offset($offset)
