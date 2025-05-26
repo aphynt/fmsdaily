@@ -19,7 +19,7 @@
                             <div class="col-12">
                                 <div class="row g-2 align-items-end mb-3">
                                     <!-- Range Date -->
-                                    <div class="col-12 col-md-5">
+                                    <div class="col-12 col-md-4">
                                         <label for="range-start" class="form-label">Range Date</label>
                                         <div class="input-group" id="pc-datepicker-20">
                                             <input type="text" class="form-control form-control-sm"
@@ -31,8 +31,8 @@
                                     </div>
 
                                     <!-- Nama -->
-                                    <div class="col-12 col-md-4">
-                                        <label for="namaKKH" class="form-label">Nama</label>
+                                    <div class="col-12 col-md-3">
+                                        <label for="namaKKH" class="form-label">Nama Pengisi</label>
                                         <select class="form-select form-select-sm" data-trigger id="namaKKH"
                                             name="namaKKH">
                                             <option selected disabled></option>
@@ -43,8 +43,11 @@
                                     </div>
 
                                     <!-- Tombol -->
-                                    <div class="col-12 col-md-3">
+                                    <div class="col-12 col-md-2">
                                         <button id="cariKKH" class="btn btn-primary w-100 py-1">Tampilkan</button>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <button id="downloadKKH" class="btn btn-success w-100 py-1">Download KKH</button>
                                     </div>
                                 </div>
 
@@ -131,6 +134,38 @@
 
 </script>
 <script>
+    $('#downloadKKH').click(function () {
+        var namaKKH = $('#namaKKH').val();
+        var rangeStart = $('#range-start').val();
+        var rangeEnd = $('#range-end').val();
+
+        if (!namaKKH) {
+            Swal.fire({
+                title: 'Upps!',
+                text: 'Silakan isi nama pengisi KKH terlebih dahulu!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        // Buat query string
+        const queryParams = $.param({
+            namaKKH: namaKKH,
+            rangeStart: rangeStart,
+            rangeEnd: rangeEnd
+        });
+
+        const downloadUrl = "{{ route('kkh.download') }}?" + queryParams;
+
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.target = '_self'; // agar di tab yang sama
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+
     var table;
     $(document).ready(function () {
         var userRole = "{{ Auth::user()->role }}";
@@ -241,6 +276,7 @@
         $('#cariKKH').click(function () {
             table.ajax.reload(); // Reload data dengan AJAX
         });
+
         table.ajax.reload();
     });
 

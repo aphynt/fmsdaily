@@ -150,21 +150,9 @@
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/ergonomic.png" alt="DS"> </span><span class="pc-mtext">KKH Produksi</span> <span class="pc-arrow"><i
                                 data-feather="chevron-right"></i></span> <span class="pc-badge">2</span>
                     </a>
-                    {{-- <ul class="pc-submenu">
+                    <ul class="pc-submenu">
                         <li class="pc-item"><a class="pc-link" href="{{ route('kkh.all') }}">Seleksi per Tanggal</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('kkh.name') }}">Seleksi per Nama</a></li>
-                    </ul> --}}
-                    <ul class="pc-submenu">
-                        <li class="pc-item">
-                            <a href="#" class="pc-link" onclick="Swal.fire('Coming Soon', 'Fitur ini akan segera tersedia!', 'info')">
-                            Seleksi per Tanggal
-                            </a>
-                        </li>
-                        <li class="pc-item">
-                            <a href="#" class="pc-link" onclick="Swal.fire('Coming Soon', 'Fitur ini akan segera tersedia!', 'info')">
-                            Seleksi per Nama
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 @endif

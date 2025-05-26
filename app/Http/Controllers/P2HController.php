@@ -742,14 +742,29 @@ class P2HController extends Controller
         if ($data->isEmpty()) {
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         } else {
-            foreach ($data as $item) {
-                $item->VERIFIED_OPERATOR = $item->VERIFIED_OPERATOR != null ? base64_encode(QrCode::size(60)->generate('Telah diverifikasi oleh: ' . $item->NAMAOPERATOR)) : null;
-                $item->VERIFIED_MEKANIK = $item->VERIFIED_MEKANIK != null ? base64_encode(QrCode::size(60)->generate('Telah diverifikasi oleh: ' . $item->NAMAMEKANIK)) : null;
-                $item->VERIFIED_FOREMAN = $item->VERIFIED_FOREMAN != null ? base64_encode(QrCode::size(60)->generate('Telah diverifikasi oleh: ' . $item->NAMAFOREMAN)) : null;
-                $item->VERIFIED_SUPERVISOR = $item->VERIFIED_SUPERVISOR != null ? base64_encode(QrCode::size(60)->generate('Telah diverifikasi oleh: ' . $item->NAMASUPERVISOR)) : null;
-                $item->VERIFIED_SUPERINTENDENT = $item->VERIFIED_SUPERINTENDENT != null ? base64_encode(QrCode::size(60)->generate('Telah diverifikasi oleh: ' . $item->NAMASUPERINTENDENT)) : null;
-            }
+            $item = $data->first(); // ambil data pertama
+
+            $item->VERIFIED_OPERATOR = $item->VERIFIED_OPERATOR != null
+                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMAOPERATOR, 'qr_operator_' . $item->VHC_ID . '.png')
+                : null;
+
+            $item->VERIFIED_MEKANIK = $item->VERIFIED_MEKANIK != null
+                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMAMEKANIK, 'qr_mekanik_' . $item->VHC_ID . '.png')
+                : null;
+
+            $item->VERIFIED_FOREMAN = $item->VERIFIED_FOREMAN != null
+                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMAFOREMAN, 'qr_foreman_' . $item->VHC_ID . '.png')
+                : null;
+
+            $item->VERIFIED_SUPERVISOR = $item->VERIFIED_SUPERVISOR != null
+                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMASUPERVISOR, 'qr_supervisor_' . $item->VHC_ID . '.png')
+                : null;
+
+            $item->VERIFIED_SUPERINTENDENT = $item->VERIFIED_SUPERINTENDENT != null
+                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMASUPERINTENDENT, 'qr_superintendent_' . $item->VHC_ID . '.png')
+                : null;
         }
+
 
 
         if(substr($data->first()->VHC_ID, 0, 2) == 'EX'){

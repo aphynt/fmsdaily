@@ -362,6 +362,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/kkh/all/name', [KKHController::class, 'all_name'])->name('kkh.all_name');
     Route::get('/kkh/name', [KKHController::class, 'name'])->name('kkh.name');
     Route::post('/kkh/verifikasi', [KKHController::class, 'verifikasi'])->name('kkh.verifikasi');
+    Route::get('/kkh/download', [KKHController::class, 'download'])->name('kkh.download');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');
