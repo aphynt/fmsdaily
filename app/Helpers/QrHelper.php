@@ -25,6 +25,6 @@ if (!function_exists('generateQrStorage')) {
         QrCode::size($size)->format('png')->generate($text, $filePath);
 
         // Kembalikan path publik (sesuai syarat storage:link sudah dijalankan)
-        return 'storage/qr-temp/' . $fileName;
+        return 'storage/app/qr-temp/' . $fileName;
     }
 }
