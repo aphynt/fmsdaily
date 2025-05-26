@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
 
 class P2HController extends Controller
 {
@@ -744,25 +745,61 @@ class P2HController extends Controller
         } else {
             $item = $data->first(); // ambil data pertama
 
-            $item->VERIFIED_OPERATOR = $item->VERIFIED_OPERATOR != null
-                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMAOPERATOR, 'qr_operator_' . $item->VHC_ID . '.png')
-                : null;
+            $qrTempFolder = storage_path('app/qr-temp');
+                if (!File::exists($qrTempFolder)) {
+                    File::makeDirectory($qrTempFolder, 0755, true);
+                }
 
-            $item->VERIFIED_MEKANIK = $item->VERIFIED_MEKANIK != null
-                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMAMEKANIK, 'qr_mekanik_' . $item->VHC_ID . '.png')
-                : null;
+                if($item->VERIFIED_OPERATOR != null){
+                    $fileName = 'VERIFIED_OPERATOR' . $item->UUID . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-            $item->VERIFIED_FOREMAN = $item->VERIFIED_FOREMAN != null
-                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMAFOREMAN, 'qr_foreman_' . $item->VHC_ID . '.png')
-                : null;
+                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMAOPERATOR, $filePath);
+                    $item->VERIFIED_OPERATOR = $filePath;
+                }else{
+                    $item->VERIFIED_OPERATOR == null;
+                }
 
-            $item->VERIFIED_SUPERVISOR = $item->VERIFIED_SUPERVISOR != null
-                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMASUPERVISOR, 'qr_supervisor_' . $item->VHC_ID . '.png')
-                : null;
+                if($item->VERIFIED_MEKANIK != null){
+                    $fileName = 'VERIFIED_MEKANIK' . $item->UUID . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-            $item->VERIFIED_SUPERINTENDENT = $item->VERIFIED_SUPERINTENDENT != null
-                ? generateQrStorage('Telah diverifikasi oleh: ' . $item->NAMASUPERINTENDENT, 'qr_superintendent_' . $item->VHC_ID . '.png')
-                : null;
+                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMAMEKANIK, $filePath);
+                    $item->VERIFIED_MEKANIK = $filePath;
+                }else{
+                    $item->VERIFIED_MEKANIK == null;
+                }
+
+                if($item->VERIFIED_FOREMAN != null){
+                    $fileName = 'VERIFIED_FOREMAN' . $item->UUID . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMAFOREMAN, $filePath);
+                    $item->VERIFIED_FOREMAN = $filePath;
+                }else{
+                    $item->VERIFIED_FOREMAN == null;
+                }
+
+                if($item->VERIFIED_SUPERVISOR != null){
+                    $fileName = 'VERIFIED_SUPERVISOR' . $item->UUID . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMASUPERVISOR, $filePath);
+                    $item->VERIFIED_SUPERVISOR = $filePath;
+                }else{
+                    $item->VERIFIED_SUPERVISOR == null;
+                }
+
+                if($item->VERIFIED_SUPERINTENDENT != null){
+                    $fileName = 'VERIFIED_SUPERINTENDENT' . $item->UUID . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMASUPERINTENDENT, $filePath);
+                    $item->VERIFIED_SUPERINTENDENT = $filePath;
+                }else{
+                    $item->VERIFIED_SUPERINTENDENT == null;
+                }
+
         }
 
 
