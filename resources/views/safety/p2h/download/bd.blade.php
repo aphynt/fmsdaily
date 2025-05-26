@@ -266,14 +266,36 @@
             </tr>
             <tr>
                 <td colspan="2">T. Tangan</td>
-                <td style="padding-left:10px">@if ($data->first()->VERIFIED_OPERATOR != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_OPERATOR !!} " style="max-width: 100px;">@endif</td>
-                <td style="padding-left:10px;text-align:left;" colspan="3">@if ($data->first()->VERIFIED_MEKANIK != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_MEKANIK !!} " style="max-width: 100px;">@endif</td>
-                <td style="padding-left:10px;text-align:left;">
-                    @if ($data->first()->VERIFIED_FOREMAN != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_FOREMAN !!} " style="max-width: 100px;">
-                    @elseif ($data->first()->VERIFIED_SUPERVISOR != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_SUPERVISOR !!} " style="max-width: 100px;">
+                <td style="padding-left:10px">
+                    @if ($data->first()->VERIFIED_OPERATOR != null)
+                        <img src="{{ $data->first()->VERIFIED_OPERATOR }}" style="max-width: 50px;" alt="QR Operator" />
+                    @else
+                        -
                     @endif
                 </td>
-                <td style="padding-left:10px;text-align:left;" colspan="2">@if ($data->first()->VERIFIED_SUPERINTENDENT != null)<img src="data:image/png;base64, {!! $data->first()->VERIFIED_SUPERINTENDENT !!} " style="max-width: 100px;">@endif</td>
+                <td style="padding-left:10px;text-align:left;" colspan="3">
+                    @if ($data->first()->VERIFIED_MEKANIK != null)
+                        <img src="{{ $data->first()->VERIFIED_MEKANIK }}" style="max-width: 50px;" alt="QR Mekanik" />
+                    @else
+                        -
+                    @endif
+                </td>
+                <td style="padding-left:10px;text-align:left;">
+                    @if ($data->first()->VERIFIED_FOREMAN != null)
+                        <img src="{{ $data->first()->VERIFIED_FOREMAN }}" style="max-width: 50px;" alt="QR Foreman" />
+                    @elseif ($data->first()->VERIFIED_SUPERVISOR != null)
+                        <img src="{{ $data->first()->VERIFIED_SUPERVISOR }}" style="max-width: 50px;" alt="QR Supervisor" />
+                    @else
+                        -
+                    @endif
+                </td>
+                <td style="padding-left:10px;text-align:left;" colspan="2">
+                    @if ($data->first()->VERIFIED_SUPERINTENDENT != null)
+                        <img src="{{ $data->first()->VERIFIED_SUPERINTENDENT }}" style="max-width: 50px;" alt="QR Superintendent" />
+                    @else
+                        -
+                    @endif
+                </td>
             </tr>
         </tbody>
     </table>
