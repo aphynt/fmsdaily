@@ -41,16 +41,20 @@
                         <div class="card-body">
                             <div class="construction-image-block">
                                 <div class="row justify-content-center">
-                                    <div class="col-10"><img src="{{ asset('dashboard/assets') }}/images/logo-full.png" width="400px"></div>
+                                    <div class="col-12 text-center">
+                                        <img src="{{ asset('dashboard/assets') }}/images/logo-full.png"
+                                            class="img-fluid"
+                                            style="max-width: 400px; width: 100%; height: auto;">
+                                    </div>
                                 </div>
                             </div>
                             <div class="text-center">
                                 <br>
                                 <div style="max-width: 500px; margin: 0 auto; background: #f9fbfc; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: 'Segoe UI', sans-serif; color: #34495e;">
-                                    <h1 style="color: #2c3e50; margin-bottom: 20px;">✅ Verifikasi Berhasil</h1>
-                                    <h3 style="margin: 0 0 10px 0;"><strong>Nama:</strong> <span style="color: #2980b9;text-transform: uppercase;">{{ $user->name }}</span></h3>
-                                    <h3 style="margin: 0 0 10px 0;"><strong>NIK:</strong> <span style="color: #2980b9;text-transform: uppercase;">{{ $user->nik }}</span></h3>
-                                    <h3 style="margin: 0 0 20px 0;"><strong>Jabatan:</strong> <span style="color: #2980b9;text-transform: uppercase;">{{ $user->role }}</span></h3>
+                                    <h2 style="color: #2c3e50; margin-bottom: 20px;">✅ Verifikasi Berhasil</h2>
+                                    <h6 style="margin: 0 0 10px 0;"><strong>Nama:</strong> <span style="color: #2980b9;text-transform: uppercase;">{{ $user->name }}</span></h6>
+                                    <h6 style="margin: 0 0 10px 0;"><strong>NIK:</strong> <span style="color: #2980b9;text-transform: uppercase;">{{ $user->nik }}</span></h6>
+                                    <h6 style="margin: 0 0 20px 0;"><strong>Jabatan:</strong> <span style="color: #2980b9;text-transform: uppercase;">{{ $user->role }}</span></h6>
                                     <p style="font-size: 0.9em; color: #7f8c8d;">Data telah tervalidasi dan dicatat secara resmi dalam sistem.</p>
                                     <button onclick="window.close();" style="margin-top: 20px; background-color: #e74c3c; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
                                         ❌ Tutup Halaman
