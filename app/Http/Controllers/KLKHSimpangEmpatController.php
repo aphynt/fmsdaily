@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Ramsey\Uuid\Uuid;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
 
 class KLKHSimpangEmpatController extends Controller
 {
@@ -153,9 +154,42 @@ class KLKHSimpangEmpatController extends Controller
         if($se == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $se->verified_foreman = $se->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_foreman)) : null;
-            $se->verified_supervisor = $se->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_supervisor)) : null;
-            $se->verified_superintendent = $se->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $se->nama_superintendent)) : null;
+            $item = $se;
+
+            $qrTempFolder = storage_path('app/qr-temp');
+            if (!File::exists($qrTempFolder)) {
+                File::makeDirectory($qrTempFolder, 0755, true);
+            }
+
+            if($item->verified_foreman != null){
+                $fileName = 'verified_foreman' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_foreman)]), $filePath);
+                $item->verified_foreman = $filePath;
+            }else{
+                $item->verified_foreman == null;
+            }
+
+            if($item->verified_supervisor != null){
+                $fileName = 'verified_supervisor' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_supervisor)]), $filePath);
+                $item->verified_supervisor = $filePath;
+            }else{
+                $item->verified_supervisor == null;
+            }
+
+            if($item->verified_superintendent != null){
+                $fileName = 'verified_superintendent' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_superintendent)]), $filePath);
+                $item->verified_superintendent = $filePath;
+            }else{
+                $item->verified_superintendent == null;
+            }
         }
 
         $pdf = PDF::loadView('klkh.simpang-empat.download', compact('se'));

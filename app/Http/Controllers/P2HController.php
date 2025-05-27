@@ -754,7 +754,7 @@ class P2HController extends Controller
                     $fileName = 'VERIFIED_OPERATOR' . $item->UUID . '.png';
                     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMAOPERATOR, $filePath);
+                    QrCode::size(150)->format('png')->generate('Telah dibuat oleh: ' . $item->NAMAOPERATOR, $filePath);
                     $item->VERIFIED_OPERATOR = $filePath;
                 }else{
                     $item->VERIFIED_OPERATOR == null;

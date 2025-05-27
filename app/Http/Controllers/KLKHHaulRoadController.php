@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
 
 class KLKHHaulRoadController extends Controller
 {
@@ -170,9 +171,42 @@ class KLKHHaulRoadController extends Controller
         if($hr == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $hr->verified_foreman = $hr->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $hr->nama_foreman)) : null;
-            $hr->verified_supervisor = $hr->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $hr->nama_supervisor)) : null;
-            $hr->verified_superintendent = $hr->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $hr->nama_superintendent)) : null;
+            $item = $hr;
+
+            $qrTempFolder = storage_path('app/qr-temp');
+            if (!File::exists($qrTempFolder)) {
+                File::makeDirectory($qrTempFolder, 0755, true);
+            }
+
+            if($item->verified_foreman != null){
+                $fileName = 'verified_foreman' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_foreman)]), $filePath);
+                $item->verified_foreman = $filePath;
+            }else{
+                $item->verified_foreman == null;
+            }
+
+            if($item->verified_supervisor != null){
+                $fileName = 'verified_supervisor' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_supervisor)]), $filePath);
+                $item->verified_supervisor = $filePath;
+            }else{
+                $item->verified_supervisor == null;
+            }
+
+            if($item->verified_superintendent != null){
+                $fileName = 'verified_superintendent' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_superintendent)]), $filePath);
+                $item->verified_superintendent = $filePath;
+            }else{
+                $item->verified_superintendent == null;
+            }
         }
 
         $pdf = PDF::loadView('klkh.haul-road.download', compact('hr'));

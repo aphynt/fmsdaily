@@ -297,9 +297,9 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($hr->verified_foreman != null)<img src="data:image/png;base64, {!! $hr->verified_foreman !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($hr->verified_supervisor != null)<img src="data:image/png;base64, {!! $hr->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($hr->verified_superintendent != null)<img src="data:image/png;base64, {!! $hr->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">@if ($hr->verified_foreman != null)<img src="{{ $hr->verified_foreman }}" style="max-width: 70px;">@endif</td>
+                    <td class="noborder nobg">@if ($hr->verified_supervisor != null)<img src="{{ $hr->verified_supervisor }}" style="max-width: 70px;">@endif</td>
+                    <td class="noborder nobg">@if ($hr->verified_superintendent != null)<img src="{{ $hr->verified_superintendent }}" style="max-width: 70px;">@endif</td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $hr->nama_foreman ? $hr->nama_foreman : '.......................' }}</td>

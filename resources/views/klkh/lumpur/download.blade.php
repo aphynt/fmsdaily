@@ -433,9 +433,9 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($lpr->verified_foreman != null)<img src="data:image/png;base64, {!! $lpr->verified_foreman !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($lpr->verified_supervisor != null)<img src="data:image/png;base64, {!! $lpr->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($lpr->verified_superintendent != null)<img src="data:image/png;base64, {!! $lpr->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">@if ($lpr->verified_foreman != null)<img src="{{ $lpr->verified_foreman }}" style="max-width: 70px;">@endif</td>
+                    <td class="noborder nobg">@if ($lpr->verified_supervisor != null)<img src="{{ $lpr->verified_supervisor }}" style="max-width: 70px;">@endif</td>
+                    <td class="noborder nobg">@if ($lpr->verified_superintendent != null)<img src="{{ $lpr->verified_superintendent }}" style="max-width: 70px;">@endif</td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $lpr->nama_foreman ? $lpr->nama_foreman : '.......................' }}</td>
