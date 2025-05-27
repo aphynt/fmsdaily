@@ -13,8 +13,6 @@ class VerifiedController extends Controller
         $nik = base64_decode($encodedNik);
 
         $user = User::where('nik', $nik)->first();
-
-        // dd($user);
         return view('verified.index', compact('user'));
     }
 }

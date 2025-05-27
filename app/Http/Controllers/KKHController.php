@@ -397,24 +397,24 @@ class KKHController extends Controller
                 }
 
                 // Generate QR_CODE_VERIFIKASI ke file jika VERIFIKASI ada
-                if ($item->VERIFIKASI != null) {
-                    $fileName = 'qr_verifikasi_' . $item->id . '.png';  // pastikan ada unique id
-                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+                // if ($item->VERIFIKASI != null) {
+                //     $fileName = 'qr_verifikasi_' . $item->id . '.png';  // pastikan ada unique id
+                //     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')
-                        ->generate('Telah diverifikasi oleh: ' . $item->NAMA_VERIFIKASI, $filePath);
+                //     QrCode::size(150)->format('png')
+                //         ->generate('Telah diverifikasi oleh: ' . $item->NAMA_VERIFIKASI, $filePath);
 
-                    $item->QR_CODE_VERIFIKASI = $filePath;
-                } else {
-                    $item->QR_CODE_VERIFIKASI = null;
-                }
+                //     $item->QR_CODE_VERIFIKASI = $filePath;
+                // } else {
+                //     $item->QR_CODE_VERIFIKASI = null;
+                // }
 
                 // Generate QR_CODE_PENGAWAS ke file jika NIK_PENGAWAS ada
                 if ($item->NIK_PENGAWAS != null) {
                     $fileName = 'qr_pengawas_' . $item->id . '.png';  // pastikan ada unique id
                     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->NIK_PENGISI)]), $filePath);
+                    QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->NIK_PENGAWAS)]), $filePath);
 
                     $item->QR_CODE_PENGAWAS = $filePath;
                 } else {

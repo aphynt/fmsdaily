@@ -166,13 +166,8 @@
                     <td>@if ($item->NIK_PENGAWAS != "" || $item->NIK_PENGAWAS != null) {{ $item->NAMA_PENGAWAS }} @endif</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
-                        @if ($item->QR_CODE_VERIFIKASI != null)
-                            <img src="{{ $item->QR_CODE_VERIFIKASI }}" style="max-width: 52px;" alt="QR Verifikasi" />
-                        @else
-                            -
-                        @endif
-                    </td>
+                    <td>Verifikasi</td>
+                    <td style="text-align: center;padding-top: 17px;padding-bottom:17px"><img src="{{ public_path('dashboard/assets') }}/images/centang.png" width="20px"></td>
                     <td colspan="2">
                         @if ($item->QR_CODE_PENGAWAS != null)
                             <img src="{{ $item->QR_CODE_PENGAWAS }}" style="max-width: 52px;" alt="QR Pengawas" />
