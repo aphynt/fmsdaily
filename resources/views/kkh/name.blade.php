@@ -46,9 +46,9 @@
                                     <div class="col-12 col-md-2">
                                         <button id="cariKKH" class="btn btn-primary w-100 py-1">Tampilkan</button>
                                     </div>
-                                    <div class="col-12 col-md-2">
+                                    {{-- <div class="col-12 col-md-2">
                                         <button id="downloadKKH" class="btn btn-success w-100 py-1">Download KKH</button>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                             </div>
