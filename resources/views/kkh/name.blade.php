@@ -249,16 +249,52 @@
                     render: function (data, type, row) {
                         if (!row) return '';
 
-                        if (['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'].includes(userRole) &&
-                            row.ferivikasi_pengawas == false) {
-                            let editUrl = "{{ route('kkh.verifikasi') }}" +
-                                "?rowID=" + encodeURIComponent(row.id);
+                        if (['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT', 'MANAGER'].includes(userRole) && row.ferivikasi_pengawas == false) {
+                            let currentUserRole = userRole?.toUpperCase();
 
-                            return `
-                                        <button class="btn-verifikasi badge w-100" data-id="${row.id}" style="font-size:14px;background-color:#001932;color:white;">
-                                            Verifikasi
-                                        </button>
-                                    `;
+                            let jabatanPengawas = row.JABATAN?.toUpperCase();
+                            let isOperator = jabatanPengawas === 'OPERATOR';
+                            let allowedToVerify = false;
+
+                            // Cegah verifikasi diri sendiri
+                            if (jabatanPengawas !== currentUserRole) {
+                                // Kasus jika pengawas adalah OPERATOR
+                                if (isOperator) {
+                                    allowedToVerify = ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'].includes(currentUserRole);
+                                } else {
+                                    // Aturan berjenjang berdasarkan peran pengawas
+                                    switch (jabatanPengawas) {
+
+                                        case 'FOREMAN':
+                                            allowedToVerify = ['SUPERVISOR', 'SUPERINTENDENT'].includes(currentUserRole);
+                                            break;
+                                        case 'SUPERVISOR':
+                                            allowedToVerify = ['SUPERINTENDENT'].includes(currentUserRole);
+                                            break;
+                                        case 'SUPERINTENDENT':
+                                            allowedToVerify = ['MANAGER'].includes(currentUserRole);
+                                            break;
+                                        case 'PJS. SUPERINTENDENT':
+                                            allowedToVerify = ['MANAGER'].includes(currentUserRole);
+                                            break;
+                                        case 'ASISTEN MANAGER':
+                                            allowedToVerify = ['MANAGER'].includes(currentUserRole);
+                                            break;
+                                        default:
+                                            // Selain OPERATOR dan role spesifik, bisa diverifikasi oleh FOREMAN, SUPERVISOR, atau SUPERINTENDENT
+                                            allowedToVerify = ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT'].includes(currentUserRole);
+                                    }
+                                }
+                            }
+
+                            if (allowedToVerify) {
+                                let editUrl = "{{ route('kkh.verifikasi') }}" + "?rowID=" + encodeURIComponent(row.id);
+                                return `
+                                    <button class="btn-verifikasi badge w-100" data-id="${row.id}" style="font-size:14px;background-color:#001932;color:white;">
+                                        Verifikasi
+                                    </button>
+                                `;
+                            }
                         }
                         return '';
                     }

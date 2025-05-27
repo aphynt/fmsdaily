@@ -41,6 +41,8 @@ class KKHController extends Controller
             ->leftJoin('db_payroll.dbo.tbl_data_hr as hr', 'kkh.nik', '=', 'hr.nik')
             ->leftJoin('db_payroll.dbo.tbl_data_hr as hr2', 'kkh.nik_pengawas', '=', 'hr2.nik')
             ->leftJoin('db_payroll.dbo.tm_departemen as dp', 'hr.Id_Departemen', '=', 'dp.ID_Departemen')
+            ->leftJoin('db_payroll.dbo.tm_perusahaan as pr', 'hr.ID_Perusahaan', '=', 'pr.ID_Perusahaan')
+            ->leftJoin('db_payroll.dbo.tm_jabatan as jb', 'hr.ID_Jabatan', '=', 'jb.ID_Jabatan')
             ->select(
                 'kkh.id',
                 'kkh.tgl',
@@ -48,6 +50,7 @@ class KKHController extends Controller
                 'hr.Nik as NIK_PENGISI',
                 'hr.Nama as NAMA_PENGISI',
                 'kkh.shift_kkh as SHIFT',
+                'jb.Jabatan as JABATAN',
                 DB::raw("
                     CASE
                         WHEN kkh.jam_pulang IS NULL OR LTRIM(RTRIM(kkh.jam_pulang)) = '' THEN '-'
@@ -163,9 +166,12 @@ class KKHController extends Controller
             ->leftJoin('db_payroll.dbo.tbl_data_hr as hr', 'kkh.nik', '=', 'hr.nik')
             ->leftJoin('db_payroll.dbo.tbl_data_hr as hr2', 'kkh.nik_pengawas', '=', 'hr2.nik')
             ->leftJoin('db_payroll.dbo.tm_departemen as dp', 'hr.Id_Departemen', '=', 'dp.ID_Departemen')
+            ->leftJoin('db_payroll.dbo.tm_perusahaan as pr', 'hr.ID_Perusahaan', '=', 'pr.ID_Perusahaan')
+            ->leftJoin('db_payroll.dbo.tm_jabatan as jb', 'hr.ID_Jabatan', '=', 'jb.ID_Jabatan')
             ->select(
                 'kkh.id',
                 'kkh.tgl',
+                'jb.Jabatan as JABATAN',
                 DB::raw("FORMAT(kkh.tgl_input, 'yyyy-MM-dd HH:mm') as TANGGAL_DIBUAT"),
                 'hr.Nik as NIK_PENGISI',
                 'hr.Nama as NAMA_PENGISI',
