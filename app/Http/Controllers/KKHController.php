@@ -414,8 +414,7 @@ class KKHController extends Controller
                     $fileName = 'qr_pengawas_' . $item->id . '.png';  // pastikan ada unique id
                     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')
-                        ->generate('Telah diverifikasi oleh: ' . $item->NAMA_PENGAWAS, $filePath);
+                    QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->NIK_PENGISI)]), $filePath);
 
                     $item->QR_CODE_PENGAWAS = $filePath;
                 } else {

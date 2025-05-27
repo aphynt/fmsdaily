@@ -764,7 +764,7 @@ class P2HController extends Controller
                     $fileName = 'VERIFIED_MEKANIK' . $item->UUID . '.png';
                     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMAMEKANIK, $filePath);
+                    QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->VERIFIED_MEKANIK)]), $filePath);
                     $item->VERIFIED_MEKANIK = $filePath;
                 }else{
                     $item->VERIFIED_MEKANIK == null;
@@ -774,7 +774,7 @@ class P2HController extends Controller
                     $fileName = 'VERIFIED_FOREMAN' . $item->UUID . '.png';
                     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMAFOREMAN, $filePath);
+                    QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->VERIFIED_FOREMAN)]), $filePath);
                     $item->VERIFIED_FOREMAN = $filePath;
                 }else{
                     $item->VERIFIED_FOREMAN == null;
@@ -784,7 +784,7 @@ class P2HController extends Controller
                     $fileName = 'VERIFIED_SUPERVISOR' . $item->UUID . '.png';
                     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMASUPERVISOR, $filePath);
+                    QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->VERIFIED_SUPERVISOR)]), $filePath);
                     $item->VERIFIED_SUPERVISOR = $filePath;
                 }else{
                     $item->VERIFIED_SUPERVISOR == null;
@@ -794,7 +794,7 @@ class P2HController extends Controller
                     $fileName = 'VERIFIED_SUPERINTENDENT' . $item->UUID . '.png';
                     $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                    QrCode::size(150)->format('png')->generate('Telah diverifikasi oleh: ' . $item->NAMASUPERINTENDENT, $filePath);
+                    QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->VERIFIED_SUPERINTENDENT)]), $filePath);
                     $item->VERIFIED_SUPERINTENDENT = $filePath;
                 }else{
                     $item->VERIFIED_SUPERINTENDENT == null;

@@ -33,6 +33,7 @@ use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RosterKerjaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerifiedController;
 use App\Http\Controllers\VerifikasiKLKHBatubaraController;
 use App\Http\Controllers\VerifikasiKLKHController;
 use App\Http\Controllers\VerifikasiKLKHDisposalController;
@@ -363,6 +364,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/kkh/name', [KKHController::class, 'name'])->name('kkh.name');
     Route::post('/kkh/verifikasi', [KKHController::class, 'verifikasi'])->name('kkh.verifikasi');
     Route::get('/kkh/download', [KKHController::class, 'download'])->name('kkh.download');
+
+    Route::get('/verified/{encodedNik}', [VerifiedController::class, 'index'])->name('verified.index');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Ramsey\Uuid\Uuid;
 
 class UserController extends Controller
 {
@@ -68,6 +69,7 @@ class UserController extends Controller
         try {
             User::create([
                 'name' => $request->name,
+                'uuid' => (string) Uuid::uuid4()->toString(),
                 'nik' => strtoupper($request->nik),
                 'role' => $request->role,
                 'statusenabled' => true,
