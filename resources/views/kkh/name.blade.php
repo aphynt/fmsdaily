@@ -232,7 +232,7 @@
                 {
                     data: 'FIT_BEKERJA',
                     render: function(data, type, row) {
-                        if (data === null || data === '') return '-';
+                        // if (data === null || data === '') return '-';
 
                         // Cek nilai data, pastikan jadi angka dulu
                         var nilai = parseInt(data);
