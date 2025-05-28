@@ -235,9 +235,9 @@
                         // if (data === null || data === '') return '-';
 
                         // Cek nilai data, pastikan jadi angka dulu
-                        var nilai = parseInt(data);
+                        // var nilai = parseInt(data);
 
-                        if (nilai == 0) {
+                        if (data == 0 || data === null || data === '') {
                             return '<span style="color:red;">TIDAK</span>';
                         }
                         return '<span style="color:green;">YA</span>';
