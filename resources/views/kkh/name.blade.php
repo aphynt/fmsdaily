@@ -70,10 +70,10 @@
                                         <th colspan="2">Pengisi</th>
                                         <th rowspan="2">Shift</th>
                                         <th colspan="3">Jam Tidur</th>
-                                        {{-- <th rowspan="2">Jam Berangkat</th> --}}
-                                        {{-- <th rowspan="2">Fit Bekerja</th> --}}
+                                        <th rowspan="2">Jam Berangkat</th>
+                                        <th rowspan="2">Fit Bekerja</th>
                                         <th rowspan="2">Keluhan</th>
-                                        {{-- <th rowspan="2">Masalah Pribadi</th> --}}
+                                        <th rowspan="2">Masalah Pribadi</th>
                                         <th colspan="2">Verifikasi Pengawas</th>
                                         <th rowspan="2">Aksi</th>
                                     </tr>
@@ -226,18 +226,18 @@
                         return '<span style="color:green;">' + teks + '</span>';
                     }
                 },
-                // {
-                //     data: 'JAM_BERANGKAT'
-                // },
-                // {
-                //     data: 'FIT_BEKERJA'
-                // },
+                {
+                    data: 'JAM_BERANGKAT'
+                },
+                {
+                    data: 'FIT_BEKERJA'
+                },
                 {
                     data: 'KELUHAN'
                 },
-                // {
-                //     data: 'MASALAH_PRIBADI'
-                // },
+                {
+                    data: 'MASALAH_PRIBADI'
+                },
                 {
                     data: 'NIK_PENGAWAS'
                 },
