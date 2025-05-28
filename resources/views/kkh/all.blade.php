@@ -150,7 +150,20 @@
                     }
                 },
                 { data: 'JAM_BERANGKAT' },
-                { data: 'FIT_BEKERJA' },
+                {
+                    data: 'FIT_BEKERJA',
+                    render: function(data, type, row) {
+                        if (data === null || data === '') return '-';
+
+                        // Cek nilai data, pastikan jadi angka dulu
+                        var nilai = parseInt(data);
+
+                        if (nilai == 0) {
+                            return '<span style="color:red;">TIDAK</span>';
+                        }
+                        return '<span style="color:green;">YA</span>';
+                    }
+                },
                 { data: 'KELUHAN' },
                 { data: 'MASALAH_PRIBADI' },
                 { data: 'NIK_PENGAWAS' },
