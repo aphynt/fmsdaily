@@ -398,7 +398,7 @@ class KKHController extends Controller
                             RIGHT('0' + RIGHT(kkh.jam_berangkat, LEN(kkh.jam_berangkat) - CHARINDEX(':', kkh.jam_berangkat)), 2)
                     END AS JAM_BERANGKAT
                 "),
-                DB::raw("CASE WHEN kkh.fit_or = 0 THEN 'TIDAK' ELSE 'YA' END as FIT_BEKERJA"),
+                DB::raw("CASE WHEN kkh.fit_or IS NULL OR kkh.fit_or = 0 THEN 'TIDAK' ELSE 'YA' END as FIT_BEKERJA"),
                 DB::raw('UPPER(kkh.keluhan) as KELUHAN'),
                 'kkh.masalah_pribadi as MASALAH_PRIBADI',
                 'kkh.verifikasi as VERIFIKASI',
