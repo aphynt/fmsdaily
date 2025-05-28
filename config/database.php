@@ -156,7 +156,17 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix'   => '',
         ],
-
+        'assignment' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('DB_HOST', '10.10.3.73'),
+            'port'     => env('DB_PORT', '1433'),
+            'database' => 'DB_OPR_ASSIGNMENT',
+            'username' => env('DB_USERNAME', 'FOCUS'),
+            'password' => env('DB_PASSWORD', 'sim5_db@1234'),
+            'charset'  => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'   => '',
+        ],
     ],
 
     /*

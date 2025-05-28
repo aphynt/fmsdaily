@@ -19,6 +19,15 @@
                                 <label for="tanggalKKH">Tanggal</label>
                                 <input type="text" id="tanggalKKH" class="form-control" name="tanggalKKH">
                             </div>
+                            <div class="col-12 col-md-3 mb-2">
+                                <label for="cluster">Kategori Operasional</label>
+                                <select class="form-select" name="cluster" id="cluster">
+                                    <option value="Semua">Semua</option>
+                                    <option value="HD">HD</option>
+                                    <option value="EX">EX</option>
+                                    <option value="Unit Support">Unit Support</option>
+                                </select>
+                            </div>
 
                             <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
                                 <button id="cariKKH" class="btn btn-primary w-100" style="padding-top:10px;padding-bottom:10px;">Tampilkan</button>
@@ -110,6 +119,8 @@
                     // Kirimkan parameter tambahan jika diperlukan (misalnya tanggal)
                     var tanggalKKH = $('#tanggalKKH').val();
                     d.tanggalKKH = tanggalKKH;
+                    var cluster = $('#cluster').val();
+                    d.cluster = cluster;
                     delete d.columns;
                     // delete d.search;
                     delete d.order;

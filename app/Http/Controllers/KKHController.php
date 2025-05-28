@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssignmentOperator;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,8 @@ class KKHController extends Controller
 
         $start = new DateTime($request->tanggalKKH);
         $tanggalKKH = $start->format('Y-m-d');
+
+
 
         $kkh = DB::connection('kkh')->table('db_payroll.dbo.web_kkh as kkh')
             ->leftJoin('db_payroll.dbo.tbl_data_hr as hr', 'kkh.nik', '=', 'hr.nik')
@@ -122,13 +125,42 @@ class KKHController extends Controller
         if (!empty($request->tanggalKKH)) {
             $kkh->where('kkh.tgl', $tanggalKKH);
         }
+        $cluster = $request->cluster; // contoh: "A1"
+        $allAssignments = AssignmentOperator::select('NIK', 'CLASS')->get();
+
+        if ($cluster == 'HD' || $cluster == 'EX') {
+            // Ambil NIK dari AssignmentOperator sesuai CLASS
+            $niks = AssignmentOperator::where('CLASS', $cluster)->pluck('NIK');
+            $kkh->whereIn('hr.nik', $niks);
+
+        } elseif ($cluster == 'Unit Support') {
+            // Ambil semua NIK dari HD dan EX
+            $excludedNiks = AssignmentOperator::whereIn('CLASS', ['HD', 'EX'])->pluck('NIK')->toArray();
+
+            // Ambil semua NIK dari hr (tabel join) yang jabatannya Operator, dan bukan HD/EX
+            $allOperatorNiks = DB::connection('kkh')
+                ->table('db_payroll.dbo.tbl_data_hr')
+                ->where('ID_Jabatan', function($q) {
+                    $q->select('ID_Jabatan')
+                    ->from('db_payroll.dbo.tm_jabatan')
+                    ->where('Jabatan', 'Operator')
+                    ->limit(1); // pastikan hanya satu
+                })
+                ->whereNotIn('Nik', $excludedNiks)
+                ->pluck('Nik');
+
+            // Filter di query utama
+            $kkh->whereIn('hr.nik', $allOperatorNiks);
+        }
 
         $filteredRecords = $kkh->count();
+
+
         $kkh = $kkh
-            ->orderBy('kkh.tgl')
-            ->offset($offset)
-            ->limit($length)
-            ->get();
+        ->orderBy('kkh.tgl')
+        ->offset($offset)
+        ->limit($length)
+        ->get();
 
         // Return JSON response
         return response()->json([
