@@ -341,7 +341,7 @@
                 rowID: rowID
             },
             success: function(response) {
-                Swal.fire('Terverifikasi!', 'Data berhasil diverifikasi.', 'success');
+                // Swal.fire('Terverifikasi!', 'Data berhasil diverifikasi.', 'success');
 
                 // ✅ Refresh DataTables tanpa reload halaman
                 table.ajax.reload(null, false);
