@@ -64,6 +64,7 @@ class P2HController extends Controller
                 'A.OPR_NRP',
                 'D.PERSONALNAME',
                 'A.VHC_ID',
+                'A.MTR_HOURMETER',
                 DB::raw('COALESCE(C.VAL_NOTOK, 0) as VAL_NOTOK'),
                 'p2h.VERIFIED_MEKANIK',
                 'mec.PERSONALNAME as NAMAMEKANIK',
@@ -209,6 +210,7 @@ class P2HController extends Controller
             'p2h.UUID',
             'p2h.STATUSENABLED',
             'p2h.VHC_ID',
+            'p2h.MTR_HOURMETER',
             'sh.SHIFTDESC',
             'p2h.OPR_REPORTTIME',
             'p2h.CREATED_AT',
@@ -258,7 +260,7 @@ class P2HController extends Controller
             'A.OPR_REPORTTIME',
             'A.OPR_SHIFTDATE',
             'A.OPR_SHIFTNO',
-            'A.VHC_ID'
+            'A.VHC_ID',
         )
         ->leftJoin('FOCUS.dbo.FLT_EQUCHECKLISTITEM as B', function($join) {
             $join->on('A.EQU_TYPEID', '=', 'B.EQU_TYPEID')
@@ -311,6 +313,7 @@ class P2HController extends Controller
                     'p2h.OPR_SHIFTDATE',
                     'p2h.OPR_SHIFTNO',
                     'p2h.VHC_ID',
+                    'p2h.MTR_HOURMETER',
                     )
                 ->where('UUID_OPR_CHECKLISTP2H', $checkdataP2H->UUID)->where('p2h.STATUSENABLED', true)->get();
 
@@ -392,6 +395,7 @@ class P2HController extends Controller
                 'STATUSENABLED' => true,
                 'CREATED_BY' => Auth::user()->id,
                 'VHC_ID' => $detail->first()->VHC_ID,
+                'MTR_HOURMETER' => $request['MTR_HOURMETER'],
                 'OPR_SHIFTNO' => $detail->first()->OPR_SHIFTNO,
                 'OPR_REPORTTIME' => $detail->first()->OPR_REPORTTIME,
                 'OPR_SHIFTDATE' => $detail->first()->OPR_SHIFTDATE,
@@ -435,6 +439,7 @@ class P2HController extends Controller
             'p2h.UUID',
             'p2h.STATUSENABLED',
             'p2h.VHC_ID',
+            'p2h.MTR_HOURMETER',
             'sh.SHIFTDESC',
             'p2h.OPR_REPORTTIME',
             'p2h.VERIFIED_OPERATOR',
@@ -601,6 +606,7 @@ class P2HController extends Controller
             'p2h.UUID',
             'p2h.STATUSENABLED',
             'p2h.VHC_ID',
+            'p2h.MTR_HOURMETER',
             'sh.SHIFTDESC',
             'p2h.OPR_REPORTTIME',
             'p2h.VERIFIED_OPERATOR',
@@ -700,6 +706,7 @@ class P2HController extends Controller
             'p2h.UUID',
             'p2h.STATUSENABLED',
             'p2h.VHC_ID',
+            'p2h.MTR_HOURMETER',
             'sh.SHIFTDESC',
             'p2h.OPR_REPORTTIME',
             'p2h.VERIFIED_OPERATOR',

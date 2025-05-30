@@ -174,6 +174,7 @@
                                     let editUrl = "{{ route('p2h.detail') }}" +
                                         "?VHC_ID=" + encodeURIComponent(row.VHC_ID) +
                                         "&OPR_REPORTTIME=" + encodeURIComponent(row.OPR_REPORTTIME) +
+                                        "&MTR_HOURMETER=" + encodeURIComponent(row.MTR_HOURMETER) +
                                         "&OPR_NRP=" + encodeURIComponent(row.OPR_NRP);
 
                                     return `

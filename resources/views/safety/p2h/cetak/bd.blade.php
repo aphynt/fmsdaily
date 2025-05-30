@@ -102,7 +102,13 @@
         </tr>
         <tr style="border-right:1px solid #000">
             <td style="border:none;text-align:left;" colspan="2">Hm/Km</td>
-            <td style="border:none;text-align:left;" colspan="6">:</td>
+            <td style="border:none;text-align:left;" colspan="6">:
+                @if ($data->first()->MTR_HOURMETER != 0 || $data->first()->MTR_HOURMETER != null)
+                    {{ $data->first()->MTR_HOURMETER }}
+                @else
+                    -
+                @endif
+            </td>
         </tr>
     <!-- </table>
     <table>

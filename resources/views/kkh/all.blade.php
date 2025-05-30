@@ -243,34 +243,52 @@
 
         const rowID = $(this).data('id');
 
-        Swal.fire({
-            title: 'Verifikasi Data?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Verifikasi'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "{{ route('kkh.verifikasi') }}",
-                    method: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        rowID: rowID
-                    },
-                    success: function(response) {
-                        Swal.fire('Terverifikasi!', 'Data berhasil diverifikasi.', 'success');
+        $.ajax({
+            url: "{{ route('kkh.verifikasi') }}",
+            method: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}",
+                rowID: rowID
+            },
+            success: function(response) {
+                Swal.fire('Terverifikasi!', 'Data berhasil diverifikasi.', 'success');
 
-                        // ✅ Refresh DataTables tanpa reload halaman
-                        table.ajax.reload(null, false);
-                    },
-                    error: function(xhr) {
-                        Swal.fire('Gagal', 'Terjadi kesalahan saat memverifikasi.', 'error');
-                    }
-                });
+                // ✅ Refresh DataTables tanpa reload halaman
+                table.ajax.reload(null, false);
+            },
+            error: function(xhr) {
+                Swal.fire('Gagal', 'Terjadi kesalahan saat memverifikasi.', 'error');
             }
         });
+
+        // Swal.fire({
+        //     title: 'Verifikasi Data?',
+        //     icon: 'question',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Ya, Verifikasi'
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         $.ajax({
+        //             url: "{{ route('kkh.verifikasi') }}",
+        //             method: 'POST',
+        //             data: {
+        //                 _token: "{{ csrf_token() }}",
+        //                 rowID: rowID
+        //             },
+        //             success: function(response) {
+        //                 Swal.fire('Terverifikasi!', 'Data berhasil diverifikasi.', 'success');
+
+        //                 // ✅ Refresh DataTables tanpa reload halaman
+        //                 table.ajax.reload(null, false);
+        //             },
+        //             error: function(xhr) {
+        //                 Swal.fire('Gagal', 'Terjadi kesalahan saat memverifikasi.', 'error');
+        //             }
+        //         });
+        //     }
+        // });
     });
 </script>
 
