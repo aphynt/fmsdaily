@@ -251,7 +251,7 @@ class P2HController extends Controller
         $request->validate([
             'VHC_ID' => 'required|string',
             'OPR_REPORTTIME' => 'required|date',
-            'MTR_HOURMETER' => 'required|numeric',
+            // 'MTR_HOURMETER' => 'required|numeric',
             'OPR_NRP' => 'required|string'
         ]);
 
