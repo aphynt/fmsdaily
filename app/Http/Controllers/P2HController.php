@@ -282,7 +282,9 @@ class P2HController extends Controller
 
 
         $jumlahAATerisi = $detail->filter(function ($item) {
-            return $item->CHECKLISTVAL == 0 && $item->CHECKLISTGROUPID == 'AA';
+            // return $item->CHECKLISTVAL == 0 && $item->CHECKLISTGROUPID == 'AA';
+            //Kode A atau AA harus muncul
+            return $item->CHECKLISTVAL == 0 && $item->CHECKLISTGROUPID == 'AA' || $item->CHECKLISTGROUPID == 'A';
         })->count();
 
         // dd($jumlahAATerisi);

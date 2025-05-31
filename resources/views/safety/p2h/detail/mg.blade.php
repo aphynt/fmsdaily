@@ -30,7 +30,7 @@ $detailFiltered = $detail->filter(function($item) {
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        showNotification("Temuan kode AA harus diverifikasi oleh Pengawas Mekanik terlebih dahulu.");
+        showNotification("Temuan kode A atau AA harus diverifikasi oleh Pengawas Mekanik terlebih dahulu.");
     });
 </script>
 
@@ -90,7 +90,7 @@ $detailFiltered = $detail->filter(function($item) {
                                     </div>
                                 </div>
                                 @if ($jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
-                                    <div class="alert alert-danger" role="alert">Terdapat temuan kode AA. Verifikasi harus dilakukan oleh Pengawas Mekanik terlebih dahulu.</div>
+                                    <div class="alert alert-danger" role="alert">Terdapat temuan kode A atau AA. Verifikasi harus dilakukan oleh Pengawas Mekanik terlebih dahulu.</div>
                                 @endif
                                 {{-- @dd($verifikasiMekanik) --}}
                                 @if ($verifikasiMekanik)
