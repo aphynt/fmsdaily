@@ -187,7 +187,7 @@
 
         // Tombol pencarian manual
         $('#cariP2H').click(function () {
-            table.ajax.reload();
+            table.ajax.reload(null, false);
         });
 
         // Delegated event handler untuk tombol Verifikasi
@@ -219,7 +219,7 @@
             },
             success: function (response) {
                 // alert("Verifikasi berhasil!");
-                $('#dataP2H').DataTable().ajax.reload();
+                $('#dataP2H').DataTable().ajax.reload(null, false);
             },
             error: function (xhr) {
                 Swal.fire('Gagal', 'Terjadi kesalahan saat memverifikasi.', 'error');
