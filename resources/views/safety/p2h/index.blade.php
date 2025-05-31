@@ -170,7 +170,7 @@
 
                         if (userRole !== 'SUPERINTENDENT') {
                             if (!row.VERIFIED_FOREMAN && !row.VERIFIED_SUPERVISOR) {
-                                if (!(['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK'].includes(userRole) && row.VERIFIED_MEKANIK)) {
+                                if (!(['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK'].includes(userRole) && row.VERIFIED_MEKANIK)) {
                                     let editUrl = "{{ route('p2h.detail') }}" +
                                         "?VHC_ID=" + encodeURIComponent(row.VHC_ID) +
                                         "&OPR_REPORTTIME=" + encodeURIComponent(row.OPR_REPORTTIME) +

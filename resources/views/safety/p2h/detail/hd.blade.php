@@ -89,7 +89,7 @@ $detailFiltered = $detail->filter(function($item) {
                                         </div>
                                     </div>
                                 </div>
-                                @if ($jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
+                                @if ($jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
                                     <div class="alert alert-danger" role="alert">Terdapat temuan kode A atau AA. Verifikasi harus dilakukan oleh Pengawas Mekanik terlebih dahulu.</div>
                                 @endif
                                 {{-- @dd($verifikasiMekanik) --}}
@@ -149,7 +149,7 @@ $detailFiltered = $detail->filter(function($item) {
                                             </div>
                                         </ul>
                                     </div>
-                                @elseif ($jumlahAATerisi >= 1 && $detailFiltered->count() > 0 && in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
+                                @elseif ($jumlahAATerisi >= 1 && $detailFiltered->count() > 0 && in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
                                     <div class="col-12">
                                         <div class="table-responsive">
                                             <table class="table table-hover mb-0">
@@ -209,11 +209,11 @@ $detailFiltered = $detail->filter(function($item) {
                                                         <th rowspan="2">Item</th>
                                                         <th rowspan="2">Value</th>
                                                         <th rowspan="2">CATATAN OPERATOR</th>
-                                                        @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
+                                                        @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
                                                         <th colspan="2">Komentar</th>
                                                         @endif
                                                     </tr>
-                                                    @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
+                                                    @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
                                                     <tr>
                                                         <th>KBJ</th>
                                                         <th>Jawaban</th>
@@ -238,7 +238,7 @@ $detailFiltered = $detail->filter(function($item) {
                                                             @endif
                                                         </td>
                                                         <td><input type="hidden" name="CHECKLISTNOTES[]" value="{{ $dt->CHECKLISTNOTES }}">{{ $dt->CHECKLISTNOTES }}</td>
-                                                        @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
+                                                        @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
                                                             <td><input type="text" class="form-control" style="min-width: 50px;" name="KBJ[]"></td>
                                                             <td><input type="text" class="form-control" style="min-width: 250px" name="JAWABAN[]"></td>
                                                         @endif
@@ -251,7 +251,7 @@ $detailFiltered = $detail->filter(function($item) {
                                         <div class="text-start">
                                             <hr class="mb-2 mt-1 border-secondary border-opacity-50">
                                         </div>
-                                       @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK']))
+                                       @if (!$jumlahAATerisi >= 1 && !$verifikasiMekanik && !in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
 
                                         <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                             <div class="text-center mt-3">
