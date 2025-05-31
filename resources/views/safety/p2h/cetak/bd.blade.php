@@ -181,13 +181,13 @@
     <div class="container">
         <p>
             <ol style="display:flex;">
-                <div class="satu">
-                    <li>Kode ''AA" = Unit tidak bisa dioperasikan sebelum ada</li>
-                    <li>Kode " A" = Kerusakan yang harus diperbaiki dalam waktu 1 x 1 SHIFT</li>
-                    <li>P2H harus dilaksanakan diawal shift dan ditandatangani oleh Driver/Oprt sebelum dioperasikan kemudian diserahkan kepada Foreman/SPV</li>
-                    <li>Mengoperasikan alat dengan kerusakan kode bahaya AA, akan dikenai sanksi sesuai  peraturan.</li>
+                <div class="satu" style="font-style: italic">
+                    <li>Kode "AA" = Unit tidak bisa dioperasikan sebelum ada persetujuan dari Foreman/Supervisor</li>
+                    <li>Kode "A" = Kerusakan yang harus diperbaiki dalam waktu 1 x 1 SHIFT</li>
+                    <li>P2H harus diserahkan ke Foreman/SPV. di awal shift dan harus ditanda tangani</li>
+                    <li>Mengoperasikan alat dengan kerusakan kode bahaya AA, akan dikenai sanksi sesuai peraturan.</li>
                 </div>
-                <div class="dua">
+                <div class="dua" style="font-style: italic">
                     <li>O =  Operator</li>
                     <li>KBJ = Kode Bahaya setelah penilaian resiko</li>
                 </div>
@@ -264,10 +264,10 @@
             </tr>
         </tbody>
     </table>
-    <p>
-        *) Bisa tidak di tanda tangani apabila tidak ada temuan<br/>
-        **) Memeriksa (Bulanan)  P2H  yang di isi untuk memastikan P2H dilaksanakan dengan baik<br/>
-        ***) Kerusakan akibat insiden harus dilaporkan dalam waktu 1 x 24 jam
+    <p style="font-style: italic">
+        Tanda *) Bisa tidak di tanda tangani apabila tidak ada temuan<br/>
+        Tanda **) Memeriksa (Bulanan)  P2H  yang di isi untuk memastikan P2H dilaksanakan dengan baik<br/>
+        Tanda ***) Kerusakan akibat insiden harus dilaporkan dalam waktu 1 x 24 jam
     </p>
 </body>
 <script>
