@@ -93,25 +93,19 @@
 
 </script>
 <script>
+    $(document).ready(function () {
+        const userRole = "{{ Auth::user()->role }}";
 
-    $(document).ready(function() {
-        var userRole = "{{ Auth::user()->role }}";
-        var table = $('#dataP2H').DataTable({
-
-
+        const table = $('#dataP2H').DataTable({
             processing: true,
-            serverSide: true,  // Untuk menggunakan server-side processing
+            serverSide: true,
             ajax: {
-                url: '{{ route('p2h.api') }}',  // URL API Anda
-                method: 'GET',  // Gunakan GET atau POST sesuai dengan implementasi Anda
-                data: function(d) {
-                    // Kirimkan parameter tambahan jika diperlukan (misalnya tanggal)
-                    var tanggalP2H = $('#tanggalP2H').val();
-                    var shiftP2H = $('#shiftP2H').val();
-                    d.tanggalP2H = tanggalP2H;
-                    d.shiftP2H = shiftP2H;
+                url: '{{ route('p2h.api') }}',
+                method: 'GET',
+                data: function (d) {
+                    d.tanggalP2H = $('#tanggalP2H').val();
+                    d.shiftP2H = $('#shiftP2H').val();
                     delete d.columns;
-                    // delete d.search;
                     delete d.order;
                 },
             },
@@ -122,88 +116,116 @@
                 { data: 'PERSONALNAME' },
                 {
                     data: 'VAL_NOTOK',
-                    render: function(data, type, row) {
-                        if (data >= 1) {
-                            return '<span style="color: red;">' + data + '</span>';
-                        } else {
-                            return '<span style="color: green;">' + data + '</span>';
-                        }
+                    render: function (data) {
+                        const color = data >= 1 ? 'red' : 'green';
+                        return `<span style="color: ${color};">${data}</span>`;
                     }
                 },
                 {
                     data: 'VERIFIED_FOREMAN',
-                    render: function(data, type, row) {
-                        // Cek jika row ada (untuk menghindari error)
+                    render: function (_, __, row) {
                         if (!row) return '-';
-
-                        // Jika VERIFIED_FOREMAN ada, tampilkan NAMAFOREMAN, jika null tampilkan NAMA SUPERVISOR, jika keduanya null tampilkan '-'
-                        if (row.VERIFIED_FOREMAN) {
-                            return row.VERIFIED_FOREMAN ?? '-';
-                        } else if (row.VERIFIED_SUPERVISOR) {
-                            return row.VERIFIED_SUPERVISOR ?? '-';
-                        } else {
-                            return '-';
-                        }
+                        return row.VERIFIED_FOREMAN || row.VERIFIED_SUPERVISOR || '-';
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, row) {
-                        // Cek jika row ada (untuk amankan dari error)
+                    render: function (_, __, row) {
                         if (!row) return '-';
-
-                        if (row.VERIFIED_FOREMAN) {
-                            return row.NAMAFOREMAN ?? '-';
-                        } else if (row.VERIFIED_SUPERVISOR) {
-                            return row.NAMASUPERVISOR ?? '-';
-                        } else {
-                            return '-';
-                        }
+                        return row.NAMAFOREMAN || row.NAMASUPERVISOR || '-';
                     }
                 },
                 {
                     data: null,
-                    render: function(data, type, row) {
-                        console.log(row);
-
+                    render: function (_, __, row) {
                         if (!row) return '';
 
-                        if (userRole !== 'SUPERINTENDENT') {
-                            if (!row.VERIFIED_FOREMAN && !row.VERIFIED_SUPERVISOR) {
-                                if (!(['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK'].includes(userRole) && row.VERIFIED_MEKANIK)) {
-                                    let editUrl = "{{ route('p2h.detail') }}" +
-                                        "?VHC_ID=" + encodeURIComponent(row.VHC_ID) +
-                                        "&OPR_REPORTTIME=" + encodeURIComponent(row.OPR_REPORTTIME) +
-                                        "&MTR_HOURMETER=" + encodeURIComponent(row.MTR_HOURMETER) +
-                                        "&OPR_NRP=" + encodeURIComponent(row.OPR_NRP);
+                        const mekanikRoles = [
+                            'FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK',
+                            'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK',
+                            'LEADER MEKANIK'
+                        ];
 
-                                    return `
-                                        <a href="${editUrl}">
-                                            <span class="badge w-100" style="font-size:14px;background-color:#001932">
-                                                Detail
-                                            </span>
-                                        </a>
-                                    `;
-                                }
+                        if (
+                            userRole !== 'SUPERINTENDENT' &&
+                            !row.VERIFIED_FOREMAN &&
+                            !row.VERIFIED_SUPERVISOR &&
+                            !(mekanikRoles.includes(userRole) && row.VERIFIED_MEKANIK)
+                        ) {
+                            const editUrl = `{{ route('p2h.detail') }}?VHC_ID=${encodeURIComponent(row.VHC_ID)}&OPR_REPORTTIME=${encodeURIComponent(row.OPR_REPORTTIME)}&MTR_HOURMETER=${encodeURIComponent(row.MTR_HOURMETER)}&OPR_NRP=${encodeURIComponent(row.OPR_NRP)}`;
+
+                            if (row.VAL_NOTOK >= 1) {
+                                return `
+                                    <a href="${editUrl}">
+                                        <span class="badge w-100" style="font-size:14px;background-color:#198754">
+                                            Detail
+                                        </span>
+                                    </a>
+                                `;
+                            } else {
+                                return `
+                                    <button class="btn-verifikasi badge w-100 border-0"
+                                        data-vhc_id="${row.VHC_ID}"
+                                        data-opr_time="${row.OPR_REPORTTIME}"
+                                        data-hm="${row.MTR_HOURMETER}"
+                                        data-nrp="${row.OPR_NRP}"
+                                        style="font-size:14px;background-color:#001932;color:white">
+                                        Verifikasi
+                                    </button>
+                                `;
                             }
                         }
+
                         return '';
                     }
                 }
-
-
             ],
-            "order": [[0, "desc"]],  // Default sort by first column
-            "pageLength": 25,  // Jumlah baris per halaman
-            "lengthMenu": [10, 15, 25, 50],  // Pilihan jumlah baris per halaman
+            order: [[0, 'desc']],
+            pageLength: 25,
+            lengthMenu: [10, 15, 25, 50]
         });
 
-        // Event listener untuk tombol refresh
-        $('#cariP2H').click(function() {
-            table.ajax.reload();  // Reload data dengan AJAX
+        // Tombol pencarian manual
+        $('#cariP2H').click(function () {
+            table.ajax.reload();
         });
-        table.ajax.reload();
+
+        // Delegated event handler untuk tombol Verifikasi
+        $('#dataP2H').on('click', '.btn-verifikasi', function () {
+            const btn = $(this);
+            const row = {
+                VHC_ID: btn.data('vhc_id'),
+                OPR_REPORTTIME: btn.data('opr_time'),
+                MTR_HOURMETER: btn.data('hm'),
+                OPR_NRP: btn.data('nrp')
+            };
+            verifP2H(row);
+        });
     });
 
+    // Fungsi global verifikasi
+    window.verifP2H = function (row) {
+        // if (!confirm("Yakin ingin memverifikasi data ini?")) return;
+
+        $.ajax({
+            url: "{{ route('p2h.verifikasi') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                VHC_ID: row.VHC_ID,
+                OPR_REPORTTIME: row.OPR_REPORTTIME,
+                MTR_HOURMETER: row.MTR_HOURMETER,
+                OPR_NRP: row.OPR_NRP
+            },
+            success: function (response) {
+                // alert("Verifikasi berhasil!");
+                $('#dataP2H').DataTable().ajax.reload();
+            },
+            error: function (xhr) {
+                Swal.fire('Gagal', 'Terjadi kesalahan saat memverifikasi.', 'error');
+                // alert("Verifikasi gagal: " + xhr.responseText);
+            }
+        });
+    };
 </script>
 

@@ -350,6 +350,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/safety/p2h', [P2HController::class, 'index'])->name('p2h.index');
     Route::get('/safety/p2h/api', [P2HController::class, 'api'])->name('p2h.api');
     Route::get('/safety/p2h/detail', [P2HController::class, 'detail'])->name('p2h.detail');
+    Route::post('/safety/p2h/verifikasi', [P2HController::class, 'verifikasi'])->name('p2h.verifikasi');
     Route::get('/safety/p2h/show', [P2HController::class, 'show'])->name('p2h.show');
     Route::post('/safety/p2h/detail/post', [P2HController::class, 'detail_post'])->name('p2h.detail.post');
     Route::get('/safety/p2h/preview/{uuid}', [P2HController::class, 'preview'])->name('p2h.preview');

@@ -246,6 +246,123 @@ class P2HController extends Controller
         return view('safety.p2h.show', compact('data'));
     }
 
+    public function verifikasi(Request $request)
+    {
+        $request->validate([
+            'VHC_ID' => 'required|string',
+            'OPR_REPORTTIME' => 'required|date',
+            'MTR_HOURMETER' => 'required|numeric',
+            'OPR_NRP' => 'required|string'
+        ]);
+
+        DB::beginTransaction(); //  Mulai transaksi
+
+        try {
+            $detail = DB::table('FOCUS.dbo.OPR_OPRCHECKLISTITEM as A')
+                ->select(
+                    'A.ID',
+                    'A.CHECKLISTGROUPID',
+                    'A.CHECKLISTITEMID',
+                    'B.CHECKLISTITEMDESCRIPTION',
+                    'A.CHECKLISTNOTES',
+                    'A.CHECKLISTVAL',
+                    'A.OPR_REPORTTIME',
+                    'A.OPR_SHIFTDATE',
+                    'A.OPR_SHIFTNO',
+                    'A.VHC_ID',
+                )
+                ->leftJoin('FOCUS.dbo.FLT_EQUCHECKLISTITEM as B', function($join) {
+                    $join->on('A.EQU_TYPEID', '=', 'B.EQU_TYPEID')
+                        ->on('A.CHECKLISTGROUPID', '=', 'B.CHECKLISTGROUPID')
+                        ->on('A.CHECKLISTITEMID', '=', 'B.CHECKLISTITEMID');
+                })
+                ->leftJoin('FOCUS.dbo.FLT_EQUCHECKLISTGROUP as C', function($join) {
+                    $join->on('A.EQU_TYPEID', '=', 'C.EQU_TYPEID')
+                        ->on('A.CHECKLISTGROUPID', '=', 'C.CHECKLISTGROUPID');
+                })
+                ->where('A.VHC_ID', $request['VHC_ID'])
+                ->whereRaw("DATEADD(ms, -DATEPART(ms, A.OPR_REPORTTIME), A.OPR_REPORTTIME) = ?", [$request['OPR_REPORTTIME']])
+                ->orderBy('A.CHECKLISTGROUPID')
+                ->orderBy('B.CHECKLISTITEMDESCRIPTION')
+                ->get();
+
+            if ($detail->isEmpty()) {
+                return response()->json(['error' => 'Data tidak ditemukan'], 404);
+            }
+
+            $first = $detail->first();
+
+            $checkdataP2H = ChecklistP2H::where('VHC_ID', $first->VHC_ID)
+                ->where('OPR_SHIFTNO', $first->OPR_SHIFTNO)
+                ->where('OPR_REPORTTIME', $first->OPR_REPORTTIME)
+                ->first();
+
+            // Tentukan siapa yang memverifikasi
+            $updateData = match (Auth::user()->role) {
+                'FOREMAN' => [
+                    'VERIFIED_FOREMAN' => Auth::user()->nik,
+                    'DATEVERIFIED_FOREMAN' => now(),
+                ],
+                'SUPERVISOR' => [
+                    'VERIFIED_SUPERVISOR' => Auth::user()->nik,
+                    'DATEVERIFIED_SUPERVISOR' => now(),
+                ],
+                'SUPERINTENDENT' => [
+                    'VERIFIED_SUPERINTENDENT' => Auth::user()->nik,
+                    'DATEVERIFIED_SUPERINTENDENT' => now(),
+                ],
+                default => [
+                    'VERIFIED_MEKANIK' => Auth::user()->nik,
+                    'DATEVERIFIED_MEKANIK' => now(),
+                ],
+            };
+
+            if ($checkdataP2H) {
+                $checkdataP2H->update($updateData);
+                $dataP2H = $checkdataP2H;
+            } else {
+                $dataP2H = ChecklistP2H::create(array_merge([
+                    'UUID' => (string) Uuid::uuid4()->toString(),
+                    'STATUSENABLED' => true,
+                    'CREATED_BY' => Auth::user()->id,
+                    'VHC_ID' => $first->VHC_ID,
+                    'MTR_HOURMETER' => $request['MTR_HOURMETER'],
+                    'OPR_SHIFTNO' => $first->OPR_SHIFTNO,
+                    'OPR_REPORTTIME' => $first->OPR_REPORTTIME,
+                    'OPR_SHIFTDATE' => $first->OPR_SHIFTDATE,
+                    'VERIFIED_OPERATOR' => $request['OPR_NRP'],
+                    'DATEVERIFIED_OPERATOR' => $first->OPR_REPORTTIME,
+                ], $updateData));
+            }
+
+            foreach ($detail as $item) {
+                ChecklistP2HDetail::create([
+                    'UUID' => (string) Uuid::uuid4()->toString(),
+                    'UUID_OPR_CHECKLISTP2H' => $dataP2H->UUID,
+                    'GROUPID' => $item->CHECKLISTGROUPID,
+                    'ITEMDESCRIPTION' => $item->CHECKLISTITEMDESCRIPTION,
+                    'VALUE' => $item->CHECKLISTVAL,
+                    'NOTES' => $item->CHECKLISTNOTES,
+                    'CREATED_BY' => Auth::user()->id,
+                    'STATUSENABLED' => true,
+                    // 'UPDATED_AT' => now(),
+                ]);
+            }
+
+            DB::commit(); // Sukses, commit transaksi
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $e) {
+            DB::rollBack(); // ❌ Gagal, rollback
+            return response()->json([
+                'error' => 'Gagal memverifikasi data',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
     public function detail(Request $request)
     {
        $detail = DB::table('FOCUS.dbo.OPR_OPRCHECKLISTITEM as A')
