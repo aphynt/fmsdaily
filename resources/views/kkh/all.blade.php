@@ -15,9 +15,17 @@
                     </div>
                     <div class="col-12">
                         <div class="mb-3 row">
-                            <div class="col-12 col-md-3 mb-2">
+                            <div class="col-6 col-md-3 mb-2">
                                 <label for="tanggalKKH">Tanggal</label>
                                 <input type="text" id="tanggalKKH" class="form-control" name="tanggalKKH">
+                            </div>
+                            <div class="col-6 col-md-3 mb-2">
+                                <label for="shift">Shift</label>
+                                <select class="form-select" name="shift" id="shift">
+                                    <option value="Semua">Semua</option>
+                                    <option value="Pagi">Pagi</option>
+                                    <option value="Malam">Malam</option>
+                                </select>
                             </div>
                             <div class="col-12 col-md-3 mb-2">
                                 <label for="cluster">Kategori Operasional</label>
@@ -28,7 +36,6 @@
                                     <option value="Unit Support">Unit Support</option>
                                 </select>
                             </div>
-
                             <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
                                 <button id="cariKKH" class="btn btn-primary w-100" style="padding-top:10px;padding-bottom:10px;">Tampilkan</button>
                             </div>
@@ -121,6 +128,8 @@
                     d.tanggalKKH = tanggalKKH;
                     var cluster = $('#cluster').val();
                     d.cluster = cluster;
+                    var shift = $('#shift').val();
+                    d.shift = shift;
                     delete d.columns;
                     // delete d.search;
                     delete d.order;

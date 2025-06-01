@@ -125,6 +125,13 @@ class KKHController extends Controller
         if (!empty($request->tanggalKKH)) {
             $kkh->where('kkh.tgl', $tanggalKKH);
         }
+        $shift = $request->shift;
+        if ($shift == 'Pagi') {
+            $kkh->where('kkh.shift_kkh', $shift);
+        }elseif($shift == 'Malam'){
+            $kkh->where('kkh.shift_kkh', $shift);
+        }
+
         $cluster = $request->cluster; // contoh: "A1"
         $allAssignments = AssignmentOperator::select('NIK', 'CLASS')->get();
 
