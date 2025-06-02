@@ -376,9 +376,21 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($orang->verified_foreman != null)<img src="data:image/png;base64, {!! $orang->verified_foreman !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($orang->verified_supervisor != null)<img src="data:image/png;base64, {!! $orang->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($orang->verified_superintendent != null)<img src="data:image/png;base64, {!! $orang->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">
+                        @if ($orang->verified_foreman != null)
+                            <img src="{{ public_path('qr-temp/' . basename($orang->verified_foreman)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($orang->verified_supervisor != null)
+                            <img src="{{ public_path('qr-temp/' . basename($orang->verified_supervisor)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($orang->verified_superintendent != null)
+                            <img src="{{ public_path('qr-temp/' . basename($orang->verified_superintendent)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $orang->nama_foreman ? $orang->nama_foreman : '.......................' }}</td>

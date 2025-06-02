@@ -370,9 +370,21 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($batu->verified_foreman != null)<img src="data:image/png;base64, {!! $batu->verified_foreman !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($batu->verified_supervisor != null)<img src="data:image/png;base64, {!! $batu->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($batu->verified_superintendent != null)<img src="data:image/png;base64, {!! $batu->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">
+                        @if ($batu->verified_foreman != null)
+                            <img src="{{ public_path('qr-temp/' . basename($batu->verified_foreman)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($batu->verified_supervisor != null)
+                            <img src="{{ public_path('qr-temp/' . basename($batu->verified_supervisor)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($batu->verified_superintendent != null)
+                            <img src="{{ public_path('qr-temp/' . basename($batu->verified_superintendent)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $batu->nama_foreman ? $batu->nama_foreman : '.......................' }}</td>

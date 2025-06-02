@@ -376,9 +376,9 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($se->verified_foreman != null){!! $se->verified_foreman !!}@endif</td>
-                    <td class="noborder nobg">@if ($se->verified_supervisor != null){!! $se->verified_supervisor !!}@endif</td>
-                    <td class="noborder nobg">@if ($se->verified_superintendent != null){!! $se->verified_superintendent !!}@endif</td>
+                    <td class="noborder nobg">@if ($se->verified_foreman != null)<img src="{{ $se->verified_foreman }}" style="max-width: 70px;">@endif</td>
+                    <td class="noborder nobg">@if ($se->verified_supervisor != null)<img src="{{ $se->verified_supervisor }}" style="max-width: 70px;">@endif</td>
+                    <td class="noborder nobg">@if ($se->verified_superintendent != null)<img src="{{ $se->verified_superintendent }}" style="max-width: 70px;">@endif</td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $se->nama_foreman ? $se->nama_foreman : '.......................' }}</td>

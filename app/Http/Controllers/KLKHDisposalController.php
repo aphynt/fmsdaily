@@ -222,9 +222,51 @@ class KLKHDisposalController extends Controller
         if($dp == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $dp->verified_foreman = $dp->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_foreman) : null;
-            $dp->verified_supervisor = $dp->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_supervisor) : null;
-            $dp->verified_superintendent = $dp->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $dp->nama_superintendent) : null;
+            $item = $dp;
+
+            $qrTempFolder = storage_path('app/public/qr-temp');
+            if (!File::exists($qrTempFolder)) {
+                File::makeDirectory($qrTempFolder, 0755, true);
+            }
+
+            if ($item->verified_foreman != null) {
+                $fileName = 'verified_foreman' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_foreman)]), $filePath);
+
+                $item->verified_foreman = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_foreman = null;
+            }
+
+            if ($item->verified_supervisor != null) {
+                $fileName = 'verified_supervisor' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_supervisor)]), $filePath);
+
+                $item->verified_supervisor = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_supervisor = null;
+            }
+
+            if ($item->verified_superintendent != null) {
+                $fileName = 'verified_superintendent' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_superintendent)]), $filePath);
+
+                $item->verified_superintendent = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_superintendent = null;
+            }
         }
 
         return view('klkh.disposal.cetak', compact('dp'));
@@ -342,10 +384,59 @@ class KLKHDisposalController extends Controller
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         } else {
             $dp = $dp->map(function($item) {
-                // Modifikasi untuk setiap item dalam collection
-                $item->verified_foreman = $item->verified_foreman != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_foreman)) : null;
-                $item->verified_supervisor = $item->verified_supervisor != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_supervisor)) : null;
-                $item->verified_superintendent = $item->verified_superintendent != null ? base64_encode(QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $item->nama_superintendent)) : null;
+                $qrTempFolder = public_path('qr-temp'); // ⬅️ Simpan langsung di public/qr-temp
+                if (!File::exists($qrTempFolder)) {
+                    File::makeDirectory($qrTempFolder, 0755, true);
+                }
+
+                // FOREMAN
+                if (!empty($item->verified_foreman)) {
+                    $fileName = 'verified_foreman' . $item->uuid . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                    if (!File::exists($filePath)) {
+                        QrCode::size(150)
+                            ->format('png')
+                            ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_foreman)]), $filePath);
+                    }
+
+                    // ⬅️ Gunakan asset() karena file di dalam public/
+                    $item->verified_foreman = asset('qr-temp/' . $fileName);
+                } else {
+                    $item->verified_foreman = null;
+                }
+
+                // SUPERVISOR
+                if (!empty($item->verified_supervisor)) {
+                    $fileName = 'verified_supervisor' . $item->uuid . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                    if (!File::exists($filePath)) {
+                        QrCode::size(150)
+                            ->format('png')
+                            ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_supervisor)]), $filePath);
+                    }
+
+                    $item->verified_supervisor = asset('qr-temp/' . $fileName);
+                } else {
+                    $item->verified_supervisor = null;
+                }
+
+                // SUPERINTENDENT
+                if (!empty($item->verified_superintendent)) {
+                    $fileName = 'verified_superintendent' . $item->uuid . '.png';
+                    $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                    if (!File::exists($filePath)) {
+                        QrCode::size(150)
+                            ->format('png')
+                            ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_superintendent)]), $filePath);
+                    }
+
+                    $item->verified_superintendent = asset('qr-temp/' . $fileName);
+                } else {
+                    $item->verified_superintendent = null;
+                }
 
                 return $item;
             });

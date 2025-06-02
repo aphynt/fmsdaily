@@ -338,9 +338,21 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($disposal->verified_foreman != null)<img src="data:image/png;base64, {!! $disposal->verified_foreman !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($disposal->verified_supervisor != null)<img src="data:image/png;base64, {!! $disposal->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($disposal->verified_superintendent != null)<img src="data:image/png;base64, {!! $disposal->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">
+                        @if ($disposal->verified_foreman != null)
+                            <img src="{{ public_path('qr-temp/' . basename($disposal->verified_foreman)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($disposal->verified_supervisor != null)
+                            <img src="{{ public_path('qr-temp/' . basename($disposal->verified_supervisor)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($disposal->verified_superintendent != null)
+                            <img src="{{ public_path('qr-temp/' . basename($disposal->verified_superintendent)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $disposal->nama_foreman ? $disposal->nama_foreman : '.......................' }}</td>

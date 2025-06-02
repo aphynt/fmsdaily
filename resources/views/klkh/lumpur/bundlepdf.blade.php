@@ -434,9 +434,21 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($lumpurr->verified_foreman != null)<img src="data:image/png;base64, {!! $lumpurr->verified_foreman !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($lumpurr->verified_supervisor != null)<img src="data:image/png;base64, {!! $lumpurr->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($lumpurr->verified_superintendent != null)<img src="data:image/png;base64, {!! $lumpurr->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">
+                        @if ($lumpurr->verified_foreman != null)
+                            <img src="{{ public_path('qr-temp/' . basename($lumpurr->verified_foreman)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($lumpurr->verified_supervisor != null)
+                            <img src="{{ public_path('qr-temp/' . basename($lumpurr->verified_supervisor)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($lumpurr->verified_superintendent != null)
+                            <img src="{{ public_path('qr-temp/' . basename($lumpurr->verified_superintendent)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $lumpurr->nama_foreman ? $lumpurr->nama_foreman : '.......................' }}</td>

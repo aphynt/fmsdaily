@@ -377,9 +377,21 @@
                     <td class="noborder nobg">Superintendent</td>
                 </tr>
                 <tr>
-                    <td class="noborder nobg">@if ($simpang->verified_foreman != null)<img src="data:image/png;base64, {!! $simpang->verified_foreman !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($simpang->verified_supervisor != null)<img src="data:image/png;base64, {!! $simpang->verified_supervisor !!} " style="max-width: 100px;">@endif</td>
-                    <td class="noborder nobg">@if ($simpang->verified_superintendent != null)<img src="data:image/png;base64, {!! $simpang->verified_superintendent !!} " style="max-width: 100px;">@endif</td>
+                    <td class="noborder nobg">
+                        @if ($simpang->verified_foreman != null)
+                            <img src="{{ public_path('qr-temp/' . basename($simpang->verified_foreman)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($simpang->verified_supervisor != null)
+                            <img src="{{ public_path('qr-temp/' . basename($simpang->verified_supervisor)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
+                    <td class="noborder nobg">
+                        @if ($simpang->verified_superintendent != null)
+                            <img src="{{ public_path('qr-temp/' . basename($simpang->verified_superintendent)) }}" style="max-width: 70px;">
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="noborder nobg">{{ $simpang->nama_foreman ? $simpang->nama_foreman : '.......................' }}</td>
