@@ -146,8 +146,14 @@
                             'LEADER MEKANIK'
                         ];
 
+                        const excludedRoles = [
+                            'ADMIN', 'MANAGER',
+                            'SUPERINTENDENT', 'SUPERINTENDENT SAFETY',
+                            'SUPERVISOR SAFETY', 'FOREMAN SAFETY'
+                        ];
+
                         if (
-                            userRole !== 'SUPERINTENDENT' &&
+                            !excludedRoles.includes(userRole) &&
                             !row.VERIFIED_FOREMAN &&
                             !row.VERIFIED_SUPERVISOR &&
                             !(mekanikRoles.includes(userRole) && row.VERIFIED_MEKANIK)

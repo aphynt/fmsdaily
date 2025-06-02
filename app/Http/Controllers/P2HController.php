@@ -231,16 +231,16 @@ class P2HController extends Controller
             'p2h.DATEVERIFIED_SUPERINTENDENT',
         )
         ->whereBetween(DB::raw('CAST(p2h.OPR_REPORTTIME AS DATE)'), [$startTimeFormatted, $endTimeFormatted])
-
+        ->whereNotNull('p2h.VERIFIED_FOREMAN')
         ->where('p2h.STATUSENABLED', true);
-        $data = $data->where(function($query) {
-            if (!in_array(Auth::user()->role, ['ADMIN', 'MANAGER'])) {
-                $query->where('p2h.VERIFIED_FOREMAN', Auth::user()->nik)
-                  ->orWhere('p2h.VERIFIED_SUPERVISOR', Auth::user()->nik)
-                  ->orWhere('p2h.VERIFIED_SUPERINTENDENT', Auth::user()->nik)
-                  ->orWhere('p2h.VERIFIED_MEKANIK', Auth::user()->nik);
-            }
-        });
+        // $data = $data->where(function($query) {
+        //     if (!in_array(Auth::user()->role, ['ADMIN', 'MANAGER'])) {
+        //         $query->where('p2h.VERIFIED_FOREMAN', Auth::user()->nik)
+        //           ->orWhere('p2h.VERIFIED_SUPERVISOR', Auth::user()->nik)
+        //           ->orWhere('p2h.VERIFIED_SUPERINTENDENT', Auth::user()->nik)
+        //           ->orWhere('p2h.VERIFIED_MEKANIK', Auth::user()->nik);
+        //     }
+        // });
         $data = $data->get();
 
         return view('safety.p2h.show', compact('data'));
