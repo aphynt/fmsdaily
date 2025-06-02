@@ -216,7 +216,7 @@
                                 <div class="border rounded p-3">
                                     <h6>Foreman</h6>
                                     @if ($hr->verified_foreman != null)
-                                        <h5>{!! $hr->verified_foreman !!}</h5>
+                                        <h5>@if ($hr->verified_foreman != null)<img src="{{ $hr->verified_foreman }}" style="max-width: 70px;">@endif</h5>
                                         <h5>{{ $hr->nama_foreman ? $hr->nama_foreman : '.......................' }}</h5>
                                         <p>
                                             {!! $hr->catatan_verified_foreman
@@ -230,7 +230,7 @@
                                 <div class="border rounded p-3">
                                     <h6>Supervisor</h6>
                                     @if ($hr->verified_supervisor != null)
-                                        <h5>{!! $hr->verified_supervisor !!}</h5>
+                                        <h5>@if ($hr->verified_supervisor != null)<img src="{{ $hr->verified_supervisor }}" style="max-width: 70px;">@endif</h5>
                                         <h5>{{ $hr->nama_supervisor ? $hr->nama_supervisor : '.......................' }}</h5>
                                         <p>
                                             {!! $hr->catatan_verified_supervisor
@@ -244,7 +244,7 @@
                                 <div class="border rounded p-3">
                                     <h6>Superintendent</h6>
                                     @if ($hr->verified_superintendent != null)
-                                        <h5>{!! $hr->verified_superintendent !!}</h5>
+                                        <h5>@if ($hr->verified_superintendent != null)<img src="{{ $hr->verified_superintendent }}" style="max-width: 70px;">@endif</h5>
                                         <h5>{{ $hr->nama_superintendent ? $hr->nama_superintendent : '.......................' }}</h5>
                                         <p>
                                             {!! $hr->catatan_verified_superintendent
