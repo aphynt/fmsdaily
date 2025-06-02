@@ -366,10 +366,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/kkh/verifikasi', [KKHController::class, 'verifikasi'])->name('kkh.verifikasi');
     Route::get('/kkh/download', [KKHController::class, 'download'])->name('kkh.download');
 
-    Route::get('/verified/{encodedNik}', [VerifiedController::class, 'index'])->name('verified.index');
+
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');
 });
+Route::get('/verified/{encodedNik}', [VerifiedController::class, 'index'])->name('verified.index');
 
 
