@@ -287,13 +287,19 @@
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Foreman</h6>
-                                    @if ($se->verified_foreman != null)
-                                        <h5>@if ($se->verified_foreman != null)<img src="{{ $se->verified_foreman }}" style="max-width: 70px;">@endif</h5>
-                                        <h5>{{ $se->nama_foreman ? $se->nama_foreman : '.......................' }}</h5>
+
+                                    @if ($se->verified_foreman)
+                                        <h5>
+                                            <img src="{{ $se->verified_foreman }}" style="max-width: 70px;">
+                                        </h5>
+                                    @endif
+
+                                    <h5>{{ $se->nama_foreman ?? '.......................' }}</h5>
+
+                                    @if ($se->catatan_verified_foreman)
                                         <p>
-                                            {!! $se->catatan_verified_foreman
-                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($se->catatan_verified_foreman)
-                                                : '' !!}
+                                            <img src="{{ asset('dashboard/assets/images/widget/writing.png') }}" alt="">
+                                            : {{ $se->catatan_verified_foreman }}
                                         </p>
                                     @endif
                                 </div>
@@ -301,13 +307,19 @@
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Supervisor</h6>
-                                    @if ($se->verified_supervisor != null)
-                                        <h5>@if ($se->verified_supervisor != null)<img src="{{ $se->verified_supervisor }}" style="max-width: 70px;">@endif</h5>
-                                        <h5>{{ $se->nama_supervisor ? $se->nama_supervisor : '.......................' }}</h5>
+
+                                    @if ($se->verified_supervisor)
+                                        <h5>
+                                            <img src="{{ $se->verified_supervisor }}" style="max-width: 70px;">
+                                        </h5>
+                                    @endif
+
+                                    <h5>{{ $se->nama_supervisor ?? '.......................' }}</h5>
+
+                                    @if ($se->catatan_verified_supervisor)
                                         <p>
-                                            {!! $se->catatan_verified_supervisor
-                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($se->catatan_verified_supervisor)
-                                                : '' !!}
+                                            <img src="{{ asset('dashboard/assets/images/widget/writing.png') }}" alt="">
+                                            : {{ $se->catatan_verified_supervisor }}
                                         </p>
                                     @endif
                                 </div>
@@ -315,13 +327,19 @@
                             <div class="col-sm-4">
                                 <div class="border rounded p-3">
                                     <h6>Superintendent</h6>
-                                    @if ($se->verified_superintendent != null)
-                                        <h5>@if ($se->verified_superintendent != null)<img src="{{ $se->verified_superintendent }}" style="max-width: 70px;">@endif</h5>
-                                        <h5>{{ $se->nama_superintendent ? $se->nama_superintendent : '.......................' }}</h5>
+
+                                    @if ($se->verified_superintendent)
+                                        <h5>
+                                            <img src="{{ $se->verified_superintendent }}" style="max-width: 70px;">
+                                        </h5>
+                                    @endif
+
+                                    <h5>{{ $se->nama_superintendent ?? '.......................' }}</h5>
+
+                                    @if ($se->catatan_verified_superintendent)
                                         <p>
-                                            {!! $se->catatan_verified_superintendent
-                                                ? '<img src="' . asset('dashboard/assets/images/widget/writing.png') . '" alt=""> : ' . e($se->catatan_verified_superintendent)
-                                                : '' !!}
+                                            <img src="{{ asset('dashboard/assets/images/widget/writing.png') }}" alt="">
+                                            : {{ $se->catatan_verified_superintendent }}
                                         </p>
                                     @endif
                                 </div>

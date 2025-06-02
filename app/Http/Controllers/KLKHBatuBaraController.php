@@ -122,9 +122,51 @@ class KLKHBatuBaraController extends Controller
         if($bb == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
         }else {
-            $bb->verified_foreman = $bb->verified_foreman != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_foreman) : null;
-            $bb->verified_supervisor = $bb->verified_supervisor != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_supervisor) : null;
-            $bb->verified_superintendent = $bb->verified_superintendent != null ? QrCode::size(70)->generate('Telah diverifikasi oleh: ' . $bb->nama_superintendent) : null;
+            $item = $bb;
+
+            $qrTempFolder = storage_path('app/public/qr-temp');
+            if (!File::exists($qrTempFolder)) {
+                File::makeDirectory($qrTempFolder, 0755, true);
+            }
+
+            if ($item->verified_foreman != null) {
+                $fileName = 'verified_foreman' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_foreman)]), $filePath);
+
+                $item->verified_foreman = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_foreman = null;
+            }
+
+            if ($item->verified_supervisor != null) {
+                $fileName = 'verified_supervisor' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_supervisor)]), $filePath);
+
+                $item->verified_supervisor = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_supervisor = null;
+            }
+
+            if ($item->verified_superintendent != null) {
+                $fileName = 'verified_superintendent' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_superintendent)]), $filePath);
+
+                $item->verified_superintendent = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_superintendent = null;
+            }
         }
 
         return view('klkh.batu-bara.preview', compact('bb'));
