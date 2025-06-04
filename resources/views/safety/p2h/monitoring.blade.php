@@ -49,10 +49,13 @@
                                         <th rowspan="2">NIK Operator</th>
                                         <th rowspan="2">Nama Operator</th>
                                         <th rowspan="2">Not OK</th>
-                                        <th colspan="2">Verifikator</th>
+                                        <th colspan="2">Verifikator Mekanik</th>
+                                        <th colspan="2">Verifikator Produksi</th>
                                         <th rowspan="2">Aksi</th>
                                     </tr>
                                     <tr>
+                                        <th>NIK</th>
+                                        <th>Nama</th>
                                         <th>NIK</th>
                                         <th>Nama</th>
                                     </tr>
@@ -122,17 +125,35 @@
                     }
                 },
                 {
-                    data: 'VERIFIED_FOREMAN',
+                    data: 'VERIFIED_MEKANIK',
                     render: function (_, __, row) {
-                        if (!row) return '<span class="badge bg-danger">Belum diverifikasi</span>';
-                        return row.VERIFIED_FOREMAN || row.VERIFIED_SUPERVISOR || '<span class="badge bg-danger">Belum diverifikasi</span>';
+                        if (!row || row.VAL_NOTOK < 1) return ''; // tidak tampil jika VAL_NOTOK < 1
+                        return row.VERIFIED_MEKANIK
+                            ? `${row.VERIFIED_MEKANIK}`
+                            : '<span class="badge bg-warning">Belum diverifikasi</span>';
                     }
                 },
                 {
                     data: null,
                     render: function (_, __, row) {
-                        if (!row) return '<span class="badge bg-danger">Belum diverifikasi</span>';
-                        return row.NAMAFOREMAN || row.NAMASUPERVISOR || '<span class="badge bg-danger">Belum diverifikasi</span>';
+                        if (!row || row.VAL_NOTOK < 1) return ''; // tidak tampil jika VAL_NOTOK < 1
+                        return row.NAMAMEKANIK
+                            ? `${row.NAMAMEKANIK}`
+                            : '<span class="badge bg-warning">Belum diverifikasi</span>';
+                    }
+                },
+                {
+                    data: 'VERIFIED_FOREMAN',
+                    render: function (_, __, row) {
+                        if (!row) return '<span class="badge bg-warning">Belum diverifikasi</span>';
+                        return row.VERIFIED_FOREMAN || row.VERIFIED_SUPERVISOR || '<span class="badge bg-warning">Belum diverifikasi</span>';
+                    }
+                },
+                {
+                    data: null,
+                    render: function (_, __, row) {
+                        if (!row) return '<span class="badge bg-warning">Belum diverifikasi</span>';
+                        return row.NAMAFOREMAN || row.NAMASUPERVISOR || '<span class="badge bg-warning">Belum diverifikasi</span>';
                     }
                 },
                 {
