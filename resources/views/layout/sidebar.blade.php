@@ -129,11 +129,14 @@
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon">
                             <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/stamp.png" alt="DS"> </span><span class="pc-mtext">Verifikasi</span> <span class="pc-arrow"><i
-                                    data-feather="chevron-right"></i></span> <span class="pc-badge">1</span>
+                                    data-feather="chevron-right"></i></span> <span class="pc-badge">@if (in_array(Auth::user()->role, ['ADMIN']))2 @else 1 @endif</span>
                         </a>
                         <ul class="pc-submenu">
                             {{-- <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.laporankerja') }}">Laporan Kerja</a></li> --}}
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh') }}">KLKH</a></li>
+                            @if (in_array(Auth::user()->role, ['ADMIN']))
+                            <li class="pc-item"><a class="pc-link" href="{{ route('monitoring.p2h') }}">P2H</a></li>
+                            @endif
                             {{-- <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.haulroad') }}">Haul Road</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.disposal') }}">Disposal/Dumping Point</a></li>
                             <li class="pc-item"><a class="pc-link" href="{{ route('verifikasi.klkh.lumpur') }}">Dumping di Kolam Air/Lumpur</a></li>
