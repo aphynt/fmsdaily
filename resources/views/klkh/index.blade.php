@@ -37,7 +37,7 @@ tr.category-row td {
                                     </div>
                                 </form>
                             </div>
-                            @if (Auth::user()->role != 'ADMIN')
+                            @if (!in_array(Auth::user()->role, ['ADMIN', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY']))
                                 <div class="col-sm-12 col-md-2 mb-2 text-md-end">
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#alertVerifikasi"><span class="badge bg-success" style="font-size:14px">Verifikasi Semuanya</span></a>
                                 </div>

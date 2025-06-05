@@ -81,7 +81,7 @@ class KLKHBatuBaraController extends Controller
         // if (Auth::user()->role == 'SUPERINTENDENT') {
         //     $baseQuery->where('superintendent', Auth::user()->nik);
         // }
-        if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER'])) {
+        if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY'])) {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
 

@@ -89,8 +89,10 @@ $detailFiltered = $detail->filter(function($item) {
                                         </div>
                                     </div>
                                 </div>
-                                @if ($jumlahAATerisi >= 1)
+                                @if ($jumlahAATerisi >= 1 && !$verifikasiMekanik)
                                     <div class="alert alert-danger" role="alert">Terdapat temuan kode A atau AA. Verifikasi harus dilakukan oleh Pengawas Mekanik terlebih dahulu.</div>
+                                @elseif ($jumlahAATerisi >= 1 && $verifikasiMekanik)
+                                    <div class="alert alert-success" role="alert">P2H ini sudah diverifikasi oleh Mekanik</div>
                                 @endif
                                 <div class="col-12">
                                         <div class="table-responsive">
