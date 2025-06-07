@@ -49,7 +49,8 @@
                                         <th rowspan="2">NIK Operator</th>
                                         <th rowspan="2">Nama Operator</th>
                                         <th rowspan="2">Not OK</th>
-                                        <th colspan="2">Verifikator</th>
+                                        <th rowspan="2">Mekanik</th>
+                                        <th colspan="2">Produksi</th>
                                         <th rowspan="2">Aksi</th>
                                     </tr>
                                     <tr>
@@ -119,6 +120,13 @@
                     render: function (data) {
                         const color = data >= 1 ? 'red' : 'green';
                         return `<span style="color: ${color};">${data}</span>`;
+                    }
+                },
+                {
+                    data: null,
+                    render: function (_, __, row) {
+                        if (!row) return '-';
+                        return row.NAMAMEKANIK ? `<span class="badge w-10" style="font-size:14px;background-color:#6f42c1">Sudah diverifikasi</span>` : '-';
                     }
                 },
                 {
