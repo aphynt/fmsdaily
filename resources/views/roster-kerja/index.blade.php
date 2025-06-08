@@ -23,10 +23,9 @@
                                     <label>Tahun</label>
                                     <select class="form-select" name="tahun" required>
                                         @php
-                                            $currentYear = date('Y'); // Tahun saat ini
+                                            $currentYear = date('Y');
                                             $years = range($currentYear - 1, $currentYear + 3);
                                         @endphp
-
                                         @foreach($years as $year)
                                             <option value="{{ $year }}" {{ $year == $currentYear ? 'selected' : '' }}>
                                                 {{ $year }}
@@ -52,9 +51,8 @@
                                                 11 => 'November',
                                                 12 => 'Desember',
                                             ];
-                                            $currentMonth = now()->month; // Mendapatkan bulan saat ini
+                                            $currentMonth = now()->month;
                                         @endphp
-
                                         @foreach($bulan as $key => $month)
                                             <option value="{{ $key }}" {{ $key == $currentMonth ? 'selected' : '' }}>
                                                 {{ $month }}
@@ -65,20 +63,18 @@
                                 <div class="col-1">
                                     <button type="submit" class="badge bg-primary" style="font-size:16px;border:none">Tampilkan</button>
                                 </div>
+
                                 @if (Auth::user()->role == 'ADMIN')
-                                <div class="col-1">
-                                    <div class="mb-1">
-                                        <a href="{{ route('rosterkerja.export') }}" class="badge bg-info" style="font-size:16px;border:none" >Export</a>
-                                    </div>
-                                    <div class="mb-1">
-                                        <button type="button" class="badge bg-secondary" style="font-size:16px;border:none" data-bs-toggle="modal" data-bs-target="#importRoster">Import</button>
+                                <div class="col-3">
+                                    <div class="d-flex gap-2">
+                                        <a href="#" onclick="downloadExport()" class="badge bg-info" style="font-size:16px; border:none;">Export</a>
+                                        <button type="button" class="badge bg-secondary" style="font-size:16px; border:none;" data-bs-toggle="modal" data-bs-target="#importRoster">Import</button>
                                     </div>
                                 </div>
                                 @endif
-
-
                             </div>
                         </form>
+
                         @include('roster-kerja.modal.import')
                     </div>
                 </div>
@@ -149,6 +145,14 @@
             buttonClass: 'btn'
         });
     })();
+
+    function downloadExport() {
+        const tahun = document.querySelector('[name="tahun"]').value;
+        const bulan = document.querySelector('[name="bulan"]').value;
+
+        const url = `{{ route('rosterkerja.export') }}?tahun=${tahun}&bulan=${bulan}`;
+        window.location.href = url;
+    }
 
 </script>
 <script>

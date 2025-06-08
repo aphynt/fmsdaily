@@ -14,6 +14,9 @@ class RosterKerjaController extends Controller
     //
     public function index(Request $request)
     {
+
+        session(['requestRosterKerja' => $request->all()]);
+
         if (empty($request->tahun) || empty($request->bulan)){
             $bulan = now()->month; // Mendapatkan bulan sekarang
             $tahun = now()->year;
@@ -62,16 +65,28 @@ class RosterKerjaController extends Controller
 
     public function export(Request $request)
     {
-        if (empty($request->tahun) || empty($request->bulan)){
-            $bulan = now()->month; // Mendapatkan bulan sekarang
-            $tahun = now()->year;
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
 
-        }else{
-            $bulan = $request->bulan;
-            $tahun = $request->tahun;
-        }
+        // Bisa juga simpan ke session jika perlu
+        session(['requestRosterKerja' => ['tahun' => $tahun, 'bulan' => $bulan]]);
+
+
+        return Excel::download(new RosterKerjaExport($tahun, $bulan), 'Roster Kerja-'.$bulan.'-'.$tahun.'.xlsx');
+    }
+
+    public function templateExcel(Request $request)
+    {
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
+
+        // Bisa juga simpan ke session jika perlu
+        session(['requestRosterKerja' => ['tahun' => $tahun, 'bulan' => $bulan]]);
+
 
         // dd($bulan);
+
+
         return Excel::download(new RosterKerjaExport($tahun, $bulan), 'Roster Kerja-'.$bulan.'-'.$tahun.'.xlsx');
     }
 }

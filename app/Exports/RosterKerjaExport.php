@@ -23,7 +23,7 @@ class RosterKerjaExport implements FromCollection
 
     public function collection()
     {
-        $roster = DB::table('roster_kerja_m as rs')
+        $roster = DB::table('REF_ROSTER_KERJA as rs')
         ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'rs.nik', '=', 'gl.NRP')
         ->leftJoin('focus.dbo.PRS_TITLE as title', 'gl.ROLETYPE', '=', 'title.PTL_ID')
         ->select(
@@ -68,6 +68,8 @@ class RosterKerjaExport implements FromCollection
         ->whereRaw('CAST(rs.bulan AS INT) = ?', [$this->bulan])
         ->whereRaw('CAST(rs.tahun AS INT) = ?', [$this->tahun])
         ->get();
+
+        // dd($roster);
 
         return $roster;
     }

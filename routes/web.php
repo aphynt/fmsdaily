@@ -335,6 +335,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/roster-kerja', [RosterKerjaController::class, 'index'])->name('rosterkerja');
     Route::post('/roster-kerja/import', [RosterKerjaController::class, 'import'])->name('rosterkerja.import');
     Route::get('/roster-kerja/export', [RosterKerjaController::class, 'export'])->name('rosterkerja.export');
+    Route::get('/roster-kerja/templateExcel', [RosterKerjaController::class, 'templateExcel'])->name('rosterkerja.templateExcel');
 
     //Monitoring Payload
     Route::get('/monitoring-payload', [MonitoringPayloadController::class, 'index'])->name('monitoringpayload');
