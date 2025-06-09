@@ -1048,10 +1048,10 @@ class P2HController extends Controller
 
         ChecklistP2H::where('UUID', $checkdataP2H->UUID)->update($updateData);
 
-        return redirect()->route('p2h.show')->with('success', 'P2H berhasil diverifikasi');
+        return redirect()->route('p2h.index')->with('success', 'P2H berhasil diverifikasi');
 
         } catch (\Throwable $th) {
-           return redirect()->route('p2h.show')->with('info', $th->getMessage());
+           return redirect()->route('p2h.index')->with('info', $th->getMessage());
         }
 
     }
