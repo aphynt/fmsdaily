@@ -201,7 +201,7 @@
                 <th colspan="2"></th>
                 <th>Oprt. / Driver</th>
                 <th colspan="3">Mekanik *)</th>
-                <th>Foreman / Spv *)</th>
+                <th>Foreman / Spv</th>
                 <th colspan="2">S/Intendent **)</th>
             </tr>
         </thead>
