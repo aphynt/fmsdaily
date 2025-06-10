@@ -133,7 +133,7 @@ class KKHController extends Controller
         }
 
         $cluster = $request->cluster; // contoh: "A1"
-        $allAssignments = AssignmentOperator::select('NIK', 'CLASS')->get();
+        // $allAssignments = AssignmentOperator::select('NIK', 'CLASS')->get();
 
         if ($cluster == 'HD' || $cluster == 'EX') {
             // Ambil NIK dari AssignmentOperator sesuai CLASS

@@ -22,9 +22,20 @@
                             <div class="col-12 col-md-3 mb-2">
                                 <label for="shiftP2H">Shift</label>
                                 <select class="form-select" id="shiftP2H" name="shiftP2H">
+                                    <option value="Semua">Semua</option>
                                     @foreach ($data['shift'] as $shh)
                                         <option value="{{ $shh->SHIFTNO }}">{{ $shh->SHIFTDESC }}</option>
                                     @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-3 mb-2">
+                                <label for="cluster">Vehicle Type</label>
+                                <select class="form-select" name="cluster" id="cluster">
+                                    <option value="Semua">Semua</option>
+                                    <option value="EX">EX</option>
+                                    <option value="HD">HD</option>
+                                    <option value="MG">MG</option>
+                                    <option value="BD">BD</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
@@ -106,6 +117,7 @@
                 data: function (d) {
                     d.tanggalP2H = $('#tanggalP2H').val();
                     d.shiftP2H = $('#shiftP2H').val();
+                    d.cluster = $('#cluster').val();
                     delete d.columns;
                     delete d.order;
                 },

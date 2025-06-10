@@ -271,13 +271,18 @@ class P2HController extends Controller
         }
 
         // Filter shift jika ada
-        if (!empty($request->shiftP2H)) {
+        if (in_array($request->shift, ['Pagi', 'Malam'])) {
             $supportQuery->where('A.OPR_SHIFTNO', $request->shiftP2H);
         }
 
         // Filter tanggal jika ada
         if (!empty($request->tanggalP2H)) {
             $supportQuery->where('A.OPR_SHIFTDATE', $tanggalP2H);
+        }
+
+        // Filter kategori jika ada
+        if (in_array($request->cluster, ['EX', 'HD', 'MG', 'BD'])) {
+            $supportQuery->whereRaw("LEFT(A.VHC_ID, 2) = ?", [$request->cluster]);
         }
 
         if(in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']) and Auth::user()->section == 'WHEEL') {
