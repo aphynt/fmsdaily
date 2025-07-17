@@ -121,6 +121,7 @@
                                                 @elseif ($rs->$i == 'M') style="text-align: center;background-color: #D9D9D9"
                                                 @elseif ($rs->$i == 'S') style="text-align: center;background-color: #FFF2CC"
                                                 @elseif ($rs->$i == 'R') style="text-align: center;background-color: #F6C3FF"
+                                                @elseif ($rs->$i == 'NS') style="text-align: center;background-color: #FFF2CC"
                                                 @else style="text-align: center;background-color: #1C1C1C; color:white" @endif
                                                 >
                                                 {{ $rs->$i ?? null }}</td> <!-- Mengakses nilai hari dengan $rs->$i -->
