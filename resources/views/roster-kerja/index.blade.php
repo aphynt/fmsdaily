@@ -114,13 +114,14 @@
                                             <!-- Menampilkan nilai untuk setiap hari 1 sampai 31 -->
                                             @for ($i = 1; $i <= $jumlahHari; $i++)
                                                 <td
-                                                @if ($rs->$i == 'S1') style="text-align: center;background-color: #92D050" @endif
-                                                @if ($rs->$i == 'OFF') style="text-align: center;background-color: #FF0000" @endif
-                                                @if ($rs->$i == 'CT') style="text-align: center;background-color: #00B0F0" @endif
-                                                @if ($rs->$i == 'C') style="text-align: center;background-color: #00B0F0" @endif
-                                                @if ($rs->$i == 'M') style="text-align: center;background-color: #D9D9D9" @endif
-                                                @if ($rs->$i == 'S') style="text-align: center;background-color: #FFF2CC" @endif
-                                                @if ($rs->$i == 'R') style="text-align: center;background-color: #F6C3FF" @endif
+                                                @if ($rs->$i == 'S1') style="text-align: center;background-color: #92D050"
+                                                @elseif ($rs->$i == 'OFF') style="text-align: center;background-color: #FF0000"
+                                                @elseif ($rs->$i == 'CT') style="text-align: center;background-color: #00B0F0"
+                                                @elseif ($rs->$i == 'C') style="text-align: center;background-color: #00B0F0"
+                                                @elseif ($rs->$i == 'M') style="text-align: center;background-color: #D9D9D9"
+                                                @elseif ($rs->$i == 'S') style="text-align: center;background-color: #FFF2CC"
+                                                @elseif ($rs->$i == 'R') style="text-align: center;background-color: #F6C3FF"
+                                                @else style="text-align: center;background-color: #1C1C1C; color:white" @endif
                                                 >
                                                 {{ $rs->$i ?? null }}</td> <!-- Mengakses nilai hari dengan $rs->$i -->
                                             @endfor
