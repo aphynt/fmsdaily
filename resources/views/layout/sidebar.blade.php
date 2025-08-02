@@ -30,13 +30,15 @@
 
             <ul class="pc-navbar">
                 <li class="pc-item pc-caption"><label>Navigation</label></li>
-                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY']))
+                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY', 'TRAINING CENTER']))
                 <li class="pc-item"><a href="{{ route('dashboard.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/house.png" alt="NT"></span><span class="pc-mtext">Home</span></a></li>
                 @endif
                 <li class="pc-item"><a href="{{ route('production.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/production.png" alt="NT"></span><span class="pc-mtext">Produksi Per Jam</span></a></li>
                 @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY']))
                 <li class="pc-item"><a href="{{ route('payloadritation.exa') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/loading.png" alt="NT"></span><span class="pc-mtext">Payload & Ritation</span></a></li>
+                @endif
                 <li class="pc-item"><a href="{{ route('monitoringpayload') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/kpi.png" alt="NT"></span><span class="pc-mtext">Monitoring Payload</span></a></li>
+                @if (!in_array(Auth::user()->role, ['TRAINING CENTER']))
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/dashboard.png" alt="DS"> </span><span class="pc-mtext">Dashboard</span> <span class="pc-arrow"><i
@@ -68,11 +70,13 @@
                     </ul>
                 </li>
                 @endif
+                @if (!in_array(Auth::user()->role, ['TRAINING CENTER']))
                 <li class="pc-item pc-caption"><label>Laporan Harian</label> <svg class="pc-icon">
                         <use xlink:href="#custom-presentation-chart"></use>
                     </svg>
                 </li>
-                @if (!in_array(Auth::user()->role, ['SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY']))
+                @endif
+                @if (!in_array(Auth::user()->role, ['SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY', 'TRAINING CENTER']))
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="DS"> </span><span class="pc-mtext">Daftar Laporan</span> <span class="pc-arrow"><i
@@ -95,7 +99,7 @@
                     </ul>
                 </li>
                 @endif
-                @if (!in_array(Auth::user()->role, ['ADMIN', 'MANAGER', 'FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY']))
+                @if (!in_array(Auth::user()->role, ['ADMIN', 'MANAGER', 'FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY', 'TRAINING CENTER']))
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon">
                             <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="DS"> </span><span class="pc-mtext">Form Laporan Kerja</span> <span class="pc-arrow"><i
@@ -109,7 +113,7 @@
                     </li>
                     {{-- <li class="pc-item"><a href="{{ route('form-pengawas-sap.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/kpi.png" alt="NT"></span><span class="pc-mtext">Form SAP</span></a></li> --}}
                 @endif
-                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
+                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'TRAINING CENTER']))
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="DS"> </span><span class="pc-mtext">Form SAP</span> <span class="pc-arrow"><i
@@ -127,7 +131,7 @@
                     </ul>
                 </li>
                 @endif
-                @if (!in_array(Auth::user()->role, ['FOREMAN', 'MANAGER', 'FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
+                @if (!in_array(Auth::user()->role, ['FOREMAN', 'MANAGER', 'FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'TRAINING CENTER']))
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon">
                             <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/stamp.png" alt="DS"> </span><span class="pc-mtext">Verifikasi</span> <span class="pc-arrow"><i
@@ -148,8 +152,10 @@
                         </ul>
                     </li>
                 @endif
+                @if (!in_array(Auth::user()->role, ['TRAINING CENTER']))
                 <li class="pc-item"><a href="{{ route('p2h.index') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/worker.png" alt="NT"></span><span class="pc-mtext">P2H Unit</span></a></li>
-                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
+                @endif
+                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'TRAINING CENTER']))
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/ergonomic.png" alt="DS"> </span><span class="pc-mtext">KKH Produksi</span> <span class="pc-arrow"><i

@@ -24,7 +24,9 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->has('remember'))) {
             // Periksa apakah statusenabled pengguna bernilai true
             if (Auth::user()->statusenabled == true) {
-                if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK'])){
+                if (in_array(Auth::user()->role, ['TRAINING CENTER'])){
+                    return redirect()->route('production.index')->with('alert', 'Selamat Datang');
+                }elseif (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK'])){
                     return redirect()->route('dashboard.index')->with('alert', 'Selamat Datang');
                 }else{
                     return redirect()->route('p2h.index')->with('alert', 'Selamat Datang');
