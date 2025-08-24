@@ -1,4 +1,4 @@
-@include('layout.head', ['title' => 'Dashboard'])
+@include('layout.head', ['title' => 'Produksi Per Jam'])
 @include('layout.sidebar')
 @include('layout.header')
 

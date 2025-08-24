@@ -32,6 +32,7 @@ use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RosterKerjaController;
+use App\Http\Controllers\SOPProduksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifiedController;
 use App\Http\Controllers\VerifikasiKLKHBatubaraController;
@@ -176,6 +177,20 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/alat-support/{id}', [AlatSupportController::class, 'destroy']);
     Route::delete('/delete-support/{id}', [AlatSupportController::class, 'destroy']);
 
+    //SOP Produksi
+    Route::get('/sop/production', [SOPProduksiController::class, 'index'])->name('sop.produksi');
+    Route::get('/pdf/{filename}', function ($filename) {
+    $path = public_path('sop/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="'.$filename.'"'
+    ]);
+});
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');

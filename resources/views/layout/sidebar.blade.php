@@ -67,8 +67,13 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('laporan-kata-sandi.jamMonitor') }}">Jam Monitor</a></li>
                     </ul>
                 </li>
+
                     </ul>
                 </li>
+
+                @endif
+                @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY']))
+                <li class="pc-item"><a href="{{ route('sop.produksi') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/sop.png" alt="NT"></span><span class="pc-mtext">SOP Produksi</span></a></li>
                 @endif
                 @if (!in_array(Auth::user()->role, ['TRAINING CENTER']))
                 <li class="pc-item pc-caption"><label>Laporan Harian</label> <svg class="pc-icon">
