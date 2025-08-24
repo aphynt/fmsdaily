@@ -179,7 +179,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //SOP Produksi
     Route::get('/sop/production', [SOPProduksiController::class, 'index'])->name('sop.produksi');
-    Route::get('/pdf/{filename}', function ($filename) {
+    Route::get('/sop/{filename}', function ($filename) {
     $path = public_path('sop/' . $filename);
 
     if (!file_exists($path)) {
