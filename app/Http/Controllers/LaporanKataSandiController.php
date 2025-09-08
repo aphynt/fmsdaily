@@ -129,7 +129,7 @@ class LaporanKataSandiController extends Controller
             'ks.date as tanggal',
             'ks.kata_sandi',
             'sh.keterangan as shift',
-        )->where('uuid', $uuid)->where('ks.statusenabled', true)->first();
+        )->where('ks.uuid', $uuid)->where('ks.statusenabled', true)->first();
 
         if($kataSandi == null){
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');

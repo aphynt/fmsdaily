@@ -140,7 +140,7 @@ class FormPengawasSAPController extends Controller
             'sr.is_finish'
         )
         ->where('sr.statusenabled', true)
-        ->where('uuid', $uuid)->first();
+        ->where('sr.uuid', $uuid)->first();
 
         $imageTemuan = DB::table('SAP_REPORT_IMAGE as im')
         ->leftJoin('SAP_REPORT as sr', 'im.report_uuid', 'sr.uuid')
