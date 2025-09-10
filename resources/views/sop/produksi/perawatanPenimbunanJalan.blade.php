@@ -1,4 +1,4 @@
-@include('layout.head', ['title' => 'SOP Produksi'])
+@include('layout.head', ['title' => 'SOP Produksi Perawatan dan Penimbunan Jalan'])
 @include('layout.sidebar')
 @include('layout.header')
 

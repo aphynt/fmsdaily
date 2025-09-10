@@ -73,7 +73,18 @@
 
                 @endif
                 @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY']))
-                <li class="pc-item"><a href="{{ route('sop.produksi') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/sop.png" alt="NT"></span><span class="pc-mtext">SOP Produksi</span></a></li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon">
+                        <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/sop.png" alt="DS"> </span><span class="pc-mtext">SOP Produksi</span> <span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">2
+                                </span>
+                    </a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="{{ route('sop.perawatanPenimbunanJalan') }}">Perawatan dan Penimbunan Jalan</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('sop.penimbunanMaterialKolamLumpurBullDozer') }}">Penimbunan Material di Kolam Lumpur dengan Bull Dozer</a></li>
+                    </ul>
+                </li>
+
                 @endif
                 @if (!in_array(Auth::user()->role, ['TRAINING CENTER']))
                 <li class="pc-item pc-caption"><label>Laporan Harian</label> <svg class="pc-icon">

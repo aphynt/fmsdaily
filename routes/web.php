@@ -178,19 +178,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/delete-support/{id}', [AlatSupportController::class, 'destroy']);
 
     //SOP Produksi
-    Route::get('/sop/production', [SOPProduksiController::class, 'index'])->name('sop.produksi');
-    Route::get('/sop/{filename}', function ($filename) {
-    $path = public_path('sop/' . $filename);
-
-    if (!file_exists($path)) {
-        abort(404);
-    }
-
-    return response()->file($path, [
-        'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'inline; filename="'.$filename.'"'
-    ]);
-});
+    Route::get('/sop/production/perawatanPenimbunanJalan', [SOPProduksiController::class, 'perawatanPenimbunanJalan'])->name('sop.perawatanPenimbunanJalan');
+    Route::get('/sop/production/penimbunanMaterialKolamLumpurBullDozer', [SOPProduksiController::class, 'penimbunanMaterialKolamLumpurBullDozer'])->name('sop.penimbunanMaterialKolamLumpurBullDozer');
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');
