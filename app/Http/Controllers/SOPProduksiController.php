@@ -16,4 +16,9 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.penimbunanMaterialKolamLumpurBullDozer');
     }
+
+    public function pemuatanPengangkutanLumpur()
+    {
+        return view('sop.produksi.pemuatanPengangkutanLumpur');
+    }
 }

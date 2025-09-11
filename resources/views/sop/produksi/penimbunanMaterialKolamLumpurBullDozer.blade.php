@@ -1,4 +1,4 @@
-@include('layout.head', ['title' => 'SOP Produksi Penimbunan Material di Kolam Lumpur dengan Bull Dozer'])
+@include('layout.head', ['title' => 'SOP Penimbunan Material di Kolam Lumpur dengan Bull Dozer'])
 @include('layout.sidebar')
 @include('layout.header')
 
@@ -10,7 +10,7 @@
                     <div class="col-md-12">
                         <ul class="breadcrumb">
                         {{-- <li class="breadcrumb-item"><a href="javascript: void(0)">Home</a></li> --}}
-                        <li class="breadcrumb-item"><a href="javascript: void(0)">SOP Produksi Penimbunan Material di Kolam Lumpur dengan Bull Dozer</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0)">SOP Penimbunan Material di Kolam Lumpur dengan Bull Dozer</a></li>
                         </ul>
                     </div>
                     <div class="col-12 col-md-2 mb-2 d-flex align-items-end">

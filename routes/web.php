@@ -180,6 +180,7 @@ Route::group(['middleware' => ['auth']], function(){
     //SOP Produksi
     Route::get('/sop/production/perawatanPenimbunanJalan', [SOPProduksiController::class, 'perawatanPenimbunanJalan'])->name('sop.perawatanPenimbunanJalan');
     Route::get('/sop/production/penimbunanMaterialKolamLumpurBullDozer', [SOPProduksiController::class, 'penimbunanMaterialKolamLumpurBullDozer'])->name('sop.penimbunanMaterialKolamLumpurBullDozer');
+    Route::get('/sop/production/pemuatanPengangkutanLumpur', [SOPProduksiController::class, 'pemuatanPengangkutanLumpur'])->name('sop.pemuatanPengangkutanLumpur');
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');
