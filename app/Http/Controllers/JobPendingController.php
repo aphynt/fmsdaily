@@ -72,6 +72,8 @@ class JobPendingController extends Controller
 
         $data = $dataQuery->get();
 
+        // dd($data);
+
         return view('job-pending.index', compact('data', 'shift', 'section', 'filterShift', 'filterSection', 'filterDate'));
     }
 
@@ -569,6 +571,7 @@ class JobPendingController extends Controller
 
             // Lakukan verifikasi
             $job->verified_diterima = Auth::user()->nik;
+            $job->diterima = Auth::user()->nik;
             $job->verified_datetime_diterima = now();
             $job->save();
 
