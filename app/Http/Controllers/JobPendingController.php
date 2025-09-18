@@ -28,7 +28,7 @@ class JobPendingController extends Controller
 
         $filterShift = $request->shift ?? 'Semua';
         $filterSection = $request->section ?? 'Semua';
-        $filterDate = $request->tanggalJobPending ?? null;
+        $filterDate = $request->tanggalJobPending ?? Carbon::today()->format('Y-m-d');
 
         $dataQuery = DB::table('JOB_PENDING as jp')
             ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
