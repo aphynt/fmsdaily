@@ -184,6 +184,9 @@
                     </ul>
                 </li>
                 @endif
+                @if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT']))
+                <li class="pc-item"><a href="{{ route('jobpending') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/job-creation.png" alt="NT"></span><span class="pc-mtext">Job Pending</span></a></li>
+                @endif
                 @if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER']))
                     <li class="pc-item"><a href="{{ route('rosterkerja') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/project.png" alt="NT"></span><span class="pc-mtext">Roster Kerja</span></a></li>
                     <li class="pc-item"><a href="{{ route('monitoringlaporankerjaklkh') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/spyware.png" alt="NT"></span><span class="pc-mtext">Monitoring LK & KLKH</span></a></li>

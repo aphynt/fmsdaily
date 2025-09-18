@@ -13,6 +13,7 @@ use App\Http\Controllers\FormPengawasNewController;
 use App\Http\Controllers\FormPengawasOldController;
 use App\Http\Controllers\FormPengawasSAPController;
 use App\Http\Controllers\FrontLoadingController;
+use App\Http\Controllers\JobPendingController;
 use App\Http\Controllers\KKHController;
 use App\Http\Controllers\KLKHBatuBaraController;
 use App\Http\Controllers\KLKHDisposalController;
@@ -367,7 +368,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/safety/p2h/cetak/{uuid}', [P2HController::class, 'cetak'])->name('p2h.cetak');
     Route::get('/safety/p2h/download/{uuid}', [P2HController::class, 'download'])->name('p2h.download');
 
-     //KKH
+    //KKH
     Route::get('/kkh/all', [KKHController::class, 'all'])->name('kkh.all');
     Route::get('/kkh/all/api', [KKHController::class, 'all_api'])->name('kkh.all_api');
     Route::get('/kkh/all/name', [KKHController::class, 'all_name'])->name('kkh.all_name');
@@ -375,7 +376,13 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/kkh/verifikasi', [KKHController::class, 'verifikasi'])->name('kkh.verifikasi');
     Route::get('/kkh/download', [KKHController::class, 'download'])->name('kkh.download');
 
-
+    //Job Pending
+    Route::get('/job-pending', [JobPendingController::class, 'index'])->name('jobpending');
+    Route::get('/job-pending/insert', [JobPendingController::class, 'insert'])->name('jobpending.insert');
+    Route::post('/job-pending/post', [JobPendingController::class, 'post'])->name('jobpending.post');
+    Route::get('/job-pending/show/{uuid}', [JobPendingController::class, 'show'])->name('jobpending.show');
+    Route::get('/job-pending/cetak/{uuid}', [JobPendingController::class, 'cetak'])->name('jobpending.cetak');
+    Route::get('/job-pending/download/{uuid}', [JobPendingController::class, 'download'])->name('jobpending.download');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');
