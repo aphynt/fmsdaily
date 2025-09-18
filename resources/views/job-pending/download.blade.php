@@ -155,16 +155,20 @@
 <body>
     <table>
         <tr style="border-bottom:none;">
-            <td rowspan="3" colspan="2" style="border-top:none;border-bottom:none;">
+            <td rowspan="4" colspan="2" style="border-top:none;border-bottom:none;">
                 <img src="{{ public_path('dashboard/assets/images/logo-full.png') }}" width="240px">
             </td>
-            <td rowspan="3" colspan="2"><h2>JOB PENDING PENGAWAS</h2></td>
+            <td rowspan="4" colspan="2"><h2>JOB PENDING PENGAWAS</h2></td>
             <td class="left noborder">Hari / Tanggal</td>
             <td class="left noborder" colspan="2">: {{ \Carbon\Carbon::parse($data[0]->date)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</td>
         </tr>
         <tr style="border-top:none;border-bottom:none;">
             <td class="left noborder" style="border-top:none;border-bottom:none;">Shift</td>
             <td class="left noborder" colspan="2" style="border-top:none;border-bottom:none;">: {{ $data[0]->shift }}</td>
+        </tr>
+        <tr style="border-top:none;border-bottom:none;">
+            <td class="left noborder" style="border-top:none;border-bottom:none;">Section</td>
+            <td class="left noborder" colspan="2" style="border-top:none;border-bottom:none;">: {{ $data[0]->section }}</td>
         </tr>
         <tr style="border-top:none;">
             <td class="left noborder" style="border-top:none;border-bottom:none;">Lokasi</td>

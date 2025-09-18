@@ -25,11 +25,18 @@
                             </div>
 
                             <div class="col-sm-3">
-                                <div class="border rounded p-3">
-                                    <h6 class="mb-0">Dibuat oleh:</h6>
-                                    <h5>{{ $data[0]->nik_pic }} | {{ $data[0]->pic }}</h5>
+                                <div class="border rounded p-3 d-flex">
+                                    <div class="me-3">
+                                        <strong>Dibuat oleh:</strong><br>
+                                        <span>{{ $data[0]->nik_pic }} | {{ $data[0]->pic }}</span>
+                                    </div>
+                                    <div style="border-left: 1px solid #ccc; padding-left: 15px;">
+                                        <strong>Section:</strong><br>
+                                        <span>{{ $data[0]->section }}</span>
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="col-sm-3">
                                 <div class="border rounded p-3">
                                     <h6 class="mb-0">Hari/ Tanggal:</h6>
@@ -81,6 +88,10 @@
                                 <p class="mb-0" style="white-space: pre-wrap; line-height: 1.6;">{!! nl2br(e($data[0]->issue)) !!}</p>
                             </div>
                             <div class="card-body p-3">
+                                @if ($data[0]->verified_diterima == null)
+                                    <a href="#" data-bs-toggle="modal" ><span class="badge bg-success btn-verifikasi" style="font-size:14px"data-url="{{ route('jobpending.verifikasi', $data[0]->uuid) }}">
+                                                        <i class="fas fa-check-circle me-1"></i>Verifikasi</span></a>
+                                @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="#" onclick="window.history.back()" class="avtar avtar-s btn-link-secondary">
@@ -105,6 +116,7 @@
 
                                 </ul>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -114,5 +126,53 @@
 </section>
 
 @include('layout.footer')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".btn-verifikasi");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                let url = this.dataset.url;
+
+                Swal.fire({
+                    title: 'Yakin verifikasi?',
+                    text: "Data ini akan diverifikasi!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#198754',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, verifikasi',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Kirim request ke server (GET/POST)
+                        fetch(url, {
+                            method: 'GET', // ganti ke 'POST' jika route post
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data berhasil diverifikasi',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                location.reload(); // reload halaman
+                            });
+                        })
+                        .catch(error => {
+                            Swal.fire('Error', 'Terjadi kesalahan', 'error');
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 

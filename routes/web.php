@@ -383,6 +383,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/job-pending/show/{uuid}', [JobPendingController::class, 'show'])->name('jobpending.show');
     Route::get('/job-pending/cetak/{uuid}', [JobPendingController::class, 'cetak'])->name('jobpending.cetak');
     Route::get('/job-pending/download/{uuid}', [JobPendingController::class, 'download'])->name('jobpending.download');
+    Route::get('/job-pending/verifikasi/{uuid}', [JobPendingController::class, 'verifikasi'])->name('jobpending.verifikasi');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobPending;
 use App\Models\JobPendingDesc;
 use App\Models\Personal;
+use App\Models\Section;
 use App\Models\Shift;
 use App\Models\User;
 use Carbon\Carbon;
@@ -20,33 +21,59 @@ use Illuminate\Support\Facades\Http;
 class JobPendingController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('JOB_PENDING as jp')
-        ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
-        ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
-        ->select(
-            'jp.id',
-            'jp.uuid',
-            'us.name as pic',
-            'us.nik as nik_pic',
-            'jp.statusenabled',
-            'sh.keterangan as shift',
-            'jp.date',
-            'jp.lokasi',
-            'jp.dibuat as nik_dibuat',
-            'db.PERSONALNAME as nama_dibuat',
-            'jp.diterima as nik_diterima',
-            'dt.PERSONALNAME as nama_diterima',
-            'jp.verified_dibuat',
-            'jp.verified_diterima',
-        )->where('jp.statusenabled', true)->get();
+        $shift = Shift::where('statusenabled', true)->get();
+        $section = Section::where('statusenabled', true)->get();
 
+        $filterShift = $request->shift ?? 'Semua';
+        $filterSection = $request->section ?? 'Semua';
+        $filterDate = $request->tanggalJobPending ?? null;
 
-        return view('job-pending.index', compact('data'));
+        $dataQuery = DB::table('JOB_PENDING as jp')
+            ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
+            ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
+            ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+            ->select(
+                'jp.id',
+                'jp.uuid',
+                'us.name as pic',
+                'us.nik as nik_pic',
+                'jp.statusenabled',
+                'sh.keterangan as shift',
+                'sec.keterangan as section',
+                'jp.date',
+                'jp.lokasi',
+                'jp.dibuat as nik_dibuat',
+                'db.PERSONALNAME as nama_dibuat',
+                'jp.diterima as nik_diterima',
+                'dt.PERSONALNAME as nama_diterima',
+                'jp.verified_dibuat',
+                'jp.verified_diterima',
+            )
+            ->where('jp.statusenabled', true);
+
+        // Filter shift
+        if ($filterShift != 'Semua') {
+            $dataQuery->where('sh.id', $filterShift);
+        }
+
+        if ($filterSection != 'Semua') {
+            $dataQuery->where('sec.id', $filterSection);
+        }
+
+        // Filter tanggal
+        if ($filterDate) {
+            $dataQuery->whereDate('jp.date', Carbon::parse($filterDate)->format('Y-m-d'));
+        }
+
+        $data = $dataQuery->get();
+
+        return view('job-pending.index', compact('data', 'shift', 'section', 'filterShift', 'filterSection', 'filterDate'));
     }
+
 
     public function insert()
     {
@@ -56,9 +83,11 @@ class JobPendingController extends Controller
         ->orderBy('ROLETYPE')->get();
 
         $shift = Shift::where('statusenabled', true)->get();
+        $section = Section::where('statusenabled', true)->get();
         $data = [
             'rekan' => $rekan,
             'shift' => $shift,
+            'section' => $section,
         ];
 
         return view('job-pending.insert', compact('data'));
@@ -76,6 +105,7 @@ class JobPendingController extends Controller
                 'statusenabled' => true,
                 'date'   => Carbon::parse($request->date)->format('Y-m-d'),
                 'shift_id'  => $request->shift,
+                'section_id'  => $request->section,
                 'lokasi' => $request->lokasi,
                 'issue'  => $request->issue,
                 'dibuat' => Auth::user()->nik,
@@ -161,6 +191,7 @@ class JobPendingController extends Controller
         ->leftJoin('JOB_PENDING_DESC as jd', 'jp.uuid', '=', 'jd.uuid_job')
         ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
+        ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
         ->select(
@@ -170,6 +201,7 @@ class JobPendingController extends Controller
             'us.nik as nik_pic',
             'jp.statusenabled',
             'sh.keterangan as shift',
+            'sec.keterangan as section',
             'jp.date',
             'jp.lokasi',
             'jd.aktivitas',
@@ -197,6 +229,7 @@ class JobPendingController extends Controller
         ->leftJoin('users as us2', 'jp.dibuat', '=', 'us2.nik')
         ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
+        ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
         ->select(
@@ -206,6 +239,7 @@ class JobPendingController extends Controller
             'us.nik as nik_pic',
             'jp.statusenabled',
             'sh.keterangan as shift',
+            'sec.keterangan as section',
             'jp.date',
             'jp.lokasi',
             'jd.aktivitas',
@@ -274,6 +308,7 @@ class JobPendingController extends Controller
         ->leftJoin('users as us2', 'jp.dibuat', '=', 'us2.nik')
         ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
+        ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
         ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
         ->select(
@@ -283,6 +318,7 @@ class JobPendingController extends Controller
             'us.nik as nik_pic',
             'jp.statusenabled',
             'sh.keterangan as shift',
+            'sec.keterangan as section',
             'jp.date',
             'jp.lokasi',
             'jd.aktivitas',
@@ -339,4 +375,51 @@ class JobPendingController extends Controller
         return $pdf->download('Job Pending Pengawas ('. $data[0]->date. '-'.$data[0]->nama_dibuat .'-'.$data[0]->shift .').pdf');
 
     }
+
+    public function verifikasi($uuid)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Ambil job
+            $job = JobPending::where('uuid', $uuid)->first();
+
+            // Cek apakah job ada
+            if (!$job) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Data job pending tidak ditemukan'
+                ], 404);
+            }
+
+            // Cek apakah sudah diverifikasi
+            if ($job->verified_diterima != null) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Maaf, Job Pending ini sudah diverifikasi'
+                ], 400);
+            }
+
+            // Lakukan verifikasi
+            $job->verified_diterima = Auth::user()->nik;
+            $job->verified_datetime_diterima = now();
+            $job->save();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Job Pending berhasil diverifikasi'
+            ]);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $th->getMessage()
+            ], 500);
+        }
+    }
+
 }

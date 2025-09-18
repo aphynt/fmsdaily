@@ -33,7 +33,7 @@
                                         <input type="date" class="form-control form-control-sm pb-2" id="date" name="date" required>
                                     </div>
                                     <div class="col-md-6 col-6 px-2 py-2">
-                                        <label for="shift">Shift</label>
+                                        <label for="selectShift">Shift</label>
                                         <select class="form-control form-control-sm pb-2" id="selectShift" name="shift" required>
                                             @foreach ($data['shift'] as $sh)
                                                 <option value="{{ $sh->id }}">{{ $sh->keterangan }}</option>
@@ -42,7 +42,16 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <div class="col-md-12 col-12 px-2 py-2">
+                                    <div class="col-md-6 col-6 px-2 py-2">
+                                        <label for="selectSection">Section</label>
+                                        <select class="form-control form-control-sm pb-2" id="selectSection" name="section" required>
+                                            <option selected disabled></option>
+                                            @foreach ($data['section'] as $sec)
+                                                <option value="{{ $sec->id }}">{{ $sec->keterangan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-6 px-2 py-2">
                                         <label for="shift">Lokasi</label>
                                         <input type="text" id="lokasi" class="form-control" name="lokasi">
                                     </div>
@@ -88,7 +97,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
+                                {{-- <div class="row mb-3">
                                     <div class="col-md-6 col-12 px-2 py-2">
                                             <label for="rekan">Penerima</label>
                                             <select class="form-select" data-trigger id="rekan" name="rekan">
@@ -99,7 +108,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                <div class="row text-center">
                                     <div class="mt-2">
