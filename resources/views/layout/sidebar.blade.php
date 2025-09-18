@@ -99,7 +99,7 @@
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="DS"> </span><span class="pc-mtext">Daftar Laporan</span> <span class="pc-arrow"><i
                                 data-feather="chevron-right"></i></span> <span class="pc-badge">
                                     @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
-                                    5
+                                    6
                                     @else
                                     1
                                     @endif
@@ -111,6 +111,7 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.show') }}">Pengawas Batu Bara</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-sap.show') }}">Laporan Inspeksi</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('laporan-kata-sandi.show') }}">Laporan Kata Sandi</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('jobpending.detail') }}">Laporan Job Pending</a></li>
                         @endif
                         <li class="pc-item"><a class="pc-link" href="{{ route('p2h.show') }}">Laporan P2H</a></li>
                     </ul>

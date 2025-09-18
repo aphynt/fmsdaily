@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\File;
 use Ramsey\Uuid\Uuid;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
+use DateTime;
 use Illuminate\Support\Facades\Http;
 
 class JobPendingController extends Controller
@@ -297,6 +298,172 @@ class JobPendingController extends Controller
 
 
         return view('job-pending.cetak', compact('data'));
+
+    }
+
+    public function detail()
+    {
+        $data = DB::table('JOB_PENDING as jp')
+        ->leftJoin('JOB_PENDING_DESC as jd', 'jp.uuid', '=', 'jd.uuid_job')
+        ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
+        ->leftJoin('users as us2', 'jp.dibuat', '=', 'us2.nik')
+        ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
+        ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
+        ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
+        ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+        ->select(
+            'jp.id',
+            'jp.uuid',
+            'us.name as pic',
+            'us.nik as nik_pic',
+            'jp.statusenabled',
+            'sh.keterangan as shift',
+            'sec.keterangan as section',
+            'jp.date',
+            'jp.lokasi',
+            'jd.aktivitas',
+            'jd.unit',
+            'jd.elevasi',
+            'jd.done',
+            'jp.issue',
+            'jp.dibuat as nik_dibuat',
+            'db.PERSONALNAME as nama_dibuat',
+            'us2.role as jabatan_dibuat',
+            'jp.diterima as nik_diterima',
+            'dt.PERSONALNAME as nama_diterima',
+            'us2.role as jabatan_diterima',
+            'jp.verified_dibuat',
+            'jp.verified_diterima',
+        )->where('jp.statusenabled', true)->get();
+
+        if ($data->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $item = $data->first();
+
+            $qrTempFolder = storage_path('app/public/qr-temp');
+            if (!File::exists($qrTempFolder)) {
+                File::makeDirectory($qrTempFolder, 0755, true);
+            }
+
+            if ($item->verified_dibuat != null) {
+                $fileName = 'verified_dibuat' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_dibuat)]), $filePath);
+
+                $item->verified_dibuat = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_dibuat = null;
+            }
+
+            if ($item->verified_diterima != null) {
+                $fileName = 'verified_diterima' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_diterima)]), $filePath);
+
+                $item->verified_diterima = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_diterima = null;
+            }
+        }
+
+
+        return view('job-pending.detail', compact('data'));
+
+    }
+
+    public function apiDetail(Request $request)
+    {
+        // Range tanggal
+        if (empty($request->rangeStart) || empty($request->rangeEnd)) {
+            $time = new DateTime();
+            $startDate = $time->format('Y-m-d');
+            $endDate   = $time->format('Y-m-d');
+        } else {
+            $startDate = (new DateTime($request->rangeStart))->format('Y-m-d');
+            $endDate   = (new DateTime($request->rangeEnd))->format('Y-m-d');
+        }
+
+        // Ambil parameter pagination (hindari konflik dengan variabel date)
+        $offset = $request->input('start', 0);   // Offset
+        $length = $request->input('length', 10); // Default 10 item per halaman
+        $draw   = $request->input('draw');
+
+        // Base query (jangan ->get() dulu)
+        $supportQuery = DB::table('JOB_PENDING as jp')
+            ->leftJoin('JOB_PENDING_DESC as jd', 'jp.uuid', '=', 'jd.uuid_job')
+            ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
+            ->leftJoin('users as us2', 'jp.dibuat', '=', 'us2.nik')
+            ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
+            ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
+            ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
+            ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+            ->select(
+                'jp.id',
+                'jp.uuid',
+                'us.name as pic',
+                'us.nik as nik_pic',
+                'jp.statusenabled',
+                'sh.keterangan as shift',
+                'sec.keterangan as section',
+                'jp.date',
+                'jp.lokasi',
+                'jd.aktivitas',
+                'jd.unit',
+                'jd.elevasi',
+                'jd.done',
+                'jp.issue',
+                'jp.dibuat as nik_dibuat',
+                'db.PERSONALNAME as nama_dibuat',
+                'us2.role as jabatan_dibuat',
+                'jp.diterima as nik_diterima',
+                'dt.PERSONALNAME as nama_diterima',
+                'us2.role as jabatan_diterima',
+                'jp.verified_dibuat',
+                'jp.verified_diterima',
+            )
+            ->where('jp.statusenabled', true)
+            ->whereBetween(DB::raw('CAST(jp.date as DATE)'), [$startDate, $endDate]);
+
+        // Search filter
+        if ($request->search['value']) {
+            $searchValue = '%' . $request->search['value'] . '%';
+
+            $columnsToSearch = [
+                'al.jenis_unit', 'al.alat_unit', 'al.nik_operator', 'al.nama_operator', 'sh2.keterangan',
+                'dr.nik_foreman', 'gl.PERSONALNAME', 'dr.tanggal_dasar', 'sh.keterangan', 'ar.keterangan', 'lok.keterangan',
+                'dr.nik_supervisor', 'spv.PERSONALNAME', 'dr.nik_superintendent', 'spt.PERSONALNAME', 'al.hm_awal',
+                'al.hm_akhir', 'al.hm_cash', 'al.keterangan'
+            ];
+
+            $supportQuery->where(function($query) use ($columnsToSearch, $searchValue) {
+                foreach ($columnsToSearch as $column) {
+                    $query->orWhere($column, 'like', $searchValue);
+                }
+            });
+        }
+
+        // Count sebelum pagination
+        $filteredRecords = $supportQuery->count();
+
+        // Pagination
+        $support = $supportQuery->skip($offset)->take($length)->get();
+
+        return response()->json([
+            'draw' => $draw,
+            'recordsTotal' => $filteredRecords,
+            'recordsFiltered' => $filteredRecords,
+            'data' => $support
+        ]);
+
 
     }
 
