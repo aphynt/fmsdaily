@@ -142,7 +142,7 @@ class JobPendingController extends Controller
 
             $to = "6285213067944";
             $session = "mysession";
-            $url = "http://localhost:5001/message/send-text?session={$session}&to={$to}&text={$encodedText}";
+            $url = "http://10.10.2.6:5001/message/send-text?session={$session}&to={$to}&text={$encodedText}";
 
             Http::get($url);
 
