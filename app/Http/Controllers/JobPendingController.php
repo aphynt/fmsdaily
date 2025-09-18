@@ -85,7 +85,7 @@ class JobPendingController extends Controller
             ]);
 
             // simpan detail aktivitas
-            $listAktivitas = [];
+            // $listAktivitas = [];
             foreach ($request->aktivitas as $i => $aktivitas) {
                 JobPendingDesc::create([
                     'pic' => Auth::user()->id,
@@ -98,53 +98,53 @@ class JobPendingController extends Controller
                 ]);
 
                 // kumpulkan untuk pesan WhatsApp
-                $listAktivitas[] = "- {$aktivitas} (Unit: " . ($request->unit[$i] ?? '-') . ", Elevasi: " . ($request->elevasi[$i] ?? '-') . ")";
+                // $listAktivitas[] = "- {$aktivitas} (Unit: " . ($request->unit[$i] ?? '-') . ", Elevasi: " . ($request->elevasi[$i] ?? '-') . ")";
             }
 
-            if($request->shift != null){
-                $shiftDesc = Shift::where('id', $request->shift)->first();
-                $shiftDesc = $shiftDesc->keterangan;
-            }else{
-                $shiftDesc = '-';
-            }
+            // if($request->shift != null){
+            //     $shiftDesc = Shift::where('id', $request->shift)->first();
+            //     $shiftDesc = $shiftDesc->keterangan;
+            // }else{
+            //     $shiftDesc = '-';
+            // }
 
-            if($request->rekan != null){
-                $rekanDesc = User::where('nik', $request->rekan)->first();
-                $rekanDesc = $rekanDesc->name;
-            }else{
-                $rekanDesc = '';
-            }
+            // if($request->rekan != null){
+            //     $rekanDesc = User::where('nik', $request->rekan)->first();
+            //     $rekanDesc = $rekanDesc->name;
+            // }else{
+            //     $rekanDesc = '';
+            // }
 
-            $me = User::where('nik', Auth::user()->nik)->first();
-            $me = $me->name;
+            // $me = User::where('nik', Auth::user()->nik)->first();
+            // $me = $me->name;
 
-            // Data untuk WhatsApp
-            $tanggal = Carbon::parse($request->date)->format('d-m-Y');
-            $shift   = $shiftDesc;
-            $lokasi  = $request->lokasi;
-            $issue   = $request->issue;
+            // // Data untuk WhatsApp
+            // $tanggal = Carbon::parse($request->date)->format('d-m-Y');
+            // $shift   = $shiftDesc;
+            // $lokasi  = $request->lokasi;
+            // $issue   = $request->issue;
 
-            $text =
-            "Semangat pagi, {$rekanDesc} 🙏\n" .
-            "Dimohon untuk mengecek Aplikasi Daily Foreman terkait *Job Pending ({$me})*.\n\n" .
-            "Berikut laporan pada tanggal {$tanggal}:\n" .
-            "=======================\n" .
-            "JOB PENDING PENGAWAS\n" .
-            "=======================\n" .
-            "Tanggal : {$tanggal}\n" .
-            "Shift   : {$shift}\n" .
-            "Lokasi  : {$lokasi}\n\n" .
-            "Aktivitas/Pekerjaan :\n" .
-            implode("\n", $listAktivitas) . "\n\n" .
-            "Issue :\n{$issue}";
+            // $text =
+            // "Semangat pagi, {$rekanDesc} 🙏\n" .
+            // "Dimohon untuk mengecek Aplikasi Daily Foreman terkait *Job Pending ({$me})*.\n\n" .
+            // "Berikut laporan pada tanggal {$tanggal}:\n" .
+            // "=======================\n" .
+            // "JOB PENDING PENGAWAS\n" .
+            // "=======================\n" .
+            // "Tanggal : {$tanggal}\n" .
+            // "Shift   : {$shift}\n" .
+            // "Lokasi  : {$lokasi}\n\n" .
+            // "Aktivitas/Pekerjaan :\n" .
+            // implode("\n", $listAktivitas) . "\n\n" .
+            // "Issue :\n{$issue}";
 
-            $encodedText = urlencode($text);
+            // $encodedText = urlencode($text);
 
-            $to = "6285213067944";
-            $session = "mysession";
-            $url = "http://10.10.2.6:5001/message/send-text?session={$session}&to={$to}&text={$encodedText}";
+            // $to = "6285213067944";
+            // $session = "mysession";
+            // $url = "http://10.10.2.6:5001/message/send-text?session={$session}&to={$to}&text={$encodedText}";
 
-            Http::get($url);
+            // Http::get($url);
 
             DB::commit();
             return redirect()->route('jobpending')->with('success', 'Job Pending berhasil dikirim');
