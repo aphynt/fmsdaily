@@ -23,12 +23,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Event::listen(\Illuminate\Console\Events\CommandStarting::class, function ($event) {
-            if (App::environment('production') && in_array($event->command, [
+            if (in_array($event->command, [
+                'migrate',
                 'migrate:fresh',
                 'migrate:reset',
                 'migrate:rollback',
             ])) {
-                echo "Command {$event->command} is disabled in production environment.\n";
+                echo "Command {$event->command} is disabled \n";
                 exit(1);
             }
         });
