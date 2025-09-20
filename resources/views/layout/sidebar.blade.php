@@ -121,7 +121,7 @@
                     <li class="pc-item pc-hasmenu">
                         <a href="#!" class="pc-link"><span class="pc-micon">
                             <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="DS"> </span><span class="pc-mtext">Form Laporan Kerja</span> <span class="pc-arrow"><i
-                                    data-feather="chevron-right"></i></span> <span class="pc-badge">4</span>
+                                    data-feather="chevron-right"></i></span> <span class="pc-badge">3</span>
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-new.index') }}">Pengawas Produksi</a></li>

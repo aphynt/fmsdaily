@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\JobPendingExport;
 use App\Models\JobPending;
 use App\Models\JobPendingDesc;
 use App\Models\Personal;
@@ -18,6 +19,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JobPendingController extends Controller
 {
@@ -120,18 +122,26 @@ class JobPendingController extends Controller
             // simpan detail aktivitas
             // $listAktivitas = [];
             foreach ($request->aktivitas as $i => $aktivitas) {
+                $unit = $request->unit[$i] ?? null;
+                $elevasi = $request->elevasi[$i] ?? null;
+
+                // Skip jika semua null / kosong
+                if (empty($aktivitas) && empty($unit) && empty($elevasi)) {
+                    continue;
+                }
+
                 JobPendingDesc::create([
-                    'pic' => Auth::user()->id,
-                    'uuid' => (string) Uuid::uuid4()->toString(),
+                    'pic'           => Auth::user()->id,
+                    'uuid'          => (string) Uuid::uuid4()->toString(),
                     'statusenabled' => true,
-                    'uuid_job' => $job->uuid,
-                    'aktivitas'      => $aktivitas,
-                    'unit'           => $request->unit[$i] ?? null,
-                    'elevasi'        => $request->elevasi[$i] ?? null,
+                    'uuid_job'      => $job->uuid,
+                    'aktivitas'     => $aktivitas,
+                    'unit'          => $unit,
+                    'elevasi'       => $elevasi,
                 ]);
 
                 // kumpulkan untuk pesan WhatsApp
-                // $listAktivitas[] = "- {$aktivitas} (Unit: " . ($request->unit[$i] ?? '-') . ", Elevasi: " . ($request->elevasi[$i] ?? '-') . ")";
+                // $listAktivitas[] = "- {$aktivitas} (Unit: " . ($unit ?? '-') . ", Elevasi: " . ($elevasi ?? '-') . ")";
             }
 
             // if($request->shift != null){
@@ -185,6 +195,27 @@ class JobPendingController extends Controller
             DB::rollBack();
             return redirect()->back()->with('info', $th->getMessage());
         }
+    }
+
+    public function excelDetail()
+    {
+
+        if (empty(session('requestTimeAlatSupport')['rangeStart']) || empty(session('requestTimeAlatSupport')['rangeEnd'])){
+            $time = new DateTime();
+            $start = $time;
+            $end = $time;
+
+        }else{
+            $start = new DateTime(session('requestTimeAlatSupport')['rangeStart']);
+            $end = new DateTime(session('requestTimeAlatSupport')['rangeEnd']);
+        }
+
+
+        $startTimeFormatted = $start->format('Y-m-d');
+        $endTimeFormatted = $end->format('Y-m-d');
+
+        // dd($bulan);
+        return Excel::download(new JobPendingExport($startTimeFormatted, $endTimeFormatted), 'Laporan Job Pending.xlsx');
     }
 
 
@@ -573,6 +604,7 @@ class JobPendingController extends Controller
             $job->verified_diterima = Auth::user()->nik;
             $job->diterima = Auth::user()->nik;
             $job->verified_datetime_diterima = now();
+            $job->done = true;
             $job->save();
 
             DB::commit();

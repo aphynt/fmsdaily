@@ -26,9 +26,9 @@
 
                                 {{-- </form> --}}
                             </div>
-                            {{-- <div class="col-sm-12 col-md-2 mb-2 text-md-end">
+                            <div class="col-sm-12 col-md-2 mb-2 text-md-end">
                                 <a href="{{ route('jobpending.excelDetail') }}"><span class="badge bg-success" style="font-size:14px"> Excel</span></a>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
