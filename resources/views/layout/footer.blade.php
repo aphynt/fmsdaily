@@ -194,7 +194,7 @@
 <script src="{{ asset('dashboard/assets') }}/js/plugins/dataTables.bootstrap5.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/buttons.colVis.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/buttons.print.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/pdfmake.min.js"></script>
+{{-- <script src="{{ asset('dashboard/assets') }}/js/plugins/pdfmake.min.js"></script> --}}
 <script src="{{ asset('dashboard/assets') }}/js/plugins/jszip.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/dataTables.buttons.min.js"></script>
 <script src="{{ asset('dashboard/assets') }}/js/plugins/vfs_fonts.js"></script>
