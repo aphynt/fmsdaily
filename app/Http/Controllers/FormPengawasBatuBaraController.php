@@ -1113,30 +1113,7 @@ class FormPengawasBatuBaraController extends Controller
 
     public function delete($uuid)
     {
-        $daily = DB::table('BB_DAILY_REPORT as dr')->where('dr.uuid', $uuid)->first();
-
-        $daily = DB::table('BB_DAILY_REPORT as dr')
-        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
-        ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
-        ->select(
-            'dr.id',
-            'dr.uuid',
-            'dr.tanggal_dasar as tanggal',
-            'sh.keterangan as shift',
-            'us.name as pic',
-            'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
-            'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
-            'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
-
-        )->where('dr.uuid', $uuid)->first();
-
-        // dd($daily);
+        $daily = BBDailyReport::where('uuid', $uuid)->first();
 
         try {
 

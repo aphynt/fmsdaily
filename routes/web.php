@@ -30,6 +30,7 @@ use App\Http\Controllers\MonitoringPayloadController;
 use App\Http\Controllers\OprAssigntmentController;
 use App\Http\Controllers\P2HController;
 use App\Http\Controllers\PayloadRitationController;
+use App\Http\Controllers\PengawasPitstopController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RosterKerjaController;
@@ -50,9 +51,14 @@ use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('dashboard.index');
+// Route::get('/', function () {
+//     return redirect()->route('dashboard.index');
+// });
+Route::get('/dashboards/index', function () {
+    return redirect('/');
 });
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
+
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login/post', [AuthController::class, 'login_post'])->name('login.post');
@@ -72,7 +78,7 @@ Route::get('/OprAssignment/A3/api', [OprAssigntmentController::class, 'a3_api'])
 
 Route::group(['middleware' => ['auth']], function(){
     //dashboard
-    Route::get('/dashboards/index', [DashboardController::class, 'index'])->name('dashboard.index');
+    // Route::get('/dashboards/index', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
     Route::get('/operator/{nik}', [FormPengawasController::class, 'getOperatorByNIK']);
@@ -113,7 +119,7 @@ Route::group(['middleware' => ['auth']], function(){
     //Form Pengawas Baru
     Route::get('/form-pengawas-new/search-users', [FormPengawasNewController::class, 'users'])->name('cariUsers');
     Route::get('/form-pengawas-new/show', [FormPengawasNewController::class, 'show'])->name('form-pengawas-new.show');
-    Route::get('/form-pengawas-new/index', [FormPengawasNewController::class, 'index'])->name('form-pengawas-new.index');
+    Route::get('/form-pengawas-new/index', [FormPengawasNewController::class, 'index'])->name('form-pengawas-new.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
     Route::get('/form-pengawas-new/preview/{uuid}', [FormPengawasNewController::class, 'preview'])->name('form-pengawas-new.preview');
     Route::post('/save-draft', [FormPengawasNewController::class, 'saveAsDraft'])->name('daily-report.saveAsDraft');
     Route::get('/form-pengawas-new/get-draft/{uuid}', [FormPengawasNewController::class, 'getDraft'])->name('get-draft');
@@ -129,7 +135,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Form Pengawas Batu Bara
     Route::get('/form-pengawas-batubara/show', [FormPengawasBatuBaraController::class, 'show'])->name('form-pengawas-batubara.show');
-    Route::get('/form-pengawas-batubara/index', [FormPengawasBatuBaraController::class, 'index'])->name('form-pengawas-batubara.index');
+    Route::get('/form-pengawas-batubara/index', [FormPengawasBatuBaraController::class, 'index'])->name('form-pengawas-batubara.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
     Route::post('/form-pengawas-batubara/post', [FormPengawasBatuBaraController::class, 'post'])->name('form-pengawas-batubara.post');
     Route::post('/save-draft-form-pengawas-batubara', [FormPengawasBatuBaraController::class, 'saveAsDraft'])->name('form-pengawas-batubara.saveAsDraft');
     Route::get('/form-pengawas-batubara/preview/{uuid}', [FormPengawasBatuBaraController::class, 'preview'])->name('form-pengawas-batubara.preview');
@@ -141,6 +147,25 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas-batubara/download/pdf/{uuid}', [FormPengawasBatuBaraController::class, 'pdf'])->name('form-pengawas-batubara.pdf');
     Route::get('/form-pengawas-batubara/download/{uuid}', [FormPengawasBatuBaraController::class, 'download'])->name('form-pengawas-batubara.download');
     Route::get('/form-pengawas-batubara/bundlepdf', [FormPengawasBatuBaraController::class, 'bundlepdf'])->name('form-pengawas-batubara.bundlepdf');
+
+    //Form Pengawas Pitstop
+    Route::get('/pengawas-pitstop/show', [PengawasPitstopController::class, 'show'])->name('pengawas-pitstop.show');
+    Route::get('/pengawas-pitstop/operator', [PengawasPitstopController::class, 'operator'])->name('pengawas-pitstop.operator');
+    Route::get('/pengawas-pitstop/operator/api', [PengawasPitstopController::class, 'operatorAPI'])->name('pengawas-pitstop.operatorAPI');
+    Route::get('/pengawas-pitstop/index', [PengawasPitstopController::class, 'index'])->name('pengawas-pitstop.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
+    Route::post('/pengawas-pitstop/post', [PengawasPitstopController::class, 'post'])->name('pengawas-pitstop.post');
+    Route::get('/pengawas-pitstop/excel', [PengawasPitstopController::class, 'excel'])->name('pengawas-pitstop.excel');
+    Route::post('/save-draft-pengawas-pitstop', [PengawasPitstopController::class, 'saveAsDraft'])->name('pengawas-pitstop.saveAsDraft');
+    Route::get('/pengawas-pitstop/preview/{uuid}', [PengawasPitstopController::class, 'preview'])->name('pengawas-pitstop.preview');
+    Route::get('/pengawas-pitstop/delete/{uuid}', [PengawasPitstopController::class, 'delete'])->name('pengawas-pitstop.delete');
+    Route::get('/pengawas-pitstop/verified/all/{uuid}', [PengawasPitstopController::class, 'verifiedAll'])->name('pengawas-pitstop.verified.all');
+    Route::get('/pengawas-pitstop/verified/foreman/{uuid}', [PengawasPitstopController::class, 'verifiedForeman'])->name('pengawas-pitstop.verified.foreman');
+    Route::get('/pengawas-pitstop/verified/supervisor/{uuid}', [PengawasPitstopController::class, 'verifiedSupervisor'])->name('pengawas-pitstop.verified.supervisor');
+    Route::get('/pengawas-pitstop/verified/superintendent/{uuid}', [PengawasPitstopController::class, 'verifiedSuperintendent'])->name('pengawas-pitstop.verified.superintendent');
+    Route::get('/pengawas-pitstop/cetak/{uuid}', [PengawasPitstopController::class, 'cetak'])->name('pengawas-pitstop.cetak');
+    Route::get('/pengawas-pitstop/download/{uuid}', [PengawasPitstopController::class, 'download'])->name('pengawas-pitstop.download');
+    Route::get('/pengawas-pitstop/bundlepdf', [PengawasPitstopController::class, 'bundlepdf'])->name('pengawas-pitstop.bundlepdf');
+    Route::delete('/pengawas-pitstop/delete-pitstop/{id}', [PengawasPitstopController::class, 'destroyPitstop']);
 
     //Form Pengawas SAP
     Route::get('/form-pengawas-sap/index', [FormPengawasSAPController::class, 'index'])->name('form-pengawas-sap.index');
@@ -377,7 +402,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/kkh/download', [KKHController::class, 'download'])->name('kkh.download');
 
     //Job Pending
-    Route::get('/job-pending', [JobPendingController::class, 'index'])->name('jobpending');
+    Route::get('/job-pending', [JobPendingController::class, 'index'])->name('jobpending')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
     Route::get('/job-pending/insert', [JobPendingController::class, 'insert'])->name('jobpending.insert');
     Route::post('/job-pending/post', [JobPendingController::class, 'post'])->name('jobpending.post');
     Route::get('/job-pending/show/{uuid}', [JobPendingController::class, 'show'])->name('jobpending.show');

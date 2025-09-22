@@ -2,7 +2,16 @@
 @include('layout.sidebar')
 @include('layout.header')
 
-
+<style>
+    @media (max-width: 575.98px) {
+    .card .card-body, .card .card-header {
+        padding: 10px;
+    }
+    .row>* {
+    margin-top: 0.1rem;
+    }
+}
+</style>
 
 <div class="pc-container">
     <div class="pc-content">
@@ -42,15 +51,46 @@
                     </a>
                 </div>
                 <div class="col-4 col-md-4 col-xxl-4">
-                    <a href="{{ route('form-pengawas-sap.index') }}" class="text-decoration-none">
+                    <a href="{{ route('pengawas-pitstop.index') }}" class="text-decoration-none">
                         <div class="card mb-3">
                             <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/to-do-list.png" alt="Form Pengawas" style="max-width: 20px">
-                                <h6 class="card-title" style="font-size:11px">Form Inspeksi</h6>
+                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/pencil.png" alt="Form Pengawas" style="max-width: 20px">
+                                <h6 class="card-title" style="font-size:11px">Form Pit Stop</h6>
                             </div>
                         </div>
                     </a>
                 </div>
+                <div class="col-4 col-md-4 col-xxl-4">
+                    <a href="{{ route('jobpending') }}" class="text-decoration-none">
+                        <div class="card mb-3">
+                            <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/job-creation.png" alt="Form Pengawas" style="max-width: 20px">
+                                <h6 class="card-title" style="font-size:11px">Job Pending</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-4 col-xxl-4">
+                    <a href="{{ route('p2h.index') }}" class="text-decoration-none">
+                        <div class="card mb-3">
+                            <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/worker.png" alt="Form Pengawas" style="max-width: 20px">
+                                <h6 class="card-title" style="font-size:11px">P2H Unit</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-4 col-xxl-4">
+                    <a href="{{ route('kkh.all') }}" class="text-decoration-none">
+                        <div class="card mb-3">
+                            <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/ergonomic.png" alt="Form Pengawas" style="max-width: 20px">
+                                <h6 class="card-title" style="font-size:11px">Verifikasi KKH</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
             @else
                 <div class="col-4 col-md-4 col-xxl-4">
                     <a href="{{ route('form-pengawas-new.show') }}" class="text-decoration-none">

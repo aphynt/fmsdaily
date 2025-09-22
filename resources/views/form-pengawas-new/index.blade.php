@@ -108,7 +108,7 @@
                     @if ($daily != null)
                         <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <strong>Info!</strong>
-                            Sedang membuat draft Laporan Harian.
+                            Sedang membuat draft Laporan Harian. Jangan lupa selesaikan jika laporan sudah selesai.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif

@@ -32,20 +32,60 @@ class AlatSupportExport implements FromCollection, WithEvents, WithHeadings, Wit
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(21);
-                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(13);
-                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(11);
-                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(13);
-                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(25);
-                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(12);
-                $event->sheet->getDelegate()->getColumnDimension('L')->setWidth(20);
-                $event->sheet->getDelegate()->getColumnDimension('N')->setWidth(20);
-                $event->sheet->getDelegate()->getColumnDimension('P')->setWidth(20);
-                $event->sheet->getDelegate()->getColumnDimension('U')->setWidth(40);
-                $event->sheet->getDelegate()->getColumnDimension('V')->setWidth(20);
+                $sheet = $event->sheet->getDelegate();
+
+                // Merge sesuai header
+                $sheet->mergeCells('A1:A2'); // Tanggal Pelaporan
+                $sheet->mergeCells('B1:B2'); // Shift
+                $sheet->mergeCells('C1:C2'); // Area
+                $sheet->mergeCells('D1:D2'); // Lokasi
+                $sheet->mergeCells('E1:E2'); // Jenis Unit
+                $sheet->mergeCells('F1:F2'); // Nomor Unit
+                $sheet->mergeCells('G1:J1'); // Operator (NIK, NAMA, TANGGAL, SHIFT)
+                $sheet->mergeCells('K1:L1'); // Foreman
+                $sheet->mergeCells('M1:N1'); // Supervisor
+                $sheet->mergeCells('O1:P1'); // Superintendent
+                $sheet->mergeCells('Q1:T1'); // HM (Awal, Akhir, Total, Cash)
+                $sheet->mergeCells('U1:U2'); // Keterangan
+                $sheet->mergeCells('V1:V2'); // Status Draft
+
+                // Style kolom
+                $event->sheet->getStyle('A1:V2')->applyFromArray([
+                    'alignment' => [
+                        'horizontal' => 'center',
+                        'vertical'   => 'center',
+                    ],
+                    'font' => ['bold' => true],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['rgb' => '000000'],
+                        ],
+                    ],
+                    'fill' => [
+                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        'startColor' => ['rgb' => 'D8E4BC'],
+                    ],
+                ]);
+                $highestRow = $sheet->getHighestRow();
+                $highestCol = $sheet->getHighestColumn();
+                $dataRange = "A3:{$highestCol}{$highestRow}";
+                    $sheet->getStyle($dataRange)->applyFromArray([
+                        'borders' => [
+                            'allBorders' => [
+                                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_DASHED,
+                                'color' => ['rgb' => '000000'],
+                            ],
+                        ],
+                    ]);
+                    // Autosize semua kolom
+            foreach (range('A', $highestCol) as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
             },
         ];
     }
+
 
 
     public function styles(Worksheet $sheet)

@@ -87,6 +87,32 @@
                                 <label class="form-label">Issue:</label>
                                 <p class="mb-0" style="white-space: pre-wrap; line-height: 1.6;">{!! nl2br(e($data[0]->issue)) !!}</p>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="border rounded p-3">
+                                    <h6>Dibuat oleh:</h6>
+                                    @if ($data[0]->jabatan_dibuat)
+                                        <h5>
+                                            <img src="{{ $data[0]->verified_dibuat }}" style="max-width: 70px;">
+                                        </h5>
+                                    @endif
+
+                                    <h5>{{ $data[0]->nama_dibuat ?? '.......................' }}</h5>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="border rounded p-3">
+                                    <h6>Diterima oleh:</h6>
+                                    @if ($data[0]->jabatan_diterima)
+                                        <h5>
+                                            <img src="{{ $data[0]->verified_diterima }}" style="max-width: 70px;">
+                                        </h5>
+                                    @endif
+                                    <h5>{{ $data[0]->nama_diterima ?? '.......................' }}</h5>
+
+                                </div>
+                            </div>
+
                             <div class="card-body p-3">
                                 @if ($data[0]->verified_diterima == null)
                                     <a href="#" data-bs-toggle="modal" ><span class="badge bg-success btn-verifikasi" style="font-size:14px"data-url="{{ route('jobpending.verifikasi', $data[0]->uuid) }}">

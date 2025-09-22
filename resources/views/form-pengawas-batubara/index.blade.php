@@ -64,7 +64,7 @@
         <div>
             <div id="basicwizard" class="form-wizard row justify-content-center">
                 <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
-                    <h3>Laporan Foreman Batu Bara</h3>
+                    <h3>Laporan Harian Pengawas Batu Bara</h3>
                 </div>
                 <div class="col-12">
                     <div class="card">
@@ -107,7 +107,7 @@
                     @if ($daily != null)
                         <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <strong>Info!</strong>
-                            Sedang membuat draft Laporan Harian.
+                            Sedang membuat draft Laporan Harian. Jangan lupa selesaikan jika laporan sudah selesai.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif

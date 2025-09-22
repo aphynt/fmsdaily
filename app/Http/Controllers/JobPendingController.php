@@ -224,6 +224,8 @@ class JobPendingController extends Controller
         $data = DB::table('JOB_PENDING as jp')
         ->leftJoin('JOB_PENDING_DESC as jd', 'jp.uuid', '=', 'jd.uuid_job')
         ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
+        ->leftJoin('users as us2', 'jp.dibuat', '=', 'us2.nik')
+        ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
         ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
         ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
@@ -245,11 +247,49 @@ class JobPendingController extends Controller
             'jp.issue',
             'jp.dibuat as nik_dibuat',
             'db.PERSONALNAME as nama_dibuat',
+            'us2.role as jabatan_dibuat',
             'jp.diterima as nik_diterima',
             'dt.PERSONALNAME as nama_diterima',
+            'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',
         )->where('jp.statusenabled', true)->where('jp.uuid', $uuid)->get();
+        if ($data->isEmpty()) {
+            return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
+        }else {
+            $item = $data->first();
+
+            $qrTempFolder = storage_path('app/public/qr-temp');
+            if (!File::exists($qrTempFolder)) {
+                File::makeDirectory($qrTempFolder, 0755, true);
+            }
+
+            if ($item->verified_dibuat != null) {
+                $fileName = 'verified_dibuat' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_dibuat)]), $filePath);
+
+                $item->verified_dibuat = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_dibuat = null;
+            }
+
+            if ($item->verified_diterima != null) {
+                $fileName = 'verified_diterima' . $item->uuid . '.png';
+                $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
+
+                QrCode::size(150)
+                    ->format('png')
+                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_diterima)]), $filePath);
+
+                $item->verified_diterima = asset('storage/qr-temp/' . $fileName);
+            } else {
+                $item->verified_diterima = null;
+            }
+        }
 
         return view('job-pending.show', compact('data'));
 

@@ -1,4 +1,4 @@
-@include('layout.head', ['title' => 'Laporan Kerja Pengawas Produksi'])
+@include('layout.head', ['title' => 'Laporan Kerja Pengawas Pitstop'])
 @include('layout.sidebar')
 @include('layout.header')
 <style>
@@ -195,11 +195,11 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6 text-sm-end">
-                                        <h6>FM-PRD-03/03/06/02/24</h6>
+                                        <h6>FM-PRD-68/00/04/10/23</h6>
                                     </div>
                                 </div>
                             </div>
-                            <h2 style="text-align: center;"><u>LAPORAN HARIAN FOREMAN PRODUKSI</u></h2>
+                            <h2 style="text-align: center;"><u>LAPORAN HARIAN PENGAWAS PITSTOP</u></h2>
                             <table class="info-table">
                                 <tr>
                                     <td colspan="14">Tanggal</td>
@@ -220,85 +220,16 @@
                                     <td colspan="7">{{ $data['daily']->nik_foreman }}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="14">Unit Kerja</td>
+                                    <td colspan="14">Lokasi</td>
                                     <td>:</td>
-                                    <td>{{ $data['daily']->lokasi }}</td>
+                                    <td>{{ $data['daily']->area }}</td>
                                     <td colspan="7"></td>
                                     <td colspan="3">Nama Supervisor</td>
                                     <td>:</td>
                                     <td colspan="7">{{ $data['daily']->nama_supervisor }}</td>
                                 </tr>
-                                <tr>
-                                    <td colspan="14">Jam Kerja</td>
-                                    <td>:</td>
-                                    <td>{{ $data['daily']->shift == 'Siang' ? '06:30 - 18:30' : '18:30 - 06:30' }}</td>
-                                    <td colspan="7"></td>
-                                    <td colspan="3"></td>
-                                    <td></td>
-                                    <td colspan="7"></td>
-                                </tr>
                             </table>
-                            <h4>
-                                A. FRONT LOADING
-                            </h4>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="3">Brand</th>
-                                        <th rowspan="3">Type</th>
-                                        <th rowspan="3">No Unit</th>
-                                        <th>Shift</th>
-                                        <th colspan="12">Jam</th>
-                                    </tr>
-                                    @if ($data['daily']->shift == 'Siang')
-                                        <tr>
-                                            <th>Siang</th>
-                                            @foreach(['07-08', '08-09', '09-10', '10-11',
-                                            '11-12', '12-13', '13-14', '14-15',
-                                            '15-16', '16-17', '17-18', '18-19'] as $slot)
-                                            <th>{{ $slot }}</th>
-                                            @endforeach
-                                        </tr>
-                                    @else
-                                        <tr>
-                                            <th>Malam</th>
-                                            @foreach(['19-20', '20-21', '21-22', '22-23',
-                                            '23-24', '24-01', '01-02', '02-03',
-                                            '03-04', '04-05', '05-06', '06-07'] as $slot)
-                                            <th>{{ $slot }}</th>
-                                            @endforeach
-                                        </tr>
-                                    @endif
-                                </thead>
-                                <tbody>
-                                    @foreach($data['front'] as $brand => $units)
-                                    @php
-                                    $groupedByType = $units->groupBy('type');
-                                    @endphp
-                                    @foreach($groupedByType as $type => $typeUnits)
-                                    @foreach($typeUnits as $index => $unit)
-                                    <tr>
-                                        <!-- Tampilkan Brand hanya di baris pertama dari grup -->
-                                        @if($loop->parent->first && $index === 0)
-                                        <td rowspan="{{ $units->count() }}">{{ $brand }}</td>
-                                        @endif
-                                        <!-- Tampilkan Type hanya di baris pertama dari grup Type -->
-                                        @if($index === 0)
-                                        <td rowspan="{{ $typeUnits->count() }}">{{ $type }}</td>
-                                        @endif
-                                        <td colspan="2">{{ $unit['nomor_unit'] }}</td>
-                                        @foreach($unit['siang'] as $slot)
-                                        <td>{{ $slot->status }}</td>
-                                        @endforeach
-                                    </tr>
-                                    @endforeach
-                                    @endforeach
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div class="footer">
-                                Keterangan: beri tanda centang (√) pada unit excavator yang diawasi
-                            </div>
+
                             <h4>
                                 B.  ALAT SUPPORT
                             </h4>
@@ -306,41 +237,59 @@
                                 <thead>
                                     <tr>
                                         <th rowspan="2" style="width:25px;">No</th>
+                                        <th rowspan="2">Jenis Unit</th>
+                                        <th rowspan="2">Type Unit</th>
                                         <th rowspan="2">No. Unit</th>
-                                        <th rowspan="2">Nama Operator</th>
-                                        <th rowspan="2">Tanggal</th>
-                                        <th colspan="2">HM Unit</th>
-                                        <th rowspan="2">Total</th>
-                                        <th rowspan="2">Cash Pengawas</th>
+                                        <th rowspan="2">Operator (Settingan)</th>
+                                        <th colspan="4">Status</th>
+                                        <th rowspan="2">Operator (Ready)</th>
                                         <th rowspan="2">Ket.</th>
                                     </tr>
                                     <tr>
-                                        <th>Awal</th>
-                                        <th>Akhir</th>
+                                        <th>Unit Breakdown</th>
+                                        <th>Unit Ready</th>
+                                        <th>Operator Ready</th>
+                                        <th>Durasi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data['support'] as $sp)
+                                    @foreach ($data['dailyDesc'] as $sp)
                                     <tr>
                                         <td style="text-align: center">{{ $loop->iteration }}</td>
-                                        <td style="padding-left:2px;">{{ $sp->nomor_unit }}</td>
-                                        <td style="padding-left:2px;">{{ $sp->nama_operator }}</td>
-                                        <td style="padding-left:2px;">{{ date('d-m-Y', strtotime($sp->tanggal)) }}</td>
-                                        <td style="text-align: center">{{ $sp->hm_awal }}</td>
-                                        <td style="text-align: center">{{ $sp->hm_akhir }}</td>
-                                        <td style="text-align: center">{{ number_format($sp->hm_akhir - $sp->hm_awal, 2) }}</td>
-                                        <td style="padding-left:2px;">{{ $sp->hm_cash }}</td>
-                                        <td style="padding-left:2px;">{{ $sp->keterangan }}</td>
+                                        <td style="padding-left:2px;">{{ $sp->jenis_unit }}</td>
+                                        <td style="padding-left:2px;">{{ $sp->type_unit }}</td>
+                                        <td style="padding-left:2px;">{{ $sp->no_unit }}</td>
+
+                                        <td style="padding-left:2px;text-align: left; {{ $sp->isDifferentOpr ? 'color:blue;' : '' }}">
+                                            {{ $sp->opr_settingan }}-{{ $sp->nama_opr_settingan }}
+                                        </td>
+                                        <td style="padding-left:2px;">
+                                            {!! $sp->isOutsideShift ? '<b>'.$sp->time_breakdown.'</b>' : $sp->time_breakdown !!}
+                                        </td>
+                                        <td style="padding-left:2px;">{{ $sp->status_unit_ready_fmt }}</td>
+                                        <td style="padding-left:2px;">{{ $sp->status_opr_ready_fmt }}</td>
+                                        <td style="padding-left:2px; {{ $sp->totalMinutes > 30 ? 'color:red;font-weight:bold;' : '' }}">
+                                            {{ $sp->durasi_eff }}
+                                        </td>
+                                        <td style="padding-left:2px;text-align: left; {{ $sp->isDifferentOpr ? 'color:blue;' : '' }}">
+                                            {{ $sp->opr_ready }}-{{ $sp->nama_opr_ready }}
+                                        </td>
+                                        <td style="padding-left:2px;">
+                                            {!! $sp->isOutsideShift ? '<b>'.$sp->keterangan.'</b>' : $sp->keterangan !!}
+                                        </td>
                                     </tr>
                                     @endforeach
-                                    @if ($data['support']->isEmpty())
+                                    @if ($data['dailyDesc']->isEmpty())
                                         <tr>
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -348,9 +297,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -358,9 +310,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -368,9 +323,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -378,9 +336,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -388,9 +349,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -398,9 +362,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -408,9 +375,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -418,9 +388,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -428,9 +401,12 @@
                                             <td style="text-align: center"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
-                                            <td style="text-align: center"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
+                                            <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                             <td style="padding-left:2px;"></td>
                                         </tr>
@@ -438,66 +414,17 @@
                                 </tbody>
                             </table>
                             <br>
-                            <div style="font-size: 8pt;"><i>KET:</i></div>
+                            <div style="font-size: 8pt;"><i>Catatan :</i></div>
                             <div class="grid-container">
                                 <div class="grid-table">
                                     <table >
                                         <tbody>
-                                            @foreach ($data['catatan'] as $cp)
                                             <tr>
                                                 <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
-                                                    @if($cp->jam_start && $cp->jam_stop)
-                                                        ({{ \Carbon\Carbon::parse($cp->jam_start)->format('H:i') }} - {{ \Carbon\Carbon::parse($cp->jam_stop)->format('H:i') }})
-                                                    @endif
-                                                    {{ $cp->keterangan }}
+                                                    {!! nl2br(e($data['daily']->catatan_pengawas)) !!}
                                                 </td>
                                             </tr>
-                                            @endforeach
 
-                                            @foreach ($data['front'] as $brand => $units)
-                                                @foreach ($units as $unit)
-                                                    @if ($data['daily']->shift == 'Siang')
-                                                        @foreach ($unit['siang'] as $index => $slot)
-                                                            @if($slot->keterangan != "")
-                                                                <tr>
-                                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
-                                                                        <!-- Menampilkan nomor unit -->
-                                                                        {{ $unit['nomor_unit'] }} =>
-                                                                        <!-- Waktu -->
-                                                                        ({{ $timeSlots['siang'][$index] }})
-                                                                        <!-- Keterangan -->
-                                                                        {{ $slot->keterangan }}
-                                                                    </td>
-                                                                </tr>
-                                                            @endif
-                                                        @endforeach
-                                                    @else
-                                                        @foreach ($unit['malam'] as $index => $slot)
-                                                            @if($slot->keterangan != "")
-                                                                <tr>
-                                                                    <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
-                                                                        <!-- Menampilkan nomor unit -->
-                                                                        {{ $unit['nomor_unit'] }} =>
-                                                                        <!-- Waktu -->
-                                                                        ({{ $timeSlots['malam'][$index] }})
-                                                                        <!-- Keterangan -->
-                                                                        {{ $slot->keterangan }}
-                                                                    </td>
-                                                                </tr>
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                            @if ($data['front']->isEmpty())
-                                                @for ($i = 0; $i < 5; $i++)
-                                                    <tr>
-                                                        <td style="border: none; border-bottom: 1px solid black; text-align:left; padding-top:7px;">
-                                                            &nbsp;
-                                                        </td>
-                                                    </tr>
-                                                @endfor
-                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -544,49 +471,51 @@
                             </div>
                             <div class="card-body p-3">
                                 @if (Auth::user()->role == 'ADMIN')
-                                    <a href="{{ route('form-pengawas-new.verified.all', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
-                                    <a href="{{ route('form-pengawas-new.verified.foreman', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
-                                    <a href="{{ route('form-pengawas-new.verified.supervisor', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
-                                    <a href="{{ route('form-pengawas-new.verified.superintendent', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="{{ route('pengawas-pitstop.verified.all', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
+                                    <a href="{{ route('pengawas-pitstop.verified.foreman', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="{{ route('pengawas-pitstop.verified.supervisor', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="{{ route('pengawas-pitstop.verified.superintendent', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $data['daily']->nik_foreman && $data['daily']->verified_foreman == null)
-                                    <a href="{{ route('form-pengawas-new.verified.foreman', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
+                                    <a href="{{ route('pengawas-pitstop.verified.foreman', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $data['daily']->nik_supervisor && $data['daily']->verified_supervisor == null)
-                                    <a href="{{ route('form-pengawas-new.verified.supervisor', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
+                                    <a href="{{ route('pengawas-pitstop.verified.supervisor', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>
                                 @endif
                                 @if (Auth::user()->nik == $data['daily']->nik_superintendent && $data['daily']->verified_superintendent == null)
-                                    <a href="{{ route('form-pengawas-new.verified.superintendent', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
+                                    <a href="{{ route('pengawas-pitstop.verified.superintendent', $data['daily']->uuid) }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Superintendent</span></a>
                                 @endif
                                 <ul class="list-inline ms-auto mb-0 d-flex justify-content-end flex-wrap">
                                     <li class="list-inline-item align-bottom me-2">
-                                        <a href="{{ route('form-pengawas-new.show') }}" class="avtar avtar-s btn-link-secondary">
+                                        <a href="{{ route('pengawas-pitstop.show') }}" class="avtar avtar-s btn-link-secondary">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><defs><path id="stashArrowReplyDuotone0" fill="currentColor" d="M10.296 6.889L4.833 11.18a.5.5 0 0 0 0 .786l5.463 4.292a.5.5 0 0 0 .801-.482l-.355-1.955c5.016-1.204 7.108 1.494 7.914 3.235c.118.254.614.205.64-.073c.645-7.201-4.082-8.244-8.57-7.567l.371-2.046a.5.5 0 0 0-.8-.482"/></defs><use href="#stashArrowReplyDuotone0" opacity="0.5"/><use href="#stashArrowReplyDuotone0" fill-opacity="0.5" fill-rule="evenodd" clip-rule="evenodd"/><path fill="currentColor" d="m4.833 11.18l-.308-.392zm5.463-4.291l.31.393zm-5.463 5.078l-.308.393zm5.463 4.292l-.309.394zm.801-.482l.492-.09zm-.355-1.955l-.492.09a.5.5 0 0 1 .375-.576zm7.914 3.235l-.453.21zm.64-.073l-.498-.045zm-8.57-7.567l.074.494a.5.5 0 0 1-.567-.583zm.371-2.046l.492.09zm-6.572 3.417l5.462-4.293l.618.787l-5.463 4.292zm0 1.572a1 1 0 0 1 0-1.572l.617.786zm5.462 4.293L4.525 12.36l.617-.786l5.463 4.292zm1.602-.966c.165.906-.878 1.534-1.602.966l.618-.787zm-.355-1.954l.355 1.954l-.984.18l-.355-1.955zm-.609-.397c2.614-.627 4.528-.249 5.908.57c1.367.81 2.148 2.016 2.577 2.941l-.907.42c-.378-.815-1.046-1.829-2.18-2.501c-1.122-.665-2.762-1.034-5.164-.457zm8.485 3.511a.23.23 0 0 0-.114-.116c-.024-.01-.037-.008-.04-.008a.1.1 0 0 0-.058.028a.27.27 0 0 0-.1.188l.996.09c-.044.486-.481.661-.73.688c-.252.027-.676-.049-.861-.45zm-.312.092c.312-3.488-.68-5.332-2.134-6.273c-1.506-.975-3.657-1.087-5.864-.755l-.15-.988c2.282-.344 4.739-.274 6.557.903c1.87 1.211 2.92 3.489 2.587 7.202zm-7.209-9.478l-.372 2.046l-.984-.18l.372-2.045zm-1.602-.966c.724-.568 1.767.06 1.602.966l-.984-.18z"/></svg>
                                         </a>
                                     </li>
+                                    @if (Auth::user()->role == 'ADMIN')
                                     <li class="list-inline-item align-bottom me-2">
                                         <a href="#" class="avtar avtar-s btn-link-secondary" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja">
                                             <i class="ph-duotone ph-trash f-22"></i>
                                         </a>
                                     </li>
+                                    @endif
                                     {{-- <li class="list-inline-item align-bottom me-2">
                                         <a href="#" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-pencil-simple-line f-22"></i>
                                         </a>
                                     </li>--}}
                                     <li class="list-inline-item align-bottom me-2">
-                                        <a href="{{ route('form-pengawas-new.pdf', $data['daily']->uuid ) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
+                                        <a href="{{ route('pengawas-pitstop.download', $data['daily']->uuid ) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-download-simple f-22"></i>
                                         </a>
                                     </li>
                                     <li class="list-inline-item align-bottom me-2">
-                                        <a href="{{ route('form-pengawas-new.download', $data['daily']->uuid ) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
+                                        <a href="{{ route('pengawas-pitstop.cetak', $data['daily']->uuid ) }}" target="_blank" class="avtar avtar-s btn-link-secondary">
                                             <i class="ph-duotone ph-printer f-22"></i>
                                         </a>
                                     </li>
 
                                 </ul>
-                                @include('form-pengawas-new.delete-preview')
+                                @include('pengawas-pitstop.delete-preview')
                             </div>
                         </div>
                     </div>

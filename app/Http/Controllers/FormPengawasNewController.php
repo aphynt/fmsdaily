@@ -1348,30 +1348,7 @@ class FormPengawasNewController extends Controller
 
     public function delete($uuid)
     {
-        $daily = DB::table('daily_report_t as dr')
-        ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
-        ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
-        ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
-        ->select(
-            'dr.id',
-            'dr.uuid',
-            'dr.tanggal_dasar as tanggal',
-            'sh.keterangan as shift',
-            'ar.keterangan as area',
-            'lok.keterangan as lokasi',
-            'us.name as pic',
-            'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
-            'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
-            'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
-
-        )->where('dr.uuid', $uuid)->first();
+        $daily = DailyReport::where('uuid', $uuid)->first();
 
         try {
 
