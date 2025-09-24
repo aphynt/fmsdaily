@@ -100,7 +100,7 @@
                                 <hr style="border: none; border-top: 2px dashed #000; height: 0; background: transparent;">
                                 <div class="col-md-12 col-12 px-2 py-2">
                                     <label for="shift"><b>Catatan Penerima (optional):</b></label>
-                                    <input class="form-control" name="catatan_verified_diterima" rows="4">
+                                    <input type="text" class="form-control" name="catatan_verified_diterima" placeholder="Tulis catatan di sini">
                                 </div>
                                 <div class="col-md-12 col-12 px-2 py-2">
                                 <button class="btn btn-primary mb-3 big-btn" type="submit">
