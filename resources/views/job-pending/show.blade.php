@@ -84,15 +84,40 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Issue:</label>
+                                <label class="form-label"><b>Issue:</b></label>
                                 <p class="mb-0" style="white-space: pre-wrap; line-height: 1.6;">{!! nl2br(e($data[0]->issue)) !!}</p>
                             </div>
+                            @if ($data[0]->catatan_verified_diterima != null)
+                            <hr style="border: none; border-top: 2px dashed #000; height: 0; background: transparent;">
+                            <div class="col-12">
+                                <label class="form-label"><b>Catatan Penerima:</b></label>
+                                <p class="mb-0" style="white-space: pre-wrap; line-height: 1.6;">{!! nl2br(e($data[0]->catatan_verified_diterima)) !!}</p>
+                            </div>
+                            @endif
+                            @if ($data[0]->catatan_verified_diterima == null && $data[0]->verified_diterima == Auth::user()->nik)
+                            <form action="{{ route('jobpending.catatanPenerima', $data[0]->uuid) }}" method="post">
+                                @csrf
+                                <hr style="border: none; border-top: 2px dashed #000; height: 0; background: transparent;">
+                                <div class="col-md-12 col-12 px-2 py-2">
+                                    <label for="shift"><b>Catatan Penerima (optional):</b></label>
+                                    <input class="form-control" name="catatan_verified_diterima" rows="4">
+                                </div>
+                                <div class="col-md-12 col-12 px-2 py-2">
+                                <button class="btn btn-primary mb-3 big-btn" type="submit">
+                                    <i class="fa-solid fa-paper-plane"></i> Kirim
+                                </button>
+                                </div>
+
+                            </form>
+
+                            @endif
+
                             <div class="col-sm-6">
                                 <div class="border rounded p-3">
                                     <h6>Dibuat oleh:</h6>
                                     @if ($data[0]->jabatan_dibuat)
                                         <h5>
-                                            <img src="{{ $data[0]->verified_dibuat }}" style="max-width: 70px;">
+                                            <img src="{{ $data[0]->verified_dibuat_qr }}" style="max-width: 70px;">
                                         </h5>
                                     @endif
 
@@ -105,7 +130,7 @@
                                     <h6>Diterima oleh:</h6>
                                     @if ($data[0]->jabatan_diterima)
                                         <h5>
-                                            <img src="{{ $data[0]->verified_diterima }}" style="max-width: 70px;">
+                                            <img src="{{ $data[0]->verified_diterima_qr }}" style="max-width: 70px;">
                                         </h5>
                                     @endif
                                     <h5>{{ $data[0]->nama_diterima ?? '.......................' }}</h5>

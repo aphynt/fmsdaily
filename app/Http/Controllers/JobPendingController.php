@@ -128,6 +128,7 @@ class JobPendingController extends Controller
                 'verified_dibuat' => Auth::user()->nik,
                 'verified_datetime_dibuat' => now(),
                 'diterima' => $request->rekan,
+                'catatan_verified_diterima' => $request->catatan_verified_diterima,
                 'tanggal_pending' => $finalDate,
             ]);
 
@@ -274,6 +275,7 @@ class JobPendingController extends Controller
             'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',
+            'jp.catatan_verified_diterima',
         )->where('jp.statusenabled', true)->where('jp.uuid', $uuid)->get();
         if ($data->isEmpty()) {
             return redirect()->back()->with('info', 'Maaf, data tidak ditemukan');
@@ -293,9 +295,9 @@ class JobPendingController extends Controller
                     ->format('png')
                     ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_dibuat)]), $filePath);
 
-                $item->verified_dibuat = asset('storage/qr-temp/' . $fileName);
+                $item->verified_dibuat_qr = asset('storage/qr-temp/' . $fileName);
             } else {
-                $item->verified_dibuat = null;
+                $item->verified_dibuat_qr = null;
             }
 
             if ($item->verified_diterima != null) {
@@ -306,9 +308,9 @@ class JobPendingController extends Controller
                     ->format('png')
                     ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_diterima)]), $filePath);
 
-                $item->verified_diterima = asset('storage/qr-temp/' . $fileName);
+                $item->verified_diterima_qr = asset('storage/qr-temp/' . $fileName);
             } else {
-                $item->verified_diterima = null;
+                $item->verified_diterima_qr = null;
             }
         }
 
@@ -351,6 +353,7 @@ class JobPendingController extends Controller
             'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',
+            'jp.catatan_verified_diterima',
         )->where('jp.statusenabled', true)->where('jp.uuid', $uuid)->get();
 
         if ($data->isEmpty()) {
@@ -371,9 +374,9 @@ class JobPendingController extends Controller
                     ->format('png')
                     ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_dibuat)]), $filePath);
 
-                $item->verified_dibuat = asset('storage/qr-temp/' . $fileName);
+                $item->verified_dibuat_qr = asset('storage/qr-temp/' . $fileName);
             } else {
-                $item->verified_dibuat = null;
+                $item->verified_dibuat_qr = null;
             }
 
             if ($item->verified_diterima != null) {
@@ -384,9 +387,9 @@ class JobPendingController extends Controller
                     ->format('png')
                     ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_diterima)]), $filePath);
 
-                $item->verified_diterima = asset('storage/qr-temp/' . $fileName);
+                $item->verified_diterima_qr = asset('storage/qr-temp/' . $fileName);
             } else {
-                $item->verified_diterima = null;
+                $item->verified_diterima_qr = null;
             }
         }
 
@@ -473,6 +476,22 @@ class JobPendingController extends Controller
 
         return view('job-pending.detail', compact('data'));
 
+    }
+
+    public function catatanPenerima(Request $request, $uuid)
+    {
+        $job =  JobPending::where('uuid', $uuid)->first();
+
+        try {
+            JobPending::where('uuid', $job->uuid)->update([
+                'catatan_verified_diterima' => $request->catatan_verified_diterima,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil mengirim catatan');
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('info', nl2br('Gagal mengirim catatan..\n' . $th->getMessage()));
+        }
     }
 
     public function apiDetail(Request $request)
@@ -599,6 +618,7 @@ class JobPendingController extends Controller
             'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',
+            'jp.catatan_verified_diterima',
         )->where('jp.statusenabled', true)->where('jp.uuid', $uuid)->get();
 
         if ($data->isEmpty()) {
@@ -616,24 +636,23 @@ class JobPendingController extends Controller
                 $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
                 QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_dibuat)]), $filePath);
-                $item->verified_foreman = $filePath;
+                $item->verified_dibuat_qr = $filePath;
 
-                $item->verified_dibuat = asset('storage/qr-temp/' . $fileName);
+                $item->verified_dibuat_qr = asset('storage/qr-temp/' . $fileName);
             } else {
-                $item->verified_dibuat = null;
+                $item->verified_dibuat_qr = null;
             }
 
             if ($item->verified_diterima != null) {
                 $fileName = 'verified_diterima' . $item->uuid . '.png';
                 $filePath = $qrTempFolder . DIRECTORY_SEPARATOR . $fileName;
 
-                QrCode::size(150)
-                    ->format('png')
-                    ->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_diterima)]), $filePath);
+                QrCode::size(150)->format('png')->generate(route('verified.index', ['encodedNik' => base64_encode($item->verified_diterima)]), $filePath);
+                $item->verified_diterima_qr = $filePath;
 
-                $item->verified_diterima = asset('storage/qr-temp/' . $fileName);
+                $item->verified_diterima_qr = asset('storage/qr-temp/' . $fileName);
             } else {
-                $item->verified_diterima = null;
+                $item->verified_diterima_qr = null;
             }
         }
         $pdf = PDF::loadView('job-pending.download', compact('data'))->setPaper('a4', 'landscape');

@@ -210,10 +210,10 @@
         </tr>
         <tr style="border-top:none;border-bottom:none;">
             <td colspan="4" style="border-top:none;border-bottom:none; text-align:left; padding-left:40px;">
-               @if ($data[0]->verified_foreman != null)<img src="{{ $data[0]->verified_foreman }}" style="max-width: 70px;">@endif
+               @if ($data[0]->verified_dibuat != null)<img src="{{ $data[0]->verified_dibuat_qr }}" style="max-width: 70px;">@endif
             </td>
             <td colspan="3" style="border-top:none;border-bottom:none; text-align:left; padding-left:40px;">
-                @if ($data[0]->verified_foreman != null)<img src="{{ $data[0]->verified_foreman }}" style="max-width: 70px;">@endif
+                @if ($data[0]->verified_diterima != null)<img src="{{ $data[0]->verified_diterima_qr }}" style="max-width: 70px;">@endif
             </td>
         </tr>
         <tr style="border-top:none;">

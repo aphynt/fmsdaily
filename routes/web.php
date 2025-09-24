@@ -405,6 +405,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/job-pending', [JobPendingController::class, 'index'])->name('jobpending')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
     Route::get('/job-pending/insert', [JobPendingController::class, 'insert'])->name('jobpending.insert');
     Route::post('/job-pending/post', [JobPendingController::class, 'post'])->name('jobpending.post');
+    Route::post('/job-pending/catatanPenerima/{uuid}', [JobPendingController::class, 'catatanPenerima'])->name('jobpending.catatanPenerima');
     Route::get('/job-pending/show/{uuid}', [JobPendingController::class, 'show'])->name('jobpending.show');
     Route::get('/job-pending/cetak/{uuid}', [JobPendingController::class, 'cetak'])->name('jobpending.cetak');
     Route::get('/job-pending/download/{uuid}', [JobPendingController::class, 'download'])->name('jobpending.download');

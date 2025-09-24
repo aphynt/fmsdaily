@@ -210,12 +210,12 @@
         <tr style="border-top:none;border-bottom:none;">
             <td colspan="4" style="border-top:none;border-bottom:none; text-align:left; padding-left:40px;">
                 @if ($data[0]->verified_dibuat != null)
-                    <img src="{{ $data[0]->verified_dibuat }}" style="max-width: 70px;">
+                    <img src="{{ $data[0]->verified_dibuat_qr }}" style="max-width: 70px;">
                 @endif
             </td>
             <td colspan="3" style="border-top:none;border-bottom:none; text-align:left; padding-left:40px;">
                 @if ($data[0]->verified_diterima != null)
-                    <img src="{{ $data[0]->verified_diterima }}" style="max-width: 70px;">
+                    <img src="{{ $data[0]->verified_diterima_qr }}" style="max-width: 70px;">
                 @endif
             </td>
         </tr>
