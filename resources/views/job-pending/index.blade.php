@@ -20,10 +20,10 @@
                                     <div class="row">
                                         <div class="col-6 col-md-3 mb-2">
                                             <label for="tanggalJobPending">Tanggal</label>
-                                            <input type="text" id="tanggalJobPending" class="form-control" name="tanggalJobPending">
+                                            <input type="text" id="tanggalJobPending" class="form-control" name="tanggalJobPending" value="{{ request('tanggalJobPending') ? \Carbon\Carbon::parse(request('tanggalJobPending'))->format('m/d/Y') : '' }}">
                                         </div>
                                         <div class="col-6 col-md-2 mb-2">
-                                            <label for="shift">Shift</label>
+                                            <label for="shift">Shift Pendingan</label>
                                             <select class="form-select" name="shift" id="shift">
                                                 <option value="Semua" {{ (request('shift') == 'Semua' || !request('shift')) ? 'selected' : '' }}>Semua</option>
                                                 @foreach ($shift as $shi)
@@ -145,13 +145,14 @@
             });
         })();
     document.addEventListener("DOMContentLoaded", function () {
-            const inputTanggal = document.getElementById("tanggalJobPending");
-            const today = new Date();
+        const inputTanggal = document.getElementById("tanggalJobPending");
 
-            const formattedDate = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2,
-                '0')}/${today.getFullYear()}`;
+        if (!inputTanggal.value) {
+            const today = new Date();
+            const formattedDate = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2,'0')}/${today.getFullYear()}`;
             inputTanggal.value = formattedDate;
-        });
+        }
+    });
 
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll(".btn-verifikasi");

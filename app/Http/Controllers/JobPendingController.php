@@ -102,13 +102,22 @@ class JobPendingController extends Controller
     {
         // dd($request->all());
         DB::beginTransaction();
+        $baseDate = Carbon::parse($request->date)->format('Y-m-d');
+
+        // cek shift, misal shift_id = 1 untuk Siang, 2 untuk Malam
+        if ($request->shift == '2') {
+            $finalDate = Carbon::parse($baseDate)->addDay()->format('Y-m-d');
+        } else {
+            $finalDate = $baseDate;
+        }
+
 
         try {
             $job = JobPending::create([
                 'pic' => Auth::user()->id,
                 'uuid' => (string) Uuid::uuid4()->toString(),
                 'statusenabled' => true,
-                'date'   => Carbon::parse($request->date)->format('Y-m-d'),
+                'date'   => $finalDate,
                 'shift_id'  => $request->shift,
                 'section_id'  => $request->section,
                 'lokasi' => $request->lokasi,
