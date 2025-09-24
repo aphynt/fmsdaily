@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\JobPendingExport;
 use App\Models\JobPending;
 use App\Models\JobPendingDesc;
+use App\Models\JobPendingNote;
 use App\Models\Personal;
 use App\Models\Section;
 use App\Models\Shift;
@@ -117,7 +118,7 @@ class JobPendingController extends Controller
                 'pic' => Auth::user()->id,
                 'uuid' => (string) Uuid::uuid4()->toString(),
                 'statusenabled' => true,
-                'date'   => $finalDate,
+                'date'   => Carbon::parse($request->date)->format('Y-m-d'),
                 'shift_id'  => $request->shift,
                 'section_id'  => $request->section,
                 'lokasi' => $request->lokasi,
@@ -127,6 +128,14 @@ class JobPendingController extends Controller
                 'verified_datetime_dibuat' => now(),
                 'diterima' => $request->rekan,
             ]);
+
+            // JobPendingNote::create([
+            //     'pic' => Auth::user()->id,
+            //     'uuid' => (string) Uuid::uuid4()->toString(),
+            //     'statusenabled' => true,
+            //     'uuid_job'      => $job->uuid,
+            //     'catatan' => $request->catatan_diterima,
+            // ]);
 
             // simpan detail aktivitas
             // $listAktivitas = [];
