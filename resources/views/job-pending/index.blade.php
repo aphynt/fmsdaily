@@ -95,7 +95,7 @@
                                     @foreach($data as $group)
                                         <tr>
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $group->date }}</td>
+                                            <td>{{ $group->tanggal_pending }}</td>
                                             <td>{{ $group->shift }}</td>
                                             <td>{{ $group->nik_pic }}</td>
                                             <td>{{ $group->pic }}</td>

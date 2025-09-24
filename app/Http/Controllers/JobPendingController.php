@@ -49,6 +49,7 @@ class JobPendingController extends Controller
                 'sh.keterangan as shift',
                 'sec.keterangan as section',
                 'jp.date',
+                'jp.tanggal_pending',
                 'jp.lokasi',
                 'jp.dibuat as nik_dibuat',
                 'db.PERSONALNAME as nama_dibuat',
@@ -107,7 +108,7 @@ class JobPendingController extends Controller
 
         // cek shift, misal shift_id = 1 untuk Siang, 2 untuk Malam
         if ($request->shift == '2') {
-            $finalDate = Carbon::parse($baseDate)->addDay()->format('Y-m-d');
+            $finalDate = Carbon::parse($baseDate)->subDay()->format('Y-m-d');
         } else {
             $finalDate = $baseDate;
         }
@@ -127,6 +128,7 @@ class JobPendingController extends Controller
                 'verified_dibuat' => Auth::user()->nik,
                 'verified_datetime_dibuat' => now(),
                 'diterima' => $request->rekan,
+                'tanggal_pending' => $finalDate,
             ]);
 
             // JobPendingNote::create([
@@ -257,6 +259,7 @@ class JobPendingController extends Controller
             'sh.keterangan as shift',
             'sec.keterangan as section',
             'jp.date',
+            'jp.tanggal_pending',
             'jp.lokasi',
             'jd.aktivitas',
             'jd.unit',
@@ -333,6 +336,7 @@ class JobPendingController extends Controller
             'sh.keterangan as shift',
             'sec.keterangan as section',
             'jp.date',
+            'jp.tanggal_pending',
             'jp.lokasi',
             'jd.aktivitas',
             'jd.unit',
@@ -412,6 +416,7 @@ class JobPendingController extends Controller
             'sh.keterangan as shift',
             'sec.keterangan as section',
             'jp.date',
+            'jp.tanggal_pending',
             'jp.lokasi',
             'jd.aktivitas',
             'jd.unit',
@@ -506,6 +511,7 @@ class JobPendingController extends Controller
                 'sh.keterangan as shift',
                 'sec.keterangan as section',
                 'jp.date',
+                'jp.tanggal_pending',
                 'jp.lokasi',
                 'jd.aktivitas',
                 'jd.unit',
@@ -578,6 +584,7 @@ class JobPendingController extends Controller
             'sh.keterangan as shift',
             'sec.keterangan as section',
             'jp.date',
+            'jp.tanggal_pending',
             'jp.lokasi',
             'jd.aktivitas',
             'jd.unit',

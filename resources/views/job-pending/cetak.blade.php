@@ -159,7 +159,7 @@
             </td>
             <td rowspan="4" colspan="2"><h2>JOB PENDING PENGAWAS</h2></td>
             <td class="left noborder">Hari / Tanggal</td>
-            <td class="left noborder" colspan="2">: {{ \Carbon\Carbon::parse($data[0]->date)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</td>
+            <td class="left noborder" colspan="2">: {{ \Carbon\Carbon::parse($data[0]->tanggal_pending)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</td>
         </tr>
         <tr style="border-top:none;border-bottom:none;">
             <td class="left noborder" style="border-top:none;border-bottom:none;">Shift</td>

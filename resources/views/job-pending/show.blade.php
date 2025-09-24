@@ -40,7 +40,7 @@
                             <div class="col-sm-3">
                                 <div class="border rounded p-3">
                                     <h6 class="mb-0">Hari/ Tanggal:</h6>
-                                    <h5>{{ Carbon::parse($data[0]->date)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</h5>
+                                    <h5>{{ Carbon::parse($data[0]->tanggal_pending)->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</h5>
                                 </div>
                             </div>
                             <div class="col-sm-3">
