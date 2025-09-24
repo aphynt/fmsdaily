@@ -94,8 +94,8 @@
                                 <p class="mb-0" style="white-space: pre-wrap; line-height: 1.6;">{!! nl2br(e($data[0]->catatan_verified_diterima)) !!}</p>
                             </div>
                             @endif
-                            @if ($data[0]->catatan_verified_diterima == null)
-                            <form action="{{ route('jobpending.catatanPenerima', $data[0]->uuid) }}" method="post">
+                            @if ($data[0]->catatan_verified_diterima == null && $data[0]->verified_diterima == Auth::user()->nik)
+                            <form action="{{ route('jobpending.catatanPenerima', $data[0]->uuid) }}" method="get">
                                 @csrf
                                 <hr style="border: none; border-top: 2px dashed #000; height: 0; background: transparent;">
                                 <div class="col-md-12 col-12 px-2 py-2">
