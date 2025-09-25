@@ -11,6 +11,7 @@ use App\Models\PitstopReport;
 use App\Models\PitstopReportDesc;
 use App\Models\Shift;
 use App\Models\Unit;
+use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -69,7 +70,13 @@ class PengawasPitstopController extends Controller
             ->where('VHC_ACTIVE', 1)
             ->get();
 
-        $supervisor = Personal::select('ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY')->where('ROLETYPE', 3)->get();
+        // $supervisor = Personal::select('ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY')->where('ROLETYPE', 3)->get();
+        $supervisor = User::select(
+            'nik as NRP',
+            'name as PERSONALNAME',
+            'role as JABATAN'
+            )->where('role', 'SUPERVISOR')
+            ->where('id', '!=', 95)->get();
         $shift = Shift::where('statusenabled', true)->get();
         $area = Area::where('statusenabled', true)->get();
         $operator = Personal::select('ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY')->where('ROLETYPE', 0)->get();
@@ -228,9 +235,9 @@ class PengawasPitstopController extends Controller
         ->leftJoin('users as us', 'pr.foreman_id', '=', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'pr.shift_id', '=', 'sh.id')
         ->leftJoin('REF_AREA as ar', 'pr.area_id', '=', 'ar.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'pr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'pr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'pr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'pr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'pr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'pr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'pr.id',
             'pr.uuid',
@@ -241,11 +248,11 @@ class PengawasPitstopController extends Controller
             'us.name as pic',
             'us.nik as nik_pic',
             'pr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'pr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'pr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'pr.is_draft',
             'pr.verified_supervisor',
             'pr.verified_superintendent',
@@ -290,9 +297,9 @@ class PengawasPitstopController extends Controller
             ->leftJoin('users as us', 'pr.foreman_id', '=', 'us.id')
             ->leftJoin('REF_SHIFT as sh', 'pr.shift_id', '=', 'sh.id')
             ->leftJoin('REF_AREA as ar', 'pr.area_id', '=', 'ar.id')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'pr.nik_foreman', '=', 'gl.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'pr.nik_supervisor', '=', 'spv.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'pr.nik_superintendent', '=', 'spt.NRP')
+            ->leftJoin('users as us3', 'pr.nik_foreman', '=', 'us3.nik')
+            ->leftJoin('users as us4', 'pr.nik_supervisor', '=', 'us4.nik')
+            ->leftJoin('users as us5', 'pr.nik_superintendent', '=', 'us5.nik')
             ->select(
                 'pr.id',
                 'pr.uuid',
@@ -304,11 +311,11 @@ class PengawasPitstopController extends Controller
                 'us.nik as nik_pic',
                 'pr.nik_foreman',
                 'pr.catatan_pengawas',
-                'gl.PERSONALNAME as nama_foreman',
+                'us3.name as nama_foreman',
                 'pr.nik_supervisor',
-                'spv.PERSONALNAME as nama_supervisor',
+                'us4.name as nama_supervisor',
                 'pr.nik_superintendent',
-                'spt.PERSONALNAME as nama_superintendent',
+                'us5.name as nama_superintendent',
                 'pr.is_draft',
                 'pr.verified_foreman',
                 'pr.verified_supervisor',
@@ -409,9 +416,9 @@ class PengawasPitstopController extends Controller
             ->leftJoin('users as us', 'pr.foreman_id', '=', 'us.id')
             ->leftJoin('REF_SHIFT as sh', 'pr.shift_id', '=', 'sh.id')
             ->leftJoin('REF_AREA as ar', 'pr.area_id', '=', 'ar.id')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'pr.nik_foreman', '=', 'gl.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'pr.nik_supervisor', '=', 'spv.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'pr.nik_superintendent', '=', 'spt.NRP')
+            ->leftJoin('users as us3', 'pr.nik_foreman', '=', 'us3.nik')
+            ->leftJoin('users as us4', 'pr.nik_supervisor', '=', 'us4.nik')
+            ->leftJoin('users as us5', 'pr.nik_superintendent', '=', 'us5.nik')
             ->select(
                 'pr.id',
                 'pr.uuid',
@@ -423,11 +430,11 @@ class PengawasPitstopController extends Controller
                 'us.nik as nik_pic',
                 'pr.nik_foreman',
                 'pr.catatan_pengawas',
-                'gl.PERSONALNAME as nama_foreman',
+                'us3.name as nama_foreman',
                 'pr.nik_supervisor',
-                'spv.PERSONALNAME as nama_supervisor',
+                'us4.name as nama_supervisor',
                 'pr.nik_superintendent',
-                'spt.PERSONALNAME as nama_superintendent',
+                'us5.name as nama_superintendent',
                 'pr.is_draft',
                 'pr.verified_foreman',
                 'pr.verified_supervisor',
@@ -528,9 +535,9 @@ class PengawasPitstopController extends Controller
             ->leftJoin('users as us', 'pr.foreman_id', '=', 'us.id')
             ->leftJoin('REF_SHIFT as sh', 'pr.shift_id', '=', 'sh.id')
             ->leftJoin('REF_AREA as ar', 'pr.area_id', '=', 'ar.id')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'pr.nik_foreman', '=', 'gl.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'pr.nik_supervisor', '=', 'spv.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'pr.nik_superintendent', '=', 'spt.NRP')
+            ->leftJoin('users as us3', 'pr.nik_foreman', '=', 'us3.nik')
+            ->leftJoin('users as us4', 'pr.nik_supervisor', '=', 'us4.nik')
+            ->leftJoin('users as us5', 'pr.nik_superintendent', '=', 'us5.nik')
             ->select(
                 'pr.id',
                 'pr.uuid',
@@ -542,11 +549,11 @@ class PengawasPitstopController extends Controller
                 'us.nik as nik_pic',
                 'pr.nik_foreman',
                 'pr.catatan_pengawas',
-                'gl.PERSONALNAME as nama_foreman',
+                'us3.name as nama_foreman',
                 'pr.nik_supervisor',
-                'spv.PERSONALNAME as nama_supervisor',
+                'us4.name as nama_supervisor',
                 'pr.nik_superintendent',
-                'spt.PERSONALNAME as nama_superintendent',
+                'us5.name as nama_superintendent',
                 'pr.is_draft',
                 'pr.verified_foreman',
                 'pr.verified_supervisor',
@@ -804,9 +811,9 @@ class PengawasPitstopController extends Controller
             ->leftJoin('REF_SHIFT as sh', 'pr.shift_id', '=', 'sh.id')
             ->leftJoin('REF_AREA as ar', 'pr.area_id', '=', 'ar.id')
             ->leftJoin('users as us', 'pr.foreman_id', '=', 'us.id')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'pr.nik_foreman', '=', 'gl.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'pr.nik_supervisor', '=', 'spv.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'pr.nik_superintendent', '=', 'spt.NRP')
+            ->leftJoin('users as us3', 'pr.nik_foreman', '=', 'us3.nik')
+            ->leftJoin('users as us4', 'pr.nik_supervisor', '=', 'us4.nik')
+            ->leftJoin('users as us5', 'pr.nik_superintendent', '=', 'us5.nik')
             ->select(
                 'prd.id',
                 'pr.date as tanggal',
@@ -816,11 +823,11 @@ class PengawasPitstopController extends Controller
                 'us.nik as nik_pic',
                 'pr.nik_foreman',
                 'pr.catatan_pengawas',
-                'gl.PERSONALNAME as nama_foreman',
+                'us3.name as nama_foreman',
                 'pr.nik_supervisor',
-                'spv.PERSONALNAME as nama_supervisor',
+                'us4.name as nama_supervisor',
                 'pr.nik_superintendent',
-                'spt.PERSONALNAME as nama_superintendent',
+                'us5.name as nama_superintendent',
                 'pr.is_draft',
                 'pr.verified_foreman',
                 'pr.verified_supervisor',
@@ -926,9 +933,9 @@ class PengawasPitstopController extends Controller
             ->leftJoin('REF_SHIFT as sh', 'pr.shift_id', '=', 'sh.id')
             ->leftJoin('REF_AREA as ar', 'pr.area_id', '=', 'ar.id')
             ->leftJoin('users as us', 'pr.foreman_id', '=', 'us.id')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'pr.nik_foreman', '=', 'gl.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'pr.nik_supervisor', '=', 'spv.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'pr.nik_superintendent', '=', 'spt.NRP')
+            ->leftJoin('users as us3', 'pr.nik_foreman', '=', 'us3.nik')
+            ->leftJoin('users as us4', 'pr.nik_supervisor', '=', 'us4.nik')
+            ->leftJoin('users as us5', 'pr.nik_superintendent', '=', 'us5.nik')
             ->select(
                 'prd.id',
                 'pr.date as tanggal',
@@ -938,11 +945,11 @@ class PengawasPitstopController extends Controller
                 'us.nik as nik_pic',
                 'pr.nik_foreman',
                 'pr.catatan_pengawas',
-                'gl.PERSONALNAME as nama_foreman',
+                'us3.name as nama_foreman',
                 'pr.nik_supervisor',
-                'spv.PERSONALNAME as nama_supervisor',
+                'us4.name as nama_supervisor',
                 'pr.nik_superintendent',
-                'spt.PERSONALNAME as nama_superintendent',
+                'us5.name as nama_superintendent',
                 'pr.is_draft',
                 'pr.verified_foreman',
                 'pr.verified_supervisor',

@@ -139,16 +139,32 @@ class FormPengawasNewController extends Controller
             'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
         )->where('ROLETYPE', 0)->get();
 
-        $supervisor = Personal::select
-        (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
-        )->where('ROLETYPE', 3)->get();
+        // $supervisor = Personal::select
+        // (
+        //     'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+        // )->where('ROLETYPE', 3)->get();
 
-        $superintendent = Personal::select
-        (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY',
-            DB::raw("CASE WHEN ROLETYPE = 3 THEN 'SUPERVISOR' WHEN ROLETYPE = 4 THEN 'SUPERINTENDENT' ELSE 'UNKNOWN' END as JABATAN ")
-        )->whereIn('ROLETYPE', [3, 4])->get();
+        // $superintendent = Personal::select
+        // (
+        //     'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY',
+        //     DB::raw("CASE WHEN ROLETYPE = 3 THEN 'SUPERVISOR' WHEN ROLETYPE = 4 THEN 'SUPERINTENDENT' ELSE 'UNKNOWN' END as JABATAN ")
+        // )->whereIn('ROLETYPE', [3, 4])->get();
+
+        $supervisor = User::select(
+            'nik as NRP',
+            'name as PERSONALNAME',
+            'role as JABATAN'
+            )->where('role', 'SUPERVISOR')
+            ->where('id', '!=', 95)->get();
+
+        $superintendent = User::select(
+            'nik as NRP',
+            'name as PERSONALNAME',
+            'role as JABATAN'
+        )
+        ->whereIn('role', ['SUPERVISOR', 'SUPERINTENDENT'])
+        ->whereNotIn('id', [95,96])
+        ->get();
 
         $lokasi = Lokasi::where('statusenabled', true)->get();
         $area = Area::where('statusenabled', true)->get();
@@ -176,7 +192,7 @@ class FormPengawasNewController extends Controller
     {
         $nik = $request->query('nik');
 
-        $data['users'] = Personal::where('ROLETYPE', 2)->get();
+        $data['users'] = User::where('role', 'FOREMAN')->get();
 
         // Mencari user berdasarkan NIK
         $user = $data['users']->firstWhere('NRP', $nik);
@@ -184,7 +200,7 @@ class FormPengawasNewController extends Controller
         if ($user) {
             return Response::json([
                 'success' => true,
-                'name' => $user->PERSONALNAME,
+                'name' => $user->name,
                 'by' => 'ahmadfadillah'
             ]);
         } else {
@@ -541,9 +557,9 @@ class FormPengawasNewController extends Controller
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.id',
             'dr.uuid',
@@ -554,11 +570,11 @@ class FormPengawasNewController extends Controller
             'us.name as pic',
             'us.nik as nik_pic',
             'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.is_draft',
             'dr.verified_supervisor',
             'dr.verified_superintendent',
@@ -604,9 +620,9 @@ class FormPengawasNewController extends Controller
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.uuid',
             'dr.foreman_id as pic',
@@ -617,11 +633,11 @@ class FormPengawasNewController extends Controller
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.verified_foreman',
             'dr.verified_supervisor',
             'dr.verified_superintendent',
@@ -770,9 +786,9 @@ class FormPengawasNewController extends Controller
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.uuid',
             'dr.foreman_id as pic',
@@ -784,11 +800,11 @@ class FormPengawasNewController extends Controller
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.verified_foreman',
             'dr.verified_supervisor',
             'dr.verified_superintendent'
@@ -980,9 +996,9 @@ class FormPengawasNewController extends Controller
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.uuid',
             'dr.foreman_id as pic',
@@ -994,11 +1010,11 @@ class FormPengawasNewController extends Controller
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.verified_foreman',
             'dr.verified_supervisor',
             'dr.verified_superintendent',
@@ -1132,9 +1148,9 @@ class FormPengawasNewController extends Controller
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
         ->leftJoin('REF_AREA as ar', 'dr.area_id', '=', 'ar.id')
         ->leftJoin('REF_LOKASI as lok', 'dr.lokasi_id', '=', 'lok.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.uuid',
             'dr.foreman_id as pic',
@@ -1145,11 +1161,11 @@ class FormPengawasNewController extends Controller
             'us.nik as nik_foreman',
             'us.name as nama_foreman',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.verified_foreman',
             'dr.verified_supervisor',
             'dr.verified_superintendent',

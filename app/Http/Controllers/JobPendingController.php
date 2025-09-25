@@ -38,8 +38,8 @@ class JobPendingController extends Controller
             ->leftJoin('users as us', 'jp.pic', '=', 'us.id')
             ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
             ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+            ->leftJoin('users as db', 'jp.dibuat', '=', 'db.nik')
+            ->leftJoin('users as dt', 'jp.diterima', '=', 'dt.nik')
             ->select(
                 'jp.id',
                 'jp.uuid',
@@ -52,9 +52,9 @@ class JobPendingController extends Controller
                 'jp.tanggal_pending',
                 'jp.lokasi',
                 'jp.dibuat as nik_dibuat',
-                'db.PERSONALNAME as nama_dibuat',
+                'db.name as nama_dibuat',
                 'jp.diterima as nik_diterima',
-                'dt.PERSONALNAME as nama_diterima',
+                'dt.name as nama_diterima',
                 'jp.verified_dibuat',
                 'jp.verified_diterima',
             )
@@ -249,8 +249,8 @@ class JobPendingController extends Controller
         ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
         ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+        ->leftJoin('users as db', 'jp.dibuat', '=', 'db.nik')
+        ->leftJoin('users as dt', 'jp.diterima', '=', 'dt.nik')
         ->select(
             'jp.id',
             'jp.uuid',
@@ -268,10 +268,10 @@ class JobPendingController extends Controller
             'jd.done',
             'jp.issue',
             'jp.dibuat as nik_dibuat',
-            'db.PERSONALNAME as nama_dibuat',
+            'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
             'jp.diterima as nik_diterima',
-            'dt.PERSONALNAME as nama_diterima',
+            'dt.name as nama_diterima',
             'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',
@@ -329,8 +329,8 @@ class JobPendingController extends Controller
         ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
         ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+        ->leftJoin('users as db', 'jp.dibuat', '=', 'db.nik')
+        ->leftJoin('users as dt', 'jp.diterima', '=', 'dt.nik')
         ->select(
             'jp.id',
             'jp.uuid',
@@ -348,10 +348,10 @@ class JobPendingController extends Controller
             'jd.done',
             'jp.issue',
             'jp.dibuat as nik_dibuat',
-            'db.PERSONALNAME as nama_dibuat',
+            'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
             'jp.diterima as nik_diterima',
-            'dt.PERSONALNAME as nama_diterima',
+            'dt.name as nama_diterima',
             'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',
@@ -410,8 +410,8 @@ class JobPendingController extends Controller
         ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
         ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+        ->leftJoin('users as db', 'jp.dibuat', '=', 'db.nik')
+        ->leftJoin('users as dt', 'jp.diterima', '=', 'dt.nik')
         ->select(
             'jp.id',
             'jp.uuid',
@@ -429,10 +429,10 @@ class JobPendingController extends Controller
             'jd.done',
             'jp.issue',
             'jp.dibuat as nik_dibuat',
-            'db.PERSONALNAME as nama_dibuat',
+            'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
             'jp.diterima as nik_diterima',
-            'dt.PERSONALNAME as nama_diterima',
+            'dt.name as nama_diterima',
             'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',
@@ -521,8 +521,8 @@ class JobPendingController extends Controller
             ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
             ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
             ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
-            ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+            ->leftJoin('users as db', 'jp.dibuat', '=', 'db.nik')
+            ->leftJoin('users as dt', 'jp.diterima', '=', 'dt.nik')
             ->select(
                 'jp.id',
                 'jp.uuid',
@@ -540,10 +540,10 @@ class JobPendingController extends Controller
                 'jd.done',
                 'jp.issue',
                 'jp.dibuat as nik_dibuat',
-                'db.PERSONALNAME as nama_dibuat',
+                'db.name as nama_dibuat',
                 'us2.role as jabatan_dibuat',
                 'jp.diterima as nik_diterima',
-                'dt.PERSONALNAME as nama_diterima',
+                'dt.name as nama_diterima',
                 'us2.role as jabatan_diterima',
                 'jp.verified_dibuat',
                 'jp.verified_diterima',
@@ -556,10 +556,7 @@ class JobPendingController extends Controller
             $searchValue = '%' . $request->search['value'] . '%';
 
             $columnsToSearch = [
-                'al.jenis_unit', 'al.alat_unit', 'al.nik_operator', 'al.nama_operator', 'sh2.keterangan',
-                'dr.nik_foreman', 'gl.PERSONALNAME', 'dr.tanggal_dasar', 'sh.keterangan', 'ar.keterangan', 'lok.keterangan',
-                'dr.nik_supervisor', 'spv.PERSONALNAME', 'dr.nik_superintendent', 'spt.PERSONALNAME', 'al.hm_awal',
-                'al.hm_akhir', 'al.hm_cash', 'al.keterangan'
+                'db.name', 'dt.name'
             ];
 
             $supportQuery->where(function($query) use ($columnsToSearch, $searchValue) {
@@ -594,8 +591,8 @@ class JobPendingController extends Controller
         ->leftJoin('users as us3', 'jp.diterima', '=', 'us3.nik')
         ->leftJoin('REF_SHIFT as sh', 'jp.shift_id', 'sh.id')
         ->leftJoin('REF_SECTION as sec', 'jp.section_id', 'sec.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as db', 'jp.dibuat', '=', 'db.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as dt', 'jp.diterima', '=', 'dt.NRP')
+        ->leftJoin('users as db', 'jp.dibuat', '=', 'db.nik')
+        ->leftJoin('users as dt', 'jp.diterima', '=', 'dt.nik')
         ->select(
             'jp.id',
             'jp.uuid',
@@ -613,10 +610,10 @@ class JobPendingController extends Controller
             'jd.done',
             'jp.issue',
             'jp.dibuat as nik_dibuat',
-            'db.PERSONALNAME as nama_dibuat',
+            'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
             'jp.diterima as nik_diterima',
-            'dt.PERSONALNAME as nama_diterima',
+            'dt.name as nama_diterima',
             'us2.role as jabatan_diterima',
             'jp.verified_dibuat',
             'jp.verified_diterima',

@@ -14,6 +14,7 @@ use App\Models\PengawasSubcont;
 use App\Models\Personal;
 use App\Models\Shift;
 use App\Models\Subcont;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,16 +81,32 @@ class FormPengawasBatuBaraController extends Controller
             ->get();
         }
 
-            $supervisor = Personal::select
-        (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
-        )->where('ROLETYPE', 3)->get();
+        //     $supervisor = Personal::select
+        // (
+        //     'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY'
+        // )->where('ROLETYPE', 3)->get();
 
-        $superintendent = Personal::select
-        (
-            'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY',
-            DB::raw("CASE WHEN ROLETYPE = 3 THEN 'SUPERVISOR' WHEN ROLETYPE = 4 THEN 'SUPERINTENDENT' ELSE 'UNKNOWN' END as JABATAN ")
-        )->whereIn('ROLETYPE', [3, 4])->get();
+        // $superintendent = Personal::select
+        // (
+        //     'ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY',
+        //     DB::raw("CASE WHEN ROLETYPE = 3 THEN 'SUPERVISOR' WHEN ROLETYPE = 4 THEN 'SUPERINTENDENT' ELSE 'UNKNOWN' END as JABATAN ")
+        // )->whereIn('ROLETYPE', [3, 4])->get();
+
+        $supervisor = User::select(
+            'nik as NRP',
+            'name as PERSONALNAME',
+            'role as JABATAN'
+            )->where('role', 'SUPERVISOR')
+            ->where('id', '!=', 95)->get();
+
+        $superintendent = User::select(
+            'nik as NRP',
+            'name as PERSONALNAME',
+            'role as JABATAN'
+        )
+        ->whereIn('role', ['SUPERVISOR', 'SUPERINTENDENT'])
+        ->whereNotIn('id', [95,96])
+        ->get();
 
         $shift = Shift::where('statusenabled', true)->get();
         $area = Area::where('statusenabled', true)->get();
@@ -140,9 +157,9 @@ class FormPengawasBatuBaraController extends Controller
         $daily = DB::table('BB_DAILY_REPORT as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.id',
             'dr.uuid',
@@ -151,11 +168,11 @@ class FormPengawasBatuBaraController extends Controller
             'us.name as pic',
             'us.nik as nik_pic',
             'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.is_draft',
             'dr.verified_supervisor',
             'dr.verified_superintendent',
@@ -200,9 +217,9 @@ class FormPengawasBatuBaraController extends Controller
         $daily = DB::table('BB_DAILY_REPORT as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.id',
             'dr.uuid',
@@ -211,11 +228,11 @@ class FormPengawasBatuBaraController extends Controller
             'us.name as pic',
             'us.nik as nik_pic',
             'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.is_draft',
             'dr.verified_foreman',
             'dr.verified_supervisor',
@@ -241,9 +258,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_AREA as ar', 'lp.pit', '=', 'ar.id')
         // ->leftJoin('REF_SUBCONT_PENGAWAS as pg', 'lp.pengawas', '=', 'pg.id')
         // ->leftJoin('REF_SUBCONT_UNIT as su', 'lp.fleet_ex', '=', 'su.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.daily_report_id as id',
             'lp.uuid',
@@ -257,11 +274,11 @@ class FormPengawasBatuBaraController extends Controller
             // 'pg.keterangan as pengawas',
             // 'su.keterangan as fleet_ex',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'lp.jumlah_dt',
             'lp.seam_bb',
             'lp.jarak',
@@ -279,9 +296,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_SUBCONT_JENIS_SUPPORT as js', 'us.jenis', '=', 'js.id')
         ->leftJoin('REF_AREA as ar', 'us.area', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'us.daily_report_id as id',
             'us.uuid',
@@ -293,11 +310,11 @@ class FormPengawasBatuBaraController extends Controller
             'js.keterangan as jenis',
             'ar.keterangan as area',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'us.keterangan',
             'us.is_draft'
         )
@@ -308,20 +325,20 @@ class FormPengawasBatuBaraController extends Controller
         $catatan = DB::table('BB_CATATAN_PENGAWAS as cp')
         ->leftJoin('BB_DAILY_REPORT as dr', 'cp.daily_report_id', '=', 'dr.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'cp.daily_report_id as id',
             'cp.uuid',
             'sh.keterangan as shift',
             DB::raw('CONVERT(varchar, dr.tanggal_dasar, 23) as tanggal_pelaporan'),
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_start, 108), 1, 5) as jam_start"),
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_stop, 108), 1, 5) as jam_stop"),
             'cp.keterangan',
@@ -348,9 +365,9 @@ class FormPengawasBatuBaraController extends Controller
         $daily = DB::table('BB_DAILY_REPORT as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.id',
             'dr.uuid',
@@ -359,11 +376,11 @@ class FormPengawasBatuBaraController extends Controller
             'us.name as pic',
             'us.nik as nik_pic',
             'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.is_draft',
             'dr.verified_foreman',
             'dr.verified_supervisor',
@@ -389,9 +406,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_AREA as ar', 'lp.pit', '=', 'ar.id')
         // ->leftJoin('REF_SUBCONT_PENGAWAS as pg', 'lp.pengawas', '=', 'pg.id')
         // ->leftJoin('REF_SUBCONT_UNIT as su', 'lp.fleet_ex', '=', 'su.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.daily_report_id as id',
             'lp.uuid',
@@ -405,11 +422,11 @@ class FormPengawasBatuBaraController extends Controller
             // 'pg.keterangan as pengawas',
             // 'su.keterangan as fleet_ex',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'lp.jumlah_dt',
             'lp.seam_bb',
             'lp.jarak',
@@ -427,9 +444,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_SUBCONT_JENIS_SUPPORT as js', 'us.jenis', '=', 'js.id')
         ->leftJoin('REF_AREA as ar', 'us.area', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'us.daily_report_id as id',
             'us.uuid',
@@ -441,11 +458,11 @@ class FormPengawasBatuBaraController extends Controller
             'js.keterangan as jenis',
             'ar.keterangan as area',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'us.keterangan',
             'us.is_draft'
         )
@@ -456,20 +473,20 @@ class FormPengawasBatuBaraController extends Controller
         $catatan = DB::table('BB_CATATAN_PENGAWAS as cp')
         ->leftJoin('BB_DAILY_REPORT as dr', 'cp.daily_report_id', '=', 'dr.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'cp.daily_report_id as id',
             'cp.uuid',
             'sh.keterangan as shift',
             DB::raw('CONVERT(varchar, dr.tanggal_dasar, 23) as tanggal_pelaporan'),
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_start, 108), 1, 5) as jam_start"),
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_stop, 108), 1, 5) as jam_stop"),
             'cp.keterangan',
@@ -495,9 +512,9 @@ class FormPengawasBatuBaraController extends Controller
         $daily = DB::table('BB_DAILY_REPORT as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.id',
             'dr.uuid',
@@ -506,11 +523,11 @@ class FormPengawasBatuBaraController extends Controller
             'us.name as pic',
             'us.nik as nik_pic',
             'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.is_draft',
             'dr.verified_foreman',
             'dr.verified_supervisor',
@@ -537,9 +554,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_AREA as ar', 'lp.pit', '=', 'ar.id')
         // ->leftJoin('REF_SUBCONT_PENGAWAS as pg', 'lp.pengawas', '=', 'pg.id')
         // ->leftJoin('REF_SUBCONT_UNIT as su', 'lp.fleet_ex', '=', 'su.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.daily_report_id as id',
             'lp.uuid',
@@ -553,11 +570,11 @@ class FormPengawasBatuBaraController extends Controller
             // 'pg.keterangan as pengawas',
             // 'su.keterangan as fleet_ex',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'lp.jumlah_dt',
             'lp.seam_bb',
             'lp.jarak',
@@ -575,9 +592,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_SUBCONT_JENIS_SUPPORT as js', 'us.jenis', '=', 'js.id')
         ->leftJoin('REF_AREA as ar', 'us.area', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'us.daily_report_id as id',
             'us.uuid',
@@ -589,11 +606,11 @@ class FormPengawasBatuBaraController extends Controller
             'js.keterangan as jenis',
             'ar.keterangan as area',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'us.keterangan',
             'us.is_draft'
         )
@@ -604,20 +621,20 @@ class FormPengawasBatuBaraController extends Controller
         $catatan = DB::table('BB_CATATAN_PENGAWAS as cp')
         ->leftJoin('BB_DAILY_REPORT as dr', 'cp.daily_report_id', '=', 'dr.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'cp.daily_report_id as id',
             'cp.uuid',
             'sh.keterangan as shift',
             DB::raw('CONVERT(varchar, dr.tanggal_dasar, 23) as tanggal_pelaporan'),
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_start, 108), 1, 5) as jam_start"),
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_stop, 108), 1, 5) as jam_stop"),
             'cp.keterangan',
@@ -661,9 +678,9 @@ class FormPengawasBatuBaraController extends Controller
         $daily = DB::table('BB_DAILY_REPORT as dr')
         ->leftJoin('users as us', 'dr.foreman_id', '=', 'us.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'dr.id',
             'dr.uuid',
@@ -672,11 +689,11 @@ class FormPengawasBatuBaraController extends Controller
             'us.name as pic',
             'us.nik as nik_pic',
             'dr.nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'dr.is_draft',
             'dr.verified_foreman',
             'dr.verified_supervisor',
@@ -704,9 +721,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_AREA as ar', 'lp.pit', '=', 'ar.id')
         // ->leftJoin('REF_SUBCONT_PENGAWAS as pg', 'lp.pengawas', '=', 'pg.id')
         // ->leftJoin('REF_SUBCONT_UNIT as su', 'lp.fleet_ex', '=', 'su.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.daily_report_id as id',
             'lp.daily_report_uuid',
@@ -721,11 +738,11 @@ class FormPengawasBatuBaraController extends Controller
             // 'pg.keterangan as pengawas',
             // 'su.keterangan as fleet_ex',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'lp.jumlah_dt',
             'lp.seam_bb',
             'lp.jarak',
@@ -746,9 +763,9 @@ class FormPengawasBatuBaraController extends Controller
         ->leftJoin('REF_SUBCONT_JENIS_SUPPORT as js', 'us.jenis', '=', 'js.id')
         ->leftJoin('REF_AREA as ar', 'us.area', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'us.daily_report_id as id',
             'us.daily_report_uuid',
@@ -761,11 +778,11 @@ class FormPengawasBatuBaraController extends Controller
             'js.keterangan as jenis',
             'ar.keterangan as area',
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'us.keterangan',
             'us.is_draft'
         )
@@ -778,9 +795,9 @@ class FormPengawasBatuBaraController extends Controller
         $catatan = DB::table('BB_CATATAN_PENGAWAS as cp')
         ->leftJoin('BB_DAILY_REPORT as dr', 'cp.daily_report_id', '=', 'dr.id')
         ->leftJoin('REF_SHIFT as sh', 'dr.shift_dasar_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'dr.nik_foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'dr.nik_supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'dr.nik_superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'dr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'cp.daily_report_id',
             'cp.daily_report_uuid',
@@ -788,11 +805,11 @@ class FormPengawasBatuBaraController extends Controller
             'sh.keterangan as shift',
             DB::raw('CONVERT(varchar, dr.tanggal_dasar, 23) as tanggal_pelaporan'),
             'dr.nik_foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'dr.nik_supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'dr.nik_superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_start, 108), 1, 5) as jam_start"),
             DB::raw("SUBSTRING(CONVERT(varchar, cp.jam_stop, 108), 1, 5) as jam_stop"),
             'cp.keterangan',
