@@ -227,6 +227,7 @@
     // [ Column Selectors ]
     $('#cbtn-selectors').DataTable({
         dom: 'Bfrtip',
+        pageLength: 20,
         buttons: [{
                 extend: 'copyHtml5',
                 exportOptions: {

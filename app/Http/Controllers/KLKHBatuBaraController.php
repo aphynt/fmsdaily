@@ -44,9 +44,9 @@ class KLKHBatuBaraController extends Controller
         ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'bb.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'bb.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'bb.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'bb.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'bb.nik_superintendent', '=', 'us5.nik')
         ->select(
             'bb.id',
             'bb.uuid',
@@ -58,11 +58,11 @@ class KLKHBatuBaraController extends Controller
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'bb.foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'bb.supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'bb.superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'bb.verified_foreman',
             'bb.verified_supervisor',
             'bb.verified_superintendent',
@@ -104,17 +104,17 @@ class KLKHBatuBaraController extends Controller
         ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'bb.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'bb.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'bb.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'bb.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'bb.nik_superintendent', '=', 'us5.nik')
         ->select(
             'bb.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('bb.statusenabled', true)
         ->where('bb.uuid', $uuid)->first();
@@ -178,17 +178,17 @@ class KLKHBatuBaraController extends Controller
         ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'bb.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'bb.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'bb.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'bb.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'bb.nik_superintendent', '=', 'us5.nik')
         ->select(
             'bb.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('bb.statusenabled', true)
         ->where('bb.uuid', $uuid)->first();
@@ -252,17 +252,17 @@ class KLKHBatuBaraController extends Controller
         ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'bb.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'bb.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'bb.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'bb.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'bb.nik_superintendent', '=', 'us5.nik')
         ->select(
             'bb.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('bb.statusenabled', true)
         ->where('bb.uuid', $uuid)->first();
@@ -339,17 +339,17 @@ class KLKHBatuBaraController extends Controller
         ->leftJoin('users as us', 'bb.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'bb.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'bb.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'bb.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'bb.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'bb.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'bb.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'bb.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'bb.nik_superintendent', '=', 'us5.nik')
         ->select(
             'bb.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('bb.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, bb.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();

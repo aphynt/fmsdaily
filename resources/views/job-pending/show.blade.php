@@ -111,6 +111,18 @@
                             </form>
 
                             @endif
+                            @if (!empty($data[0]->foto))
+                                <hr class="my-3" style="border: none; border-top: 2px dashed #000;">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Gambar:</label><br>
+                                    <img
+                                        src="{{ asset('storage/' . $data[0]->foto) }}"
+                                        alt="Foto Job Pending"
+                                        class="img-fluid rounded shadow-sm"
+                                        style="max-height: 200px; object-fit: contain;"
+                                    >
+                                </div>
+                            @endif
 
                             <div class="col-sm-6">
                                 <div class="border rounded p-3">

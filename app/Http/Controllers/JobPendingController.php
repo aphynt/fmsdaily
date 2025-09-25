@@ -115,6 +115,13 @@ class JobPendingController extends Controller
 
 
         try {
+
+            $imagePath = null;
+            if ($request->hasFile('fileInput')) {
+                $imagePath = $request->file('fileInput')->store('jobpending', 'public');
+                // tersimpan di storage/app/public/jobpending
+            }
+
             $job = JobPending::create([
                 'pic' => Auth::user()->id,
                 'uuid' => (string) Uuid::uuid4()->toString(),
@@ -130,6 +137,7 @@ class JobPendingController extends Controller
                 'diterima' => $request->rekan,
                 'catatan_verified_diterima' => $request->catatan_verified_diterima,
                 'tanggal_pending' => $finalDate,
+                'foto' => $imagePath,
             ]);
 
             // JobPendingNote::create([
@@ -267,6 +275,7 @@ class JobPendingController extends Controller
             'jd.elevasi',
             'jd.done',
             'jp.issue',
+            'jp.foto',
             'jp.dibuat as nik_dibuat',
             'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
@@ -347,6 +356,7 @@ class JobPendingController extends Controller
             'jd.elevasi',
             'jd.done',
             'jp.issue',
+            'jp.foto',
             'jp.dibuat as nik_dibuat',
             'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
@@ -609,6 +619,7 @@ class JobPendingController extends Controller
             'jd.elevasi',
             'jd.done',
             'jp.issue',
+            'jp.foto',
             'jp.dibuat as nik_dibuat',
             'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',

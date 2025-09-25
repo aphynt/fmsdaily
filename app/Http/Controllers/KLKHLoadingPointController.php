@@ -44,9 +44,9 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lp.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'lp.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lp.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lp.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.id',
             'lp.uuid',
@@ -58,11 +58,11 @@ class KLKHLoadingPointController extends Controller
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'lp.foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'lp.supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'lp.superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'lp.verified_foreman',
             'lp.verified_supervisor',
             'lp.verified_superintendent',
@@ -108,17 +108,17 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lp.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'lp.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lp.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lp.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('lp.statusenabled', true)
         ->where('lp.uuid', $uuid)->first();
@@ -182,17 +182,17 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lp.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'lp.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lp.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lp.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('lp.statusenabled', true)
         ->where('lp.uuid', $uuid)->first();
@@ -256,17 +256,17 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lp.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'lp.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lp.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lp.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('lp.statusenabled', true)
         ->where('lp.uuid', $uuid)->first();
@@ -343,17 +343,17 @@ class KLKHLoadingPointController extends Controller
         ->leftJoin('users as us', 'lp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lp.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'lp.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'lp.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'lp.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'lp.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lp.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lp.nik_superintendent', '=', 'us5.nik')
         ->select(
             'lp.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('lp.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, lp.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();

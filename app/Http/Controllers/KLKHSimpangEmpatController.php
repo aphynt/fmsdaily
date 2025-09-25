@@ -44,9 +44,9 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
         ->select(
             'se.id',
             'se.uuid',
@@ -58,11 +58,11 @@ class KLKHSimpangEmpatController extends Controller
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'se.foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'se.supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'se.superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'se.verified_foreman',
             'se.verified_supervisor',
             'se.verified_superintendent',
@@ -104,17 +104,17 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('se.statusenabled', true)
         ->where('se.uuid', $uuid)->first();
@@ -178,17 +178,17 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('se.statusenabled', true)
         ->where('se.uuid', $uuid)->first();
@@ -264,17 +264,17 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('se.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, se.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
@@ -354,17 +354,17 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'se.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'se.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'se.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('se.statusenabled', true)
         ->where('se.uuid', $uuid)->first();

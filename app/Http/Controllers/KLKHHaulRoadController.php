@@ -44,9 +44,9 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'hr.id',
             'hr.uuid',
@@ -58,11 +58,11 @@ class KLKHHaulRoadController extends Controller
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'hr.foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'hr.supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'hr.superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'hr.verified_foreman',
             'hr.verified_supervisor',
             'hr.verified_superintendent',
@@ -121,17 +121,17 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('hr.statusenabled', true)
         ->where('hr.uuid', $uuid)->first();
@@ -195,17 +195,17 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('hr.statusenabled', true)
         ->where('hr.uuid', $uuid)->first();
@@ -355,17 +355,17 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('hr.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, hr.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
@@ -445,17 +445,17 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'hr.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'hr.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'hr.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('hr.statusenabled', true)
         ->where('hr.uuid', $uuid)->first();

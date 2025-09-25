@@ -44,9 +44,9 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
         ->select(
             'ogs.id',
             'ogs.uuid',
@@ -58,11 +58,11 @@ class KLKHOGSController extends Controller
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'ogs.foreman as nik_foreman',
-            'gl.PERSONALNAME as nama_foreman',
+            'us3.name as nama_foreman',
             'ogs.supervisor as nik_supervisor',
-            'spv.PERSONALNAME as nama_supervisor',
+            'us4.name as nama_supervisor',
             'ogs.superintendent as nik_superintendent',
-            'spt.PERSONALNAME as nama_superintendent',
+            'us5.name as nama_superintendent',
             'ogs.verified_foreman',
             'ogs.verified_supervisor',
             'ogs.verified_superintendent',
@@ -208,17 +208,17 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('ogs.statusenabled', true)
         ->where('ogs.uuid', $uuid)->first();
@@ -282,17 +282,17 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('ogs.statusenabled', true)
         ->where('ogs.uuid', $uuid)->first();
@@ -368,17 +368,17 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('ogs.statusenabled', true)
         ->whereBetween(DB::raw('CONVERT(varchar, ogs.date, 23)'), [$startTimeFormatted, $endTimeFormatted])->get();
@@ -458,17 +458,17 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as gl', 'ogs.foreman', '=', 'gl.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spv', 'ogs.supervisor', '=', 'spv.NRP')
-        ->leftJoin('focus.dbo.PRS_PERSONAL as spt', 'ogs.superintendent', '=', 'spt.NRP')
+        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',
             'sh.keterangan as shift',
             'us.name as nama_pic',
-            'gl.PERSONALNAME as nama_foreman',
-            'spv.PERSONALNAME as nama_supervisor',
-            'spt.PERSONALNAME as nama_superintendent'
+            'us3.name as nama_foreman',
+            'us4.name as nama_supervisor',
+            'us5.name as nama_superintendent'
             )
         ->where('ogs.statusenabled', true)
         ->where('ogs.uuid', $uuid)->first();

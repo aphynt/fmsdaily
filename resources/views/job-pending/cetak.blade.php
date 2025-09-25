@@ -202,6 +202,14 @@
             <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;">{!! nl2br(e($data[0]->catatan_verified_diterima)) !!}</td>
         </tr>
         @endif
+        @if ($data[0]->foto != null)
+        <tr style="border-bottom:none;">
+            <th colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Gambar:</th>
+        </tr>
+        <tr style="border-bottom:none;border-top:none;">
+            <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;"><img src="{{ asset('storage') }}/{{ $data[0]->foto }}" style="max-width: 150px;"></td>
+        </tr>
+        @endif
         <tr style="border-bottom:none;">
             <th colspan="4" style="border-bottom:none; text-align:left; padding-left:40px;">Dibuat Oleh</th>
             <th colspan="3" style="border-bottom:none; text-align:left; padding-left:40px;">Diterima Oleh</th>

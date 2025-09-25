@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="container">
-                            <form action="{{ route('jobpending.post') }}" method="POST" id="submitFormJobPending">
+                            <form action="{{ route('jobpending.post') }}" method="POST" id="submitFormJobPending" enctype="multipart/form-data">
                                 @csrf
                                 <!-- Inputan di atas tabel -->
                                 <div class="row mb-1">
@@ -93,10 +93,18 @@
                                 </div>
                                 <hr>
                                 <div class="row mb-1">
-                                    <div class="col-md-12 col-12 px-2 py-2">
+                                    <div class="col-md-6 col-12 px-2 py-2">
                                         <label for="shift">Issue/Catatan</label>
                                         <textarea id="issue" class="form-control" name="issue" rows="4" style="min-height:120px;"></textarea>
                                     </div>
+                                    <div class="col-md-6 col-12 px-2 py-2">
+                                        <label for="shift">Masukkan Gambar (optional)</label>
+                                        <input type="file" id="fileInput" class="form-control" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" name="fileInput">
+                                    </div>
+                                    <div id="preview"
+                                        style="display:flex; justify-content:center; align-items:center; min-height:300px;">
+                                    </div>
+
                                 </div>
 
                                 {{-- <div class="row mb-3">
@@ -158,8 +166,8 @@
         var minutes = ("0" + currentDate.getMinutes()).slice(-2);
         var formattedTime = hours + ":" + minutes;
 
-        document.getElementById("date").value = formattedDate;
-        document.getElementById("time").value = formattedTime;
+        // document.getElementById("date").value = formattedDate;
+        // document.getElementById("time").value = formattedTime;
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -239,6 +247,40 @@
                 });
             }
         });
+    });
+</script>
+
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        let file = event.target.files[0];
+        if (!file) return;
+
+        // hanya ijinkan jpg, jpeg, png, gif, webp
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'File tidak valid!',
+                text: 'Hanya gambar (JPG, JPEG, PNG, GIF, WEBP) yang diperbolehkan.'
+            });
+            event.target.value = ''; // reset input
+            document.getElementById('preview').innerHTML = '';
+            return;
+        }
+
+        let preview = document.getElementById('preview');
+        preview.innerHTML = ''; // reset preview
+
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.maxWidth = '300px';
+            img.style.display = 'block';
+            img.style.borderRadius = '8px';
+            preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
     });
 </script>
 
