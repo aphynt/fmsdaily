@@ -76,7 +76,8 @@ class PengawasPitstopController extends Controller
             'name as PERSONALNAME',
             'role as JABATAN'
             )->where('role', 'SUPERVISOR')
-            ->where('id', '!=', 95)->get();
+            ->where('id', '!=', 95)
+            ->where('statusenabled', true)->get();
         $shift = Shift::where('statusenabled', true)->get();
         $area = Area::where('statusenabled', true)->get();
         $operator = Personal::select('ID', 'NRP', 'USERNAME', 'PERSONALNAME', 'EPIGONIUSERNAME', 'ROLETYPE', 'SYS_CREATEDBY', 'SYS_UPDATEDBY')->where('ROLETYPE', 0)->get();

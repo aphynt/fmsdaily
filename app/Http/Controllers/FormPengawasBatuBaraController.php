@@ -97,7 +97,9 @@ class FormPengawasBatuBaraController extends Controller
             'name as PERSONALNAME',
             'role as JABATAN'
             )->where('role', 'SUPERVISOR')
-            ->where('id', '!=', 95)->get();
+            ->where('id', '!=', 95)
+            ->where('statusenabled', true)
+            ->get();
 
         $superintendent = User::select(
             'nik as NRP',
@@ -106,6 +108,7 @@ class FormPengawasBatuBaraController extends Controller
         )
         ->whereIn('role', ['SUPERVISOR', 'SUPERINTENDENT'])
         ->whereNotIn('id', [95,96])
+        ->where('statusenabled', true)
         ->get();
 
         $shift = Shift::where('statusenabled', true)->get();

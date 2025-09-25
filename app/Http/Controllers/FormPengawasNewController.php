@@ -155,7 +155,9 @@ class FormPengawasNewController extends Controller
             'name as PERSONALNAME',
             'role as JABATAN'
             )->where('role', 'SUPERVISOR')
-            ->where('id', '!=', 95)->get();
+            ->where('id', '!=', 95)
+            ->where('statusenabled', true)
+            ->get();
 
         $superintendent = User::select(
             'nik as NRP',
@@ -164,6 +166,7 @@ class FormPengawasNewController extends Controller
         )
         ->whereIn('role', ['SUPERVISOR', 'SUPERINTENDENT'])
         ->whereNotIn('id', [95,96])
+        ->where('statusenabled', true)
         ->get();
 
         $lokasi = Lokasi::where('statusenabled', true)->get();
