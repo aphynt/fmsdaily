@@ -44,9 +44,9 @@ class KLKHLumpurController extends Controller
         ->leftJoin('users as us', 'lum.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lum.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lum.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'lum.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'lum.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'lum.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'lum.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lum.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lum.superintendent', '=', 'us5.nik')
         ->select(
             'lum.id',
             'lum.uuid',
@@ -222,9 +222,9 @@ class KLKHLumpurController extends Controller
         ->leftJoin('users as us', 'lpr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lpr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lpr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'lpr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'lpr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'lpr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'lpr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lpr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lpr.superintendent', '=', 'us5.nik')
         ->select(
             'lpr.*',
             'ar.keterangan as pit',
@@ -296,9 +296,9 @@ class KLKHLumpurController extends Controller
         ->leftJoin('users as us', 'lpr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lpr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lpr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'lpr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'lpr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'lpr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'lpr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lpr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lpr.superintendent', '=', 'us5.nik')
         ->select(
             'lpr.*',
             'ar.keterangan as pit',
@@ -382,9 +382,9 @@ class KLKHLumpurController extends Controller
         ->leftJoin('users as us', 'lpr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lpr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lpr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'lpr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'lpr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'lpr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'lpr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lpr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lpr.superintendent', '=', 'us5.nik')
         ->select(
             'lpr.*',
             'ar.keterangan as pit',
@@ -472,9 +472,9 @@ class KLKHLumpurController extends Controller
         ->leftJoin('users as us', 'lpr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'lpr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'lpr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'lpr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'lpr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'lpr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'lpr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'lpr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'lpr.superintendent', '=', 'us5.nik')
         ->select(
             'lpr.*',
             'ar.keterangan as pit',

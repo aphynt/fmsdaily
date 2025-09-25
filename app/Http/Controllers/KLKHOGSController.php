@@ -44,9 +44,9 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'ogs.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.superintendent', '=', 'us5.nik')
         ->select(
             'ogs.id',
             'ogs.uuid',
@@ -208,9 +208,9 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'ogs.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',
@@ -282,9 +282,9 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'ogs.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',
@@ -368,9 +368,9 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'ogs.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',
@@ -458,9 +458,9 @@ class KLKHOGSController extends Controller
         ->leftJoin('users as us', 'ogs.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'ogs.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'ogs.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'ogs.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'ogs.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'ogs.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'ogs.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'ogs.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'ogs.superintendent', '=', 'us5.nik')
         ->select(
             'ogs.*',
             'ar.keterangan as pit',

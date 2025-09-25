@@ -44,9 +44,9 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'hr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.superintendent', '=', 'us5.nik')
         ->select(
             'hr.id',
             'hr.uuid',
@@ -121,9 +121,9 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'hr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',
@@ -195,9 +195,9 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'hr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',
@@ -355,9 +355,9 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'hr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',
@@ -445,9 +445,9 @@ class KLKHHaulRoadController extends Controller
         ->leftJoin('users as us', 'hr.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'hr.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'hr.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'hr.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'hr.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'hr.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'hr.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'hr.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'hr.superintendent', '=', 'us5.nik')
         ->select(
             'hr.*',
             'ar.keterangan as pit',

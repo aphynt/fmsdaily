@@ -44,9 +44,9 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'se.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.superintendent', '=', 'us5.nik')
         ->select(
             'se.id',
             'se.uuid',
@@ -104,9 +104,9 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'se.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',
@@ -178,9 +178,9 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'se.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',
@@ -264,9 +264,9 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'se.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',
@@ -354,9 +354,9 @@ class KLKHSimpangEmpatController extends Controller
         ->leftJoin('users as us', 'se.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'se.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'se.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'se.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'se.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'se.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'se.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'se.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'se.superintendent', '=', 'us5.nik')
         ->select(
             'se.*',
             'ar.keterangan as pit',

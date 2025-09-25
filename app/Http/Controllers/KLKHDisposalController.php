@@ -44,9 +44,9 @@ class KLKHDisposalController extends Controller
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'dp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dp.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'dp.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'dp.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'dp.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'dp.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dp.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dp.superintendent', '=', 'us5.nik')
         ->select(
             'dp.id',
             'dp.uuid',
@@ -204,9 +204,9 @@ class KLKHDisposalController extends Controller
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'dp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dp.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'dp.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'dp.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'dp.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'dp.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dp.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dp.superintendent', '=', 'us5.nik')
         ->select(
             'dp.*',
             'ar.keterangan as pit',
@@ -278,9 +278,9 @@ class KLKHDisposalController extends Controller
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'dp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dp.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'dp.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'dp.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'dp.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'dp.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dp.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dp.superintendent', '=', 'us5.nik')
         ->select(
             'dp.*',
             'ar.keterangan as pit',
@@ -364,9 +364,9 @@ class KLKHDisposalController extends Controller
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'dp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dp.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'dp.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'dp.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'dp.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'dp.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dp.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dp.superintendent', '=', 'us5.nik')
         ->select(
             'dp.*',
             'ar.keterangan as pit',
@@ -454,9 +454,9 @@ class KLKHDisposalController extends Controller
         ->leftJoin('users as us', 'dp.pic', '=', 'us.id')
         ->leftJoin('REF_AREA as ar', 'dp.pit_id', '=', 'ar.id')
         ->leftJoin('REF_SHIFT as sh', 'dp.shift_id', '=', 'sh.id')
-        ->leftJoin('users as us3', 'dp.nik_foreman', '=', 'us3.nik')
-        ->leftJoin('users as us4', 'dp.nik_supervisor', '=', 'us4.nik')
-        ->leftJoin('users as us5', 'dp.nik_superintendent', '=', 'us5.nik')
+        ->leftJoin('users as us3', 'dp.foreman', '=', 'us3.nik')
+        ->leftJoin('users as us4', 'dp.supervisor', '=', 'us4.nik')
+        ->leftJoin('users as us5', 'dp.superintendent', '=', 'us5.nik')
         ->select(
             'dp.*',
             'ar.keterangan as pit',
