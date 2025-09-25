@@ -176,10 +176,10 @@
         </tr>
 
         <tr style="border-bottom: 3px double black;">
-            <td>No.</td>
-            <td colspan="3">Aktivitas / Pekerjaan</td>
-            <td>Unit Support</td>
-            <td colspan="2">Elevasi</td>
+            <th>No.</th>
+            <th colspan="3">Aktivitas / Pekerjaan</th>
+            <th>Unit Support</th>
+            <th colspan="2">Elevasi</th>
         </tr>
         @foreach ($data as $item)
         <tr style="border-top:none;border-bottom:none;">
@@ -190,11 +190,19 @@
         </tr>
         @endforeach
         <tr style="border-bottom:none;">
-            <td colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Issue/Catatan:</td>
+            <th colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Issue/Catatan:</th>
         </tr>
         <tr style="border-bottom:none;border-top:none;">
             <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;">{!! nl2br(e($data[0]->issue)) !!}</td>
         </tr>
+        @if ($data[0]->catatan_verified_diterima != null)
+        <tr style="border-bottom:none;">
+            <th colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Catatan Penerima:</th>
+        </tr>
+        <tr style="border-bottom:none;border-top:none;">
+            <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;">{!! nl2br(e($data[0]->catatan_verified_diterima)) !!}</td>
+        </tr>
+        @endif
         <tr style="border-bottom:none;">
             <td colspan="4" style="border-bottom:none; text-align:left; padding-left:40px;">Dibuat Oleh</td>
             <td colspan="3" style="border-bottom:none; text-align:left; padding-left:40px;">Diterima Oleh</td>
