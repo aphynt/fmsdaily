@@ -314,6 +314,8 @@ class JobPendingController extends Controller
             }
         }
 
+        // dd($data);
+
         return view('job-pending.show', compact('data'));
 
     }

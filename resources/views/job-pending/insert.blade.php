@@ -61,13 +61,13 @@
                                 <hr>
                                 <div class="row mb-2">
                                     <div class="col-md-12">
-                                        <label>Aktivitas / Unit / Elevasi</label>
+                                        <label>Aktivitas / Unit Support / Elevasi</label>
                                         <div class="table-responsive">
                                             <table class="table table-bordered align-middle" id="jobTable">
                                                 <thead class="table-light text-center">
                                                     <tr>
                                                         <th style="min-width:400px;">Aktivitas/Pekerjaan</th>
-                                                        <th style="min-width:150px;">Unit</th>
+                                                        <th style="min-width:150px;">Unit Support</th>
                                                         <th style="min-width:200px;">Elevasi</th>
                                                         <th style="width:80px;">#</th>
                                                     </tr>
@@ -94,7 +94,7 @@
                                 <hr>
                                 <div class="row mb-1">
                                     <div class="col-md-12 col-12 px-2 py-2">
-                                        <label for="shift">Issue</label>
+                                        <label for="shift">Issue/Catatan</label>
                                         <textarea id="issue" class="form-control" name="issue" rows="4" style="min-height:120px;"></textarea>
                                     </div>
                                 </div>

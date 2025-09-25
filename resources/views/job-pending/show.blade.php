@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label class="form-label"><b>Issue:</b></label>
+                                <label class="form-label"><b>Issue/Catatan:</b></label>
                                 <p class="mb-0" style="white-space: pre-wrap; line-height: 1.6;">{!! nl2br(e($data[0]->issue)) !!}</p>
                             </div>
                             @if ($data[0]->catatan_verified_diterima != null)

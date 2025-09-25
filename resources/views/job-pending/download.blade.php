@@ -190,7 +190,7 @@
         </tr>
         @endforeach
         <tr style="border-bottom:none;">
-            <td colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Issue:</td>
+            <td colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Issue/Catatan:</td>
         </tr>
         <tr style="border-bottom:none;border-top:none;">
             <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;">{!! nl2br(e($data[0]->issue)) !!}</td>
