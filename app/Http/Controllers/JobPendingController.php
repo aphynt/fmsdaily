@@ -120,14 +120,8 @@ class JobPendingController extends Controller
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
 
-                $destinationPath = '\\\\10.10.2.6\\FMSDaily2\\public\\jobpending';
-
+                $$destinationPath = '\\\\10.10.2.6\\FMSDaily2\\public\\jobpending';
                 $fileName = time() . '_' . $file->getClientOriginalName();
-
-                // cek folder ada
-                if (!is_dir($destinationPath)) {
-                    mkdir($destinationPath, 0777, true);
-                }
 
                 $file->move($destinationPath, $fileName);
 
