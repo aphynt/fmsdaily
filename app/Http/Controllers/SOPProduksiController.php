@@ -25,4 +25,8 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.pemuatanPengangkutanLumpur');
     }
+    public function kegiatanSlippery()
+    {
+        return view('sop.produksi.kegiatanSlippery');
+    }
 }
