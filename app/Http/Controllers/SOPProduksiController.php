@@ -11,6 +11,10 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.perawatanPenimbunanJalan');
     }
+    public function coalGetting()
+    {
+        return view('sop.produksi.coalGetting');
+    }
 
     public function penimbunanMaterialKolamLumpurBullDozer()
     {
