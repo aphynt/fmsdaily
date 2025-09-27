@@ -120,7 +120,7 @@ class JobPendingController extends Controller
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
 
-                $destinationPath = 'Q:\\';
+                $destinationPath = 'Q:\\jobpending';
                 $fileName = time() . '_' . $file->getClientOriginalName();
 
                 $file->move($destinationPath, $fileName);
