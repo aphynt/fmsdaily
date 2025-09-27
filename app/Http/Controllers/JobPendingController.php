@@ -119,11 +119,17 @@ class JobPendingController extends Controller
             $imagePath = null;
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
-
-                $destinationPath = '\\\\10.10.2.6\\FMSDaily2\\public\\jobpending';
                 $fileName = time() . '_' . $file->getClientOriginalName();
 
-                $file->move($destinationPath, $fileName);
+                // simpan ke tmp dulu
+                $tmpPath = $file->getRealPath();
+
+                // UNC path langsung
+                $destinationPath = '\\\\10.10.2.6\\FMSDaily2\\public\\jobpending\\' . $fileName;
+
+                if (!@copy($tmpPath, $destinationPath)) {
+                    throw new \Exception("Gagal copy ke $destinationPath");
+                }
 
                 $imagePath = 'http://10.10.2.6:93/jobpending/' . $fileName;
             }
