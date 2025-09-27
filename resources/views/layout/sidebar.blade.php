@@ -81,6 +81,7 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.coalGetting') }}">47. Coal Getting</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.penimbunanMaterialKolamLumpurBullDozer') }}">51. Penimbunan Material di Kolam Lumpur dengan Bull Dozer</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.pemuatanPengangkutanLumpur') }}">52. Pemuatan dan Pengangkutan Lumpur</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('sop.kegiatanSlippery') }}">53. Kegiatan Slippery/a></li>
                     </ul>
                 </li>
 
