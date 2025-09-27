@@ -119,11 +119,20 @@ class JobPendingController extends Controller
             $imagePath = null;
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
+
+                // UNC path harus pakai 4 backslash di PHP untuk escape
                 $destinationPath = '\\\\10.10.2.6\\FMSDaily2\\public\\jobpending';
+
                 $fileName = time() . '_' . $file->getClientOriginalName();
+
+                // cek dulu foldernya ada
+                if (!is_dir($destinationPath)) {
+                    mkdir($destinationPath, 0777, true); // ini sering gagal di UNC kalau PHP nggak punya izin
+                }
 
                 $file->move($destinationPath, $fileName);
 
+                // simpan URL untuk akses dari browser
                 $imagePath = 'http://10.10.2.6:93/jobpending/' . $fileName;
             }
 
