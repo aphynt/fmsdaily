@@ -119,13 +119,14 @@ class JobPendingController extends Controller
             $imagePath = null;
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
-
-                // Simpan ke storage/app/public/jobpending
+                $destinationPath = public_path('jobpending');
                 $fileName = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public/jobpending', $fileName);
+
+                // pindahkan file ke folder public/jobpending
+                $file->move($destinationPath, $fileName);
 
                 // simpan path relatif untuk disimpan ke DB
-                $imagePath = 'http://10.10.2.6:93/jobpending/' . $fileName;
+                $imagePath = 'jobpending/' . $fileName;
             }
 
             $job = JobPending::create([
