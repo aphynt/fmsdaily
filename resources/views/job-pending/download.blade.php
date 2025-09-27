@@ -208,7 +208,7 @@
             <th colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Gambar:</th>
         </tr>
         <tr style="border-bottom:none;border-top:none;">
-            <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;"><img src="{{ $data[0]->foto }}" width="150px"></td>
+            <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;"><img src="{{ public_path($data[0]->foto) }}" width="150px"></td>
         </tr>
         @endif
         <tr style="border-bottom:none;">

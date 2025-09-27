@@ -161,7 +161,7 @@
                                 <div class="col-12">
                                     <label class="form-label fw-bold">Gambar:</label><br>
                                     <img
-                                        src="{{ $data[0]->foto }}"
+                                        src="{{ asset($data[0]->foto) }}"
                                         alt="Foto Job Pending"
                                         class="img-fluid rounded shadow-sm jobpending-img"
                                         style="object-fit: contain; cursor: zoom-in;"
