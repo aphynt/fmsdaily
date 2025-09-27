@@ -54,11 +54,13 @@
                             </div>
 
                             <!-- Tombol buat job pending -->
+                            @if (in_array(Auth::user()->role, ['FOREMAN', 'SUPERVISOR', 'SUPERINTENDENT']))
                             <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
                                 <a href="{{ route('jobpending.insert') }}" class="btn btn-success w-100" style="padding-top:10px;padding-bottom:10px;">
                                     <i class="fas fa-plus"></i> Buat Job Pending
                                 </a>
                             </div>
+                            @endif
                         </div>
                     </div>
 
