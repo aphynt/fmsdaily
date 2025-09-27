@@ -122,6 +122,36 @@
                         </div>
                     </a>
                 </div>
+                <div class="col-4 col-md-4 col-xxl-4">
+                    <a href="{{ route('jobpending') }}" class="text-decoration-none">
+                        <div class="card mb-3">
+                            <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/job-creation.png" alt="Form Pengawas" style="max-width: 20px">
+                                <h6 class="card-title" style="font-size:11px">Job Pending</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-4 col-xxl-4">
+                    <a href="{{ route('p2h.index') }}" class="text-decoration-none">
+                        <div class="card mb-3">
+                            <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/worker.png" alt="Form Pengawas" style="max-width: 20px">
+                                <h6 class="card-title" style="font-size:11px">P2H Unit</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-4 col-xxl-4">
+                    <a href="{{ route('kkh.all') }}" class="text-decoration-none">
+                        <div class="card mb-3">
+                            <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                                <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/ergonomic.png" alt="Form Pengawas" style="max-width: 20px">
+                                <h6 class="card-title" style="font-size:11px">Verifikasi KKH</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             @endif
             <div class="col-4 col-md-4 col-xxl-4">
                 <a href="{{ route('production.index') }}" class="text-decoration-none">
