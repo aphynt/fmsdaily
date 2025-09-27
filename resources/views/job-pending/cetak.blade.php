@@ -207,7 +207,7 @@
             <th colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Gambar:</th>
         </tr>
         <tr style="border-bottom:none;border-top:none;">
-            <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;"><img src="{{ asset('storage') }}/{{ $data[0]->foto }}" style="max-width: 150px;"></td>
+            <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;"><img src="{{ asset($data[0]->foto) }}" style="max-width: 150px;"></td>
         </tr>
         @endif
         <tr style="border-bottom:none;">

@@ -4,6 +4,51 @@
 @php
     use Carbon\Carbon;
 @endphp
+
+<style>
+    .jobpending-img {
+        object-fit: contain;
+        max-width: 1000px; /* default untuk web */
+    }
+
+    /* Jika layar kecil (mobile) */
+    @media (max-width: 768px) {
+        .jobpending-img {
+            max-width: 310px;
+        }
+    }
+    .preview-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        padding-top: 60px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.9);
+    }
+
+    /* Gambar besar */
+    .preview-content {
+        margin: auto;
+        display: block;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    /* Tombol close (X) */
+    .preview-close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
 <section class="pc-container">
     <div class="pc-content">
         <div class="row">
@@ -116,11 +161,18 @@
                                 <div class="col-12">
                                     <label class="form-label fw-bold">Gambar:</label><br>
                                     <img
-                                        src="{{ asset('storage/' . $data[0]->foto) }}"
+                                        src="{{ asset($data[0]->foto) }}"
                                         alt="Foto Job Pending"
-                                        class="img-fluid rounded shadow-sm"
-                                        style="max-height: 200px; object-fit: contain;"
+                                        class="img-fluid rounded shadow-sm jobpending-img"
+                                        style="object-fit: contain; cursor: zoom-in;"
+                                        onclick="openPreview(this)"
                                     >
+
+                                    <!-- Modal Preview -->
+                                    <div id="imgPreviewModal" class="preview-modal" onclick="closePreview()">
+                                        <span class="preview-close">&times;</span>
+                                        <img class="preview-content" id="previewImg">
+                                    </div>
                                 </div>
                             @endif
 
@@ -191,6 +243,17 @@
 @include('layout.footer')
 
 <script>
+    function openPreview(img) {
+        var modal = document.getElementById("imgPreviewModal");
+        var modalImg = document.getElementById("previewImg");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+    }
+
+    function closePreview() {
+        document.getElementById("imgPreviewModal").style.display = "none";
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         const buttons = document.querySelectorAll(".btn-verifikasi");
 
