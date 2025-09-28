@@ -57,12 +57,10 @@ return [
             'throw' => false,
         ],
 
-        'disks' => [
-            'jobpending' => [
+        'jobpending' => [
                 'driver' => 'local',
                 'root' => env('JOBPENDING_PATH', public_path('jobpending')),
             ],
-        ],
 
     ],
 
