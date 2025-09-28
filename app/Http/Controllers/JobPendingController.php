@@ -126,7 +126,7 @@ class JobPendingController extends Controller
                 $file->move($destinationPath, $fileName);
 
                 // simpan path relatif untuk disimpan ke DB
-                $imagePath = env('APP_FILE_URL') . "/jobpending/" . $fileName;
+                $imagePath = url('jobpending/' . $fileName);
             }
 
             $job = JobPending::create([
