@@ -21,6 +21,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class JobPendingController extends Controller
@@ -118,23 +119,19 @@ class JobPendingController extends Controller
         try {
 
             $imagePath = null;
+
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
-
-                // Paksa simpan ke folder public/jobpending (folder harus sudah ada)
-                $destinationPath = public_path('jobpending');
-
-                // buat nama file unik
                 $fileName = time() . '_' . $file->getClientOriginalName();
 
                 try {
-                    // langsung pindahkan file (tanpa create folder baru)
-                    $file->move($destinationPath, $fileName);
+                    // simpan langsung ke disk jobpending (lokal A atau network B, tergantung .env)
+                    Storage::disk('jobpending')->put($fileName, file_get_contents($file));
 
-                    // path relatif untuk disimpan di DB
+                    // untuk DB simpan nama relatif (bisa dipakai di URL/public)
                     $imagePath = 'jobpending/' . $fileName;
+
                 } catch (\Exception $e) {
-                    // kalau gagal, bisa debug pesan error
                     Log::error('Upload gagal: ' . $e->getMessage());
                 }
             }
