@@ -20,8 +20,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class JobPendingController extends Controller
@@ -119,21 +117,16 @@ class JobPendingController extends Controller
         try {
 
             $imagePath = null;
-
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
+                $destinationPath = public_path('jobpending');
                 $fileName = time() . '_' . $file->getClientOriginalName();
 
-                try {
-                    // simpan langsung ke disk jobpending (lokal A atau network B, tergantung .env)
-                    Storage::disk('jobpending')->put($fileName, file_get_contents($file));
 
-                    // untuk DB simpan nama relatif (bisa dipakai di URL/public)
-                    $imagePath = 'jobpending/' . $fileName;
+                $file->move($destinationPath, $fileName);
 
-                } catch (\Exception $e) {
-                    Log::error('Upload gagal: ' . $e->getMessage());
-                }
+                // simpan path relatif untuk disimpan ke DB
+                $imagePath = env('APP_FILE_URL') . "/jobpending/" . $fileName;
             }
 
             $job = JobPending::create([
