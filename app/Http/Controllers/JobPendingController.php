@@ -20,6 +20,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use DateTime;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class JobPendingController extends Controller
@@ -119,14 +120,23 @@ class JobPendingController extends Controller
             $imagePath = null;
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
+
+                // Paksa simpan ke folder public/jobpending (folder harus sudah ada)
                 $destinationPath = public_path('jobpending');
+
+                // buat nama file unik
                 $fileName = time() . '_' . $file->getClientOriginalName();
 
-                // pindahkan file ke folder public/jobpending
-                $file->move($destinationPath, $fileName);
+                try {
+                    // langsung pindahkan file (tanpa create folder baru)
+                    $file->move($destinationPath, $fileName);
 
-                // simpan path relatif untuk disimpan ke DB
-                $imagePath = 'jobpending/' . $fileName;
+                    // path relatif untuk disimpan di DB
+                    $imagePath = 'jobpending/' . $fileName;
+                } catch (\Exception $e) {
+                    // kalau gagal, bisa debug pesan error
+                    Log::error('Upload gagal: ' . $e->getMessage());
+                }
             }
 
             $job = JobPending::create([
