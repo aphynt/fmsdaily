@@ -74,7 +74,7 @@
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/sop.png" alt="DS"> </span><span class="pc-mtext">SOP Produksi</span> <span class="pc-arrow"><i
-                                data-feather="chevron-right"></i></span> <span class="pc-badge">5
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">6
                                 </span>
                     </a>
                     <ul class="pc-submenu">
