@@ -117,6 +117,7 @@ class JobPendingController extends Controller
         try {
 
             $imagePath = null;
+            $imagePath2 = null;
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
                 $destinationPath = public_path('jobpending');
@@ -127,6 +128,18 @@ class JobPendingController extends Controller
 
                 // simpan path relatif untuk disimpan ke DB
                 $imagePath = url('jobpending/' . $fileName);
+            }
+
+            if ($request->hasFile('fileInput2')) {
+                $file2 = $request->file('fileInput2');
+                $destinationPath2 = public_path('jobpending');
+                $fileName2 = time() . '_' . $file2->getClientOriginalName();
+
+
+                $file2->move($destinationPath2, $fileName2);
+
+                // simpan path relatif untuk disimpan ke DB
+                $imagePath2 = url('jobpending/' . $fileName2);
             }
 
             $job = JobPending::create([
@@ -145,6 +158,7 @@ class JobPendingController extends Controller
                 'catatan_verified_diterima' => $request->catatan_verified_diterima,
                 'tanggal_pending' => $finalDate,
                 'foto' => $imagePath,
+                'foto2' => $imagePath2,
             ]);
 
             // JobPendingNote::create([
@@ -283,6 +297,7 @@ class JobPendingController extends Controller
             'jd.done',
             'jp.issue',
             'jp.foto',
+            'jp.foto2',
             'jp.dibuat as nik_dibuat',
             'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
@@ -364,6 +379,7 @@ class JobPendingController extends Controller
             'jd.done',
             'jp.issue',
             'jp.foto',
+            'jp.foto2',
             'jp.dibuat as nik_dibuat',
             'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',
@@ -627,6 +643,7 @@ class JobPendingController extends Controller
             'jd.done',
             'jp.issue',
             'jp.foto',
+            'jp.foto2',
             'jp.dibuat as nik_dibuat',
             'db.name as nama_dibuat',
             'us2.role as jabatan_dibuat',

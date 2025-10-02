@@ -11,6 +11,7 @@ use App\Http\Controllers\FormPengawasBatuBaraController;
 use App\Http\Controllers\FormPengawasController;
 use App\Http\Controllers\FormPengawasNewController;
 use App\Http\Controllers\FormPengawasOldController;
+use App\Http\Controllers\FormPengawasPitstopController;
 use App\Http\Controllers\FormPengawasSAPController;
 use App\Http\Controllers\FrontLoadingController;
 use App\Http\Controllers\JobPendingController;
@@ -167,6 +168,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/pengawas-pitstop/bundlepdf', [PengawasPitstopController::class, 'bundlepdf'])->name('pengawas-pitstop.bundlepdf');
     Route::delete('/pengawas-pitstop/delete-pitstop/{id}', [PengawasPitstopController::class, 'destroyPitstop']);
 
+    Route::get('/form-pengawas-pitstop/show', [FormPengawasPitstopController::class, 'show'])->name('form-pengawas-pitstop.show');
+    Route::get('/form-pengawas-pitstop/insert', [FormPengawasPitstopController::class, 'insert'])->name('form-pengawas-pitstop.insert');
+    Route::post('/form-pengawas-pitstop/save-draft', [FormPengawasPitstopController::class, 'saveAsDraft'])->name('form-pengawas-pitstop.saveAsDraft');
+    Route::post('/form-pengawas-pitstop/save-finish', [FormPengawasPitstopController::class, 'saveAsFinish'])->name('form-pengawas-pitstop.saveAsFinish');
+
     //Form Pengawas SAP
     Route::get('/form-pengawas-sap/index', [FormPengawasSAPController::class, 'index'])->name('form-pengawas-sap.index');
     Route::post('/form-pengawas-sap/post', [FormPengawasSAPController::class, 'post'])->name('form-pengawas-sap.post');
@@ -209,6 +215,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sop/production/penimbunanMaterialKolamLumpurBullDozer', [SOPProduksiController::class, 'penimbunanMaterialKolamLumpurBullDozer'])->name('sop.penimbunanMaterialKolamLumpurBullDozer');
     Route::get('/sop/production/pemuatanPengangkutanLumpur', [SOPProduksiController::class, 'pemuatanPengangkutanLumpur'])->name('sop.pemuatanPengangkutanLumpur');
     Route::get('/sop/production/kegiatanSlippery', [SOPProduksiController::class, 'kegiatanSlippery'])->name('sop.kegiatanSlippery');
+    Route::get('/sop/production/pengoperasianEXDigger', [SOPProduksiController::class, 'pengoperasianEXDigger'])->name('sop.pengoperasianEXDigger');
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');

@@ -156,25 +156,44 @@
                             </form>
 
                             @endif
-                            @if (!empty($data[0]->foto))
-                                <hr class="my-3" style="border: none; border-top: 2px dashed #000;">
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Gambar:</label><br>
-                                    <img
-                                        src="{{ $data[0]->foto }}"
-                                        alt="Foto Job Pending"
-                                        class="img-fluid rounded shadow-sm jobpending-img"
-                                        style="object-fit: contain; cursor: zoom-in;"
-                                        onclick="openPreview(this)"
-                                    >
-
-                                    <!-- Modal Preview -->
-                                    <div id="imgPreviewModal" class="preview-modal" onclick="closePreview()">
-                                        <span class="preview-close">&times;</span>
-                                        <img class="preview-content" id="previewImg">
+                            <div class="row">
+                                @if (!empty($data[0]->foto))
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <h6 class="mb-2">Gambar 1:</h6>
+                                            <img
+                                                src="{{ $data[0]->foto }}"
+                                                alt="Foto Job Pending"
+                                                class="img-fluid rounded shadow-sm jobpending-img"
+                                                style="object-fit: contain; cursor: zoom-in; max-height:300px;"
+                                                onclick="openPreview(this)"
+                                            >
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
+                                @endif
+
+                                @if (!empty($data[0]->foto2))
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="border rounded p-3 h-100">
+                                            <h6 class="mb-2">Gambar 2:</h6>
+                                            <img
+                                                src="{{ $data[0]->foto2 }}"
+                                                alt="Foto Job Pending"
+                                                class="img-fluid rounded shadow-sm jobpending-img"
+                                                style="object-fit: contain; cursor: zoom-in; max-height:300px;"
+                                                onclick="openPreview(this)"
+                                            >
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Modal Preview (cukup sekali, tidak perlu duplikat) -->
+                            <div id="imgPreviewModal" class="preview-modal" onclick="closePreview()">
+                                <span class="preview-close">&times;</span>
+                                <img class="preview-content" id="previewImg">
+                            </div>
+
 
                             <div class="col-sm-6">
                                 <div class="border rounded p-3">

@@ -203,14 +203,27 @@
             <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;">{!! nl2br(e($data[0]->catatan_verified_diterima)) !!}</td>
         </tr>
         @endif
-        @if ($data[0]->foto != null)
-        <tr style="border-bottom:none;">
-            <th colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">Gambar:</th>
-        </tr>
-        <tr style="border-bottom:none;border-top:none;">
-            <td colspan="7" style="border-bottom:none;border-top:none; text-align:left; padding-left:40px;"><img src="{{ $data[0]->foto }}" width="150px"></td>
-        </tr>
+        @if ($data[0]->foto != null || $data[0]->foto2 != null)
+            <tr style="border-bottom:none;">
+                <th colspan="7" style="border-bottom:none; text-align:left; padding-left:40px;">
+                    Gambar:
+                </th>
+            </tr>
+            <tr style="border-bottom:none; border-top:none;">
+                <td colspan="7" style="border-bottom:none; border-top:none; text-align:left; padding-left:40px;">
+                    <div style="display:flex; gap:15px; align-items:center;">
+                        @if ($data[0]->foto != null)
+                            <img src="{{ $data[0]->foto }}" width="150" style="border-radius:6px; object-fit:contain;">
+                        @endif
+
+                        @if ($data[0]->foto2 != null)
+                            <img src="{{ $data[0]->foto2 }}" width="150" style="border-radius:6px; object-fit:contain;">
+                        @endif
+                    </div>
+                </td>
+            </tr>
         @endif
+
         <tr style="border-bottom:none;">
             <td colspan="4" style="border-bottom:none; text-align:left; padding-left:40px;">Dibuat Oleh</td>
             <td colspan="3" style="border-bottom:none; text-align:left; padding-left:40px;">Diterima Oleh</td>

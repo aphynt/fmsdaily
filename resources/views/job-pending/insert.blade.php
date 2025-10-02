@@ -93,18 +93,39 @@
                                 </div>
                                 <hr>
                                 <div class="row mb-1">
-                                    <div class="col-md-6 col-12 px-2 py-2">
+                                    <div class="col-md-12 col-12 px-2 py-2">
                                         <label for="shift">Issue/Catatan</label>
                                         <textarea id="issue" class="form-control" name="issue" rows="4" style="min-height:120px;"></textarea>
                                     </div>
+
+                                </div>
+                                <div class="row mb-1">
                                     <div class="col-md-6 col-12 px-2 py-2">
-                                        <label for="shift">Masukkan Gambar (optional)</label>
+                                        <label for="shift">Masukkan Gambar 1 (optional)</label>
                                         <input type="file" id="fileInput" class="form-control" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" name="fileInput">
                                     </div>
-                                    <div id="preview"
-                                        style="display:flex; justify-content:center; align-items:center; min-height:300px;">
+                                    <div class="col-md-6 col-12 px-2 py-2">
+                                        <label for="shift">Masukkan Gambar 2 (optional)</label>
+                                        <input type="file" id="fileInput2" class="form-control" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" name="fileInput2">
                                     </div>
 
+                                </div>
+                                <div class="row mb-1">
+                                    <!-- Preview -->
+                                    <div class="col-md-6 col-12 px-2 py-2">
+                                        <div id="preview"
+                                            style="display:flex; justify-content:center; align-items:center;
+                                                min-height:300px; border:1px dashed #ccc; border-radius:8px;">
+                                            <span style="color:#999;">Preview Gambar 1</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 px-2 py-2">
+                                        <div id="preview2"
+                                            style="display:flex; justify-content:center; align-items:center;
+                                                min-height:300px; border:1px dashed #ccc; border-radius:8px;">
+                                            <span style="color:#999;">Preview Gambar 2</span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {{-- <div class="row mb-3">
@@ -255,7 +276,6 @@
         let file = event.target.files[0];
         if (!file) return;
 
-        // hanya ijinkan jpg, jpeg, png, gif, webp
         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
         if (!allowedTypes.includes(file.type)) {
             Swal.fire({
@@ -263,13 +283,13 @@
                 title: 'File tidak valid!',
                 text: 'Hanya gambar (JPG, JPEG, PNG, GIF, WEBP) yang diperbolehkan.'
             });
-            event.target.value = ''; // reset input
+            event.target.value = '';
             document.getElementById('preview').innerHTML = '';
             return;
         }
 
         let preview = document.getElementById('preview');
-        preview.innerHTML = ''; // reset preview
+        preview.innerHTML = '';
 
         let reader = new FileReader();
         reader.onload = function(e) {
@@ -282,6 +302,38 @@
         };
         reader.readAsDataURL(file);
     });
+
+    document.getElementById('fileInput2').addEventListener('change', function (event) {
+        let file2 = event.target.files[0];
+        if (!file2) return;
+
+        const allowedTypes2 = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes2.includes(file2.type)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'File tidak valid!',
+                text: 'Hanya gambar (JPG, JPEG, PNG, GIF, WEBP) yang diperbolehkan.'
+            });
+            event.target.value = '';
+            document.getElementById('preview2').innerHTML = '';
+            return;
+        }
+
+        let preview2 = document.getElementById('preview2');
+        preview2.innerHTML = '';
+
+        let reader2 = new FileReader();
+        reader2.onload = function(e) {
+            let img2 = document.createElement('img');
+            img2.src = e.target.result;
+            img2.style.maxWidth = '300px';
+            img2.style.display = 'block';
+            img2.style.borderRadius = '8px';
+            preview2.appendChild(img2); // ✅ sudah benar
+        };
+        reader2.readAsDataURL(file2);
+    });
 </script>
+
 
 
