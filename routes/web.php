@@ -216,6 +216,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sop/production/pemuatanPengangkutanLumpur', [SOPProduksiController::class, 'pemuatanPengangkutanLumpur'])->name('sop.pemuatanPengangkutanLumpur');
     Route::get('/sop/production/kegiatanSlippery', [SOPProduksiController::class, 'kegiatanSlippery'])->name('sop.kegiatanSlippery');
     Route::get('/sop/production/pengoperasianEXDigger', [SOPProduksiController::class, 'pengoperasianEXDigger'])->name('sop.pengoperasianEXDigger');
+    Route::get('/sop/production/pengoperasianLampuTambang', [SOPProduksiController::class, 'pengoperasianLampuTambang'])->name('sop.pengoperasianLampuTambang');
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');

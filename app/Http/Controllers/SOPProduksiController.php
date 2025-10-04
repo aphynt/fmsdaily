@@ -35,4 +35,9 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.pengoperasianEXDigger');
     }
+
+    public function pengoperasianLampuTambang()
+    {
+        return view('sop.produksi.pengoperasianLampuTambang');
+    }
 }
