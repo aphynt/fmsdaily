@@ -173,6 +173,24 @@ class PengawasPitstopController extends Controller
                     ? Carbon::parse($value['status_opr_ready'])->format('Y-m-d H:i:s')
                     : null;
 
+                $opr_settingan = $value['opr_settingan'] ?? null;
+                if ($opr_settingan) {
+                    $opr_parts = explode('|', $opr_settingan);
+                    $nikOprSettingan = $opr_parts[0];
+                    $namaOprSettingan = $opr_parts[1] ?? '';
+                } else {
+                    $nikOprSettingan = $namaOprSettingan = null;
+                }
+
+                $opr_ready = $value['opr_ready'] ?? null;
+                if ($opr_ready) {
+                    $opr_parts = explode('|', $opr_ready);
+                    $nikOprReady = $opr_parts[0];
+                    $namaOprReady = $opr_parts[1] ?? '';
+                } else {
+                    $nikOprReady = $namaOprReady = null;
+                }
+
                     $desc = PitstopReportDesc::firstOrNew([
                         'uuid' => $value['uuid'] ?? Uuid::uuid4()->toString(),
                     ]);
@@ -182,13 +200,13 @@ class PengawasPitstopController extends Controller
                         'report_id' => $dailyReport->id,
                         'statusenabled' => true,
                         'no_unit' => $value['nomor_unit'] ?? null,
-                        'opr_settingan' => $value['opr_settingan'] ?? null,
-                        'nama_opr_settingan' => $value['nama_opr_settingan'] ?? null,
+                        'opr_settingan' => $nikOprSettingan,  // Gunakan nik untuk opr_settingan
+                        'nama_opr_settingan' => $namaOprSettingan,
                         'status_unit_breakdown' => $statusUnitBreakdown,
                         'status_unit_ready' => $statusUnitReady,
                         'status_opr_ready' => $statusOprReady,
-                        'opr_ready' => $value['opr_ready'] ?? null,
-                        'nama_opr_ready' => $value['nama_opr_ready'] ?? null,
+                        'opr_ready' => $nikOprReady,
+                        'nama_opr_ready' => $namaOprReady,
                         'keterangan' => $value['keterangan'] ?? null,
                         'is_draft' => $typeDraft,
                     ]);

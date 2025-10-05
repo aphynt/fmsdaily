@@ -354,7 +354,9 @@
             let uuid = accordion.querySelector(`input[name*="[uuidPitstop]"]`)?.value || null;
             const noUnit = accordion.querySelector(`input[name*="[no_unitPitstop]"]`)?.value || null;
 
-            let inputOprSettingan = accordion.querySelector('input[name*="opr_settinganPitstop"]');
+            let inputOprSettingan = accordion.querySelector('select[name*="opr_settinganPitstop"]');
+            console.log(inputOprSettingan);
+
             let nikOprSettingan = inputOprSettingan?.value || null;
             let namaOprSettingan = inputOprSettingan?.nextSibling
             ? inputOprSettingan.nextSibling.textContent.trim()
@@ -364,7 +366,7 @@
             const statusUnitReadyPitstop = accordion.querySelector(`input[name*="[status_unit_readyPitstop]"]`)?.value || null;
             const statusOprReadyPitstop = accordion.querySelector(`input[name*="[status_opr_readyPitstop]"]`)?.value || null;
 
-            let inputOprReady = accordion.querySelector('input[name*="[opr_readyPitstop]"]:not([name*="status_"])');
+            let inputOprReady = accordion.querySelector('select[name*="[opr_readyPitstop]"]:not([name*="status_"])');
             let nikOprReady = inputOprReady?.value || null;
             let namaOprReady = inputOprReady?.nextSibling
             ? inputOprReady.nextSibling.textContent.trim()
@@ -377,17 +379,17 @@
                 uuid:uuid,
                 nomor_unit: noUnit,
                 opr_settingan: nikOprSettingan,
-                nama_opr_settingan: namaOprSettingan,
+                // nama_opr_settingan: namaOprSettingan,
                 status_unit_breakdown: statusUnitBreakdownPitstop,
                 status_unit_ready: statusUnitReadyPitstop,
                 status_opr_ready: statusOprReadyPitstop,
                 opr_ready: nikOprReady,
-                nama_opr_ready: namaOprReady,
+                // nama_opr_ready: namaOprReady,
                 keterangan: keteranganPitstop,
             });
 
         });
-
+        console.log('Unit yang akan disimpan:', JSON.stringify(unitPitstopData, null, 2));
 
         formData.append('unit_pitstop', JSON.stringify(unitPitstopData));
 
@@ -494,7 +496,7 @@
         unitPitstopAccordions.forEach((accordion) => {
 
             const noUnit = accordion.querySelector(`input[name*="[no_unitPitstop]"]`)?.value || null;
-            let nikOprSettingan = accordion.querySelector('input[name*="opr_settinganPitstop"]')?.value || null;
+            let nikOprSettingan = accordion.querySelector('select[name*="opr_settinganPitstop"]')?.value || null;
             let namaOprSettingan = null;
 
             if (namaOprSettingan && namaOprSettingan.includes('|')) {
@@ -504,7 +506,7 @@
             const statusUnitBreakdownPitstop = accordion.querySelector(`input[name*="[status_unit_breakdownPitstop]"]`)?.value || null;
             const statusUnitReadyPitstop = accordion.querySelector(`input[name*="[status_unit_readyPitstop]"]`)?.value || null;
             const statusOprReadyPitstop = accordion.querySelector(`input[name*="[status_opr_readyPitstop]"]`)?.value || null;
-            let nikOprReady = accordion.querySelector('input[name*="opr_readyPitstop"]')?.value || null;
+            let nikOprReady = accordion.querySelector('select[name*="opr_readyPitstop"]')?.value || null;
             let namaOprReady = null;
 
             if (namaOprReady && namaOprReady.includes('|')) {
@@ -525,6 +527,8 @@
                 keterangan: keteranganPitstop,
             });
         });
+        console.log('Data yang akan disimpan:', JSON.stringify(unitPitstopData, null, 2));
+
 
         formData.append('unit_pitstop', JSON.stringify(unitPitstopData));
 
@@ -627,27 +631,41 @@ function generateUUID() {
                                             </tr>
                                             <tr>
                                                 <th>Operator Settingan</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][opr_settinganPitstop]" value="${pitstop.opr_settingan ?? ''}">${pitstop.nama_opr_settingan ?? ''}</td>
+                                                <td>
+                                                    <select class="form-select"  data-trigger name="unit_pitstop[${index}][opr_settinganPitstop]">
+                                                        <option value="${pitstop.opr_settingan ?? ''}|${pitstop.nama_opr_settingan ?? ''}" selected disabled>${pitstop.opr_settingan && pitstop.nama_opr_settingan ? pitstop.opr_settingan + '|' + pitstop.nama_opr_settingan : (pitstop.opr_settingan || pitstop.nama_opr_settingan || '')}</option>
+                                                        @foreach ($data['operator'] as $op)
+                                                            <option value="{{ $op->NRP }}|{{ $op->PERSONALNAME }}">{{ $op->NRP }}|{{ $op->PERSONALNAME }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Status Unit Breakdown</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][status_unit_breakdownPitstop]" value="${pitstop.status_unit_breakdown ?? ''}">${pitstop.status_unit_breakdown ?? ''}</td>
+                                                <td><input type="datetime-local" class="form-control" name="unit_pitstop[${index}][status_unit_breakdownPitstop]" value="${pitstop.status_unit_breakdown ?? ''}"></td>
                                             </tr>
                                             <tr>
                                                 <th>Status Unit Ready</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][status_unit_readyPitstop]" value="${pitstop.status_unit_ready ?? ''}">${pitstop.status_unit_ready ?? ''}</td>
+                                                <td><input type="datetime-local" class="form-control" name="unit_pitstop[${index}][status_unit_readyPitstop]" value="${pitstop.status_unit_ready ?? ''}"></td>
                                             </tr>
                                             <tr>
                                                 <th>Status Operator Ready</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][status_opr_readyPitstop]" value="${pitstop.status_opr_ready ?? ''}">${pitstop.status_opr_ready ?? ''}</td>
+                                                <td><input type="datetime-local" class="form-control" name="unit_pitstop[${index}][status_opr_readyPitstop]" value="${pitstop.status_opr_ready ?? ''}"></td>
                                             </tr>
                                             <tr>
                                                 <th>Operator (Ready)</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][opr_readyPitstop]" value="${pitstop.opr_ready ?? ''}">${pitstop.nama_opr_ready ?? ''}</td>
+                                                <td>
+                                                    <select class="form-select"  data-trigger name="unit_pitstop[${index}][opr_readyPitstop]">
+                                                        <option value="${pitstop.opr_ready ?? ''}|${pitstop.nama_opr_ready ?? ''}" selected disabled>${pitstop.opr_ready && pitstop.nama_opr_ready ? pitstop.opr_ready + '|' + pitstop.nama_opr_ready : (pitstop.opr_ready || pitstop.nama_opr_ready || '')}</option>
+                                                        @foreach ($data['operator'] as $opready)
+                                                            <option value="{{ $opready->NRP }}|{{ $opready->PERSONALNAME }}">{{ $opready->NRP }}|{{ $opready->PERSONALNAME }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th>Keterangan</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][keteranganPitstop]" value="${pitstop.keterangan ?? ''}">${pitstop.keterangan ?? ''}</td>
+                                                <td><input type="text" class="form-control" name="unit_pitstop[${index}][keteranganPitstop]" value="${pitstop.keterangan ?? ''}"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -728,27 +746,42 @@ function generateUUID() {
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Operator Settingan</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][opr_settinganPitstop]" value="${nikOprSettingan ?? ''}">${namaOprSettingan ?? ''}</td>
+                                                                    <td>
+                                                                        <select class="form-select"  data-trigger id="opr_settinganPitstop" name="unit_pitstop[${PitstopCount-1}][opr_settinganPitstop]">
+                                                                            <option value="${nikOprSettingan ?? ''}|${namaOprSettingan ?? ''}" selected>${nikOprSettingan && namaOprSettingan ? nikOprSettingan + '|' + namaOprSettingan : (nikOprSettingan || namaOprSettingan || '')}</option>
+                                                                            @foreach ($data['operator'] as $op)
+                                                                                <option value="{{ $op->NRP }}|{{ $op->PERSONALNAME }}">{{ $op->NRP }}|{{ $op->PERSONALNAME }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Status Unit Breakdown</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][status_unit_breakdownPitstop]" value="${statusUnitBreakdownPitstop ?? ''}">${statusUnitBreakdownPitstop ?? ''}</td>
+                                                                    <td><input type="datetime-local" class="form-control" name="unit_pitstop[${PitstopCount-1}][status_unit_breakdownPitstop]" value="${statusUnitBreakdownPitstop ?? ''}"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Status Unit Ready</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][status_unit_readyPitstop]" value="${statusUnitReadyPitstop ?? ''}">${statusUnitReadyPitstop ?? ''}</td>
+                                                                    <td><input type="datetime-local" class="form-control" name="unit_pitstop[${PitstopCount-1}][status_unit_readyPitstop]" value="${statusUnitReadyPitstop ?? ''}"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Status Operator Ready</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][status_opr_readyPitstop]" value="${statusOprReadyPitstop ?? ''}">${statusOprReadyPitstop ?? ''}</td>
+                                                                    <td><input type="datetime-local" class="form-control" name="unit_pitstop[${PitstopCount-1}][status_opr_readyPitstop]" value="${statusOprReadyPitstop ?? ''}"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Operator (Ready)</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][opr_readyPitstop]" value="${nikOprReady ?? ''}">${namaOprReady ?? ''}</td>
+                                                                    <td>
+                                                                        <select class="form-select"  data-trigger id="opr_readyPitstop" name="unit_pitstop[${PitstopCount-1}][opr_readyPitstop]">
+                                                                            <option value="${nikOprReady ?? ''}|${namaOprReady ?? ''}" selected>${nikOprReady && namaOprReady ? nikOprReady + '|' + namaOprReady : (nikOprReady || namaOprReady || '')}</option>
+                                                                            @foreach ($data['operator'] as $opready)
+                                                                                <option value="{{ $opready->NRP }}|{{ $opready->PERSONALNAME }}">{{ $opready->NRP }}|{{ $opready->PERSONALNAME }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Keterangan</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][keteranganPitstop]" value="${keteranganPitstop ?? ''}">${keteranganPitstop ?? ''}</td>
+                                                                    <td><input type="text" class="form-control" name="unit_pitstop[${PitstopCount-1}][keteranganPitstop]" value="${keteranganPitstop ?? ''}"></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>

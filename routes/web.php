@@ -168,10 +168,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/pengawas-pitstop/bundlepdf', [PengawasPitstopController::class, 'bundlepdf'])->name('pengawas-pitstop.bundlepdf');
     Route::delete('/pengawas-pitstop/delete-pitstop/{id}', [PengawasPitstopController::class, 'destroyPitstop']);
 
-    Route::get('/form-pengawas-pitstop/show', [FormPengawasPitstopController::class, 'show'])->name('form-pengawas-pitstop.show');
-    Route::get('/form-pengawas-pitstop/insert', [FormPengawasPitstopController::class, 'insert'])->name('form-pengawas-pitstop.insert');
-    Route::post('/form-pengawas-pitstop/save-draft', [FormPengawasPitstopController::class, 'saveAsDraft'])->name('form-pengawas-pitstop.saveAsDraft');
-    Route::post('/form-pengawas-pitstop/save-finish', [FormPengawasPitstopController::class, 'saveAsFinish'])->name('form-pengawas-pitstop.saveAsFinish');
+    // Route::get('/form-pengawas-pitstop/show', [FormPengawasPitstopController::class, 'show'])->name('form-pengawas-pitstop.show');
+    // Route::get('/form-pengawas-pitstop/insert', [FormPengawasPitstopController::class, 'insert'])->name('form-pengawas-pitstop.insert');
+    // Route::post('/form-pengawas-pitstop/save-draft', [FormPengawasPitstopController::class, 'saveAsDraft'])->name('form-pengawas-pitstop.saveAsDraft');
+    // Route::post('/form-pengawas-pitstop/save-finish', [FormPengawasPitstopController::class, 'saveAsFinish'])->name('form-pengawas-pitstop.saveAsFinish');
 
     //Form Pengawas SAP
     Route::get('/form-pengawas-sap/index', [FormPengawasSAPController::class, 'index'])->name('form-pengawas-sap.index');
