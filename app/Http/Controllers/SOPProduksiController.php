@@ -40,4 +40,14 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.pengoperasianLampuTambang');
     }
+
+    public function landClearing()
+    {
+        return view('sop.produksi.landClearing');
+    }
+
+    public function pengecekanPerbaikanWeakpoint()
+    {
+        return view('sop.produksi.pengecekanPerbaikanWeakpoint');
+    }
 }
