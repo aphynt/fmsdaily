@@ -1052,11 +1052,11 @@ function generateUUID() {
                                         <tbody>
                                             <tr>
                                                 <th>UUID</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][uuidPitstop]" value="${pitstop.uuid}">${pitstop.uuid}</td>
+                                                <td style="font-size: 10px;"><input type="hidden" name="unit_pitstop[${index}][uuidPitstop]" value="${pitstop.uuid}">${pitstop.uuid}</td>
                                             </tr>
                                             <tr>
                                                 <th>No Unit</th>
-                                                <td><input type="hidden" name="unit_pitstop[${index}][no_unitPitstop]" value="${pitstop.no_unit}">${pitstop.no_unit}</td>
+                                                <td style="font-size: 14px;"><input type="hidden" name="unit_pitstop[${index}][no_unitPitstop]" value="${pitstop.no_unit}">${pitstop.no_unit}</td>
                                             </tr>
                                             <tr>
                                                 <th>Operator Settingan</th>
@@ -1171,11 +1171,11 @@ function generateUUID() {
                                                             <tbody>
                                                                 <tr>
                                                                     <th>UUID</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][uuidPitstop]" value="${generateUUID()}">${generateUUID()}</td>
+                                                                    <td style="font-size: 10px;"><input type="hidden" name="unit_pitstop[${PitstopCount-1}][uuidPitstop]" value="${generateUUID()}">${generateUUID()}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>No Unit</th>
-                                                                    <td><input type="hidden" name="unit_pitstop[${PitstopCount-1}][no_unitPitstop]" value="${noUnit}">${noUnit}</td>
+                                                                    <td style="font-size: 14px;"><input type="hidden" name="unit_pitstop[${PitstopCount-1}][no_unitPitstop]" value="${noUnit}">${noUnit}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>Operator Settingan</th>
