@@ -63,6 +63,28 @@
     .select2-search--dropdown { display: block !important; }
     .select2-search__field { display: block !important; min-width: 100% !important; }
 
+    /* Placeholder untuk search field Select2 */
+    .select2-search--dropdown .select2-search__field::placeholder {
+        color: #999;
+        opacity: 1;
+    }
+    .select2-search--dropdown .select2-search__field::-webkit-input-placeholder {
+        color: #999;
+    }
+    .select2-search--dropdown .select2-search__field::-moz-placeholder {
+        color: #999;
+        opacity: 1;
+    }
+    .select2-search--dropdown .select2-search__field:-ms-input-placeholder {
+        color: #999;
+    }
+
+    /* Placeholder untuk search field Choices */
+    .choices__list--dropdown .choices__input::placeholder {
+        color: #999;
+        opacity: 1;
+    }
+
     .choices { width: 100%; }
     .choices__list--dropdown .choices__input { display: block; width: 100%; }
     /* Fix: ensure rendered value not clipped/sunken across libraries */
@@ -522,16 +544,43 @@
                         dropdownAutoWidth: true,
                         minimumResultsForSearch: 0, // paksa search selalu muncul
                         dropdownParent: jQuery(parentEl),
+                        placeholder: 'Cari Nama Disini',
                         // Perbaiki perilaku fokus input search di mobile
                         selectOnClose: false,
                         // Batasi tinggi dropdown agar hanya 5 item terlihat
-                        dropdownCss: { 'max-height': '150px', 'overflow-y': 'auto' }
+                        dropdownCss: { 'max-height': '150px', 'overflow-y': 'auto' },
+                        language: {
+                            inputTooShort: function() {
+                                return 'Cari Nama Disini';
+                            },
+                            searching: function() {
+                                return 'Mencari...';
+                            }
+                        }
                     });
                     // Mencegah accordion collapse saat klik select
                     $el.on('mousedown select2:opening', function(e) {
                         e.stopPropagation();
                     });
+                    // Customize search placeholder after Select2 opens & prevent accordion collapse
                     $el.on('select2:open', function() {
+                        // Set placeholder on search field - use multiple selectors to ensure we catch it
+                        setTimeout(function() {
+                            // Try multiple ways to find the search field
+                            let searchField = jQuery('.select2-container--open .select2-search--dropdown .select2-search__field');
+                            if (searchField.length === 0) {
+                                searchField = jQuery('.select2-dropdown .select2-search__field');
+                            }
+                            if (searchField.length === 0) {
+                                searchField = jQuery('.select2-search__field:visible');
+                            }
+
+                            if (searchField.length > 0) {
+                                searchField.attr('placeholder', 'Cari Nama Disini');
+                                searchField.prop('placeholder', 'Cari Nama Disini');
+                            }
+                        }, 10);
+                        // Prevent accordion collapse
                         jQuery('.select2-dropdown').on('mousedown', function(e) { e.stopPropagation(); });
                     });
                     $el.attr('data-initialized', '1');
@@ -547,7 +596,7 @@
                         if (el.dataset && el.dataset.choices === 'active') {
                             return;
                         }
-                        new Choices(el, {
+                        const instance = new Choices(el, {
                             searchEnabled: true,
                             searchChoices: true,
                             shouldSort: false,
@@ -557,7 +606,28 @@
                         });
                         // Mencegah accordion collapse
                         el.addEventListener('mousedown', function(e) { e.stopPropagation(); });
-                        el.addEventListener('showDropdown', function(e) { e.stopPropagation(); });
+                        el.addEventListener('showDropdown', function(e) {
+                            e.stopPropagation();
+                            // Set placeholder pada input pencarian Choices saat dropdown dibuka
+                            setTimeout(function() {
+                                // Cari container .choices terdekat dari select asli
+                                let container = el.nextElementSibling;
+                                if (!(container && container.classList && container.classList.contains('choices'))) {
+                                    container = el.parentElement ? el.parentElement.querySelector('.choices') : null;
+                                }
+                                let searchInput = null;
+                                if (container) {
+                                    searchInput = container.querySelector('.choices__list--dropdown .choices__input');
+                                }
+                                if (!searchInput) {
+                                    // fallback global yang sedang terbuka
+                                    searchInput = document.querySelector('.choices.is-open .choices__list--dropdown .choices__input');
+                                }
+                                if (searchInput) {
+                                    searchInput.setAttribute('placeholder', 'Cari Nama Disini');
+                                }
+                            }, 10);
+                        });
                         el.setAttribute('data-initialized', '1');
                         try { console.debug('Initialized with Choices:', el.getAttribute('name')); } catch(e) {}
                     });
@@ -567,7 +637,7 @@
             if (window.TomSelect) {
                 context.querySelectorAll('select[data-trigger]:not([data-initialized="1"])')
                     .forEach(el => {
-                        new TomSelect(el, { create: false, maxOptions: 1000 });
+                        new TomSelect(el, { create: false, maxOptions: 1000, placeholder: 'Cari Nama Disini' });
                         el.setAttribute('data-initialized', '1');
                         try { console.debug('Initialized with TomSelect:', el.getAttribute('name')); } catch(e) {}
                     });
