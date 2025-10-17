@@ -81,6 +81,7 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.pengoperasianEXDigger') }}">04. Pengoperasian Excavator Digger</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.pengoperasianLampuTambang') }}">09. Pengoperasian Lampu Tambang</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.landClearing') }}">11. Land Clearing</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('sop.topSoil') }}">12. Top Soil</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.pengecekanPerbaikanWeakpoint') }}">21. Pengecekan dan Perbaikan Weakpoint</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.perawatanPenimbunanJalan') }}">30. Perawatan dan Penimbunan Jalan</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.coalGetting') }}">47. Coal Getting</a></li>

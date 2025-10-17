@@ -50,4 +50,9 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.pengecekanPerbaikanWeakpoint');
     }
+
+    public function topSoil()
+    {
+        return view('sop.produksi.topSoil');
+    }
 }
