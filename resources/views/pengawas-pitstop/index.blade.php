@@ -56,6 +56,217 @@
         }
 
     }
+
+    /* Ensure Select2/Choices search input visible and full width (esp. on mobile) */
+    .select2-container { width: 100% !important; }
+    .select2-dropdown { z-index: 2050; }
+    .select2-search--dropdown { display: block !important; }
+    .select2-search__field { display: block !important; min-width: 100% !important; }
+
+    .choices { width: 100%; }
+    .choices__list--dropdown .choices__input { display: block; width: 100%; }
+    /* Fix: ensure rendered value not clipped/sunken across libraries */
+    .select2-container { font-size: 9pt; }
+    .select2-container .select2-selection--single {
+        min-height: 36px;
+        height: auto;
+        border: 1px solid #ced4da; /* match .form-select border */
+        border-radius: .375rem; /* match .form-select radius */
+        display: flex;
+        align-items: center; /* vertically center value */
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        line-height: 1.3;
+        padding-right: 28px; /* space for arrow */
+        padding-left: .75rem; /* match .form-select left padding */
+        white-space: normal;
+        font-size: inherit; /* follow 9pt */
+    }
+    .select2-container .select2-selection--single .select2-selection__arrow {
+        height: 100%;
+    }
+
+    /* Choices.js */
+    .choices { font-size: 9pt; }
+    .choices__inner {
+        min-height: 36px;
+        line-height: 1.3;
+        display: flex;
+        align-items: center;
+        border: 1px solid #ced4da;
+        border-radius: .375rem;
+        padding-left: .75rem;
+    }
+
+    /* TomSelect */
+    .ts-control {
+        min-height: 36px;
+        line-height: 1.3;
+        display: flex;
+        align-items: center;
+        border: 1px solid #ced4da;
+        border-radius: .375rem;
+        padding-left: .75rem;
+        font-size: 9pt;
+    }
+
+    /* Strong overrides to mirror .form-select exact height and vertical centering */
+    .select2-container .select2-selection--single,
+    .select2-container--default .select2-selection--single {
+        height: 38px !important;       /* match Bootstrap default */
+        min-height: 38px !important;
+        padding: 0 !important;         /* remove internal padding that offsets text */
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered,
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 1.5 !important;  /* vertically center text exactly */
+        height: 100% !important;
+        padding-top: .375rem !important;
+        padding-bottom: .375rem !important;
+        padding-left: .75rem !important;
+        padding-right: 2rem !important; /* safe space for arrow */
+    }
+    .select2-container .select2-selection--single .select2-selection__placeholder,
+    .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        line-height: 1.5 !important;  /* placeholder centered too */
+    }
+    .select2-container .select2-selection--single .select2-selection__arrow,
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 38px !important;       /* arrow fills the control height */
+        right: .5rem !important;
+    }
+    .select2-container * { box-sizing: border-box; }
+
+    /* Choices strong overrides to mirror .form-select */
+    .choices { font-size: 9pt; }
+    .choices__inner {
+        height: 38px !important;
+        min-height: 38px !important;
+        display: flex !important;
+        align-items: center !important;
+        border: 1px solid #ced4da !important;
+        border-radius: .375rem !important;
+        padding: .375rem .75rem !important;
+        box-sizing: border-box !important;
+    }
+    .choices__list--single .choices__item { line-height: 1.5 !important; }
+
+    /* TomSelect strong overrides to mirror .form-select */
+    .ts-control {
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: .375rem .75rem !important;
+        box-sizing: border-box !important;
+    }
+    .ts-control .item { line-height: 1.5 !important; }
+    .ts-control input { height: 38px !important; }
+
+    /* Tingkatkan z-index untuk dropdown di dalam accordion */
+    #accordionPitstop .select2-dropdown { z-index: 1080 !important; }
+    #accordionPitstop .choices__list--dropdown { z-index: 1080 !important; }
+
+    /* Pastikan accordion body tidak memotong dropdown */
+    #accordionPitstop .accordion-body { overflow: visible !important; }
+    #accordionPitstop .accordion-collapse { overflow: visible !important; }
+    #accordionPitstop .table-responsive { overflow: visible !important; }
+
+    /* Mobile: Accordion compact optimization */
+    @media (max-width: 768px) {
+        /* Accordion body padding lebih kecil */
+        #accordionPitstop .accordion-body {
+            padding: 0.5rem !important;
+            overflow: visible !important;
+        }
+
+        /* Accordion header lebih compact */
+        #accordionPitstop .accordion-button {
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        /* Button hapus lebih kecil */
+        #accordionPitstop .btn-danger {
+            font-size: 13px;
+            padding: 8px 14px;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Table responsive dengan overflow terkontrol */
+        #accordionPitstop .table-responsive {
+            overflow: visible !important;
+            margin: 0 -0.5rem;
+        }
+
+        /* Table di dalam accordion lebih compact */
+        #accordionPitstop .table {
+            font-size: 12px;
+            margin-bottom: 0.5rem;
+            width: 100%;
+        }
+
+        #accordionPitstop .table th,
+        #accordionPitstop .table td {
+            padding: 8px 6px !important;
+            vertical-align: middle;
+            font-size: 12px;
+        }
+
+        #accordionPitstop .table th {
+            width: 40%;
+            font-weight: 600;
+            background-color: #f8f9fa;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        #accordionPitstop .table td {
+            width: 60%;
+        }
+
+        /* Form control di dalam accordion */
+        #accordionPitstop .form-control,
+        #accordionPitstop .form-select {
+            font-size: 13px;
+            padding: 6px 8px;
+            min-height: 38px;
+            width: 100%;
+        }
+
+        /* Input datetime-local lebih besar untuk prevent zoom */
+        #accordionPitstop input[type="datetime-local"],
+        #accordionPitstop input[type="text"] {
+            font-size: 16px;
+        }
+
+        /* Select2 dropdown di accordion harus muncul di atas */
+        #accordionPitstop .select2-container {
+            z-index: 1090 !important;
+        }
+
+        #accordionPitstop .select2-container--open {
+            z-index: 1090 !important;
+        }
+
+        /* Pastikan dropdown tidak terpotong */
+        #accordionPitstop .select2-dropdown {
+            z-index: 1091 !important;
+            position: fixed !important;
+        }
+
+        /* Accordion collapse harus bisa overflow untuk dropdown */
+        #accordionPitstop .accordion-collapse {
+            overflow: visible !important;
+        }
+
+        /* Hidden text UUID lebih kecil */
+        #accordionPitstop td {
+            word-break: break-word;
+        }
+    }
 </style>
 
 
@@ -293,6 +504,149 @@
 
 
 <script>
+    // Inisialisasi enhancer untuk select dengan data-trigger
+    function initSelectEnhancer(context = document) {
+        try {
+            // Prefer Select2 if available (lebih stabil di mobile)
+            if (window.jQuery && jQuery.fn && jQuery.fn.select2) {
+                jQuery('select[data-trigger]', context).not('[data-initialized="1"]').each(function() {
+                    const $el = jQuery(this);
+                    // Temukan parent terbaik untuk dropdown agar tidak terpotong/z-index masalah di mobile
+                    let parentEl = $el.closest('.modal').get(0);
+                    if (!parentEl) {
+                        // Untuk accordion, gunakan body agar tidak tertutup
+                        parentEl = $el.closest('#accordionPitstop').length ? document.body : $el.closest('.pc-container, .card, body').get(0) || document.body;
+                    }
+                    $el.select2({
+                        width: '100%',
+                        dropdownAutoWidth: true,
+                        minimumResultsForSearch: 0, // paksa search selalu muncul
+                        dropdownParent: jQuery(parentEl),
+                        // Perbaiki perilaku fokus input search di mobile
+                        selectOnClose: false,
+                        // Batasi tinggi dropdown agar hanya 5 item terlihat
+                        dropdownCss: { 'max-height': '150px', 'overflow-y': 'auto' }
+                    });
+                    // Mencegah accordion collapse saat klik select
+                    $el.on('mousedown select2:opening', function(e) {
+                        e.stopPropagation();
+                    });
+                    $el.on('select2:open', function() {
+                        jQuery('.select2-dropdown').on('mousedown', function(e) { e.stopPropagation(); });
+                    });
+                    $el.attr('data-initialized', '1');
+                    try { console.debug('Initialized with Select2:', $el.attr('name')); } catch(e) {}
+                });
+            }
+
+            // Choices.js (fallback)
+            if (window.Choices) {
+                context.querySelectorAll('select[data-trigger]:not([data-initialized="1"])')
+                    .forEach(el => {
+                        // Skip jika sudah ada instance choices aktif
+                        if (el.dataset && el.dataset.choices === 'active') {
+                            return;
+                        }
+                        new Choices(el, {
+                            searchEnabled: true,
+                            searchChoices: true,
+                            shouldSort: false,
+                            itemSelectText: '',
+                            searchResultLimit: 1000,
+                            searchFloor: 0,
+                        });
+                        // Mencegah accordion collapse
+                        el.addEventListener('mousedown', function(e) { e.stopPropagation(); });
+                        el.addEventListener('showDropdown', function(e) { e.stopPropagation(); });
+                        el.setAttribute('data-initialized', '1');
+                        try { console.debug('Initialized with Choices:', el.getAttribute('name')); } catch(e) {}
+                    });
+            }
+
+            // TomSelect
+            if (window.TomSelect) {
+                context.querySelectorAll('select[data-trigger]:not([data-initialized="1"])')
+                    .forEach(el => {
+                        new TomSelect(el, { create: false, maxOptions: 1000 });
+                        el.setAttribute('data-initialized', '1');
+                        try { console.debug('Initialized with TomSelect:', el.getAttribute('name')); } catch(e) {}
+                    });
+            }
+        } catch (e) {
+            console.warn('initSelectEnhancer error:', e);
+        }
+    }
+
+    // Safe stub to avoid ReferenceError when called elsewhere
+    function initOperatorReady(context = document) {
+        // No-op: reserved for any special handling of Operator Ready selects
+    }
+
+    // Jalankan saat halaman siap
+    document.addEventListener('DOMContentLoaded', function() {
+        initSelectEnhancer(document);
+        initOperatorReady(document);
+
+        // Re-init saat modal tambah pitstop ditampilkan
+        const modalEl = document.getElementById('tambahPitstopModal');
+        if (modalEl) {
+            modalEl.addEventListener('shown.bs.modal', function () {
+                // Destroy Select2 instances initialized while modal was hidden
+                if (window.jQuery && jQuery.fn && jQuery.fn.select2) {
+                    jQuery('select[data-trigger]', modalEl).each(function() {
+                        const $el = jQuery(this);
+                        if ($el.data('select2')) {
+                            try { $el.select2('destroy'); } catch(e) {}
+                            $el.removeAttr('data-initialized');
+                        }
+                    });
+                }
+                // Destroy choices jika sudah terpasang pada elemen di modal
+                if (window.Choices) {
+                    modalEl.querySelectorAll('select[data-trigger]').forEach(el => {
+                        if (el.dataset && el.dataset.choices === 'active') {
+                            try { el.choices && el.choices.destroy(); } catch(e) {}
+                            el.removeAttribute('data-initialized');
+                        }
+                    });
+                }
+                initSelectEnhancer(modalEl);
+                initOperatorReady(modalEl);
+            });
+        }
+
+        // Re-init saat panel accordion ditampilkan (menghindari init pada elemen tersembunyi di mobile)
+        const pitstopAccordion = document.getElementById('accordionPitstop');
+        if (pitstopAccordion) {
+            pitstopAccordion.addEventListener('shown.bs.collapse', function (ev) {
+                const target = ev.target; // panel collapse yang baru terbuka
+                // Jika sudah ter-init Select2 saat hidden, destroy dahulu agar layout & search di mobile benar
+                if (window.jQuery && jQuery.fn && jQuery.fn.select2) {
+                    jQuery('select[data-trigger]', target).each(function() {
+                        const $el = jQuery(this);
+                        if ($el.data('select2')) {
+                            try { $el.select2('destroy'); } catch(e) {}
+                            $el.removeAttr('data-initialized');
+                        }
+                    });
+                }
+                // Destroy Choices juga jika ada
+                if (window.Choices) {
+                    target.querySelectorAll('select[data-trigger]').forEach(el => {
+                        if (el.dataset && el.dataset.choices === 'active') {
+                            try { el.choices && el.choices.destroy(); } catch(e) {}
+                            el.removeAttribute('data-initialized');
+                        }
+                    });
+                }
+                initSelectEnhancer(target);
+                initOperatorReady(target);
+            });
+        }
+    });
+</script>
+
+<script>
     $(document).ready(function() {
         // Mengecek tab yang aktif saat halaman dimuat
         checkTabActive();
@@ -300,6 +654,11 @@
         // Menambahkan event listener untuk saat tab berubah
         $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
             checkTabActive();
+            // Re-init select enhancer pada tab yang aktif
+            const activePane = document.querySelector('.tab-pane.active');
+            if (activePane && typeof initSelectEnhancer === 'function') {
+                initSelectEnhancer(activePane);
+            }
         });
 
         function checkTabActive() {
@@ -679,6 +1038,10 @@ function generateUUID() {
                 accordionContainer.insertAdjacentHTML('beforeend', accordionItem);
                 PitstopCount = index + 1; // Update pitstop count
             });
+            // Re-init after rendering from backend
+            if (typeof initSelectEnhancer === 'function') {
+                initSelectEnhancer(accordionContainer);
+            }
         });
 
 
@@ -747,7 +1110,7 @@ function generateUUID() {
                                                                 <tr>
                                                                     <th>Operator Settingan</th>
                                                                     <td>
-                                                                        <select class="form-select"  data-trigger id="opr_settinganPitstop" name="unit_pitstop[${PitstopCount-1}][opr_settinganPitstop]">
+                                                                        <select class="form-select"  data-trigger name="unit_pitstop[${PitstopCount-1}][opr_settinganPitstop]">
                                                                             <option value="${nikOprSettingan ?? ''}|${namaOprSettingan ?? ''}" selected>${nikOprSettingan && namaOprSettingan ? nikOprSettingan + '|' + namaOprSettingan : (nikOprSettingan || namaOprSettingan || '')}</option>
                                                                             @foreach ($data['operator'] as $op)
                                                                                 <option value="{{ $op->NRP }}|{{ $op->PERSONALNAME }}">{{ $op->NRP }}|{{ $op->PERSONALNAME }}</option>
@@ -770,7 +1133,7 @@ function generateUUID() {
                                                                 <tr>
                                                                     <th>Operator (Ready)</th>
                                                                     <td>
-                                                                        <select class="form-select"  data-trigger id="opr_readyPitstop" name="unit_pitstop[${PitstopCount-1}][opr_readyPitstop]">
+                                                                        <select class="form-select"  data-trigger name="unit_pitstop[${PitstopCount-1}][opr_readyPitstop]">
                                                                             <option value="${nikOprReady ?? ''}|${namaOprReady ?? ''}" selected>${nikOprReady && namaOprReady ? nikOprReady + '|' + namaOprReady : (nikOprReady || namaOprReady || '')}</option>
                                                                             @foreach ($data['operator'] as $opready)
                                                                                 <option value="{{ $opready->NRP }}|{{ $opready->PERSONALNAME }}">{{ $opready->NRP }}|{{ $opready->PERSONALNAME }}</option>
@@ -792,6 +1155,14 @@ function generateUUID() {
                                         </div>`;
 
             document.getElementById('accordionPitstop').insertAdjacentHTML('beforeend', newAccordionItem);
+            // Re-init select enhancer for newly added item
+            const newItemEl = document.getElementById(accordionId);
+            if (typeof initSelectEnhancer === 'function' && newItemEl) {
+                initSelectEnhancer(newItemEl);
+            }
+            if (typeof initOperatorReady === 'function' && newItemEl) {
+                initOperatorReady(newItemEl);
+            }
 
             Swal.fire({
                 icon: 'success',
