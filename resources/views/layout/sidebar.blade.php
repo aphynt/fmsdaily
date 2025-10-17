@@ -83,7 +83,9 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.landClearing') }}">11. Land Clearing</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.topSoil') }}">12. Top Soil</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.pengecekanPerbaikanWeakpoint') }}">21. Pengecekan dan Perbaikan Weakpoint</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('sop.penangananUnitHDAmblas') }}">25. Penanganan Unit HD Amblas Di Tambang</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.perawatanPenimbunanJalan') }}">30. Perawatan dan Penimbunan Jalan</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('sop.optimalisasiGantiShift') }}">36. Optimalisasi Ganti Shift</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.coalGetting') }}">47. Coal Getting</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.penimbunanMaterialKolamLumpurBullDozer') }}">51. Penimbunan Material di Kolam Lumpur dengan Bull Dozer</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.pemuatanPengangkutanLumpur') }}">52. Pemuatan dan Pengangkutan Lumpur</a></li>

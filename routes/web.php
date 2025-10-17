@@ -220,6 +220,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sop/production/landClearing', [SOPProduksiController::class, 'landClearing'])->name('sop.landClearing');
     Route::get('/sop/production/pengecekanPerbaikanWeakpoint', [SOPProduksiController::class, 'pengecekanPerbaikanWeakpoint'])->name('sop.pengecekanPerbaikanWeakpoint');
     Route::get('/sop/production/topSoil', [SOPProduksiController::class, 'topSoil'])->name('sop.topSoil');
+    Route::get('/sop/production/optimalisasiGantiShift', [SOPProduksiController::class, 'optimalisasiGantiShift'])->name('sop.optimalisasiGantiShift');
+    Route::get('/sop/production/penangananUnitHDAmblas', [SOPProduksiController::class, 'penangananUnitHDAmblas'])->name('sop.penangananUnitHDAmblas');
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');

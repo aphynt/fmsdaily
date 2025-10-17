@@ -55,4 +55,14 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.topSoil');
     }
+
+    public function optimalisasiGantiShift()
+    {
+        return view('sop.produksi.optimalisasiGantiShift');
+    }
+
+    public function penangananUnitHDAmblas()
+    {
+        return view('sop.produksi.penangananUnitHDAmblas');
+    }
 }
