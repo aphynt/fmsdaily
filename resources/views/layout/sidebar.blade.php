@@ -74,7 +74,7 @@
                 <li class="pc-item pc-hasmenu">
                     <a href="#!" class="pc-link"><span class="pc-micon">
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/sop.png" alt="DS"> </span><span class="pc-mtext">SOP Produksi</span> <span class="pc-arrow"><i
-                                data-feather="chevron-right"></i></span> <span class="pc-badge">12
+                                data-feather="chevron-right"></i></span> <span class="pc-badge">13
                                 </span>
                     </a>
                     <ul class="pc-submenu">
@@ -85,6 +85,7 @@
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.pengecekanPerbaikanWeakpoint') }}">21. Pengecekan dan Perbaikan Weakpoint</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.penangananUnitHDAmblas') }}">25. Penanganan Unit HD Amblas Di Tambang</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.perawatanPenimbunanJalan') }}">30. Perawatan dan Penimbunan Jalan</a></li>
+                        <li class="pc-item"><a class="pc-link" href="{{ route('sop.piketJagaTambang') }}">33. Piket Jaga Tambang</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.optimalisasiGantiShift') }}">36. Optimalisasi Ganti Shift</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.coalGetting') }}">47. Coal Getting</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('sop.penimbunanMaterialKolamLumpurBullDozer') }}">51. Penimbunan Material di Kolam Lumpur dengan Bull Dozer</a></li>

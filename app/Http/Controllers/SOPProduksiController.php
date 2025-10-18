@@ -65,4 +65,9 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.penangananUnitHDAmblas');
     }
+
+    public function piketJagaTambang()
+    {
+        return view('sop.produksi.piketJagaTambang');
+    }
 }
