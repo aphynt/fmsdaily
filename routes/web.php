@@ -223,6 +223,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sop/production/optimalisasiGantiShift', [SOPProduksiController::class, 'optimalisasiGantiShift'])->name('sop.optimalisasiGantiShift');
     Route::get('/sop/production/penangananUnitHDAmblas', [SOPProduksiController::class, 'penangananUnitHDAmblas'])->name('sop.penangananUnitHDAmblas');
     Route::get('/sop/production/piketJagaTambang', [SOPProduksiController::class, 'piketJagaTambang'])->name('sop.piketJagaTambang');
+    Route::get('/sop/production/kegiatanHaulRoad', [SOPProduksiController::class, 'kegiatanHaulRoad'])->name('sop.kegiatanHaulRoad');
+    Route::get('/sop/production/kegiatanDropCut', [SOPProduksiController::class, 'kegiatanDropCut'])->name('sop.kegiatanDropCut');
+    Route::get('/sop/production/pengelolaanWasteDump', [SOPProduksiController::class, 'pengelolaanWasteDump'])->name('sop.pengelolaanWasteDump');
+    Route::get('/sop/production/dumpingAreaWasteDump', [SOPProduksiController::class, 'dumpingAreaWasteDump'])->name('sop.dumpingAreaWasteDump');
+    Route::get('/sop/production/perbaikanTanggulJalan', [SOPProduksiController::class, 'perbaikanTanggulJalan'])->name('sop.perbaikanTanggulJalan');
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');

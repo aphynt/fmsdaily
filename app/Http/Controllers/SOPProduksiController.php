@@ -70,4 +70,29 @@ class SOPProduksiController extends Controller
     {
         return view('sop.produksi.piketJagaTambang');
     }
+
+    public function kegiatanHaulRoad()
+    {
+        return view('sop.produksi.kegiatanHaulRoad');
+    }
+
+    public function kegiatanDropCut()
+    {
+        return view('sop.produksi.kegiatanDropCut');
+    }
+
+    public function pengelolaanWasteDump()
+    {
+        return view('sop.produksi.pengelolaanWasteDump');
+    }
+
+    public function dumpingAreaWasteDump()
+    {
+        return view('sop.produksi.dumpingAreaWasteDump');
+    }
+
+    public function perbaikanTanggulJalan()
+    {
+        return view('sop.produksi.perbaikanTanggulJalan');
+    }
 }
