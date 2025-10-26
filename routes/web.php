@@ -51,6 +51,9 @@ use App\Http\Controllers\VerifikasiLaporanKerjaController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
 
 // Route::get('/', function () {
 //     return redirect()->route('dashboard.index');
@@ -228,6 +231,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/sop/production/pengelolaanWasteDump', [SOPProduksiController::class, 'pengelolaanWasteDump'])->name('sop.pengelolaanWasteDump');
     Route::get('/sop/production/dumpingAreaWasteDump', [SOPProduksiController::class, 'dumpingAreaWasteDump'])->name('sop.dumpingAreaWasteDump');
     Route::get('/sop/production/perbaikanTanggulJalan', [SOPProduksiController::class, 'perbaikanTanggulJalan'])->name('sop.perbaikanTanggulJalan');
+
+    Route::get('/files/{name}', function ($name) {
+        $path = public_path('sop/' . $name);  // sesuaikan lokasi Anda
+        abort_unless(File::exists($path), 404);
+        return Response::file($path, ['Content-Type' => 'application/pdf']);
+    })->where('name', '.*')->name('files.show');
 
     //BB Unit Support
     Route::get('/batu-bara/unit-support/index', [BBUnitSupportController::class, 'index'])->name('bb.unit-support.index');

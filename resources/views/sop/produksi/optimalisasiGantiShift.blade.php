@@ -14,7 +14,7 @@
                         </ul>
                     </div>
                     <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
-                        <a href="{{ asset('sop/optimalisasi_ganti_shift.pdf') }}" class="btn btn-primary w-100" style="padding-top:10px;padding-bottom:10px;">Download</a>
+                        <a href="{{ asset('sop/'. $name) }}" target="_blank" class="btn btn-primary w-100" style="padding-top:10px;padding-bottom:10px;">Download</a>
                     </div>
                 </div>
             </div>
@@ -23,14 +23,8 @@
         <div class="col-xl-12 col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <div class="shadow-5-strong p-2">
-                                <div class="embed-responsive embed-responsive-16by9 leb">
-                                    <iframe id="myIframe" src="" width="100%" frameborder="0" height="800px" style="border:none;"></iframe>
-                                </div>
-                            </div>
-                        </div>
+                    <div style="height:90vh">
+                        <iframe id="pdfViewer" width="100%" height="100%" style="border:0" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -39,19 +33,21 @@
 </div>
 
 <script>
-    function reloadAndLoadIframe() {
-        // Memeriksa apakah iframe sudah dimuat
-        if (!sessionStorage.getItem('iframeLoaded')) {
-            // Jika belum, reload halaman
-            sessionStorage.setItem('iframeLoaded', 'true');
-            location.reload();
-        } else {
-            // Jika sudah, muat iframe
-            document.getElementById('myIframe').src = 'https://docs.google.com/gview?url={{ asset('sop/optimalisasi_ganti_shift.pdf') }}&embedded=true';
-        }
+    (function () {
+    const base = "{{ url('/pdfjs/web/viewer.html') }}?file={{ urlencode($pdfUrl) }}";
+
+    function setSrc() {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches ||
+                        /android|iphone|ipad|ipod/i.test(navigator.userAgent);
+        const zoom = isMobile ? 'page-width' : 'page-fit';
+        document.getElementById('pdfViewer').src = base + '#zoom=' + zoom + '&page=1';
     }
 
-    window.onload = reloadAndLoadIframe;
+    setSrc();
+
+    let t;
+    window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(setSrc, 200); });
+    })();
 </script>
 
 @include('layout.footer')
