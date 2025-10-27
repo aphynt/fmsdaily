@@ -268,8 +268,10 @@ class FormPengawasNewController extends Controller
         try {
             return DB::transaction(function () use ($request) {
                 $typeDraft = true;
+                $finished_at = null;
                 if($request->actionType == 'finish'){
                     $typeDraft = false;
+                    $finished_at = Carbon::now();
                 }
                 $uuid = $request->uuid;
 
@@ -314,7 +316,8 @@ class FormPengawasNewController extends Controller
                 'nama_superintendent' => $namaSuperintendent,
                 'nik_supervisor' => $nikSupervisor,
                 'nama_supervisor' => $namaSupervisor,
-                'is_draft' => $typeDraft, // Default sebagai draft
+                'is_draft' => $typeDraft,
+                'finished_at' => $finished_at,
             ];
 
             // Tambahkan data berdasarkan role pengguna
@@ -582,7 +585,7 @@ class FormPengawasNewController extends Controller
             'dr.verified_supervisor',
             'dr.verified_superintendent',
             'dr.created_at',
-
+            'dr.finished_at',
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
         ->where('dr.statusenabled', true);
