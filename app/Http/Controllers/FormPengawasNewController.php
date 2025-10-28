@@ -271,7 +271,7 @@ class FormPengawasNewController extends Controller
                 $finished_at = null;
                 if($request->actionType == 'finish'){
                     $typeDraft = false;
-                    $finished_at = Carbon::now();
+                    $finished_at = now();
                 }
                 $uuid = $request->uuid;
 

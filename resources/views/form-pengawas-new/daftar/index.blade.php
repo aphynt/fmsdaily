@@ -45,7 +45,7 @@
                                 <thead style="text-align: center; vertical-align: middle;">
                                     <tr>
                                         <th rowspan="2">No</th>
-                                        <th rowspan="2">Tgl Dibuat</th>
+                                        <th rowspan="2">Terakhir Diperbarui</th>
                                         <th rowspan="2">Tanggal</th>
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Area</th>
