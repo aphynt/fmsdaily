@@ -73,7 +73,7 @@
                                     @foreach ($daily as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ date('Y-m-d H:i', strtotime($item->finished_at)) }}</td>
+                                            <td>{{ date('Y-m-d H:i', strtotime($item->updated_at)) }}</td>
                                             <td>{{ date('Y-m-d', strtotime($item->tanggal)) }}</td>
                                             <td>{{ $item->shift }}</td>
                                             <td>{{ $item->area }}</td>

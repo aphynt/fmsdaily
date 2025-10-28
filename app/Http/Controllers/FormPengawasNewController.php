@@ -585,6 +585,7 @@ class FormPengawasNewController extends Controller
             'dr.verified_supervisor',
             'dr.verified_superintendent',
             'dr.created_at',
+            'dr.updated_at',
             'dr.finished_at',
         )
         ->whereBetween('dr.tanggal_dasar', [$startTimeFormatted, $endTimeFormatted])
