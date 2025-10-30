@@ -250,14 +250,14 @@ class JobPendingController extends Controller
     public function excelDetail()
     {
 
-        if (empty(session('requestTimeAlatSupport')['rangeStart']) || empty(session('requestTimeAlatSupport')['rangeEnd'])){
+        if (empty(session('requestTimeJobPending')['rangeStart']) || empty(session('requestTimeJobPending')['rangeEnd'])){
             $time = new DateTime();
             $start = $time;
             $end = $time;
 
         }else{
-            $start = new DateTime(session('requestTimeAlatSupport')['rangeStart']);
-            $end = new DateTime(session('requestTimeAlatSupport')['rangeEnd']);
+            $start = new DateTime(session('requestTimeJobPending')['rangeStart']);
+            $end = new DateTime(session('requestTimeJobPending')['rangeEnd']);
         }
 
 
@@ -532,6 +532,9 @@ class JobPendingController extends Controller
     public function apiDetail(Request $request)
     {
         // Range tanggal
+
+        session(['requestTimeJobPending' => $request->all()]);
+
         if (empty($request->rangeStart) || empty($request->rangeEnd)) {
             $time = new DateTime();
             $startDate = $time->format('Y-m-d');

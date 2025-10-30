@@ -33,16 +33,25 @@ class JobPendingExport implements FromCollection, WithEvents, WithHeadings, With
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getDelegate()->getColumnDimension('A')->setWidth(21);
-                $event->sheet->getDelegate()->getColumnDimension('D')->setWidth(21);
-                $event->sheet->getDelegate()->getColumnDimension('E')->setWidth(17);
-                $event->sheet->getDelegate()->getColumnDimension('F')->setWidth(17);
-                $event->sheet->getDelegate()->getColumnDimension('G')->setWidth(30);
-                $event->sheet->getDelegate()->getColumnDimension('H')->setWidth(30);
-                $event->sheet->getDelegate()->getColumnDimension('I')->setWidth(30);
-                $event->sheet->getDelegate()->getColumnDimension('J')->setWidth(30);
-                $event->sheet->getDelegate()->getColumnDimension('L')->setWidth(21);
-                $event->sheet->getDelegate()->getColumnDimension('M')->setWidth(20);
+                $sheet = $event->sheet->getDelegate();
+
+                // lebar kolom
+                $sheet->getColumnDimension('A')->setWidth(21);
+                $sheet->getColumnDimension('D')->setWidth(21);
+                $sheet->getColumnDimension('E')->setWidth(40);
+                $sheet->getColumnDimension('F')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(50);
+                $sheet->getColumnDimension('H')->setWidth(30);
+                $sheet->getColumnDimension('I')->setWidth(20);
+                $sheet->getColumnDimension('J')->setWidth(50);
+                $sheet->getColumnDimension('L')->setWidth(21);
+                $sheet->getColumnDimension('M')->setWidth(20);
+
+                // aktifkan wrap text kolom J
+                $highestRow = $sheet->getHighestRow(); // baris terakhir
+                $sheet->getStyle("J3:J{$highestRow}")
+                    ->getAlignment()
+                    ->setWrapText(true);
             },
         ];
     }
