@@ -830,18 +830,23 @@ class PengawasPitstopController extends Controller
 
     public function operator(Request $request)
     {
+        // 1. ambil user (amanin kalau null)
+        $user = Auth::user();
+
+        // 2. tentukan tanggal
         if (empty($request->rangeStart) || empty($request->rangeEnd)) {
-            $time = new DateTime();
-            $start = new DateTime($time->format('Y-m-d'));
-            $end   = new DateTime($time->format('Y-m-d'));
+            $time  = new \DateTime();                     // ⬅️ pakai \DateTime
+            $start = new \DateTime($time->format('Y-m-d'));
+            $end   = new \DateTime($time->format('Y-m-d'));
         } else {
-            $start = new DateTime($request->rangeStart);
-            $end   = new DateTime($request->rangeEnd);
+            $start = new \DateTime($request->rangeStart);
+            $end   = new \DateTime($request->rangeEnd);
         }
 
         $startTimeFormatted = $start->format('Y-m-d');
         $endTimeFormatted   = $end->format('Y-m-d');
 
+        // 3. query dasar
         $dailyDesc = DB::table('PITSTOP_REPORT_DESC as prd')
             ->leftJoin('PITSTOP_REPORT as pr', 'prd.report_id', '=', 'pr.id')
             ->leftJoin('focus.dbo.FLT_VEHICLE as vhc', 'prd.no_unit', '=', 'vhc.VHC_ID')
@@ -877,6 +882,7 @@ class PengawasPitstopController extends Controller
                 'prd.status_unit_breakdown',
                 'prd.status_unit_ready',
                 'prd.status_opr_ready',
+                // durasi mentah (boleh aja, nanti kita timpa)
                 DB::raw("CONVERT(varchar, DATEADD(SECOND, DATEDIFF(SECOND, prd.status_unit_ready, prd.status_opr_ready), 0), 108) as durasi"),
                 'prd.opr_ready',
                 'prd.nama_opr_ready',
@@ -886,16 +892,20 @@ class PengawasPitstopController extends Controller
             ->where('pr.statusenabled', true)
             ->whereBetween('pr.date', [$startTimeFormatted, $endTimeFormatted]);
 
-        // filter role selain ADMIN
-        if (Auth::user()->role !== 'ADMIN') {
-            $dailyDesc->where('pr.nik_foreman', Auth::user()->id);
+        // 4. filter role selain ADMIN (diamanin)
+        if ($user && $user->role !== 'ADMIN') {
+            // di DB kamu tadi pakai nik_foreman (bukan id foreman)
+            $dailyDesc->where('pr.nik_foreman', $user->id);
         }
 
-        // ambil shift dari variabel global supaya bisa dipakai di closure
-        $shift = $dailyDesc->shift ?? null;
+        // 5. kita BUTUH variabel $shift buat closure ↓
+        // tadinya kamu pakai $dailyShift->shift (nggak ada) → meledak
+        $shift = null;   // ⬅️ dikasih default aja
 
+        // 6. ambil data + olah di PHP
         $dailyDesc = $dailyDesc->get()->map(function ($sp) use ($shift) {
-            // cek beda opr
+
+            // cek beda operator
             $sp->isDifferentOpr = $sp->opr_settingan !== $sp->opr_ready;
 
             // cek shift breakdown
@@ -909,17 +919,19 @@ class PengawasPitstopController extends Controller
                 $sp->time_breakdown = '';
             }
 
-            // durasi efektif (kurangi jam istirahat 12:00-13:00)
+            // durasi efektif (kurangi jam istirahat, plus crossing midnight)
             if ($sp->status_unit_ready && $sp->status_opr_ready) {
                 $start = strtotime($sp->status_unit_ready);
                 $end   = strtotime($sp->status_opr_ready);
 
+                // ⬅️ tambah ini: kalau selesai < mulai → besoknya
                 if ($end < $start) {
                     $end = strtotime('+1 day', $end);
                 }
 
                 $totalMinutes = ($end - $start) / 60;
 
+                // potong istirahat 12-13
                 $breakStart = strtotime(date('Y-m-d', $start).' 12:00:00');
                 $breakEnd   = strtotime(date('Y-m-d', $start).' 13:00:00');
 
@@ -928,21 +940,28 @@ class PengawasPitstopController extends Controller
                 $breakMinutes = ($overlapEnd > $overlapStart) ? ($overlapEnd - $overlapStart) / 60 : 0;
 
                 $totalMinutes -= $breakMinutes;
+
+                // ⬅️ pengaman kalau masih minus
+                if ($totalMinutes < 0) {
+                    $totalMinutes = 1440 + $totalMinutes;
+                }
+
                 $sp->totalMinutes = $totalMinutes;
-                $sp->durasi_eff = gmdate('H:i:s', $totalMinutes * 60);
+                $sp->durasi_eff   = gmdate('H:i:s', $totalMinutes * 60);
             } else {
                 $sp->totalMinutes = 0;
-                $sp->durasi_eff = '00:00';
+                $sp->durasi_eff   = '00:00:00';
             }
 
             // format jam ready
             $sp->status_unit_ready_fmt = $sp->status_unit_ready ? date('H:i:s', strtotime($sp->status_unit_ready)) : '';
             $sp->status_opr_ready_fmt  = $sp->status_opr_ready ? date('H:i:s', strtotime($sp->status_opr_ready)) : '';
 
+            // keterangan null → kosong
+            $sp->keterangan = $sp->keterangan ?? '';
+
             return $sp;
         });
-
-
 
         return view('pengawas-pitstop.operator', compact('dailyDesc'));
     }
