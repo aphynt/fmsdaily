@@ -192,9 +192,9 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
             ->where('pr.statusenabled', true)
             ->whereBetween('pr.date', [$this->startTimeFormatted, $this->endTimeFormatted]);
 
-        if (Auth::user()->role !== 'ADMIN') {
-            $dailyDesc->where('pr.nik_foreman', Auth::user()->id);
-        }
+        // if (Auth::user()->role !== 'ADMIN') {
+        //     $dailyDesc->where('pr.nik_foreman', Auth::user()->id);
+        // }
 
         $rows = $dailyDesc->get();
 
