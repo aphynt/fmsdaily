@@ -397,6 +397,10 @@ class PengawasPitstopController extends Controller
                     $start = strtotime($sp->status_unit_ready);
                     $end = strtotime($sp->status_opr_ready);
 
+                    if ($end < $start) {
+                        $end = strtotime('+1 day', $end);
+                    }
+
                     $totalMinutes = ($end - $start) / 60;
 
                     $breakStart = strtotime(date('Y-m-d', $start).' 12:00:00');
@@ -407,6 +411,11 @@ class PengawasPitstopController extends Controller
                     $breakMinutes = ($overlapEnd > $overlapStart) ? ($overlapEnd - $overlapStart)/60 : 0;
 
                     $totalMinutes -= $breakMinutes;
+
+                    if ($totalMinutes < 0) {
+                        $totalMinutes = 1440 + $totalMinutes;
+                    }
+
                     $sp->totalMinutes = $totalMinutes;
                     $sp->durasi_eff = gmdate('H:i:s', $totalMinutes*60);
                 } else {
@@ -417,6 +426,7 @@ class PengawasPitstopController extends Controller
                 // format jam ready
                 $sp->status_unit_ready_fmt = $sp->status_unit_ready ? date('H:i:s', strtotime($sp->status_unit_ready)) : '';
                 $sp->status_opr_ready_fmt  = $sp->status_opr_ready ? date('H:i:s', strtotime($sp->status_opr_ready)) : '';
+                $sp->keterangan = $sp->keterangan ?? '';
 
                 return $sp;
             });
@@ -516,6 +526,10 @@ class PengawasPitstopController extends Controller
                     $start = strtotime($sp->status_unit_ready);
                     $end = strtotime($sp->status_opr_ready);
 
+                    if ($end < $start) {
+                        $end = strtotime('+1 day', $end);
+                    }
+
                     $totalMinutes = ($end - $start) / 60;
 
                     $breakStart = strtotime(date('Y-m-d', $start).' 12:00:00');
@@ -526,6 +540,10 @@ class PengawasPitstopController extends Controller
                     $breakMinutes = ($overlapEnd > $overlapStart) ? ($overlapEnd - $overlapStart)/60 : 0;
 
                     $totalMinutes -= $breakMinutes;
+                    if ($totalMinutes < 0) {
+                        $totalMinutes = 1440 + $totalMinutes;
+                    }
+
                     $sp->totalMinutes = $totalMinutes;
                     $sp->durasi_eff = gmdate('H:i:s', $totalMinutes*60);
                 } else {
@@ -896,6 +914,10 @@ class PengawasPitstopController extends Controller
                 $start = strtotime($sp->status_unit_ready);
                 $end   = strtotime($sp->status_opr_ready);
 
+                if ($end < $start) {
+                    $end = strtotime('+1 day', $end);
+                }
+
                 $totalMinutes = ($end - $start) / 60;
 
                 $breakStart = strtotime(date('Y-m-d', $start).' 12:00:00');
@@ -1028,6 +1050,10 @@ class PengawasPitstopController extends Controller
             if ($sp->status_unit_ready && $sp->status_opr_ready) {
                 $start = strtotime($sp->status_unit_ready);
                 $end   = strtotime($sp->status_opr_ready);
+
+                if ($end < $start) {
+                    $end = strtotime('+1 day', $end);
+                }
 
                 $totalMinutes = ($end - $start) / 60;
 

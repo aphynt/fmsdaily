@@ -33,7 +33,7 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
                 $sheet = $event->sheet->getDelegate();
 
                 // Atur lebar kolom
-                foreach (range('A','O') as $col) {
+                foreach (range('A','P') as $col) {
                     $sheet->getColumnDimension($col)->setAutoSize(true);
                 }
 
@@ -100,7 +100,7 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
 
-        // Border putus-putus semua cell
+        // GLOBAL: border + rata tengah
         $sheet->getStyle("A1:{$highestColumn}{$highestRow}")->applyFromArray([
             'borders' => [
                 'allBorders' => [
@@ -113,6 +113,28 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
                 'vertical'   => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
             ],
         ]);
+
+        // OVERRIDE: kolom tertentu jadi rata kiri
+        // F = Nama PIC
+        $sheet->getStyle("F3:F{$highestRow}")
+            ->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+
+        // J = Operator (Settingan)
+        $sheet->getStyle("J3:J{$highestRow}")
+            ->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+
+        // O = Operator (Ready)
+        $sheet->getStyle("O3:O{$highestRow}")
+            ->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+
+        // P = Ket.
+        $sheet->getStyle("P3:P{$highestRow}")
+            ->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT)
+            ->setWrapText(true);   // biar kalau panjang turun ke bawah
     }
 
     public function headings(): array
@@ -182,10 +204,12 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
         $exportRows = $rows->map(function ($sp) use (&$rowNumber) {
             $rowNumber++;
 
+            // 1. cek beda operator
             $isDifferentOpr = ($sp->opr_settingan !== $sp->opr_ready);
+
+            // 2. cek di luar shift
             $isOutsideShift = false;
             $time_breakdown = '';
-
             if ($sp->status_unit_breakdown) {
                 $hour = (int) date('H', strtotime($sp->status_unit_breakdown));
                 $shiftFromTime = ($hour >= 7 && $hour < 19) ? 'Siang' : 'Malam';
@@ -193,14 +217,22 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
                 $time_breakdown = date('H:i:s', strtotime($sp->status_unit_breakdown));
             }
 
+            // 3. hitung durasi efektif
             $totalMinutes = 0;
-            $durasi_eff = '00:00';
+            $durasi_eff = '00:00:00';
 
             if ($sp->status_unit_ready && $sp->status_opr_ready) {
                 $start = strtotime($sp->status_unit_ready);
                 $end   = strtotime($sp->status_opr_ready);
+
+                // 👇 PERBAIKAN PENTING: kalau selesai lebih kecil dari mulai → berarti nyebrang hari
+                if ($end < $start) {
+                    $end = strtotime('+1 day', $end);
+                }
+
                 $totalMinutes = ($end - $start) / 60;
 
+                // kurangi jam istirahat 12:00-13:00 di tanggal start
                 $breakStart = strtotime(date('Y-m-d', $start).' 12:00:00');
                 $breakEnd   = strtotime(date('Y-m-d', $start).' 13:00:00');
 
@@ -209,17 +241,29 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
                 $breakMinutes = ($overlapEnd > $overlapStart) ? ($overlapEnd - $overlapStart) / 60 : 0;
 
                 $totalMinutes -= $breakMinutes;
+
+                // antisipasi kalau masih minus karena kasus aneh
+                if ($totalMinutes < 0) {
+                    // misal dihitungnya jadi -1351 → anggap crossing 24 jam
+                    $totalMinutes = 1440 + $totalMinutes;
+                }
+
                 $durasi_eff = gmdate('H:i:s', $totalMinutes * 60);
             }
 
+            // 4. format jam
             $status_unit_ready_fmt = $sp->status_unit_ready ? date('H:i:s', strtotime($sp->status_unit_ready)) : '';
             $status_opr_ready_fmt  = $sp->status_opr_ready ? date('H:i:s', strtotime($sp->status_opr_ready)) : '';
 
+            // 5. simpan meta utk pewarnaan di AfterSheet
             $this->metaRows[] = [
                 'isDifferentOpr' => $isDifferentOpr,
                 'isOutsideShift' => $isOutsideShift,
                 'totalMinutes'   => $totalMinutes,
             ];
+
+            // 6. keterangan null → kosong
+            $keterangan = $sp->keterangan ?? '';
 
             return [
                 $rowNumber,
@@ -237,10 +281,11 @@ class PengawasPitstopExport implements FromCollection, WithEvents, WithHeadings,
                 $status_opr_ready_fmt,
                 $durasi_eff,
                 $sp->opr_ready . '-' . $sp->nama_opr_ready,
-                $sp->keterangan,
+                $keterangan,
             ];
         });
 
         return collect($exportRows);
     }
+
 }

@@ -134,7 +134,19 @@
                 {
                     data: 'durasi_eff',
                     render: function(data, type, row) {
-                        let style = row.totalMinutes > 30 ? 'color:red;font-weight:bold;' : '';
+                        // antisipasi kalau totalMinutes null / undefined / minus karena nyebrang hari
+                        let minutes = Number(row.totalMinutes);
+
+                        if (isNaN(minutes)) {
+                            minutes = 0;
+                        }
+
+                        // kalau minus (kasus 23:31 → 01:00), anggap nyebrang hari
+                        if (minutes < 0) {
+                            minutes = 1440 + minutes; // 24 jam + nilai minus
+                        }
+
+                        const style = minutes > 30 ? 'color:red;font-weight:bold;' : '';
                         return `<span style="${style}">${data}</span>`;
                     }
                 },
@@ -148,7 +160,12 @@
                 {
                     data: 'keterangan',
                     render: function(data, type, row) {
-                        return row.isOutsideShift ? `<b>${data}</b>` : data;
+                        // normalize biar nggak keluar "null" atau "undefined"
+                        const text = (data === null || data === undefined) ? '' : data;
+
+                        return row.isOutsideShift
+                            ? `<b>${text}</b>`
+                            : text;
                     }
                 }
             ],

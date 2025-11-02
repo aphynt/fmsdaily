@@ -221,7 +221,7 @@
                 <td colspan="6" style="padding-left:2px;text-align: left; {{ $sp->isDifferentOpr ? 'color:blue;' : '' }}">
                     {{ $sp->opr_ready }}-{{ $sp->nama_opr_ready }}
                 </td>
-                <td colspan="6" style="padding-left:2px;">
+                <td colspan="6" style="padding-left:2px;text-align: left;">
                     {!! $sp->isOutsideShift ? '<b>'.$sp->keterangan.'</b>' : $sp->keterangan !!}
                 </td>
             </tr>
