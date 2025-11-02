@@ -888,7 +888,7 @@ class PengawasPitstopController extends Controller
 
         // filter role selain ADMIN
         if (Auth::user()->role !== 'ADMIN') {
-            $dailyDesc->where('pr.nik_foreman', Auth::user()->id);
+            $dailyDesc->where('pr.nik_foreman', Auth::user()->nik);
         }
 
         // ambil shift dari variabel global supaya bisa dipakai di closure
@@ -1013,9 +1013,9 @@ class PengawasPitstopController extends Controller
             ->whereBetween('pr.date', [$startTimeFormatted, $endTimeFormatted]);
 
         // filter role selain ADMIN
-        if (Auth::user()->role !== 'ADMIN') {
-            $dailyDesc->where('pr.nik_foreman', Auth::user()->id);
-        }
+        // if (Auth::user()->role !== 'ADMIN') {
+        //     $dailyDesc->where('pr.nik_foreman', Auth::user()->id);
+        // }
 
         // search filter
         if ($request->search['value']) {
