@@ -892,7 +892,7 @@ class PengawasPitstopController extends Controller
         }
 
         // ambil shift dari variabel global supaya bisa dipakai di closure
-        $shift = $dailyShift->shift ?? null;
+        $shift = $dailyDesc->shift ?? null;
 
         $dailyDesc = $dailyDesc->get()->map(function ($sp) use ($shift) {
             // cek beda opr
