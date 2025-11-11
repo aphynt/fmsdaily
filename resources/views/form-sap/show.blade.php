@@ -248,7 +248,7 @@
                                 @if (count($data['imageTemuan']) > 0)
                                     @foreach ($data['imageTemuan'] as $imageTemuan)
                                         <div class="{{ $gridClass }} mb-3">
-                                            <img src="{{ asset('storage') }}/{{ $imageTemuan->path }}" alt="Photo Temuan" class="img-thumbnail custom-img">
+                                            <img src="{{ $imageTemuan->path }}" alt="Photo Temuan" class="img-thumbnail custom-img">
                                         </div>
                                     @endforeach
                                 @else
@@ -275,7 +275,7 @@
                                 @if (count($data['imageTindakLanjut']) > 0)
                                     @foreach ($data['imageTindakLanjut'] as $imageTindakLanjut)
                                         <div class="{{ $gridClass }} mb-3">
-                                            <img src="{{ asset('storage') }}/{{ $imageTindakLanjut->path }}" alt="Photo Kejadian" class="img-thumbnail custom-img">
+                                            <img src="{{ $imageTindakLanjut->path }}" alt="Photo Kejadian" class="img-thumbnail custom-img">
                                         </div>
                                     @endforeach
                                 @else

@@ -19,10 +19,11 @@ class FormPengawasSAPController extends Controller
     {
         foreach ($files as $file) {
             $filePath = $file->store($folder, 'public');
+            $fileUrl = url('storage/' . $filePath);
             SAPReportImage::create([
                 'uuid' => (string) Uuid::uuid4()->toString(),
                 'report_uuid' => $reportUuid,
-                'path' => $filePath,
+                'path' => $fileUrl,
                 'name' => $file->getClientOriginalName(),
                 'mime_type' => $file->getMimeType(),
                 'size' => $file->getSize(),
