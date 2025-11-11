@@ -53,8 +53,8 @@ class FormPengawasSAPController extends Controller
             'tindakLanjut' => 'nullable|string',
             'risiko' => 'nullable|string',
             'pengendalian' => 'nullable|string',
-            'file_temuan.*' => 'nullable|file|mimes:jpeg,png,gif,jpg,bmp,webp|max:5000',
-            'file_tindakLanjut.*' => 'nullable|file|mimes:jpeg,png,gif,jpg,bmp,webp|max:5000'
+            'file_temuan.*' => 'nullable|file|mimes:jpeg,png,gif,jpg,bmp,webp|max:20000',
+            'file_tindakLanjut.*' => 'nullable|file|mimes:jpeg,png,gif,jpg,bmp,webp|max:20000'
         ]);
 
         // Menyimpan data Report
