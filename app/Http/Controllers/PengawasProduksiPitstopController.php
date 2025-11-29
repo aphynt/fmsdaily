@@ -82,7 +82,7 @@ class PengawasProduksiPitstopController extends Controller
                 pr.date as tanggal,
                 sh.keterangan as shift,
                 ar.keterangan as area,
-                NULL as lokasi,
+                'Pitstop' as lokasi,
                 us.name as pic,
                 us.nik as nik_pic,
                 pr.nik_foreman,
@@ -96,7 +96,7 @@ class PengawasProduksiPitstopController extends Controller
                 pr.verified_superintendent,
                 pr.created_at,
                 pr.updated_at,
-                'Pitstop' as unit_kerja
+                NULL as unit_kerja
             ")
             ->whereBetween('pr.date', [$startTimeFormatted, $endTimeFormatted])
             ->where('pr.statusenabled', true);
