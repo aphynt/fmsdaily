@@ -41,6 +41,7 @@ class PengawasProduksiPitstopController extends Controller
                 dr.tanggal_dasar as tanggal,
                 sh.keterangan as shift,
                 ar.keterangan as area,
+                lok.keterangan as lokasi,
                 us.name as pic,
                 us.nik as nik_pic,
                 dr.nik_foreman,
@@ -81,6 +82,7 @@ class PengawasProduksiPitstopController extends Controller
                 pr.date as tanggal,
                 sh.keterangan as shift,
                 ar.keterangan as area,
+                NULL as lokasi,
                 us.name as pic,
                 us.nik as nik_pic,
                 pr.nik_foreman,
@@ -94,7 +96,7 @@ class PengawasProduksiPitstopController extends Controller
                 pr.verified_superintendent,
                 pr.created_at,
                 pr.updated_at,
-                'COAL' as unit_kerja
+                'Pitstop' as unit_kerja
             ")
             ->whereBetween('pr.date', [$startTimeFormatted, $endTimeFormatted])
             ->where('pr.statusenabled', true);
@@ -110,12 +112,11 @@ class PengawasProduksiPitstopController extends Controller
         // ================ GABUNG OB + COAL =================
         $laporan = $ob->unionAll($coal);
 
+        // Kalau mau di-order:
         $data = DB::query()
             ->fromSub($laporan, 'lap')
             ->orderBy('tanggal', 'desc')
             ->get();
-
-        // dd($data);
 
         return view('pengawas-produksi-pitstop.index', compact('data'));
     }

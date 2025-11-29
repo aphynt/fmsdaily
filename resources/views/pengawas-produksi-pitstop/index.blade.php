@@ -45,6 +45,7 @@
                                         <th rowspan="2">Shift</th>
                                         <th rowspan="2">Area</th>
                                         <th rowspan="2">Unit Kerja</th>
+                                        <th rowspan="2">Laporan</th>
                                         <th colspan="2">PIC</th>
                                         <th colspan="2">Foreman</th>
                                         <th colspan="2">Supervisor</th>
@@ -72,6 +73,7 @@
                                             <td>{{ date('Y-m-d', strtotime($item->tanggal)) }}</td>
                                             <td>{{ $item->shift }}</td>
                                             <td>{{ $item->area }}</td>
+                                            <td>{{ $item->lokasi }}</td>
                                             <td>{{ $item->unit_kerja }}</td>
                                             <td>{{ $item->nik_pic }}</td>
                                             <td>{{ $item->pic }}</td>
