@@ -112,7 +112,7 @@
                         <img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/list.png" alt="DS"> </span><span class="pc-mtext">Daftar Laporan</span> <span class="pc-arrow"><i
                                 data-feather="chevron-right"></i></span> <span class="pc-badge">
                                     @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
-                                    7
+                                    8
                                     @else
                                     1
                                     @endif
@@ -120,6 +120,7 @@
                     </a>
                     <ul class="pc-submenu">
                         @if (!in_array(Auth::user()->role, ['FOREMAN MEKANIK', 'PJS FOREMAN MEKANIK', 'JR FOREMAN MEKANIK', 'SUPERVISOR MEKANIK', 'LEADER MEKANIK']))
+                        <li class="pc-item"><a class="pc-link" href="{{ route('pengawas-produksi-pitstop.index') }}">Pengawas OB & Coal</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-new.show') }}">Pengawas Produksi</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('form-pengawas-batubara.show') }}">Pengawas Batu Bara</a></li>
                         <li class="pc-item"><a class="pc-link" href="{{ route('pengawas-pitstop.show') }}">Pengawas Pitstop</a></li>

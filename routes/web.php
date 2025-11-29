@@ -32,6 +32,7 @@ use App\Http\Controllers\OprAssigntmentController;
 use App\Http\Controllers\P2HController;
 use App\Http\Controllers\PayloadRitationController;
 use App\Http\Controllers\PengawasPitstopController;
+use App\Http\Controllers\PengawasProduksiPitstopController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RosterKerjaController;
@@ -152,6 +153,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/form-pengawas-batubara/download/{uuid}', [FormPengawasBatuBaraController::class, 'download'])->name('form-pengawas-batubara.download');
     Route::get('/form-pengawas-batubara/bundlepdf', [FormPengawasBatuBaraController::class, 'bundlepdf'])->name('form-pengawas-batubara.bundlepdf');
 
+    //Pengawas Produksi & Pitstop
+    Route::get('/pengawas-produksi-pitstop', [PengawasProduksiPitstopController::class, 'index'])->name('pengawas-produksi-pitstop.index');
+
     //Form Pengawas Pitstop
     Route::get('/pengawas-pitstop/show', [PengawasPitstopController::class, 'show'])->name('pengawas-pitstop.show');
     Route::get('/pengawas-pitstop/operator', [PengawasPitstopController::class, 'operator'])->name('pengawas-pitstop.operator');
@@ -175,6 +179,8 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::get('/form-pengawas-pitstop/insert', [FormPengawasPitstopController::class, 'insert'])->name('form-pengawas-pitstop.insert');
     // Route::post('/form-pengawas-pitstop/save-draft', [FormPengawasPitstopController::class, 'saveAsDraft'])->name('form-pengawas-pitstop.saveAsDraft');
     // Route::post('/form-pengawas-pitstop/save-finish', [FormPengawasPitstopController::class, 'saveAsFinish'])->name('form-pengawas-pitstop.saveAsFinish');
+
+
 
     //Form Pengawas SAP
     Route::get('/form-pengawas-sap/index', [FormPengawasSAPController::class, 'index'])->name('form-pengawas-sap.index');
