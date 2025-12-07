@@ -75,8 +75,8 @@
                             @csrf
                             <!-- Lokasi -->
                             <div class="mb-3">
-                                <label class="form-label">Shift:</label>
-                                <select class="form-select" id="exampleFormControlSelect2" name="shift" required>
+                                <label for="shift" class="form-label">Shift:</label>
+                                <select class="form-select" id="shift" name="shift" required>
                                     {{-- <option selected disabled>Pilih shift</option> --}}
                                     @foreach ($shift as $sh)
                                     <option value="{{ $sh->id }}">{{ $sh->keterangan }}</option>
@@ -84,8 +84,8 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Area:</label>
-                                <select class="form-select" id="exampleFormControlSelect2" name="area" required>
+                                <label for="area" class="form-label">Area:</label>
+                                <select class="form-select" id="area" name="area" required>
                                     {{-- <option selected disabled>Pilih area</option> --}}
                                     @foreach ($area as $ar)
                                     <option value="{{ $ar->id }}">{{ $ar->keterangan }}</option>
@@ -104,7 +104,15 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Foto Temuan:</label>
-                                <input type="file" class="form-control" name="file_temuan[]" multiple/>
+                                <input type="file" class="form-control" name="file_temuan" multiple/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tingkatRisiko" class="form-label">Tingkat Risiko:</label>
+                                <select class="form-select" id="tingkatRisiko" name="tingkatRisiko" required>
+                                    <option value="Ringan">Ringan</option>
+                                    <option value="Sedang">Sedang</option>
+                                    <option value="Berat">Berat</option>
+                                </select>
                             </div>
                             <hr>
                             <div class="mb-3">
@@ -124,7 +132,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Foto Bukti Tindak Lanjut:</label>
-                                <input type="file" class="form-control" name="file_tindakLanjut[]" multiple/>
+                                <input type="file" class="form-control" name="file_tindakLanjut" multiple/>
                             </div>
 
                             <!-- Risiko -->
@@ -164,7 +172,6 @@
 </script>
 <script>
     $(document).ready(function () {
-        // Ketika form disubmit
         $('#laporanForm').on('submit', function (e) {
             e.preventDefault();
 
@@ -177,21 +184,35 @@
                 contentType: false,
                 processData: false,
                 success: function (response) {
-                    // Jika berhasil
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "{{ route('form-pengawas-sap.show') }}";
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: response.message || 'Terjadi kesalahan',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+                error: function (xhr) {
                     Swal.fire({
-                        title: 'Berhasil!',
-                        text: response.message,
-                        icon: 'success',
+                        title: 'Terjadi Kesalahan!',
+                        text: xhr.responseJSON?.message || xhr.responseText,
+                        icon: 'error',
                         confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "{{ route('form-pengawas-sap.show') }}";
-                        }
                     });
-                    console.log(response);
                 },
                 error: function (xhr, status, error) {
-                    // Jika terjadi error
                     Swal.fire({
                         title: 'Terjadi Kesalahan!',
                         text: xhr.responseText,

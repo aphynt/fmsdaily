@@ -179,29 +179,7 @@
     }
 
 </style>
-@php
-    $imageCountTemuan = 0;
-    $imageCountTemuan = count($data['imageTemuan']); // Hitung jumlah gambar
-    // Tentukan kelas grid berdasarkan jumlah gambar
-    if ($imageCountTemuan == 3) {
-        $gridClass = 'col-md-4';
-    } elseif ($imageCountTemuan == 4) {
-        $gridClass = 'col-md-3';
-    } else {
-        $gridClass = 'col-md-4';
-    }
-@endphp
-@php
-    $imageCountTindakLanjut = count($data['imageTindakLanjut']); // Hitung jumlah gambar
-    // Tentukan kelas grid berdasarkan jumlah gambar
-    if ($imageCountTindakLanjut == 3) {
-        $gridClass = 'col-md-4';
-    } elseif ($imageCountTindakLanjut == 4) {
-        $gridClass = 'col-md-3';
-    } else {
-        $gridClass = 'col-md-4';
-    }
-@endphp
+
 <section class="pc-container">
     <div class="pc-content">
         <div class="row">
@@ -244,20 +222,19 @@
                                 <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->temuan ? $data['report']->temuan : "-" }}</textarea>
                             </div>
                             <h4>Foto Temuan</h4>
-                            <div class="row">
-                                @if (count($data['imageTemuan']) > 0)
-                                    @foreach ($data['imageTemuan'] as $imageTemuan)
-                                        <div class="{{ $gridClass }} mb-3">
-                                            <img src="{{ $imageTemuan->path }}" alt="Photo Temuan" class="img-thumbnail custom-img">
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="col-12">
-                                        <p>-</p>
-                                    </div>
-                                @endif
+                            <div class="mb-3">
+                            @if(!empty($data['report']->file_temuan))
+                                <div class="col-md-4 mt-2">
+                                    <img src="{{ $data['report']->file_temuan }}"
+                                         alt="Photo Temuan"
+                                         class="img-thumbnail custom-img">
+                                </div>
+                            @endif
                             </div>
-
+                            <div class="mb-3">
+                                <label>Tingkat Risiko</label>
+                                <input type="text" class="form-control" value="{{ $data['report']->tingkat_risiko }}" readonly>
+                            </div>
                             <div class="mb-3">
                                 <label>Risiko</label>
                                 <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->risiko ? $data['report']->risiko : "-" }}</textarea>
@@ -271,18 +248,14 @@
                                 <textarea type="text"  class="form-control" rows="5" readonly>{{ $data['report']->tindak_lanjut ? $data['report']->tindak_lanjut : "-" }}</textarea>
                             </div>
                             <h4>Foto Tindak Lanjut</h4>
-                            <div class="row">
-                                @if (count($data['imageTindakLanjut']) > 0)
-                                    @foreach ($data['imageTindakLanjut'] as $imageTindakLanjut)
-                                        <div class="{{ $gridClass }} mb-3">
-                                            <img src="{{ $imageTindakLanjut->path }}" alt="Photo Kejadian" class="img-thumbnail custom-img">
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="col-12">
-                                        <p>-</p>
-                                    </div>
-                                @endif
+                            <div class="mb-3">
+                            @if(!empty($data['report']->file_tindakLanjut))
+                                <div class="col-md-4 mt-2">
+                                    <img src="{{ $data['report']->file_tindakLanjut }}"
+                                         alt="Photo Tindak Lanjut"
+                                         class="img-thumbnail custom-img">
+                                </div>
+                            @endif
                             </div>
 
                         </div>
