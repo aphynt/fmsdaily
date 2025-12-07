@@ -71,7 +71,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="laporanForm" enctype="multipart/form-data">
+                        <form id="laporanForm" enctype="multipart/form-data" method="POST">
                             @csrf
                             <!-- Lokasi -->
                             <div class="mb-3">
@@ -168,61 +168,5 @@
             submitSAP.disabled = false;
             submitSAP.innerText = 'Submit';
         }, 7000);
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#laporanForm').on('submit', function (e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-
-            $.ajax({
-                url: "{{ route('form-pengawas-sap.post') }}",
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            title: 'Berhasil!',
-                            text: response.message,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = "{{ route('form-pengawas-sap.show') }}";
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Gagal!',
-                            text: response.message || 'Terjadi kesalahan',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                },
-                error: function (xhr) {
-                    Swal.fire({
-                        title: 'Terjadi Kesalahan!',
-                        text: xhr.responseJSON?.message || xhr.responseText,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                },
-                error: function (xhr, status, error) {
-                    Swal.fire({
-                        title: 'Terjadi Kesalahan!',
-                        text: xhr.responseText,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                    console.log(xhr.responseText);
-                }
-
-            });
-        });
     });
 </script>
