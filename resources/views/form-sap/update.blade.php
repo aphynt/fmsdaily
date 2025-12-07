@@ -271,7 +271,7 @@
                                         <option value="{{ $data['report']->tingkat_risiko }}">{{ $data['report']->tingkat_risiko }}</option>
                                         <option value="Ringan">Ringan</option>
                                         <option value="Sedang">Sedang</option>
-                                        <option value="Berat">Berat</option>
+                                        <option value="Tinggi">Tinggi</option>
                                     </select>
                                 </div>
 
