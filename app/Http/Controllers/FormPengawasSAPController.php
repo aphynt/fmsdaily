@@ -43,6 +43,13 @@ class FormPengawasSAPController extends Controller
 
     public function post(Request $request)
     {
+        dd(
+        $request->hasFile('file_temuan'),
+        $request->file('file_temuan'),
+        $request->hasFile('file_tindakLanjut'),
+        $request->file('file_tindakLanjut')
+    );
+
         DB::beginTransaction();
 
         try {

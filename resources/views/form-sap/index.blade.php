@@ -104,7 +104,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Foto Temuan:</label>
-                                <input type="file" class="form-control" name="file_temuan" multiple/>
+                                <input type="file" class="form-control" name="file_temuan"/>
                             </div>
                             <div class="mb-3">
                                 <label for="tingkatRisiko" class="form-label">Tingkat Risiko:</label>
@@ -132,7 +132,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Foto Bukti Tindak Lanjut:</label>
-                                <input type="file" class="form-control" name="file_tindakLanjut" multiple/>
+                                <input type="file" class="form-control" name="file_tindakLanjut"/>
                             </div>
 
                             <!-- Risiko -->
