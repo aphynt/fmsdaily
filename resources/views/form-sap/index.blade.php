@@ -71,7 +71,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="laporanForm" enctype="multipart/form-data" method="POST">
+                        <form id="laporanForm" action="{{ route('form-pengawas-sap.post') }}" enctype="multipart/form-data" method="POST">
                             @csrf
                             <!-- Lokasi -->
                             <div class="mb-3">
@@ -167,6 +167,6 @@
         setTimeout(function() {
             submitSAP.disabled = false;
             submitSAP.innerText = 'Submit';
-        }, 7000);
+        }, 10000);
     });
 </script>

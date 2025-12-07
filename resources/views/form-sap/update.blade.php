@@ -188,7 +188,7 @@
                         <div class="row g-3">
                             {{-- FORM UPDATE --}}
                             <form id="laporanForm"
-                                  method="post"
+                                  method="post" action="{{ route('form-pengawas-sap.update', $data['report']->uuid) }}"
                                   enctype="multipart/form-data">
                                 @csrf
 
@@ -341,6 +341,21 @@
     });
 </script>
 <script>
+
+    const formSAP = document.getElementById('laporanForm');
+    const submitSAP = document.getElementById('submitSAP');
+
+    formSAP.addEventListener('submit', function() {
+        // Nonaktifkan tombol submit ketika form sedang diproses
+        submitSAP.disabled = true;
+        submitSAP.innerText = 'Processing...';
+        setTimeout(function() {
+            submitSAP.disabled = false;
+            submitSAP.innerText = 'Submit';
+        }, 10000);
+    });
+</script>
+{{-- <script>
     $(document).ready(function () {
         const formSAP   = document.getElementById('laporanForm');
         const submitBtn = document.getElementById('submitSAP');
@@ -414,4 +429,4 @@
             });
         });
     });
-</script>
+</script> --}}

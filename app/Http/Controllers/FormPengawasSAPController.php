@@ -43,12 +43,6 @@ class FormPengawasSAPController extends Controller
 
     public function post(Request $request)
     {
-        dd(
-        $request->hasFile('file_temuan'),
-        $request->file('file_temuan'),
-        $request->hasFile('file_tindakLanjut'),
-        $request->file('file_tindakLanjut')
-    );
 
         DB::beginTransaction();
 
@@ -90,18 +84,22 @@ class FormPengawasSAPController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'status'  => 'success',
-                'message' => 'Report berhasil diposting',
-                'data'    => $report,
-            ]);
+            // return response()->json([
+            //     'status'  => 'success',
+            //     'message' => 'Report berhasil diposting',
+            //     'data'    => $report,
+            // ]);
+
+            return redirect()->route('form-pengawas-sap.show')->with('success', 'SAP berhasil diposting');
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            return response()->json([
-                'status'  => 'error',
-                'message' => $th->getMessage(),
-            ], 500);
+            return redirect()->back()->with('info', 'SAP gagal diposting'. $th->getMessage());
+
+            // return response()->json([
+            //     'status'  => 'error',
+            //     'message' => $th->getMessage(),
+            // ], 500);
         }
     }
 
@@ -165,25 +163,21 @@ class FormPengawasSAPController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'status'  => 'success',
-                'message' => 'Report berhasil diupdate!',
-                'data'    => $report,
-            ]);
-        } catch (ModelNotFoundException $e) {
+            // return response()->json([
+            //     'status'  => 'success',
+            //     'message' => 'Report berhasil diupdate!',
+            //     'data'    => $report,
+            // ]);
+
+            return redirect()->route('form-pengawas-sap.show')->with('success', 'SAP berhasil diclosing');
+        }  catch (\Throwable $e) {
             DB::rollBack();
 
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Report tidak ditemukan.',
-            ], 404);
-        } catch (\Throwable $e) {
-            DB::rollBack();
-
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Report gagal diupdate: ' . $e->getMessage(),
-            ], 500);
+            // return response()->json([
+            //     'status'  => 'error',
+            //     'message' => 'Report gagal diupdate: ' . $e->getMessage(),
+            // ], 500);
+            return redirect()->back()->with('info', 'SAP gagal diposting'. $e->getMessage());
         }
     }
 
@@ -212,6 +206,10 @@ class FormPengawasSAPController extends Controller
         )
         ->where('sr.statusenabled', true)
         ->where('sr.uuid', $uuid)->first();
+
+        if($report == null){
+            return redirect()->back()->with('info', 'Maaf, SAP tidak ditemukan');
+        }
 
         $data = [
             'report' => $report,
