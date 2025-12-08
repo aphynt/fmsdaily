@@ -104,7 +104,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Foto Temuan:</label>
-                                <input type="file" class="form-control" name="file_temuan"/>
+                                <input type="file" class="form-control" name="file_temuan" required/>
                             </div>
                             <div class="mb-3">
                                 <label for="tingkatRisiko" class="form-label">Tingkat Risiko:</label>
