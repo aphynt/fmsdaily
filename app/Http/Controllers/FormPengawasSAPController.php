@@ -43,6 +43,7 @@ class FormPengawasSAPController extends Controller
 
     public function post(Request $request)
     {
+        // dd($request->file_tindakLanjut);
 
         DB::beginTransaction();
 
@@ -50,7 +51,7 @@ class FormPengawasSAPController extends Controller
             $fileTemuan = null;
             $fileTindakLanjut = null;
 
-            if ($request->hasFile('file_temuan')) {
+            if ($request->file_temuan != null) {
                 $file = $request->file('file_temuan');
                 $destinationPath = public_path('storage/sap/file_temuan');
                 $fileName = time() . '_' . $file->getClientOriginalName();
@@ -58,7 +59,7 @@ class FormPengawasSAPController extends Controller
                 $fileTemuan = url('storage/sap/file_temuan/' . $fileName);
             }
 
-            if ($request->hasFile('file_tindakLanjut')) {
+            if ($request->file_tindakLanjut != null) {
                 $file2 = $request->file('file_tindakLanjut');
                 $destinationPath2 = public_path('storage/sap/file_tindakLanjut');
                 $fileName2 = time() . '_' . $file2->getClientOriginalName();
@@ -118,7 +119,7 @@ class FormPengawasSAPController extends Controller
             $fileTindakLanjut = $report->file_tindakLanjut;
 
             // === HANDLE FILE TEMUAN ===
-            if ($request->hasFile('file_temuan')) {
+            if ($request->file_temuan != null) {
                 $file = $request->file('file_temuan');
                 $destinationPath = public_path('storage/sap/file_temuan');
 
@@ -133,7 +134,7 @@ class FormPengawasSAPController extends Controller
             }
 
             // === HANDLE FILE TINDAK LANJUT ===
-            if ($request->hasFile('file_tindakLanjut')) {
+            if ($request->file_tindakLanjut != null) {
                 $file2 = $request->file('file_tindakLanjut');
                 $destinationPath2 = public_path('storage/sap/file_tindakLanjut');
 

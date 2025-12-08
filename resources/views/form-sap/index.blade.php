@@ -111,7 +111,7 @@
                                 <select class="form-select" id="tingkatRisiko" name="tingkatRisiko" required>
                                     <option value="Ringan">Ringan</option>
                                     <option value="Sedang">Sedang</option>
-                                    <option value="TInggi">TInggi</option>
+                                    <option value="Tinggi">Tinggi</option>
                                 </select>
                             </div>
                             <hr>
