@@ -2,187 +2,48 @@
 @include('layout.sidebar')
 @include('layout.header')
 <style>
-    table {
-        page-break-inside: auto;
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 12px;
-        -fs-table-paginate: paginate;
-    }
-
-    tr {
-        page-break-inside: avoid;
-        page-break-after: auto;
-    }
-
-    table tr td,
-    table tr th {
-        font-size: small;
-    }
-
-    .header {
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 2px solid #000;
-        padding: .3rem;
-    }
-
-    .header img {
-        vertical-align: middle;
-    }
-
-    .header .title {
-        display: inline-block;
-        margin-left: 10px;
-        text-align: left;
-    }
-
-    .header .title h1 {
-        margin: 0;
-        font-size: 18px;
-        color: #0000FF;
-    }
-
-    .header .title p {
-        margin: 0;
-        font-size: 12px;
-    }
-
-    .header .doc-number {
-        text-align: right;
-        font-size: 12px;
-    }
-
-    .info-table,
-    .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 2px;
-    }
-
-    .info-table td {
-        padding: 5px;
-        width: 20pt;
-    }
-
-    .info-table td:first-child {
-        width: 15%;
-    }
-
-    .info-table td:nth-child(2) {
-        width: .2%;
-    }
-
-    .info-table td:nth-child(3) {
-        width: 30%;
-        vertical-align: bottom;
-    }
-
-    .info-table td:nth-child(4) {
-        width: 10%;
-        background-color: rgb(255, 255, 255);
-    }
-
-    .info-table td:nth-child(5) {
-        width: 15%;
-        vertical-align: bottom;
-    }
-
-    .info-table td:nth-child(6) {
-        width: .2%;
-    }
-
-    .info-table td:nth-child(7) {
-        width: 30%;
-    }
-
-    .data-table th,
-    .data-table td {
-        border: 1px solid #000;
-        text-align: center;
-    }
-
-    .flex {
-        display: flex;
-    }
-
-    table.data_table {
-        width: 100%;
-        border: 1px solid #000;
-        table-layout: fixed;
-    }
-
-    table.data_table tr td,
-    table.data_table tr th {
-        text-align: center;
-        border: 1px solid #000;
-    }
-
-    table.data_table tbody tr td {
-        height: 15pt;
-    }
-
-    table.table_close {
-        width: 100%;
-        table-layout: fixed;
-    }
-
-    table.table_close tr th {
-        height: 15pt;
-        padding: .2rem;
-    }
-
-    th.noborder {
-        border: none;
-    }
-
-    hr {
-        margin-bottom: 1rem;
-    }
-
-    .flex {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .hor {
-        display: flex;
-        flex-direction: column;
-    }
-
-    h4 {
-        margin-bottom: 0px;
-    }
-
-    .grid-container {
-        display: grid;
-        grid-template-columns: 70% 30%;
-        gap: 20px;
-        margin: 20px;
-    }
-
-    .grid-table table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .grid-table th,
-    .grid-table td {
-        border: 1px solid #000;
-        padding: 8px;
-        text-align: center;
-    }
-
-    .grid-table th {
-        background-color: #f4f4f4;
-    }
+    /* ... (pakai style yang sama seperti milikmu, saya biarkan utuh) ... */
+    table { page-break-inside: auto; font-family: 'Times New Roman', Times, serif; font-size: 12px; -fs-table-paginate: paginate; }
+    tr { page-break-inside: avoid; page-break-after: auto; }
+    table tr td, table tr th { font-size: small; }
+    .header { margin-bottom: 20px; display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding: .3rem; }
+    .header img { vertical-align: middle; }
+    .header .title { display: inline-block; margin-left: 10px; text-align: left; }
+    .header .title h1 { margin: 0; font-size: 18px; color: #0000FF; }
+    .header .title p { margin: 0; font-size: 12px; }
+    .header .doc-number { text-align: right; font-size: 12px; }
+    .info-table, .data-table { width: 100%; border-collapse: collapse; margin-bottom: 2px; }
+    .info-table td { padding: 5px; width: 20pt; }
+    .info-table td:first-child { width: 15%; }
+    .info-table td:nth-child(2) { width: .2%; }
+    .info-table td:nth-child(3) { width: 30%; vertical-align: bottom; }
+    .info-table td:nth-child(4) { width: 10%; background-color: rgb(255, 255, 255); }
+    .info-table td:nth-child(5) { width: 15%; vertical-align: bottom; }
+    .info-table td:nth-child(6) { width: .2%; }
+    .info-table td:nth-child(7) { width: 30%; }
+    .data-table th, .data-table td { border: 1px solid #000; text-align: center; }
+    .flex { display: flex; }
+    table.data_table { width: 100%; border: 1px solid #000; table-layout: fixed; }
+    table.data_table tr td, table.data_table tr th { text-align: center; border: 1px solid #000; }
+    table.data_table tbody tr td { height: 15pt; }
+    table.table_close { width: 100%; table-layout: fixed; }
+    table.table_close tr th { height: 15pt; padding: .2rem; }
+    th.noborder { border: none; }
+    hr { margin-bottom: 1rem; }
+    .flex { display: flex; justify-content: space-between; }
+    .hor { display: flex; flex-direction: column; }
+    h4 { margin-bottom: 0px; }
+    .grid-container { display: grid; grid-template-columns: 70% 30%; gap: 20px; margin: 20px; }
+    .grid-table table { width: 100%; border-collapse: collapse; }
+    .grid-table th, .grid-table td { border: 1px solid #000; padding: 8px; text-align: center; }
+    .grid-table th { background-color: #f4f4f4; }
+    .custom-img { max-width: 100%; height: auto; }
 </style>
 
 <section class="pc-container">
     <div class="pc-content">
         <div class="row">
             <div class="col-sm-12">
-
                 <div class="card">
                     <div class="card-body">
                         <div class="row g-3">
@@ -256,7 +117,8 @@
                                     <input type="file"
                                            class="form-control"
                                            name="file_temuan"
-                                            />
+                                           accept="image/*"
+                                           capture="environment" />
                                     @if(!empty($data['report']->file_temuan))
                                         <div class="col-md-4 mt-2">
                                             <img src="{{ $data['report']->file_temuan }}"
@@ -265,6 +127,7 @@
                                         </div>
                                     @endif
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="tingkatRisiko" class="form-label">Tingkat Risiko:</label>
                                     <select class="form-select" id="tingkatRisiko" name="tingkatRisiko" required>
@@ -293,7 +156,6 @@
 
                                 <div class="mb-3">
                                     <label>Tindak Lanjut</label>
-                                    {{-- NAMA FIELD SENGAJA DISAMAKAN DENGAN CONTROLLER: $request->tindakLanjut --}}
                                     <textarea class="form-control"
                                               rows="5"
                                               name="tindakLanjut"
@@ -305,7 +167,8 @@
                                     <input type="file"
                                            class="form-control"
                                            name="file_tindakLanjut"
-                                            />
+                                           accept="image/*"
+                                           capture="environment" />
                                     @if(!empty($data['report']->file_tindakLanjut))
                                         <div class="col-md-4 mt-2">
                                             <img src="{{ $data['report']->file_tindakLanjut }}"
@@ -333,6 +196,8 @@
 </section>
 
 @include('layout.footer')
+
+<!-- jQuery AJAX setup (tetap) -->
 <script>
     $.ajaxSetup({
         headers: {
@@ -341,92 +206,113 @@
     });
 </script>
 <script>
-
+document.addEventListener('DOMContentLoaded', function () {
     const formSAP = document.getElementById('laporanForm');
     const submitSAP = document.getElementById('submitSAP');
 
-    formSAP.addEventListener('submit', function() {
-        // Nonaktifkan tombol submit ketika form sedang diproses
+    // convert Blob -> File if needed
+    function ensureFile(obj, originalName = 'image.jpg') {
+        if (!obj) return null;
+        if (obj instanceof File) return obj;
+        if (obj instanceof Blob) {
+            try {
+                return new File([obj], originalName, { type: obj.type || 'image/jpeg', lastModified: Date.now() });
+            } catch (err) {
+                // older browsers may not support File constructor
+                obj.name = originalName;
+                return obj;
+            }
+        }
+        return null;
+    }
+
+    async function compressFileWithLib(file, options = {}) {
+        if (typeof imageCompression === 'undefined') {
+            console.warn('imageCompression library not found, skipping compression.');
+            return file;
+        }
+        try {
+            const compressed = await imageCompression(file, options);
+            return ensureFile(compressed, file.name);
+        } catch (err) {
+            console.error('Compression error:', err);
+            return file;
+        }
+    }
+
+    function replaceInputFile(inputElement, file) {
+        if (!inputElement || !file) return;
+        const fileToAdd = ensureFile(file, file.name || 'image.jpg');
+
+        if (!(fileToAdd instanceof File)) {
+            console.warn('Cannot convert compressed result to File in this browser; skipping replace for', inputElement.name);
+            return;
+        }
+
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(fileToAdd);
+        inputElement.files = dataTransfer.files;
+    }
+
+    formSAP.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
         submitSAP.disabled = true;
+        const originalText = submitSAP.innerText;
         submitSAP.innerText = 'Processing...';
-        setTimeout(function() {
+
+        // safety timeout (kembalikan tombol kalau stuck)
+        const safetyTimer = setTimeout(() => {
             submitSAP.disabled = false;
-            submitSAP.innerText = 'Submit';
-        }, 10000);
+            submitSAP.innerText = originalText;
+        }, 30000);
+
+        try {
+            const inputTemuan = formSAP.querySelector('input[name="file_temuan"]');
+            const inputTindak = formSAP.querySelector('input[name="file_tindakLanjut"]');
+
+            const options = {
+                maxSizeMB: 1.0,
+                maxWidthOrHeight: 1920,
+                useWebWorker: true,
+                initialQuality: 0.75
+            };
+
+            let compressedTemuan = null;
+            let compressedTindak = null;
+
+            if (inputTemuan && inputTemuan.files && inputTemuan.files.length > 0) {
+                compressedTemuan = await compressFileWithLib(inputTemuan.files[0], options);
+            }
+            if (inputTindak && inputTindak.files && inputTindak.files.length > 0) {
+                compressedTindak = await compressFileWithLib(inputTindak.files[0], options);
+            }
+
+            // replace inputs (hanya jika konversi berhasil jadi File)
+            if (compressedTemuan) replaceInputFile(inputTemuan, compressedTemuan);
+            if (compressedTindak) replaceInputFile(inputTindak, compressedTindak);
+
+            // pemberitahuan kecil ke user
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-info mt-2';
+            alertDiv.innerText = 'Gambar dikompres (client-side). Mengirim form...';
+            formSAP.prepend(alertDiv);
+
+            clearTimeout(safetyTimer);
+            formSAP.submit();
+        } catch (err) {
+            console.error('Error during compression/submit:', err);
+            clearTimeout(safetyTimer);
+            submitSAP.disabled = false;
+            submitSAP.innerText = originalText;
+
+            const errDiv = document.createElement('div');
+            errDiv.className = 'alert alert-danger mt-2';
+            errDiv.innerText = 'Terjadi kesalahan saat memproses gambar. Mengirim form tanpa kompresi.';
+            formSAP.prepend(errDiv);
+
+            formSAP.submit();
+        }
     });
+});
 </script>
-{{-- <script>
-    $(document).ready(function () {
-        const formSAP   = document.getElementById('laporanForm');
-        const submitBtn = document.getElementById('submitSAP');
-
-        $('#laporanForm').on('submit', function (e) {
-            e.preventDefault();
-
-            const form = this;
-
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: "Form ini akan dikirim, pastikan data sudah benar.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, Kirim!',
-                cancelButtonText: 'Batal',
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    submitBtn.disabled  = true;
-                    submitBtn.innerText = 'Processing...';
-
-                    const formData = new FormData(form);
-
-                    $.ajax({
-                        url: "{{ route('form-pengawas-sap.update', $data['report']->uuid) }}",
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (response) {
-                            submitBtn.disabled  = false;
-                            submitBtn.innerText = 'Finish';
-
-                            if (response.status === 'success') {
-                                Swal.fire({
-                                    title: 'Berhasil!',
-                                    text: response.message,
-                                    icon: 'success',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = "{{ route('form-pengawas-sap.show') }}";
-                                    }
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: 'Gagal!',
-                                    text: response.message || 'Terjadi kesalahan',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                });
-                            }
-                        },
-                        error: function (xhr) {
-                            submitBtn.disabled  = false;
-                            submitBtn.innerText = 'Finish';
-
-                            Swal.fire({
-                                title: 'Terjadi Kesalahan!',
-                                text: xhr.responseJSON?.message || xhr.responseText || 'Unknown error',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                            console.error(xhr.responseText);
-                        }
-                    });
-                } else {
-                    console.log('Pengguna membatalkan pengiriman form.');
-                }
-            });
-        });
-    });
-</script> --}}

@@ -208,10 +208,11 @@
 {{-- <script src="{{ asset('dashboard/assets') }}/js/pages/w-chart.js"></script> --}}
 {{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> --}}
 
-    <script src="{{ asset('dashboard/assets') }}/js/plugins/clipboard.min.js"></script>
-    <script src="{{ asset('dashboard/assets') }}/js/component.js"></script>
+<script src="{{ asset('dashboard/assets') }}/js/plugins/clipboard.min.js"></script>
+<script src="{{ asset('dashboard/assets') }}/js/component.js"></script>
 
-    <script src="{{ asset('dashboard/assets') }}/js/plugins/notifier.js"></script>
+<script src="{{ asset('dashboard/assets') }}/js/plugins/notifier.js"></script>
+<script src="{{ asset('imageCompress') }}/browser-image-compression.js"></script>
     {{-- <script src="{{ asset('dashboard/assets') }}/js/pages/ac-notification.js"></script> --}}
 <script>
  var timepicker1 = document.querySelector('#pc-timepicker-1');
