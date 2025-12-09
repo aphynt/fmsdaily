@@ -161,78 +161,53 @@
 
 <script>
 
-    const formKLKHLoadingPoint = document.getElementById('submitFormJobPending');
-    const submitButtonJobPending = document.getElementById('submitButtonJobPending');
+document.addEventListener("DOMContentLoaded", function () {
 
-    formKLKHLoadingPoint.addEventListener('submit', function() {
-        submitButtonJobPending.disabled = true;
-        submitButtonJobPending.innerText = 'Processing...';
-        setTimeout(function() {
-            submitButtonJobPending.disabled = false;
-            submitButtonJobPending.innerText = 'Submit';
-        }, 7000);
-    });
-</script>
-
-<script>
-    window.onload = function() {
-        var currentDate = new Date();
-
-        var dd = ("0" + currentDate.getDate()).slice(-2);
-        var mm = ("0" + (currentDate.getMonth() + 1)).slice(-2);
-        var yyyy = currentDate.getFullYear();
-        var formattedDate = yyyy + "-" + mm + "-" + dd;
-
-        var hours = ("0" + currentDate.getHours()).slice(-2);
-        var minutes = ("0" + currentDate.getMinutes()).slice(-2);
-        var formattedTime = hours + ":" + minutes;
-
-        // document.getElementById("date").value = formattedDate;
-        // document.getElementById("time").value = formattedTime;
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        let now = new Date();
-        let hour = now.getHours();
-
-        let selectedShift = (hour >= 7 && hour < 19) ? "Siang" : "Malam";
-
-        let select = document.getElementById("selectShift");
-        for (let option of select.options) {
-            if (option.text.trim().toLowerCase() === selectedShift.toLowerCase()) {
-                option.selected = true;
-                break;
+    (function setDefaultShift() {
+        try {
+            let now = new Date();
+            let hour = now.getHours();
+            let selectedShift = (hour >= 7 && hour < 19) ? "Siang" : "Malam";
+            let select = document.getElementById("selectShift");
+            if (select) {
+                for (let option of select.options) {
+                    if (option.text.trim().toLowerCase() === selectedShift.toLowerCase()) {
+                        option.selected = true;
+                        break;
+                    }
+                }
             }
+        } catch (e) {
+            console.warn('setDefaultShift error', e);
         }
-    });
-</script>
+    })();
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.getElementById("jobTable").getElementsByTagName("tbody")[0];
+    (function rowHandlers() {
+        const tableBody = document.getElementById("jobTable").getElementsByTagName("tbody")[0];
         const addRowBtn = document.getElementById("addRow");
 
         // Tambah row baru
-        addRowBtn.addEventListener("click", function () {
-            let newRow = document.createElement("tr");
-            newRow.innerHTML = `
-                <td><input type="text" class="form-control" name="aktivitas[]"></td>
-                <td><input type="text" class="form-control" name="unit[]"></td>
-                <td><input type="text" class="form-control" name="elevasi[]"></td>
-                <td class="text-center">
-                    <button type="button" class="btn btn-danger btn-sm removeRow">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            table.appendChild(newRow);
-        });
+        if (addRowBtn) {
+            addRowBtn.addEventListener("click", function () {
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td><input type="text" class="form-control" name="aktivitas[]"></td>
+                    <td><input type="text" class="form-control" name="unit[]"></td>
+                    <td><input type="text" class="form-control" name="elevasi[]"></td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-sm removeRow">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(newRow);
+            });
+        }
 
-        // Hapus row dengan SweetAlert
         document.addEventListener("click", function (e) {
             if (e.target.closest(".removeRow")) {
                 let row = e.target.closest("tr");
-                let totalRows = table.rows.length;
+                let totalRows = tableBody.rows.length;
 
                 if (totalRows === 1) {
                     Swal.fire({
@@ -268,72 +243,190 @@
                 });
             }
         });
-    });
-</script>
+    })();
 
-<script>
-    document.getElementById('fileInput').addEventListener('change', function (event) {
-        let file = event.target.files[0];
-        if (!file) return;
 
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-        if (!allowedTypes.includes(file.type)) {
+    const input1 = document.getElementById('fileInput');
+    const input2 = document.getElementById('fileInput2');
+    const preview1 = document.getElementById('preview');
+    const preview2 = document.getElementById('preview2');
+
+    const allowedTypes = ['image/jpeg','image/jpg','image/png','image/gif','image/webp'];
+
+    function isValidImage(file) {
+        if (!file) return false;
+        return allowedTypes.includes(file.type);
+    }
+
+    function showPreview(container, file, placeholderText = 'Preview Gambar') {
+        container.innerHTML = '';
+        if (!file) {
+            const span = document.createElement('span');
+            span.style.color = '#999';
+            span.innerText = placeholderText;
+            container.appendChild(span);
+            return;
+        }
+        const img = document.createElement('img');
+        img.style.maxWidth = '300px';
+        img.style.display = 'block';
+        img.style.borderRadius = '8px';
+        img.src = URL.createObjectURL(file);
+        container.appendChild(img);
+    }
+
+    function handleLocalPreview(evt, container) {
+        const f = evt.target.files && evt.target.files[0];
+        if (!f) {
+            showPreview(container, null);
+            return;
+        }
+        if (!isValidImage(f)) {
             Swal.fire({
                 icon: 'error',
                 title: 'File tidak valid!',
                 text: 'Hanya gambar (JPG, JPEG, PNG, GIF, WEBP) yang diperbolehkan.'
             });
-            event.target.value = '';
-            document.getElementById('preview').innerHTML = '';
+            evt.target.value = '';
+            showPreview(container, null);
             return;
         }
+        showPreview(container, f);
+    }
 
-        let preview = document.getElementById('preview');
-        preview.innerHTML = '';
+    if (input1) input1.addEventListener('change', (e) => handleLocalPreview(e, preview1));
+    if (input2) input2.addEventListener('change', (e) => handleLocalPreview(e, preview2));
 
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            let img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.maxWidth = '300px';
-            img.style.display = 'block';
-            img.style.borderRadius = '8px';
-            preview.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    });
 
-    document.getElementById('fileInput2').addEventListener('change', function (event) {
-        let file2 = event.target.files[0];
-        if (!file2) return;
+    function ensureFile(obj, originalName = 'image.jpg') {
+        if (!obj) return null;
+        if (obj instanceof File) return obj;
+        if (obj instanceof Blob) {
+            try {
+                return new File([obj], originalName, { type: obj.type || 'image/jpeg', lastModified: Date.now() });
+            } catch (err) {
+                // fallback untuk browser lama
+                obj.name = originalName;
+                return obj;
+            }
+        }
+        return null;
+    }
 
-        const allowedTypes2 = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-        if (!allowedTypes2.includes(file2.type)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'File tidak valid!',
-                text: 'Hanya gambar (JPG, JPEG, PNG, GIF, WEBP) yang diperbolehkan.'
-            });
-            event.target.value = '';
-            document.getElementById('preview2').innerHTML = '';
+    async function compressFile(file, options) {
+        if (!file) return null;
+        if (typeof imageCompression === 'undefined') {
+            // library tidak dimuat -> skip compression
+            return file;
+        }
+        try {
+            const compressed = await imageCompression(file, options);
+            return ensureFile(compressed, file.name);
+        } catch (err) {
+            console.warn('Compression failed:', err);
+            return file;
+        }
+    }
+
+    function replaceInputFile(inputEl, file) {
+        if (!inputEl || !file) return;
+        const f = ensureFile(file, file.name || 'image.jpg');
+        if (!(f instanceof File)) {
+            // tidak bisa mengganti di browser ini
+            console.warn('Unable to convert to File for replacement. Skipping replace for', inputEl.id);
             return;
         }
+        const dt = new DataTransfer();
+        dt.items.add(f);
+        inputEl.files = dt.files;
+    }
 
-        let preview2 = document.getElementById('preview2');
-        preview2.innerHTML = '';
 
-        let reader2 = new FileReader();
-        reader2.onload = function(e) {
-            let img2 = document.createElement('img');
-            img2.src = e.target.result;
-            img2.style.maxWidth = '300px';
-            img2.style.display = 'block';
-            img2.style.borderRadius = '8px';
-            preview2.appendChild(img2); // ✅ sudah benar
-        };
-        reader2.readAsDataURL(file2);
-    });
+    const form = document.getElementById('submitFormJobPending');
+    const submitBtn = document.getElementById('submitButtonJobPending');
+
+    if (form) {
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // disable button & UI change
+            submitBtn.disabled = true;
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+            // safety timeout
+            const safetyTimer = setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }, 30000);
+
+            try {
+                // ambil file saat ini
+                const f1 = input1 && input1.files && input1.files[0] ? input1.files[0] : null;
+                const f2 = input2 && input2.files && input2.files[0] ? input2.files[0] : null;
+
+                // validasi final
+                if (f1 && !isValidImage(f1)) {
+                    Swal.fire({ icon:'error', title:'File 1 tidak valid', text:'Hanya gambar yang diperbolehkan.' });
+                    clearTimeout(safetyTimer);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                    return;
+                }
+                if (f2 && !isValidImage(f2)) {
+                    Swal.fire({ icon:'error', title:'File 2 tidak valid', text:'Hanya gambar yang diperbolehkan.' });
+                    clearTimeout(safetyTimer);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                    return;
+                }
+
+                // compression options (ubah sesuai kebutuhan)
+                const options = {
+                    maxSizeMB: 1.0,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                    initialQuality: 0.75
+                };
+
+                let compressed1 = null;
+                let compressed2 = null;
+
+                if (f1) compressed1 = await compressFile(f1, options);
+                if (f2) compressed2 = await compressFile(f2, options);
+
+                // replace inputs jika compression menghasilkan File
+                if (compressed1) replaceInputFile(input1, compressed1);
+                if (compressed2) replaceInputFile(input2, compressed2);
+
+                // update preview ke compressed file
+                if (compressed1) showPreview(preview1, compressed1, 'Preview Gambar 1');
+                if (compressed2) showPreview(preview2, compressed2, 'Preview Gambar 2');
+
+                // info singkat
+                const info = document.createElement('div');
+                info.className = 'alert alert-info mt-2';
+                info.innerText = 'Gambar dikompres (client-side). Mengirim form...';
+                form.prepend(info);
+
+                clearTimeout(safetyTimer);
+                form.submit();
+            } catch (err) {
+                console.error('Error during compress/submit:', err);
+                clearTimeout(safetyTimer);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi kesalahan',
+                    text: 'Gagal memproses gambar. Form akan dikirim tanpa kompresi.'
+                }).then(() => {
+                    form.submit();
+                });
+            }
+        });
+    }
+
+});
 </script>
-
-
-
