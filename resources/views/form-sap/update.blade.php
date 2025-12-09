@@ -117,8 +117,7 @@
                                     <input type="file"
                                            class="form-control"
                                            name="file_temuan"
-                                           accept="image/*"
-                                           capture="environment" />
+                                           accept="image/*" />
                                     @if(!empty($data['report']->file_temuan))
                                         <div class="col-md-4 mt-2">
                                             <img src="{{ $data['report']->file_temuan }}"
@@ -167,8 +166,7 @@
                                     <input type="file"
                                            class="form-control"
                                            name="file_tindakLanjut"
-                                           accept="image/*"
-                                           capture="environment" />
+                                           accept="image/*" />
                                     @if(!empty($data['report']->file_tindakLanjut))
                                         <div class="col-md-4 mt-2">
                                             <img src="{{ $data['report']->file_tindakLanjut }}"

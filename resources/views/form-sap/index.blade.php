@@ -108,7 +108,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Foto Temuan:</label>
                                 <!-- pakai accept agar hanya gambar -->
-                                <input type="file" class="form-control" name="file_temuan" accept="image/*" capture="environment" required />
+                                <input type="file" class="form-control" name="file_temuan" accept="image/*" required />
                             </div>
 
                             <div class="mb-3">
@@ -142,7 +142,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Foto Bukti Tindak Lanjut:</label>
-                                <input type="file" class="form-control" name="file_tindakLanjut" accept="image/*" capture="environment" />
+                                <input type="file" class="form-control" name="file_tindakLanjut" accept="image/*" />
                             </div>
 
                             <div class="text-center m-t-20">
