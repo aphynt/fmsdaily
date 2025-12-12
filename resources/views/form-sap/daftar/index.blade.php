@@ -66,11 +66,11 @@
                         @foreach ($report as $item)
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $item->uuid }}" aria-expanded="false" aria-controls="flush-collapse{{ $item->uuid }}">
                                     {{ $loop->iteration }}. {{ date('d-m-Y', strtotime($item->created_at)) }} {{ date('H:i', strtotime($item->jam_kejadian)) }}
                                 </button>
                             </h2>
-                            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                            <div id="flush-collapse{{ $item->uuid }}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
                                     <div class="mb-4">
                                         <h5 class="fw-bold">Shift</h5>
@@ -102,8 +102,8 @@
                                         <p class="ms-3">{{ $item->tindak_lanjut ? $item->tindak_lanjut : "-" }}</p>
                                     </div>
                                     <div class="mb-4">
-                                        <h5 class="fw-bold">Finish:</h5>
-                                        <p class="ms-3">{{ $item->is_finish ? 'Selesai' : 'Belum' }}</p>
+                                        <h5 class="fw-bold">Status:</h5>
+                                        <p class="ms-3">{{ $item->is_finish ? 'Close' : 'Open' }}</p>
                                     </div>
                                     <div class="mt-4">
                                         <h5 class="fw-bold">Aksi</h5>
