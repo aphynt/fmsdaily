@@ -50,6 +50,7 @@ class FormPengawasSAPController extends Controller
         try {
             $fileTemuan = null;
             $fileTindakLanjut = null;
+            $finishing = false;
 
             if ($request->file_temuan != null) {
                 $file = $request->file('file_temuan');
@@ -65,6 +66,7 @@ class FormPengawasSAPController extends Controller
                 $fileName2 = time() . '_' . $file2->getClientOriginalName();
                 $file2->move($destinationPath2, $fileName2);
                 $fileTindakLanjut = url('storage/sap/file_tindakLanjut/' . $fileName2);
+                $finishing = true;
             }
 
             $report = SAPReport::create([
@@ -80,7 +82,7 @@ class FormPengawasSAPController extends Controller
                 'pengendalian'   => $request->pengendalian,
                 'file_temuan'    => $fileTemuan,
                 'file_tindakLanjut' => $fileTindakLanjut,
-                'is_finish'      => false,
+                'is_finish'      => $finishing,
             ]);
 
             DB::commit();
