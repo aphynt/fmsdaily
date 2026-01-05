@@ -93,84 +93,109 @@
                 <li class="list-group-item">
                     <h6 class="mb-1">Theme layout</h6>
                     <p class="text-muted text-sm">Choose your layout</p>
-                    <div class="theme-main-layout d-flex align-center gap-1 w-100"><a href="#!" data-bs-toggle="tooltip"
-                            title="Vertical" class="active" data-value="vertical"><img
-                                src="{{ asset('dashboard/assets') }}/images/customizer/caption-on.svg" alt="img"
-                                class="img-fluid"> </a><a href="#!" data-bs-toggle="tooltip" title="Horizontal"
-                            data-value="horizontal"><img
-                                src="{{ asset('dashboard/assets') }}/images/customizer/horizontal.svg" alt="img"
-                                class="img-fluid"> </a><a href="#!" data-bs-toggle="tooltip" title="Color Header"
-                            data-value="color-header"><img
-                                src="{{ asset('dashboard/assets') }}/images/customizer/color-header.svg" alt="img"
-                                class="img-fluid">
-                        </a><a href="#!" data-bs-toggle="tooltip" title="Compact" data-value="compact"><img
-                                src="{{ asset('dashboard/assets') }}/images/customizer/compact.svg" alt="img"
-                                class="img-fluid"> </a><a href="#!" data-bs-toggle="tooltip" title="Tab"
-                            data-value="tab"><img src="{{ asset('dashboard/assets') }}/images/customizer/tab.svg"
-                                alt="img" class="img-fluid"></a></div>
+                    <div class="theme-main-layout d-flex align-center gap-1 w-100">
+                        <a href="#!" data-bs-toggle="tooltip" title="Vertical" class="active" data-value="vertical">
+                            <img src="{{ asset('dashboard/assets/images/customizer/caption-on.svg') }}?v={{ config('app.asset_version') }}"
+                                alt="img" class="img-fluid">
+                        </a>
+                        <a href="#!" data-bs-toggle="tooltip" title="Horizontal" data-value="horizontal">
+                            <img src="{{ asset('dashboard/assets/images/customizer/horizontal.svg') }}?v={{ config('app.asset_version') }}"
+                                alt="img" class="img-fluid">
+                        </a>
+                        <a href="#!" data-bs-toggle="tooltip" title="Color Header" data-value="color-header">
+                            <img src="{{ asset('dashboard/assets/images/customizer/color-header.svg') }}?v={{ config('app.asset_version') }}"
+                                alt="img" class="img-fluid">
+                        </a>
+                        <a href="#!" data-bs-toggle="tooltip" title="Compact" data-value="compact">
+                            <img src="{{ asset('dashboard/assets/images/customizer/compact.svg') }}?v={{ config('app.asset_version') }}"
+                                alt="img" class="img-fluid">
+                        </a>
+                        <a href="#!" data-bs-toggle="tooltip" title="Tab" data-value="tab">
+                            <img src="{{ asset('dashboard/assets/images/customizer/tab.svg') }}?v={{ config('app.asset_version') }}"
+                                alt="img" class="img-fluid">
+                        </a>
+                    </div>
                 </li>
+
                 <li class="list-group-item">
                     <h6 class="mb-1">Sidebar Caption</h6>
                     <p class="text-muted text-sm">Sidebar Caption Hide/Show</p>
                     <div class="row theme-color theme-nav-caption">
                         <div class="col-6">
-                            <div class="d-grid"><button class="preset-btn btn-img btn active" data-value="true"
-                                    onclick="layout_caption_change('true');" data-bs-toggle="tooltip"
-                                    title="Caption Show"><img
-                                        src="{{ asset('dashboard/assets') }}/images/customizer/caption-on.svg" alt="img"
-                                        class="img-fluid"></button></div>
+                            <div class="d-grid">
+                                <button class="preset-btn btn-img btn active" data-value="true"
+                                        onclick="layout_caption_change('true');" data-bs-toggle="tooltip" title="Caption Show">
+                                    <img src="{{ asset('dashboard/assets/images/customizer/caption-on.svg') }}?v={{ config('app.asset_version') }}"
+                                        alt="img" class="img-fluid">
+                                </button>
+                            </div>
                         </div>
                         <div class="col-6">
-                            <div class="d-grid"><button class="preset-btn btn-img btn" data-value="false"
-                                    onclick="layout_caption_change('false');" data-bs-toggle="tooltip"
-                                    title="Caption Hide"><img
-                                        src="{{ asset('dashboard/assets') }}/images/customizer/caption-off.svg"
-                                        alt="img" class="img-fluid"></button></div>
+                            <div class="d-grid">
+                                <button class="preset-btn btn-img btn" data-value="false"
+                                        onclick="layout_caption_change('false');" data-bs-toggle="tooltip" title="Caption Hide">
+                                    <img src="{{ asset('dashboard/assets/images/customizer/caption-off.svg') }}?v={{ config('app.asset_version') }}"
+                                        alt="img" class="img-fluid">
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="pc-rtl">
                         <h6 class="mb-1">Theme Layout</h6>
                         <p class="text-muted text-sm">LTR/RTL</p>
                         <div class="row theme-color theme-direction">
                             <div class="col-6">
-                                <div class="d-grid"><button class="preset-btn btn-img btn active" data-value="false"
-                                        onclick="layout_rtl_change('false');" data-bs-toggle="tooltip" title="LTR"><img
-                                            src="{{ asset('dashboard/assets') }}/images/customizer/ltr.svg" alt="img"
-                                            class="img-fluid"></button></div>
+                                <div class="d-grid">
+                                    <button class="preset-btn btn-img btn active" data-value="false"
+                                            onclick="layout_rtl_change('false');" data-bs-toggle="tooltip" title="LTR">
+                                        <img src="{{ asset('dashboard/assets/images/customizer/ltr.svg') }}?v={{ config('app.asset_version') }}"
+                                            alt="img" class="img-fluid">
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-6">
-                                <div class="d-grid"><button class="preset-btn btn-img btn" data-value="true"
-                                        onclick="layout_rtl_change('true');" data-bs-toggle="tooltip" title="RTL"><img
-                                            src="{{ asset('dashboard/assets') }}/images/customizer/rtl.svg" alt="img"
-                                            class="img-fluid"></button></div>
+                                <div class="d-grid">
+                                    <button class="preset-btn btn-img btn" data-value="true"
+                                            onclick="layout_rtl_change('true');" data-bs-toggle="tooltip" title="RTL">
+                                        <img src="{{ asset('dashboard/assets/images/customizer/rtl.svg') }}?v={{ config('app.asset_version') }}"
+                                            alt="img" class="img-fluid">
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </li>
+
                 <li class="list-group-item pc-box-width">
                     <div class="pc-container-width">
                         <h6 class="mb-1">Layout Width</h6>
                         <p class="text-muted text-sm">Choose Full or Container Layout</p>
                         <div class="row theme-color theme-container">
                             <div class="col-6">
-                                <div class="d-grid"><button class="preset-btn btn-img btn active" data-value="false"
-                                        onclick="change_box_container('false')" data-bs-toggle="tooltip"
-                                        title="Full Width"><img
-                                            src="{{ asset('dashboard/assets') }}/images/customizer/full.svg" alt="img"
-                                            class="img-fluid"></button></div>
+                                <div class="d-grid">
+                                    <button class="preset-btn btn-img btn active" data-value="false"
+                                            onclick="change_box_container('false')" data-bs-toggle="tooltip" title="Full Width">
+                                        <img src="{{ asset('dashboard/assets/images/customizer/full.svg') }}?v={{ config('app.asset_version') }}"
+                                            alt="img" class="img-fluid">
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-6">
-                                <div class="d-grid"><button class="preset-btn btn-img btn" data-value="true"
-                                        onclick="change_box_container('true')" data-bs-toggle="tooltip"
-                                        title="Fixed Width"><img
-                                            src="{{ asset('dashboard/assets') }}/images/customizer/fixed.svg" alt="img"
-                                            class="img-fluid"></button></div>
+                                <div class="d-grid">
+                                    <button class="preset-btn btn-img btn" data-value="true"
+                                            onclick="change_box_container('true')" data-bs-toggle="tooltip" title="Fixed Width">
+                                        <img src="{{ asset('dashboard/assets/images/customizer/fixed.svg') }}?v={{ config('app.asset_version') }}"
+                                            alt="img" class="img-fluid">
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="d-grid"><button class="btn btn-light-danger" id="layoutreset">Reset Layout</button>
                     </div>
@@ -183,36 +208,35 @@
 {{-- <script src="{{ asset('dashboard/assets') }}/js/plugins/apexcharts.min.js"></script> --}}
 {{-- <script src="{{ asset('dashboard/assets') }}/js/pages/dashboard-default.js"></script> --}}
 <!-- Required Js -->
-<script src="{{ asset('dashboard/assets') }}/js/plugins/popper.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/simplebar.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/bootstrap.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/fonts/custom-font.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/pcoded.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/feather.min.js"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/popper.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/simplebar.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/bootstrap.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/fonts/custom-font.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/pcoded.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/feather.min.js') }}?v={{ config('app.asset_version') }}"></script>
+
 <script src="{{ asset('dashboard/assets') }}/cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/dataTables.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/dataTables.bootstrap5.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/buttons.colVis.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/buttons.print.min.js"></script>
-{{-- <script src="{{ asset('dashboard/assets') }}/js/plugins/pdfmake.min.js"></script> --}}
-<script src="{{ asset('dashboard/assets') }}/js/plugins/jszip.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/dataTables.buttons.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/vfs_fonts.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/buttons.html5.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/buttons.bootstrap5.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/datepicker-full.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/flatpickr.min.js"></script>
-{{-- <script src="{{ asset('dashboard/assets') }}/js/plugins/apexcharts.min.js"></script> --}}
-<script src="{{ asset('dashboard/assets') }}/js/plugins/choices.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/dropzone-amd-module.min.js"></script>
-{{-- <script src="{{ asset('dashboard/assets') }}/js/pages/w-chart.js"></script> --}}
-{{-- <script src="../../cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> --}}
 
-<script src="{{ asset('dashboard/assets') }}/js/plugins/clipboard.min.js"></script>
-<script src="{{ asset('dashboard/assets') }}/js/component.js"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/dataTables.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/dataTables.bootstrap5.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/buttons.colVis.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/buttons.print.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/jszip.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/dataTables.buttons.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/vfs_fonts.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/buttons.html5.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/buttons.bootstrap5.min.js') }}?v={{ config('app.asset_version') }}"></script>
 
-<script src="{{ asset('dashboard/assets') }}/js/plugins/notifier.js"></script>
-<script src="{{ asset('imageCompress') }}/browser-image-compression.js"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/datepicker-full.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/flatpickr.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/choices.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/dropzone-amd-module.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/clipboard.min.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/component.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/notifier.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('imageCompress/browser-image-compression.js') }}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('dashboard/assets/js/plugins/wizard.min.js') }}?v={{ config('app.asset_version') }}"></script>
+
     {{-- <script src="{{ asset('dashboard/assets') }}/js/pages/ac-notification.js"></script> --}}
 <script>
  var timepicker1 = document.querySelector('#pc-timepicker-1');
@@ -306,7 +330,7 @@
 })();
 
 </script>
-<script src="{{ asset('dashboard/assets') }}/js/plugins/wizard.min.js"></script>
+{{-- <script src="{{ asset('dashboard/assets') }}/js/plugins/wizard.min.js"></script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
         const wizardElement = document.querySelector('#basicwizard');
