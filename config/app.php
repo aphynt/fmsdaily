@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'asset_version' => env('ASSET_VERSION', '2026-01-05'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
