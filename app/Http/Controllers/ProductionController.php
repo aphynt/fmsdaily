@@ -104,8 +104,8 @@ class ProductionController extends Controller
             ['']
         );
 
-
-        $perExAll = collect($perExAll)
+        $perExSource = array_merge($perExNow, $perExHistory);
+        $perExAll = collect($perExSource)
             ->filter(fn($r) => !empty($r->LOD_LOADERID))
             ->sortBy('LOD_LOADERID')
             ->values()
