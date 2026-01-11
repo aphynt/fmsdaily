@@ -211,11 +211,17 @@
                                         document.querySelector('#chart_siang_{{ $loop->index }}'),
                                         {
                                             chart: { type: 'bar', height: 260, toolbar: { show: false } },
+                                            colors: ['#7fffd4'],
                                             series: [{ name: 'Production', data: prodSiang_{{ $loop->index }} }],
                                             xaxis: { categories: labelsSiang_{{ $loop->index }}, title: { text: 'Jam' } },
                                             plotOptions: { bar: { columnWidth: '45%', borderRadius: 4 } },
                                             dataLabels: {
                                                 enabled: true,
+                                                style: {
+                                                    colors: ['#000000'],
+                                                    fontSize: '11px',
+                                                    fontWeight: '600'
+                                                },
                                                 formatter: val => val === 0 ? '' : val
                                             },
                                             yaxis: {
@@ -252,11 +258,17 @@
                                         document.querySelector('#chart_malam_{{ $loop->index }}'),
                                         {
                                             chart: { type: 'bar', height: 260, toolbar: { show: false } },
+                                            colors: ['#ffbb3c'],
                                             series: [{ name: 'Production', data: prodMalam_{{ $loop->index }} }],
                                             xaxis: { categories: labelsMalam_{{ $loop->index }}, title: { text: 'Jam' } },
                                             plotOptions: { bar: { columnWidth: '45%', borderRadius: 4 } },
                                             dataLabels: {
                                                 enabled: true,
+                                                style: {
+                                                    colors: ['#000000'],
+                                                    fontSize: '11px',
+                                                    fontWeight: '600'
+                                                },
                                                 formatter: val => val === 0 ? '' : val
                                             },
                                             yaxis: {
