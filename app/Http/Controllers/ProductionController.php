@@ -11,11 +11,13 @@ class ProductionController extends Controller
     //
     public function index()
     {
-
         $nowHour = (int) date('H');
 
         if ($nowHour >= 7 && $nowHour <= 18) {
 
+            // =========================
+            // SHIFT SIANG
+            // =========================
             $waktu = 'Siang';
 
             $shiftAktif   = 'Siang';
@@ -23,24 +25,29 @@ class ProductionController extends Controller
 
             $shiftAktifDate   = date('Y-m-d');
             $historyShiftDate = date('Y-m-d', strtotime('-1 day'));
+
         } else {
 
+            // =========================
+            // SHIFT MALAM
+            // =========================
             $waktu = 'Malam';
 
             $shiftAktif   = 'Malam';
             $historyShift = 'Siang';
 
             if ($nowHour < 7) {
-
                 $shiftAktifDate   = date('Y-m-d', strtotime('-1 day'));
                 $historyShiftDate = date('Y-m-d', strtotime('-1 day'));
             } else {
-
                 $shiftAktifDate   = date('Y-m-d');
                 $historyShiftDate = date('Y-m-d');
             }
         }
 
+        // =========================
+        // DATA PER HOUR (tetap)
+        // =========================
         $dataPerHour = DB::table('FOCUS_REPORTING.DASHBOARD.PRODUCTION_PER_HOUR as a')
             ->select([
                 'PIT',
@@ -65,49 +72,105 @@ class ProductionController extends Controller
             ")
             ->get();
 
-        $shiftNowRaw = DB::select(
-            'SET NOCOUNT ON;
-            EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_TODAY_AND_LAST_SHIFT
-            @shift = ?',
-            [$shiftAktif]
-        );
+        // =========================================================
+        // STRATEGI PEMANGGILAN SP SESUAI POLA FINAL
+        // =========================================================
 
-        $shiftHistoryRaw = DB::select(
-            'SET NOCOUNT ON;
-            EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_TODAY_AND_LAST_SHIFT
-            @shift = ?',
-            [$historyShift]
-        );
+        if ($shiftAktif === 'Siang') {
 
+            // -------- CASE: SHIFT SIANG --------
+            // Aktif   -> SP SIANG
+            // History -> SP MALAM
+
+            $rawAktif = DB::select(
+                'SET NOCOUNT ON;
+                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_TODAY_AND_LAST_SHIFT
+                @shift = ?',
+                ['Siang']
+            );
+
+            $rawHistorySource = DB::select(
+                'SET NOCOUNT ON;
+                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_TODAY_AND_LAST_SHIFT
+                @shift = ?',
+                ['Malam']
+            );
+
+        } else {
+
+            // -------- CASE: SHIFT MALAM --------
+            // Aktif + History sudah ada di SP MALAM
+
+            $rawAktif = DB::select(
+                'SET NOCOUNT ON;
+                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_TODAY_AND_LAST_SHIFT
+                @shift = ?',
+                ['Malam']
+            );
+
+            // history ambil dari hasil yang sama
+            $rawHistorySource = $rawAktif;
+        }
+
+        // =========================================================
+        // PISAHKAN DATA AKTIF & HISTORY
+        // =========================================================
+        $shiftNowRaw = array_values(array_filter($rawAktif, function ($row) use ($shiftAktif) {
+            return $row->SHIFT_PROD === $shiftAktif;
+        }));
+
+        $shiftHistoryRaw = array_values(array_filter($rawHistorySource, function ($row) use ($historyShift) {
+            return $row->SHIFT_PROD === $historyShift;
+        }));
+
+        // Kalau masih mau pakai filterByShiftHour, tetap aman
         $shiftNow     = $this->filterByShiftHour($shiftNowRaw, $shiftAktif);
         $shiftHistory = $this->filterByShiftHour($shiftHistoryRaw, $historyShift);
 
+        // =========================================================
+        // PER EX (LOGIKA SAMA DENGAN DI ATAS)
+        // =========================================================
 
-        $perExNow = DB::select(
-            'SET NOCOUNT ON;
-            EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
+        if ($shiftAktif === 'Siang') {
+
+            // Aktif -> SP SIANG
+            $perExNow = DB::select(
+                'SET NOCOUNT ON;
+                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
                 @shift = ?',
-            [$shiftAktif]
-        );
+                ['Siang']
+            );
 
-        $perExHistory = DB::select(
-            'SET NOCOUNT ON;
-            EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
+            // History -> SP MALAM
+            $perExHistory = DB::select(
+                'SET NOCOUNT ON;
+                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
                 @shift = ?',
-            [$historyShift]
-        );
+                ['Malam']
+            );
 
-        $perExAll = DB::select(
-            'SET NOCOUNT ON;
-            EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
+        } else {
+
+            // Shift MALAM: cukup satu kali panggil
+            $perExNow = DB::select(
+                'SET NOCOUNT ON;
+                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
                 @shift = ?',
-            ['']
-        );
+                ['Malam']
+            );
 
+            // History diambil dari hasil yang sama
+            $perExHistory = $perExNow;
+        }
+
+        // =========================================================
+        // GABUNG & OLAH PER EX (tetap seperti punya Anda)
+        // =========================================================
         $perExSource = array_merge($perExNow, $perExHistory);
         $perExAll = collect($perExSource)
             ->filter(fn($r) => !empty($r->LOD_LOADERID))
             ->sortBy('LOD_LOADERID')
+            ->where('PIT', '!=', NULL)
             ->values()
             ->toArray();
 
@@ -130,7 +193,6 @@ class ProductionController extends Controller
             }
         }
 
-        // overlay data real
         foreach ($perExAll as $row) {
             if (!isset($row->HOUR, $row->LOD_LOADERID)) continue;
 
@@ -154,19 +216,13 @@ class ProductionController extends Controller
 
         $groupedPerExHourList = array_values($groupedPerExHour);
 
-        // SORT KHUSUS UNTUK MODE MALAM
         if ($waktu === 'Malam') {
             usort($groupedPerExHourList, [$this, 'sortJamMalam']);
         }
 
-        // if ($waktu === 'Siang') {
-
-        //     $dataArray = array_merge($shiftNow, $shiftHistory);
-        // } else {
-
-        //     $dataArray = array_merge($shiftNow, $shiftHistory);
-        // }
-
+        // =========================================================
+        // FINAL DATA
+        // =========================================================
         $dataArray = $shiftNow;
 
         $actual = array_sum(array_map(fn($x) => (float) $x->PRODUCTION, $dataArray));
@@ -178,21 +234,25 @@ class ProductionController extends Controller
             'HistorySiang' => $waktu === 'Malam' ? $shiftHistory : [],
             'HistoryMalam' => $waktu === 'Siang' ? $shiftHistory : [],
         ];
+
         $data = [
-        'kategori' => array_merge($kategoriViewCompat, [
-            'ShiftAktif'       => $shiftNow,
-            'HistoryShift'     => $shiftHistory,
-            'PerExAktif'       => $perExNow,
-            'PerExHistory'     => $perExHistory,
-            'GroupedPerExHour' => $groupedPerExHourList,
-        ]),
-        'actual' => $actual,
-        'plan'   => $plan,
-        'waktu'  => $waktu,
-    ];
+            'kategori' => array_merge($kategoriViewCompat, [
+                'ShiftAktif'       => $shiftNow,
+                'HistoryShift'     => $shiftHistory,
+                'PerExAktif'       => $perExNow,
+                'PerExHistory'     => $perExHistory,
+                'GroupedPerExHour' => $groupedPerExHourList,
+            ]),
+            'actual' => $actual,
+            'plan'   => $plan,
+            'waktu'  => $waktu,
+        ];
+
+        // dd($data);
 
         return view('production.index', compact('data'));
     }
+
 
     function sortJamMalam($a, $b)
     {
