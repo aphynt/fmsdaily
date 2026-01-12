@@ -174,6 +174,16 @@
                 </a>
             </div>
             <div class="col-4 col-md-4 col-xxl-4">
+                <a href="{{ route('production.ex') }}" class="text-decoration-none">
+                    <div class="card mb-3">
+                        <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
+                            <img class="img-fluid card-img-top" src="{{ asset('dashboard/assets') }}/images/widget/production-ex.png" alt="Produksi Per EX Ja" style="max-width: 20px">
+                            <h6 class="card-title" style="font-size:11px">Produksi Per EX Jam</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{-- <div class="col-4 col-md-4 col-xxl-4">
                 <a href="{{ route('monitoringpayload') }}" class="text-decoration-none">
                     <div class="card mb-3">
                         <div class="card-body text-center" style="padding-left:2px; padding-right:2px;">
@@ -182,7 +192,7 @@
                         </div>
                     </div>
                 </a>
-            </div>
+            </div> --}}
         </div>
         <div class="col-md-12">
             <div class="card">
