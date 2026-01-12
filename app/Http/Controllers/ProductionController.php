@@ -128,99 +128,6 @@ class ProductionController extends Controller
         $shiftHistory = $this->filterByShiftHour($shiftHistoryRaw, $historyShift);
 
         // =========================================================
-        // PER EX (LOGIKA SAMA DENGAN DI ATAS)
-        // =========================================================
-
-        if ($shiftAktif === 'Siang') {
-
-            // Aktif -> SP SIANG
-            $perExNow = DB::select(
-                'SET NOCOUNT ON;
-                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
-                @shift = ?',
-                ['Siang']
-            );
-
-            // History -> SP MALAM
-            $perExHistory = DB::select(
-                'SET NOCOUNT ON;
-                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
-                @shift = ?',
-                ['Malam']
-            );
-
-        } else {
-
-            // Shift MALAM: cukup satu kali panggil
-            $perExNow = DB::select(
-                'SET NOCOUNT ON;
-                EXEC FOCUS_REPORTING.dbo.APP_GET_PRODUCTION_PER_EX_TODAY_AND_LAST_SHIFT
-                @shift = ?',
-                ['Malam']
-            );
-
-            // History diambil dari hasil yang sama
-            $perExHistory = $perExNow;
-        }
-
-        // =========================================================
-        // GABUNG & OLAH PER EX (tetap seperti punya Anda)
-        // =========================================================
-        $perExSource = array_merge($perExNow, $perExHistory);
-        $perExAll = collect($perExSource)
-            ->filter(fn($r) => !empty($r->LOD_LOADERID))
-            ->sortBy('LOD_LOADERID')
-            ->where('PIT', '!=', NULL)
-            ->values()
-            ->toArray();
-
-        $allEx = collect($perExAll)->pluck('LOD_LOADERID')->unique()->values();
-
-        $hours = collect(range(0, 23))
-            ->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT));
-
-        $groupedPerExHour = [];
-
-        foreach ($allEx as $ex) {
-            foreach ($hours as $h) {
-                $groupedPerExHour[$h . '_' . $ex] = [
-                    'HOUR' => $h,
-                    'LOD_LOADERID' => $ex,
-                    'PRODUCTION' => 0,
-                    'PLAN_PRODUCTION' => 0,
-                    'ACH' => 0,
-                ];
-            }
-        }
-
-        foreach ($perExAll as $row) {
-            if (!isset($row->HOUR, $row->LOD_LOADERID)) continue;
-
-            $hour = str_pad($row->HOUR, 2, '0', STR_PAD_LEFT);
-            $ex   = $row->LOD_LOADERID;
-
-            $key = $hour . '_' . $ex;
-
-            if (!isset($groupedPerExHour[$key])) continue;
-
-            $groupedPerExHour[$key]['PRODUCTION'] += (float) $row->PRODUCTION;
-            $groupedPerExHour[$key]['PLAN_PRODUCTION'] += (float) $row->PLAN_PRODUCTION;
-        }
-
-        foreach ($groupedPerExHour as &$g) {
-            $g['ACH'] = $g['PLAN_PRODUCTION'] > 0
-                ? ($g['PRODUCTION'] / $g['PLAN_PRODUCTION']) * 100
-                : 0;
-        }
-        unset($g);
-
-        $groupedPerExHourList = array_values($groupedPerExHour);
-
-        if ($waktu === 'Malam') {
-            usort($groupedPerExHourList, [$this, 'sortJamMalam']);
-        }
-
-        // =========================================================
         // FINAL DATA
         // =========================================================
         $dataArray = $shiftNow;
@@ -239,9 +146,7 @@ class ProductionController extends Controller
             'kategori' => array_merge($kategoriViewCompat, [
                 'ShiftAktif'       => $shiftNow,
                 'HistoryShift'     => $shiftHistory,
-                'PerExAktif'       => $perExNow,
-                'PerExHistory'     => $perExHistory,
-                'GroupedPerExHour' => $groupedPerExHourList,
+
             ]),
             'actual' => $actual,
             'plan'   => $plan,
