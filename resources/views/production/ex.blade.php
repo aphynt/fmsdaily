@@ -1,6 +1,7 @@
-@include('layout.head', ['title' => 'Produksi Per Jam'])
+@include('layout.head', ['title' => 'Produksi EX Per Jam'])
 @include('layout.sidebar')
 @include('layout.header')
+<script src="{{ asset('dashboard/assets') }}/js/plugins/chart.js"></script>
 <style>
     /* ===== KPI MOBILE STYLE ===== */
 .kpi-mobile-item {
@@ -33,6 +34,23 @@
     font-size: 13px;
     font-weight: 600;
     color: #1f8f3a;
+}
+.chart-panel {
+    background: #2b2d31;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+}
+
+.chart-title {
+    color: #e5e7eb;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.chart-dark canvas {
+    background: #2b2d31;
 }
 
 /* ================= KPI RESPONSIVE ================= */
@@ -143,34 +161,157 @@
                         </div>
                     </div>
                 </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        @php
+                            // =========================
+                            // SUMBER DATA EX
+                            // =========================
+                            $perExAktif = collect($data['kategori']['PerExAktif']);
+                            $perExHistory = collect($data['kategori']['PerExHistory']);
+
+                            // Group by EX
+                            $allExIds = $data['kategori']['OrderedExIds'];
+
+                            $perExAktifGrouped   = collect($data['kategori']['PerExAktif'])->groupBy('LOD_LOADERID');
+                            $perExHistoryGrouped = collect($data['kategori']['PerExHistory'])->groupBy('LOD_LOADERID');
+                            $jamSiang = [7,8,9,10,11,12,13,14,15,16,17,18];
+                            $jamMalam = [19,20,21,22,23,0,1,2,3,4,5,6];
 
 
+                            $chartExLabels = [];
+                            $chartExProd   = [];
+                            $chartExPlan   = [];
 
+                            $grouped = collect($data['kategori']['PerExAktif'])
+                                ->groupBy('LOD_LOADERID');
 
+                            foreach ($allExIds as $ex) {
+                                $rows = collect($grouped->get($ex, []));
 
+                                $chartExLabels[] = $ex;
+                                $chartExProd[] = round($rows->sum('PRODUCTION'));
+                                $chartExPlan[] = round($rows->sum('PLAN_PRODUCTION'));
+                            }
+                            @endphp
+                            <div class="chart-panel mb-3">
+                                <div class="chart-title">Production per EXCA</div>
+                                <div style="height:260px">
+                                    <canvas id="chartPerExca"></canvas>
+                                </div>
+                            </div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
 
+                                    const labels   = @json($chartExLabels);
+                                    const actual  = @json($chartExProd);
+                                    const plan    = @json($chartExPlan);
 
+                                    const ctx = document.getElementById('chartPerExca');
+                                    if (!ctx) return;
+
+                                    new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels,
+                                            datasets: [
+                                                {
+                                                    label: 'Actual',
+                                                    data: actual,
+                                                    backgroundColor: '#00b050',
+                                                    borderRadius: 6,
+                                                    barThickness: 22,
+                                                    barThickness: 15,      // ketebalan bar (px)
+                                                    maxBarThickness: 22
+                                                }
+                                            ]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            maintainAspectRatio: false,
+                                            layout: { padding: { top: 24 } },
+                                            plugins: {
+                                                legend: {
+                                                    labels: {
+                                                        color: '#e5e7eb',
+                                                        font: { weight: '600' }
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    backgroundColor: '#111',
+                                                    titleColor: '#fff',
+                                                    bodyColor: '#fff',
+                                                    padding: 8,
+                                                    callbacks: {
+                                                        label: c => ` ${c.raw}`
+                                                    }
+                                                }
+                                            },
+                                            scales: {
+                                                x: {
+                                                    ticks: {
+                                                        color: '#d1d5db',
+                                                        font: { size: 11, weight: '600' }
+                                                    },
+                                                    grid: {
+                                                        color: 'rgba(255,255,255,.08)'
+                                                    }
+                                                },
+                                                y: {
+                                                    beginAtZero: true,
+                                                    ticks: {
+                                                        color: '#9ca3af',
+                                                        font: { size: 11 }
+                                                    },
+                                                    grid: {
+                                                        color: 'rgba(255,255,255,.08)'
+                                                    },
+                                                    title: {
+                                                        display: true,
+                                                        text: 'BCM',
+                                                        color: '#9ca3af'
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        plugins: [{
+                                            /* ===== LABEL ANGKA DI ATAS BAR ===== */
+                                            id: 'valueBox',
+                                            afterDatasetsDraw(chart) {
+                                                const { ctx } = chart;
+                                                ctx.save();
+                                                ctx.font = '10px Arial';
+                                                ctx.textAlign = 'center';
+
+                                                chart.data.datasets.forEach((ds, di) => {
+                                                    const meta = chart.getDatasetMeta(di);
+                                                    meta.data.forEach((bar, i) => {
+                                                        const val = ds.data[i];
+                                                        if (!val) return;
+
+                                                        const x = bar.x;
+                                                        const y = bar.y - 6;
+
+                                                        ctx.fillStyle = '#fff';
+                                                        ctx.fillRect(x - 16, y - 14, 32, 14);
+
+                                                        ctx.fillStyle = '#000';
+                                                        ctx.fillText(val, x, y - 3);
+                                                    });
+                                                });
+
+                                                ctx.restore();
+                                            }
+                                        }]
+                                    });
+
+                                });
+                            </script>
+                    </div>
+                </div>
             </div>
 
             <div class="col-xl-6 col-md-6">
-
-                {{-- ===== ACCORDION PER EX (GRAPH MODE) ===== --}}
-                @php
-                // =========================
-                // SUMBER DATA EX
-                // =========================
-                $perExAktif = collect($data['kategori']['PerExAktif']);
-                $perExHistory = collect($data['kategori']['PerExHistory']);
-
-                // Group by EX
-                $allExIds = $data['kategori']['OrderedExIds'];
-
-                $perExAktifGrouped   = collect($data['kategori']['PerExAktif'])->groupBy('LOD_LOADERID');
-                $perExHistoryGrouped = collect($data['kategori']['PerExHistory'])->groupBy('LOD_LOADERID');
-                $jamSiang = [7,8,9,10,11,12,13,14,15,16,17,18];
-                $jamMalam = [19,20,21,22,23,0,1,2,3,4,5,6];
-
-                @endphp
 
                 <div class="card mb-3">
                     <div class="card-header">
