@@ -163,13 +163,10 @@
                 $perExHistory = collect($data['kategori']['PerExHistory']);
 
                 // Group by EX
-                $perExAktifGrouped = $perExAktif->groupBy('LOD_LOADERID');
-                $perExHistoryGrouped = $perExHistory->groupBy('LOD_LOADERID');
+                $allExIds = $data['kategori']['OrderedExIds'];
 
-                // Gabungkan key EX agar semua EX muncul
-                $allExIds = $perExAktifGrouped->keys()
-                ->merge($perExHistoryGrouped->keys())
-                ->unique();
+                $perExAktifGrouped   = collect($data['kategori']['PerExAktif'])->groupBy('LOD_LOADERID');
+                $perExHistoryGrouped = collect($data['kategori']['PerExHistory'])->groupBy('LOD_LOADERID');
                 $jamSiang = [7,8,9,10,11,12,13,14,15,16,17,18];
                 $jamMalam = [19,20,21,22,23,0,1,2,3,4,5,6];
 

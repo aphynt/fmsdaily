@@ -384,6 +384,35 @@ class ProductionController extends Controller
             'HistoryMalam' => $waktu === 'Siang' ? $shiftHistory : [],
         ];
 
+        $priorityExs = ['EX5279'];   // urutan = prioritas
+
+        $orderedExIds = collect($perExNow)
+            ->pluck('LOD_LOADERID')
+            ->filter()
+            ->map(fn($x) => trim((string)$x))
+            ->unique()
+            ->values()
+            ->toArray();
+
+        usort($orderedExIds, function ($a, $b) use ($priorityExs) {
+
+            $pa = array_search($a, $priorityExs, true);
+            $pb = array_search($b, $priorityExs, true);
+
+            if ($pa !== false && $pb !== false) {
+                return $pa <=> $pb;
+            }
+
+            // Jika hanya A priority → A di depan
+            if ($pa !== false) return -1;
+
+            // Jika hanya B priority → B di depan
+            if ($pb !== false) return 1;
+
+            // Kalau bukan priority → urut normal
+            return strcmp($a, $b);
+        });
+
         $data = [
             'kategori' => array_merge($kategoriViewCompat, [
                 'ShiftAktif'       => $shiftNow,
@@ -391,6 +420,7 @@ class ProductionController extends Controller
                 'PerExAktif'       => $perExNow,
                 'PerExHistory'     => $perExHistory,
                 'GroupedPerExHour' => $groupedPerExHourList,
+                'OrderedExIds'     => $orderedExIds,
             ]),
             'actual' => $actual,
             'plan'   => $plan,
