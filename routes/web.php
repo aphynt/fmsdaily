@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/operator/{nik}', [FormPengawasController::class, 'getOperatorByNIK']);
 
     Route::get('/production/index', [ProductionController::class, 'index'])->name('production.index');
+    Route::get('/production/ex/index', [ProductionController::class, 'ex'])->name('production.ex');
 
     //Form Pengawas Lama
     // Route::get('/form-pengawas-old/show', [FormPengawasOldController::class, 'show'])->name('form-pengawas-old.show');
