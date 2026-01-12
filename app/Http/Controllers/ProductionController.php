@@ -373,9 +373,12 @@ class ProductionController extends Controller
         // FINAL DATA
         // =========================================================
         $dataArray = $shiftNow;
+        $allForTotal = array_merge($shiftNow, $shiftHistory);
 
-        $actual = array_sum(array_map(fn($x) => (float) $x->PRODUCTION, $dataArray));
-        $plan   = array_sum(array_map(fn($x) => (float) $x->PLAN_PRODUCTION, $dataArray));
+        $actual = collect($dataArray)->sum(fn($x) => (float) $x->PRODUCTION);
+        $plan   = collect($dataArray)->sum(fn($x) => (float) $x->PLAN_PRODUCTION);
+        // $actual = array_sum(array_map(fn($x) => (float) $x->PRODUCTION, $dataArray));
+        // $plan   = array_sum(array_map(fn($x) => (float) $x->PLAN_PRODUCTION, $dataArray));
 
         $kategoriViewCompat = [
             'Siang'        => $waktu === 'Siang' ? $shiftNow : $shiftHistory,
