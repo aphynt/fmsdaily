@@ -241,7 +241,7 @@
                                 </div>
                             </div>
                             <div class="card-body p-3">
-                                @if (Auth::user()->role == 'ADMIN')
+                                @if (Auth::user()->roleRel?->name === 'ADMIN')
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedAll{{ $ld->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Semua</span></a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedForeman{{ $ld->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Foreman</span></a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#verifiedSupervisor{{ $ld->uuid }}"><span class="badge bg-success" style="font-size:14px">Verifikasi Supervisor</span></a>

@@ -19,16 +19,16 @@
                     <div class="mb-3">
                         <label>Pilih role</label>
                         <select class="form-select" name="role" required>
-                            <option value="{{ $us->role }}" selected disabled>{{ $us->role }}</option>
-                            <option value="FOREMAN">FOREMAN</option>
-                            <option value="SUPERVISOR">SUPERVISOR</option>
-                            <option value="SUPERINTENDENT">SUPERINTENDENT</option>
+                            <option value="{{ $us->role_id }}|{{ $us->role }}" selected disabled>{{ $us->role }}</option>
+                            @foreach ($role as $rl)
+                                <option value="{{ $rl->id }}|{{ $rl->name }}">{{ $rl->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                    <button type="submit" class="btn btn-primary" >Update</button>
                 </div>
             </form>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,10 @@ class UserController extends Controller
     //
     public function index()
     {
+
         $user = User::whereNotIn('role', ['ADMIN', 'PUBLIC'])->get();
-        return view('user.index', compact('user'));
+        $role = Role::all();
+        return view('user.index', compact('user', 'role'));
     }
 
     public function resetPassword($id)
@@ -45,9 +48,15 @@ class UserController extends Controller
     public function changeRole(Request $request, $id)
     {
         // dd($request->all());
+        if (!$request->filled('role')) {
+            return redirect()->back()->with('info', 'Silakan pilih role terlebih dahulu.');
+        }
         try {
+            [$roleId, $roleName] = explode('|', $request->role);
+
             User::where('id', $id)->update([
-                'role' => $request->role,
+                'role_id'       => (int) $roleId,
+                'role'          => $roleName,
                 'updated_by' => Auth::user()->id,
             ]);
 
@@ -66,12 +75,15 @@ class UserController extends Controller
             return redirect()->back()->with('info', 'Maaf, NIK/User sudah ada');
         }
 
+
         try {
+            [$roleId, $roleName] = explode('|', $request->role);
             User::create([
                 'name' => $request->name,
                 'uuid' => (string) Uuid::uuid4()->toString(),
                 'nik' => strtoupper($request->nik),
-                'role' => $request->role,
+                'role_id'       => (int) $roleId,
+                'role'          => $roleName,
                 'statusenabled' => true,
                 'created_by' => Auth::user()->id,
                 'password' => Hash::make('12345'),

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\CanAccess;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -29,7 +29,8 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Auth\Middleware\Authorize::class,
         ]);
         $middleware->alias([
-            'checkRole' => CheckRole::class,
+            // 'checkRole' => CheckRole::class,
+            'canAccess' => CanAccess::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

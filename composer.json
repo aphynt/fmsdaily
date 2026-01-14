@@ -30,7 +30,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/QrHelper.php"
+            "app/Helpers/QrHelper.php",
+            "app/Helpers/RoleHelper.php"
         ]
     },
     "autoload-dev": {

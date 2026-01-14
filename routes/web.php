@@ -93,7 +93,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Form Pengawas Lama
     // Route::get('/form-pengawas-old/show', [FormPengawasOldController::class, 'show'])->name('form-pengawas-old.show');
-    // Route::get('/form-pengawas-old/index', [FormPengawasOldController::class, 'index'])->name('form-pengawas-old.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    // Route::get('/form-pengawas-old/index', [FormPengawasOldController::class, 'index'])->name('form-pengawas-old.index')->middleware('canAccess');
     // Route::get('/form-pengawas-old/download/{uuid}', [FormPengawasOldController::class, 'download'])->name('form-pengawas-old.download');
     // Route::get('/form-pengawas-old/bundlepdf', [FormPengawasOldController::class, 'bundlepdf'])->name('form-pengawas-old.bundlepdf');
     // Route::get('/form-pengawas-old/download/pdf/{uuid}', [FormPengawasOldController::class, 'pdf'])->name('form-pengawas-old.pdf');
@@ -125,7 +125,7 @@ Route::group(['middleware' => ['auth']], function(){
     //Form Pengawas Baru
     Route::get('/form-pengawas-new/search-users', [FormPengawasNewController::class, 'users'])->name('cariUsers');
     Route::get('/form-pengawas-new/show', [FormPengawasNewController::class, 'show'])->name('form-pengawas-new.show');
-    Route::get('/form-pengawas-new/index', [FormPengawasNewController::class, 'index'])->name('form-pengawas-new.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
+    Route::get('/form-pengawas-new/index', [FormPengawasNewController::class, 'index'])->name('form-pengawas-new.index')->middleware('canAccess');
     Route::get('/form-pengawas-new/preview/{uuid}', [FormPengawasNewController::class, 'preview'])->name('form-pengawas-new.preview');
     Route::post('/save-draft', [FormPengawasNewController::class, 'saveAsDraft'])->name('daily-report.saveAsDraft');
     Route::get('/form-pengawas-new/get-draft/{uuid}', [FormPengawasNewController::class, 'getDraft'])->name('get-draft');
@@ -141,7 +141,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Form Pengawas Batu Bara
     Route::get('/form-pengawas-batubara/show', [FormPengawasBatuBaraController::class, 'show'])->name('form-pengawas-batubara.show');
-    Route::get('/form-pengawas-batubara/index', [FormPengawasBatuBaraController::class, 'index'])->name('form-pengawas-batubara.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
+    Route::get('/form-pengawas-batubara/index', [FormPengawasBatuBaraController::class, 'index'])->name('form-pengawas-batubara.index')->middleware('canAccess');
     Route::post('/form-pengawas-batubara/post', [FormPengawasBatuBaraController::class, 'post'])->name('form-pengawas-batubara.post');
     Route::post('/save-draft-form-pengawas-batubara', [FormPengawasBatuBaraController::class, 'saveAsDraft'])->name('form-pengawas-batubara.saveAsDraft');
     Route::get('/form-pengawas-batubara/preview/{uuid}', [FormPengawasBatuBaraController::class, 'preview'])->name('form-pengawas-batubara.preview');
@@ -161,7 +161,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/pengawas-pitstop/show', [PengawasPitstopController::class, 'show'])->name('pengawas-pitstop.show');
     Route::get('/pengawas-pitstop/operator', [PengawasPitstopController::class, 'operator'])->name('pengawas-pitstop.operator');
     Route::get('/pengawas-pitstop/operator/api', [PengawasPitstopController::class, 'operatorAPI'])->name('pengawas-pitstop.operatorAPI');
-    Route::get('/pengawas-pitstop/index', [PengawasPitstopController::class, 'index'])->name('pengawas-pitstop.index')->middleware('checkRole'.':FOREMAN,SUPERVISOR, SUPERINTENDENT');
+    Route::get('/pengawas-pitstop/index', [PengawasPitstopController::class, 'index'])->name('pengawas-pitstop.index')->middleware('canAccess');
     Route::post('/pengawas-pitstop/post', [PengawasPitstopController::class, 'post'])->name('pengawas-pitstop.post');
     Route::get('/pengawas-pitstop/excel', [PengawasPitstopController::class, 'excel'])->name('pengawas-pitstop.excel');
     Route::post('/save-draft-pengawas-pitstop', [PengawasPitstopController::class, 'saveAsDraft'])->name('pengawas-pitstop.saveAsDraft');
@@ -263,7 +263,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //KLKH Loading Point
     Route::get('/klkh/loading-point', [KLKHLoadingPointController::class, 'index'])->name('klkh.loading-point');
-    Route::get('/klkh/loading-point/insert', [KLKHLoadingPointController::class, 'insert'])->name('klkh.loading-point.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/klkh/loading-point/insert', [KLKHLoadingPointController::class, 'insert'])->name('klkh.loading-point.insert')->middleware('canAccess');
     Route::post('/klkh/loading-point/post', [KLKHLoadingPointController::class, 'post'])->name('klkh.loading-point.post');
     Route::get('/klkh/loading-point/delete/{id}', [KLKHLoadingPointController::class, 'delete'])->name('klkh.loading-point.delete');
     Route::get('/klkh/loading-point/preview/{uuid}', [KLKHLoadingPointController::class, 'preview'])->name('klkh.loading-point.preview');
@@ -277,7 +277,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //KLKH Haul Road
     Route::get('/klkh/haul-road', [KLKHHaulRoadController::class, 'index'])->name('klkh.haul-road');
-    Route::get('/klkh/haul-road/insert', [KLKHHaulRoadController::class, 'insert'])->name('klkh.haul-road.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/klkh/haul-road/insert', [KLKHHaulRoadController::class, 'insert'])->name('klkh.haul-road.insert')->middleware('canAccess');
     Route::post('/klkh/haul-road/post', [KLKHHaulRoadController::class, 'post'])->name('klkh.haul-road.post');
     Route::get('/klkh/haul-road/delete/{id}', [KLKHHaulRoadController::class, 'delete'])->name('klkh.haul-road.delete');
     Route::get('/klkh/haul-road/preview/{uuid}', [KLKHHaulRoadController::class, 'preview'])->name('klkh.haul-road.preview');
@@ -291,7 +291,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //KLKH Disposal
     Route::get('/klkh/disposal', [KLKHDisposalController::class, 'index'])->name('klkh.disposal');
-    Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/klkh/disposal/insert', [KLKHDisposalController::class, 'insert'])->name('klkh.disposal.insert')->middleware('canAccess');
     Route::post('/klkh/disposal/post', [KLKHDisposalController::class, 'post'])->name('klkh.disposal.post');
     Route::get('/klkh/disposal/delete/{id}', [KLKHDisposalController::class, 'delete'])->name('klkh.disposal.delete');
     Route::get('/klkh/disposal/preview/{uuid}', [KLKHDisposalController::class, 'preview'])->name('klkh.disposal.preview');
@@ -305,7 +305,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //KLKH Lumpur
     Route::get('/klkh/lumpur', [KLKHLumpurController::class, 'index'])->name('klkh.lumpur');
-    Route::get('/klkh/lumpur/insert', [KLKHLumpurController::class, 'insert'])->name('klkh.lumpur.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/klkh/lumpur/insert', [KLKHLumpurController::class, 'insert'])->name('klkh.lumpur.insert')->middleware('canAccess');
     Route::post('/klkh/lumpur/post', [KLKHLumpurController::class, 'post'])->name('klkh.lumpur.post');
     Route::get('/klkh/lumpur/delete/{id}', [KLKHLumpurController::class, 'delete'])->name('klkh.lumpur.delete');
     Route::get('/klkh/lumpur/preview/{uuid}', [KLKHLumpurController::class, 'preview'])->name('klkh.lumpur.preview');
@@ -319,7 +319,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //KLKH OGS
     Route::get('/klkh/ogs', [KLKHOGSController::class, 'index'])->name('klkh.ogs');
-    Route::get('/klkh/ogs/insert', [KLKHOGSController::class, 'insert'])->name('klkh.ogs.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/klkh/ogs/insert', [KLKHOGSController::class, 'insert'])->name('klkh.ogs.insert')->middleware('canAccess');
     Route::post('/klkh/ogs/post', [KLKHOGSController::class, 'post'])->name('klkh.ogs.post');
     Route::get('/klkh/ogs/delete/{id}', [KLKHOGSController::class, 'delete'])->name('klkh.ogs.delete');
     Route::get('/klkh/ogs/preview/{uuid}', [KLKHOGSController::class, 'preview'])->name('klkh.ogs.preview');
@@ -333,7 +333,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //KLKH Batu Bara
     Route::get('/klkh/batubara', [KLKHBatuBaraController::class, 'index'])->name('klkh.batubara');
-    Route::get('/klkh/batubara/insert', [KLKHBatuBaraController::class, 'insert'])->name('klkh.batubara.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/klkh/batubara/insert', [KLKHBatuBaraController::class, 'insert'])->name('klkh.batubara.insert')->middleware('canAccess');
     Route::post('/klkh/batubara/post', [KLKHBatuBaraController::class, 'post'])->name('klkh.batubara.post');
     Route::get('/klkh/batubara/delete/{id}', [KLKHBatuBaraController::class, 'delete'])->name('klkh.batubara.delete');
     Route::get('/klkh/batubara/preview/{uuid}', [KLKHBatuBaraController::class, 'preview'])->name('klkh.batubara.preview');
@@ -347,7 +347,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     //KLKH Simpang Empat
     Route::get('/klkh/simpangempat', [KLKHSimpangEmpatController::class, 'index'])->name('klkh.simpangempat');
-    Route::get('/klkh/simpangempat/insert', [KLKHSimpangEmpatController::class, 'insert'])->name('klkh.simpangempat.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR');
+    Route::get('/klkh/simpangempat/insert', [KLKHSimpangEmpatController::class, 'insert'])->name('klkh.simpangempat.insert')->middleware('canAccess');
     Route::post('/klkh/simpangempat/post', [KLKHSimpangEmpatController::class, 'post'])->name('klkh.simpangempat.post');
     Route::get('/klkh/simpangempat/delete/{id}', [KLKHSimpangEmpatController::class, 'delete'])->name('klkh.simpangempat.delete');
     Route::get('/klkh/simpangempat/preview/{uuid}', [KLKHSimpangEmpatController::class, 'preview'])->name('klkh.simpangempat.preview');
@@ -409,7 +409,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/monitoring-payload', [MonitoringPayloadController::class, 'index'])->name('monitoringpayload');
 
     // User
-    Route::get('/user/index', [UserController::class, 'index'])->name('user.index')->middleware('checkRole'.':ADMIN');
+    Route::get('/user/index', [UserController::class, 'index'])->name('user.index')->middleware('canAccess');
     Route::post('/user/insert', [UserController::class, 'insert'])->name('user.insert');
     Route::post('/user/change-role/{id}', [UserController::class, 'changeRole'])->name('user.change-role');
     Route::get('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user.reset-password');
@@ -419,9 +419,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/safety/p2h', [P2HController::class, 'index'])->name('p2h.index');
     Route::get('/safety/p2h/api', [P2HController::class, 'api'])->name('p2h.api');
     Route::get('/safety/p2h/detail', [P2HController::class, 'detail'])->name('p2h.detail');
-    Route::get('/safety/p2h/monitoring', [P2HController::class, 'monitoring'])->name('monitoring.p2h')->middleware('checkRole'.':ADMIN,SUPERINTENDENT SAFETY,SUPERVISOR SAFETY,FOREMAN SAFETY');
-    Route::get('/safety/p2h/api/monitoring', [P2HController::class, 'api_monitoring'])->name('p2h.api_monitoring')->middleware('checkRole'.':ADMIN,SUPERINTENDENT SAFETY,SUPERVISOR SAFETY,FOREMAN SAFETY');
-    Route::get('/safety/p2h/detail_monitoring', [P2HController::class, 'detail_monitoring'])->name('p2h.detail_monitoring')->middleware('checkRole'.':ADMIN,SUPERINTENDENT SAFETY,SUPERVISOR SAFETY,FOREMAN SAFETY');
+    Route::get('/safety/p2h/monitoring', [P2HController::class, 'monitoring'])->name('monitoring.p2h')->middleware('canAccess');
+    Route::get('/safety/p2h/api/monitoring', [P2HController::class, 'api_monitoring'])->name('p2h.api_monitoring');
+    Route::get('/safety/p2h/detail_monitoring', [P2HController::class, 'detail_monitoring'])->name('p2h.detail_monitoring');
     Route::post('/safety/p2h/verifikasi', [P2HController::class, 'verifikasi'])->name('p2h.verifikasi');
     Route::get('/safety/p2h/show', [P2HController::class, 'show'])->name('p2h.show');
     Route::post('/safety/p2h/detail/post', [P2HController::class, 'detail_post'])->name('p2h.detail.post');
@@ -439,20 +439,20 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/kkh/download', [KKHController::class, 'download'])->name('kkh.download');
 
     //Job Pending
-    Route::get('/job-pending', [JobPendingController::class, 'index'])->name('jobpending')->middleware('checkRole'.':FOREMAN,SUPERVISOR,SUPERINTENDENT,ADMIN,MANAGER');
-    Route::get('/job-pending/insert', [JobPendingController::class, 'insert'])->name('jobpending.insert')->middleware('checkRole'.':FOREMAN,SUPERVISOR,SUPERINTENDENT');
+    Route::get('/job-pending', [JobPendingController::class, 'index'])->name('jobpending')->middleware('canAccess');
+    Route::get('/job-pending/insert', [JobPendingController::class, 'insert'])->name('jobpending.insert')->middleware('canAccess');
     Route::post('/job-pending/post', [JobPendingController::class, 'post'])->name('jobpending.post');
     Route::post('/job-pending/catatanPenerima/{uuid}', [JobPendingController::class, 'catatanPenerima'])->name('jobpending.catatanPenerima');
     Route::get('/job-pending/show/{uuid}', [JobPendingController::class, 'show'])->name('jobpending.show');
     Route::get('/job-pending/cetak/{uuid}', [JobPendingController::class, 'cetak'])->name('jobpending.cetak');
     Route::get('/job-pending/download/{uuid}', [JobPendingController::class, 'download'])->name('jobpending.download');
     Route::get('/job-pending/verifikasi/{uuid}', [JobPendingController::class, 'verifikasi'])->name('jobpending.verifikasi');
-    Route::get('/job-pending/detail', [JobPendingController::class, 'detail'])->name('jobpending.detail');
+    Route::get('/job-pending/detail', [JobPendingController::class, 'detail'])->name('jobpending.detail')->middleware('canAccess');
     Route::get('/job-pending/apiDetail', [JobPendingController::class, 'apiDetail'])->name('jobpending.apiDetail');
     Route::get('/job-pending/excelDetail', [JobPendingController::class, 'excelDetail'])->name('jobpending.excelDetail');
 
     // Log
-    Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('checkRole'.':ADMIN');
+    Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('canAccess');
 });
 Route::get('/verified/{encodedNik}', [VerifiedController::class, 'index'])->name('verified.index');
 

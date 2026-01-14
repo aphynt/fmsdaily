@@ -81,7 +81,7 @@ class KLKHDisposalController extends Controller
         // if (Auth::user()->role == 'SUPERINTENDENT') {
         //     $baseQuery->where('superintendent', Auth::user()->nik);
         // }
-        if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY'])) {
+        if (in_array(Auth::user()->role, ['ADMIN', 'MANAGER', 'SUPERINTENDENT SAFETY', 'SUPERVISOR SAFETY', 'FOREMAN SAFETY', 'PIT CONTROL'])) {
             $baseQuery->orWhere('pic', Auth::user()->id);
         }
 

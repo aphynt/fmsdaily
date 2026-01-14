@@ -1,4 +1,4 @@
-@include('layout.head', ['title' => 'KLKH Loading Point'])
+@include('layout.head', ['title' => 'Users'])
 @include('layout.sidebar')
 @include('layout.header')
 

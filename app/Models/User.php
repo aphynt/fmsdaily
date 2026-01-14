@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'uuid',
+        'role_id',
     ];
 
     /**
@@ -51,5 +52,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function roleRel()
+    {
+        return $this->belongsTo(\App\Models\Role::class, 'role_id');
     }
 }
