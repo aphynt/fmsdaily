@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        require_once app_path('Helpers/RoleHelper.php');
         Event::listen(\Illuminate\Console\Events\CommandStarting::class, function ($event) {
             if (in_array($event->command, [
                 'migrate',
