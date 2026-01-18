@@ -48,6 +48,15 @@
         font-weight: bold;
         cursor: pointer;
     }
+    .note-warning {
+        background-color: #fff3cd;
+        border-left: 5px solid #ffc107;
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #664d03;
+    }
+
 </style>
 <section class="pc-container">
     <div class="pc-content">
@@ -218,6 +227,15 @@
                                     @endif
                                     <h5>{{ $data[0]->nama_diterima ?? '.......................' }}</h5>
 
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="note-warning">
+                                    <strong>NOTE:</strong>
+                                    <ul class="mb-0">
+                                        <li>Wajib mengikuti <b>Staging Plan</b> dari Engineering</li>
+                                        <li>Wajib kontrol batas boundary kerja sesuai Desain melalui <b>Avenza</b></li>
+                                    </ul>
                                 </div>
                             </div>
 
