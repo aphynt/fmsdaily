@@ -1,4 +1,4 @@
-@include('layout.head', ['title' => 'Daftar Laporan Pengawas OB & Coal'])
+@include('layout.head', ['title' => 'Staging Plan'])
 @include('layout.sidebar')
 @include('layout.header')
 
@@ -10,7 +10,7 @@
                     <div class="col-md-12">
                         <ul class="breadcrumb">
                             {{-- <li class="breadcrumb-item"><a href="javascript: void(0)">Home</a></li> --}}
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">Daftar Laporan Pengawas OB & Coal</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0)">Staging Plan</a></li>
                         </ul>
                     </div>
                     <div class="col-12">
