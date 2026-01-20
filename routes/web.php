@@ -37,6 +37,7 @@ use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RosterKerjaController;
 use App\Http\Controllers\SOPProduksiController;
+use App\Http\Controllers\StagingPlanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifiedController;
 use App\Http\Controllers\VerifikasiKLKHBatubaraController;
@@ -450,6 +451,12 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/job-pending/detail', [JobPendingController::class, 'detail'])->name('jobpending.detail')->middleware('canAccess');
     Route::get('/job-pending/apiDetail', [JobPendingController::class, 'apiDetail'])->name('jobpending.apiDetail');
     Route::get('/job-pending/excelDetail', [JobPendingController::class, 'excelDetail'])->name('jobpending.excelDetail');
+
+    //Staging Plan
+    Route::get('/staging-plan', [StagingPlanController::class, 'index'])->name('stagingplan')->middleware('canAccess');
+    Route::get('/staging-plan/insert', [StagingPlanController::class, 'insert'])->name('stagingplan.insert');
+    Route::get('/staging-plan/delete/{uuid}', [StagingPlanController::class, 'delete'])->name('stagingplan.delete');
+    Route::post('/staging-plan/post', [StagingPlanController::class, 'post'])->name('stagingplan.post');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('canAccess');

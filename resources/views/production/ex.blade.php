@@ -98,6 +98,25 @@
     }
 }
 
+    .staging-img {
+        max-width: 700px;
+        object-fit: contain;
+    }
+
+    /* Tablet */
+    @media (max-width: 992px) {
+        .staging-img {
+            max-width: 320px;
+        }
+    }
+
+    /* Mobile */
+    @media (max-width: 576px) {
+        .staging-img {
+            max-width: 320px;
+        }
+    }
+
 </style>
 <div class="pc-container">
     <div class="pc-content">
@@ -131,13 +150,36 @@
                                     {{ number_format($data['plan'] != 0 ? ($data['actual'] / $data['plan']) * 100 : 0, 2) }}%
                                 </span>
                             </p>
+                            @php
+                                $percent = $data['plan'] != 0
+                                    ? ($data['actual'] / $data['plan']) * 100
+                                    : 0;
 
-                            <div class="progress progress-primary">
+                                if ($percent < 65) {
+                                    $color = '#fb8078'; // merah
+                                } elseif ($percent <= 85) {
+                                    $color = '#ffa500'; // orange
+                                } elseif ($percent <= 100) {
+                                    $color = '#039201'; // hijau
+                                } else {
+                                    $color = '#4e7be6'; // biru
+                                }
+
+                                $percentFormatted = number_format($percent, 2);
+                                $width = min($percent, 100); // supaya tidak overflow
+                            @endphp
+
+                            <div class="progress" style="height: 20px;">
                                 <div class="progress-bar"
-                                    style="width: {{ number_format($data['plan'] != 0 ? ($data['actual'] / $data['plan']) * 100 : 0, 2) }}%">
-                                    {{ number_format($data['plan'] != 0 ? ($data['actual'] / $data['plan']) * 100 : 0, 2) }}%
+                                    role="progressbar"
+                                    style="width: {{ $width }}%; background-color: {{ $color }};"
+                                    aria-valuenow="{{ $percentFormatted }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    {{ $percentFormatted }}%
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="d-grid gap-3">
@@ -161,9 +203,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        @php
+                @php
                             // =========================
                             // SUMBER DATA EX
                             // =========================
@@ -194,12 +234,13 @@
                                 $chartExPlan[] = round($rows->sum('PLAN_PRODUCTION'));
                             }
                             @endphp
-                            <div class="chart-panel mb-3">
+
+                            {{-- <div class="chart-panel mb-3">
                                 <div class="chart-title">Production per EXCA</div>
                                 <div style="height:260px">
                                     <canvas id="chartPerExca"></canvas>
                                 </div>
-                            </div>
+                            </div> --}}
                             <script>
                                 document.addEventListener("DOMContentLoaded", function () {
 
@@ -307,8 +348,19 @@
 
                                 });
                             </script>
+                @if($data['staging'])
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="card-header align-items-center justify-content-between">
+                            <h5 class="mb-0">Staging Plan</h5>
+                            <img src="{{ $data['staging']->image }}" alt="Staging Plan" class="staging-img">
+                        </div>
+                        <a href="{{ $data['staging']->image }}" class="btn btn-primary w-50" style="padding-top:5px;padding-bottom:5px;" download>
+                            Download Gambar
+                        </a>
                     </div>
                 </div>
+                @endif
             </div>
 
             <div class="col-xl-6 col-md-6">

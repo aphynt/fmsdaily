@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StagingPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -133,7 +134,8 @@ class ProductionController extends Controller
         $dataArray = $shiftNow;
 
         $actual = array_sum(array_map(fn($x) => (float) $x->PRODUCTION, $dataArray));
-        $plan   = array_sum(array_map(fn($x) => (float) $x->PLAN_PRODUCTION, $dataArray));
+        // $plan   = array_sum(array_map(fn($x) => (float) $x->PLAN_PRODUCTION, $dataArray));
+        $plan = DB::table('PLAN_PRODUCTION')->where('statusenabled', true)->sum('plan');
 
         $kategoriViewCompat = [
             'Siang'        => $waktu === 'Siang' ? $shiftNow : $shiftHistory,
@@ -149,7 +151,7 @@ class ProductionController extends Controller
 
             ]),
             'actual' => $actual,
-            'plan'   => $plan,
+            'plan'   => 50500,
             'waktu'  => $waktu,
         ];
 
@@ -312,6 +314,36 @@ class ProductionController extends Controller
             $perExHistory = $perExNow;
         }
 
+        $nowHour = (int) date('H');
+        $today   = date('Y-m-d');
+        $tomorrow = date('Y-m-d', strtotime('+1 day'));
+
+        if ($nowHour >= 7 && $nowHour < 19) {
+
+            // =========================
+            // SHIFT SIANG (07–19)
+            // =========================
+            $shiftIdAktif = 1;
+            $startDateRef = $today;
+            $endDateRef   = $today;
+
+        } else {
+
+            // =========================
+            // SHIFT MALAM (19–07)
+            // =========================
+            $shiftIdAktif = 2;
+            $startDateRef = $today;
+            $endDateRef   = $tomorrow;
+        }
+
+
+        $staging = StagingPlan::where('statusenabled', true)
+        ->where('shift_id', $shiftIdAktif)
+        ->whereDate('start_date', '<=', $startDateRef)
+        ->whereDate('end_date', '>=', $endDateRef)
+        ->first();
+
         // =========================================================
         // GABUNG & OLAH PER EX (tetap seperti punya Anda)
         // =========================================================
@@ -376,7 +408,8 @@ class ProductionController extends Controller
         $allForTotal = array_merge($shiftNow, $shiftHistory);
 
         $actual = collect($dataArray)->sum(fn($x) => (float) $x->PRODUCTION);
-        $plan   = collect($dataArray)->sum(fn($x) => (float) $x->PLAN_PRODUCTION);
+        // $plan   = collect($dataArray)->sum(fn($x) => (float) $x->PLAN_PRODUCTION);
+        $plan = DB::table('PLAN_PRODUCTION')->where('statusenabled', true)->sum('plan');
         // $actual = array_sum(array_map(fn($x) => (float) $x->PRODUCTION, $dataArray));
         // $plan   = array_sum(array_map(fn($x) => (float) $x->PLAN_PRODUCTION, $dataArray));
 
@@ -428,6 +461,7 @@ class ProductionController extends Controller
             'actual' => $actual,
             'plan'   => $plan,
             'waktu'  => $waktu,
+            'staging'  => $staging,
         ];
 
         // dd($data);

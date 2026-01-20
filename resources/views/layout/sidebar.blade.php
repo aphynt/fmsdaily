@@ -228,6 +228,17 @@
                 </li>
                 @endif
 
+                {{-- JOB PENDING --}}
+                @if (canAccess('jobpending'))
+                <li class="pc-item"><a href="{{ route('jobpending') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/job-creation.png" alt="NT"></span><span class="pc-mtext">Job Pending</span></a></li>
+                @endif
+
+                <li class="pc-item pc-caption"><label>Kesiapan & Verifikasi</label></li>
+
+                @if (canAccess('stagingplan'))
+                <li class="pc-item"><a href="{{ route('stagingplan') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/blueprint.png" alt="NT"></span><span class="pc-mtext">Staging Plan</span></a></li>
+                @endif
+
                 {{-- VERIFIKASI --}}
                 @if (
                     canAccess('verifikasi.klkh') ||
@@ -262,10 +273,7 @@
                 </li>
                 @endif
 
-                {{-- JOB PENDING --}}
-                @if (canAccess('jobpending'))
-                <li class="pc-item"><a href="{{ route('jobpending') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/job-creation.png" alt="NT"></span><span class="pc-mtext">Job Pending</span></a></li>
-                @endif
+
 
                 {{-- ADMIN / MANAGER --}}
                 @if (canAccess('rosterkerja'))

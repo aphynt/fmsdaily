@@ -35,10 +35,33 @@
                                 </span>
                             </p>
 
-                            <div class="progress progress-primary">
+                            @php
+                                $percent = $data['plan'] != 0
+                                    ? ($data['actual'] / $data['plan']) * 100
+                                    : 0;
+
+                                if ($percent < 65) {
+                                    $color = '#fb8078'; // merah
+                                } elseif ($percent <= 85) {
+                                    $color = '#ffa500'; // orange
+                                } elseif ($percent <= 100) {
+                                    $color = '#039201'; // hijau
+                                } else {
+                                    $color = '#4e7be6'; // biru
+                                }
+
+                                $percentFormatted = number_format($percent, 2);
+                                $width = min($percent, 100); // supaya tidak overflow
+                            @endphp
+
+                            <div class="progress" style="height: 20px;">
                                 <div class="progress-bar"
-                                    style="width: {{ number_format($data['plan'] != 0 ? ($data['actual'] / $data['plan']) * 100 : 0, 2) }}%">
-                                    {{ number_format($data['plan'] != 0 ? ($data['actual'] / $data['plan']) * 100 : 0, 2) }}%
+                                    role="progressbar"
+                                    style="width: {{ $width }}%; background-color: {{ $color }};"
+                                    aria-valuenow="{{ $percentFormatted }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    {{ $percentFormatted }}%
                                 </div>
                             </div>
                         </div>
