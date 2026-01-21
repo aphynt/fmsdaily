@@ -133,9 +133,40 @@ class ProductionController extends Controller
         // =========================================================
         $dataArray = $shiftNow;
 
+        $nowHour = (int) date('H');
+        $today   = date('Y-m-d');
+        $tomorrow = date('Y-m-d', strtotime('+1 day'));
+
+        if ($nowHour >= 7 && $nowHour < 19) {
+
+            // =========================
+            // SHIFT SIANG (07–19)
+            // =========================
+            $shiftIdAktif = 1;
+            $startDateRef = $today;
+            $endDateRef   = $today;
+
+        } else {
+
+            // =========================
+            // SHIFT MALAM (19–07)
+            // =========================
+            $shiftIdAktif = 2;
+            $startDateRef = $today;
+            $endDateRef   = $tomorrow;
+        }
+
+
+        $staging = StagingPlan::where('statusenabled', true)
+        // ->where('shift_id', $shiftIdAktif)
+        ->whereDate('start_date', '<=', $startDateRef)
+        ->whereDate('end_date', '>=', $endDateRef)
+        ->first();
+
         $actual = array_sum(array_map(fn($x) => (float) $x->PRODUCTION, $dataArray));
         // $plan   = array_sum(array_map(fn($x) => (float) $x->PLAN_PRODUCTION, $dataArray));
         $plan = DB::table('PLAN_PRODUCTION')->where('statusenabled', true)->sum('plan');
+
 
         $kategoriViewCompat = [
             'Siang'        => $waktu === 'Siang' ? $shiftNow : $shiftHistory,
@@ -151,8 +182,9 @@ class ProductionController extends Controller
 
             ]),
             'actual' => $actual,
-            'plan'   => 50500,
+            'plan'   => $plan,
             'waktu'  => $waktu,
+            'staging'  => $staging,
         ];
 
         // dd($data);
@@ -339,7 +371,7 @@ class ProductionController extends Controller
 
 
         $staging = StagingPlan::where('statusenabled', true)
-        ->where('shift_id', $shiftIdAktif)
+        // ->where('shift_id', $shiftIdAktif)
         ->whereDate('start_date', '<=', $startDateRef)
         ->whereDate('end_date', '>=', $endDateRef)
         ->first();

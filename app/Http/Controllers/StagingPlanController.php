@@ -96,7 +96,7 @@ class StagingPlanController extends Controller
             'statusenabled' => true,
             'start_date'    => $startDate,
             'end_date'      => $endDate,
-            'shift_id'      => $request->shift_id,
+            // 'shift_id'      => $request->shift_id,
             'image'         => $imageUrl,
         ]);
 

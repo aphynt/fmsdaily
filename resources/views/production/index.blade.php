@@ -2,6 +2,26 @@
 @include('layout.sidebar')
 @include('layout.header')
 <script src="{{ asset('dashboard/assets') }}/js/plugins/apexcharts.min.js"></script>
+<style>
+    .staging-img {
+        max-width: 700px;
+        object-fit: contain;
+    }
+
+    /* Tablet */
+    @media (max-width: 992px) {
+        .staging-img {
+            max-width: 320px;
+        }
+    }
+
+    /* Mobile */
+    @media (max-width: 576px) {
+        .staging-img {
+            max-width: 320px;
+        }
+    }
+</style>
 <div class="pc-container">
     <div class="pc-content">
 
@@ -87,7 +107,19 @@
                         </div>
                     </div>
                 </div>
-
+                @if($data['staging'])
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="card-header align-items-center justify-content-between">
+                            <h5 class="mb-0">Staging Plan</h5>
+                            <img src="{{ $data['staging']->image }}" alt="Staging Plan" class="staging-img">
+                        </div>
+                        <a href="{{ $data['staging']->image }}" class="btn btn-primary w-50" style="padding-top:5px;padding-bottom:5px;" download>
+                            Download Gambar
+                        </a>
+                    </div>
+                </div>
+                @endif
             </div>
 
             <div class="col-xl-6 col-md-6">

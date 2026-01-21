@@ -26,7 +26,7 @@
                                             <label for="endStagingPlan">End Date</label>
                                             <input type="text" id="endStagingPlan" class="form-control" name="endStagingPlan" value="{{ request('endStagingPlan') ? \Carbon\Carbon::parse(request('endStagingPlan'))->format('m/d/Y') : '' }}">
                                         </div>
-                                        <div class="col-12 col-md-2 mb-2">
+                                        {{-- <div class="col-12 col-md-2 mb-2">
                                             <label for="shift">Shift</label>
                                             <select class="form-select" name="shift" id="shift">
                                                 <option value="Semua" {{ (request('shift') == 'Semua' || !request('shift')) ? 'selected' : '' }}>Semua</option>
@@ -36,7 +36,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
                                             <button type="submit" class="btn btn-primary w-100" style="padding-top:10px;padding-bottom:10px;">Tampilkan</button>
@@ -71,7 +71,7 @@
                                         <th>No</th>
                                         <th>Mulai</th>
                                         <th>Selesai</th>
-                                        <th>Shift</th>
+                                        {{-- <th>Shift</th> --}}
                                         <th>Gambar</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -84,7 +84,7 @@
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $stg->start_date }}</td>
                                             <td>{{ $stg->end_date }}</td>
-                                            <td>{{ $stg->shift }}</td>
+                                            {{-- <td>{{ $stg->shift }}</td> --}}
                                             <td>
                                                 <a href="javascript:void(0)"
                                                     class="badge text-center me-1"
