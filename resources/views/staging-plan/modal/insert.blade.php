@@ -17,15 +17,24 @@
                         <label>End Date</label>
                         <input type="text" id="endDate" class="form-control" value="" name="end_date" required>
                     </div>
-                    {{-- <div class="mb-3">
+                    <div class="mb-3">
                         <label>Shift</label>
-                        <select class="form-select" id="shiftSupport" name="shift_id" required>
+                        <select class="form-select" id="shiftSupport" name="shift_id">
                             <option selected disabled>Pilih shift</option>
                             @foreach ($shift as $shh)
                             <option value="{{ $shh->id }}">{{ $shh->keterangan }}</option>
                             @endforeach
                         </select>
-                    </div> --}}
+                    </div>
+                    <div class="mb-3">
+                        <label>Shift</label>
+                        <select class="form-select" id="pitSupport" name="pit_id" required>
+                            <option selected disabled>Pilih pit</option>
+                            @foreach ($pit as $ptt)
+                            <option value="{{ $ptt->id }}">{{ $ptt->keterangan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label>Upload Gambar</label>
                         <input type="file" id="image" class="form-control" accept="image/*" name="image" required>

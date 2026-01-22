@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Shift;
 use App\Models\StagingPlan;
 use Carbon\Carbon;
@@ -20,6 +21,7 @@ class StagingPlanController extends Controller
         session(['requestTimeLaporanKerjaOBCoal' => $request->all()]);
         $time = new DateTime();
         $filterShift = $request->shift ?? 'Semua';
+        $filterPit = $request->pit ?? 5;
 
         if (empty($request->startStagingPlan) || empty($request->endStagingPlan)) {
             $time = new DateTime();
@@ -34,10 +36,12 @@ class StagingPlanController extends Controller
         $endTimeFormatted   = $end->format('Y-m-d');
 
         $shift = Shift::where('statusenabled', true)->get();
+        $pit = Area::where('statusenabled', true)->orderByDesc('id')->get();
 
         $stagingQuery = DB::table('STAGING_PLAN as sp')
             ->leftJoin('users as us', 'sp.pic', '=', 'us.id')
             ->leftJoin('REF_SHIFT as sh', 'sp.shift_id', '=', 'sh.id')
+            ->leftJoin('REF_AREA as ar', 'sp.pit_id', '=', 'ar.id')
             ->select(
                 'sp.id',
                 'sp.uuid',
@@ -45,6 +49,7 @@ class StagingPlanController extends Controller
                 'sp.pic',
                 'us.name as nama_pic',
                 'sh.keterangan as shift',
+                'ar.keterangan as pit',
                 'sp.start_date',
                 'sp.end_date',
                 'sp.image'
@@ -59,13 +64,17 @@ class StagingPlanController extends Controller
                     });
             });
 
-        if ($filterShift !== 'Semua') {
+        if ($filterShift != 'Semua') {
             $stagingQuery->where('sp.shift_id', $filterShift);
+        }
+
+        if ($filterPit != 5) {
+            $stagingQuery->where('sp.pit_id', $filterPit);
         }
 
         $staging = $stagingQuery->get();
 
-        return view('staging-plan.index', compact('shift', 'staging'));
+        return view('staging-plan.index', compact('shift', 'staging', 'pit'));
     }
 
     public function post(Request $request)
@@ -96,7 +105,8 @@ class StagingPlanController extends Controller
             'statusenabled' => true,
             'start_date'    => $startDate,
             'end_date'      => $endDate,
-            // 'shift_id'      => $request->shift_id,
+            'shift_id'      => $request->shift_id,
+            'pit_id'      => $request->pit_id,
             'image'         => $imageUrl,
         ]);
 

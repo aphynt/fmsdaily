@@ -45,6 +45,10 @@
                 <li class="pc-item"><a href="{{ route('production.ex') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/production-ex.png" alt="NT"></span><span class="pc-mtext">Produksi EX Per Jam</span></a></li>
                 @endif
 
+                @if (canAccess('stagingplan'))
+                <li class="pc-item"><a href="{{ route('stagingplan') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/blueprint.png" alt="NT"></span><span class="pc-mtext">Staging Plan</span></a></li>
+                @endif
+
                 {{-- PAYLOAD --}}
                 @if (canAccess('payloadritation.exa'))
                 <li class="pc-item"><a href="{{ route('payloadritation.exa') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/loading.png" alt="NT"></span><span class="pc-mtext">Payload & Ritation</span></a></li>
@@ -234,10 +238,6 @@
                 @endif
 
                 <li class="pc-item pc-caption"><label>Kesiapan & Verifikasi</label></li>
-
-                @if (canAccess('stagingplan'))
-                <li class="pc-item"><a href="{{ route('stagingplan') }}" class="pc-link"><span class="pc-micon"><img class="pc-icon" src="{{ asset('dashboard/assets') }}/images/widget/blueprint.png" alt="NT"></span><span class="pc-mtext">Staging Plan</span></a></li>
-                @endif
 
                 {{-- VERIFIKASI --}}
                 @if (
