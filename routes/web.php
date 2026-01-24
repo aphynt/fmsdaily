@@ -52,10 +52,12 @@ use App\Http\Controllers\VerifikasiLaporanKerja;
 use App\Http\Controllers\VerifikasiLaporanKerjaController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\isAdmin;
+use App\Models\StagingPlan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Http;
 
 // Route::get('/', function () {
 //     return redirect()->route('dashboard.index');
@@ -458,15 +460,35 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/staging-plan/delete/{uuid}', [StagingPlanController::class, 'delete'])->name('stagingplan.delete');
     Route::post('/staging-plan/post', [StagingPlanController::class, 'post'])->name('stagingplan.post');
     Route::get('/staging-plan/preview/{uuid}', [StagingPlanController::class, 'preview'])->name('stagingplan.preview');
-    Route::get('/file-staging-plan/{path}', function ($path) {
-        $fullPath = storage_path('app/public/staging_plan/' . $path);
 
-        abort_unless(File::exists($fullPath), 404);
+    Route::get('/file-staging-plan/{uuid}', function ($uuid) {
 
-        return Response::file($fullPath, [
-            'Content-Type' => 'application/pdf',
-        ]);
-    })->where('path', '.*')->name('fileStagingPlan.show');
+    $data = StagingPlan::where('uuid', $uuid)
+        ->where('statusenabled', true)
+        ->firstOrFail();
+
+        // DB berisi URL penuh ke server 10.10.2.6
+        $remotePdfUrl = $data->document;
+
+        // ambil file dari server 10.10.2.6
+        $response = Http::withOptions([
+            'verify' => false,
+        ])->get($remotePdfUrl);
+
+        if (!$response->ok()) {
+            abort(404);
+        }
+
+        return Response::make(
+            $response->body(),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition'=> 'inline',
+            ]
+        );
+
+    })->name('fileStagingPlan.show');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('canAccess');

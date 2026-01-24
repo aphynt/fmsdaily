@@ -32,7 +32,9 @@
     </div>
 </div>
 
-
+    @if ($data->pit != null)
+        <h4>PIT: {{ $data->pit }}</h4>
+    @endif
         <div class="col-xl-12 col-md-6">
             <div class="card">
                 <div class="card-body">

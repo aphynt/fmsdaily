@@ -56,6 +56,14 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+        'sftp_staging' => [
+            'driver'   => 'sftp',
+            'host'     => '10.10.2.6',
+            'username' => env('SFTP_USERNAME'),
+            'password' => env('SFTP_PASSWORD'),
+            'root'     => '/C:/wamp64/www/FMSDaily/storage/app/public',
+            'timeout'  => 30,
+        ],
 
         'jobpending' => [
                 'driver' => 'local',

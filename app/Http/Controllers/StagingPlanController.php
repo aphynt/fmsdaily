@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\AreaStagingPlan;
 use App\Models\Shift;
 use App\Models\StagingPlan;
 use Carbon\Carbon;
@@ -10,6 +11,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
 
 class StagingPlanController extends Controller
@@ -36,12 +38,12 @@ class StagingPlanController extends Controller
         $endTimeFormatted   = $end->format('Y-m-d');
 
         $shift = Shift::where('statusenabled', true)->get();
-        $pit = Area::where('statusenabled', true)->orderByDesc('id')->get();
+        $pit = AreaStagingPlan::where('statusenabled', true)->orderByDesc('id')->get();
 
         $stagingQuery = DB::table('STAGING_PLAN as sp')
             ->leftJoin('users as us', 'sp.pic', '=', 'us.id')
             ->leftJoin('REF_SHIFT as sh', 'sp.shift_id', '=', 'sh.id')
-            ->leftJoin('REF_AREA as ar', 'sp.pit_id', '=', 'ar.id')
+            ->leftJoin('REF_AREA_STAGING_PLAN as ar', 'sp.pit_id', '=', 'ar.id')
             ->select(
                 'sp.id',
                 'sp.uuid',
@@ -78,41 +80,45 @@ class StagingPlanController extends Controller
 
     public function post(Request $request)
     {
-        // dd($request->all());
-
-        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-        $endDate   = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
-
-        // =========================
-        // UPLOAD GAMBAR
-        // =========================
         try {
-            $documentPath = null;
-            $documentUrl  = null;
+            $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+            $endDate   = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
 
+            $documentPath = null;
+
+            // =========================
+            // UPLOAD PDF KE SFTP (10.10.2.6)
+            // =========================
             if ($request->hasFile('document')) {
-                $documentPath = $request->file('document')->store(
+                $documentPath = Storage::disk('sftp_staging')->putFile(
                     'staging_plan',
-                    'public'
+                    $request->file('document')
                 );
 
-                $documentUrl = asset('storage/' . $documentPath);
+                // UBAH KE URL PENUH
+                $documentUrl = 'http://10.10.2.6:93/storage/' . $documentPath;
             }
 
-        DB::table('STAGING_PLAN')->insert([
-            'pic' => Auth::user()->id,
-            'uuid' => (string) Uuid::uuid4()->toString(),
-            'statusenabled' => true,
-            'start_date'    => $startDate,
-            'end_date'      => $endDate,
-            'shift_id'      => $request->shift_id,
-            'pit_id'      => $request->pit_id,
-            'document'      => $documentUrl,
-        ]);
+            DB::table('STAGING_PLAN')->insert([
+                'pic'           => Auth::user()->id,
+                'uuid'          => (string) Uuid::uuid4(),
+                'statusenabled' => true,
+                'start_date'    => $startDate,
+                'end_date'      => $endDate,
+                // 'shift_id'      => $request->shift_id,
+                'pit_id'        => $request->pit_id,
 
-        return redirect()->back()->with('success', 'Staging Plan berhasil ditambahkan');
+                // SIMPAN PATH, BUKAN URL
+                'document'      => $documentUrl,
+            ]);
+
+            return back()->with('success', 'Staging Plan berhasil ditambahkan');
+
         } catch (\Throwable $th) {
-            return redirect()->back()->with('info', 'Staging Plan gagal ditambahkan..\n'.$th->getMessage());
+            return back()->with(
+                'info',
+                'Staging Plan gagal ditambahkan: ' . $th->getMessage()
+            );
         }
     }
 
@@ -133,20 +139,30 @@ class StagingPlanController extends Controller
 
     public function preview($uuid)
     {
-        $data = StagingPlan::where('uuid', $uuid)
-            ->where('statusenabled', true)
-            ->first();
+        $data = DB::table('STAGING_PLAN as sp')
+            ->leftJoin('users as us', 'sp.pic', '=', 'us.id')
+            ->leftJoin('REF_SHIFT as sh', 'sp.shift_id', '=', 'sh.id')
+            ->leftJoin('REF_AREA_STAGING_PLAN as ar', 'sp.pit_id', '=', 'ar.id')
+            ->select(
+                'sp.id',
+                'sp.uuid',
+                'sp.statusenabled',
+                'sp.pic',
+                'us.name as nama_pic',
+                'sh.keterangan as shift',
+                'ar.keterangan as pit',
+                'sp.start_date',
+                'sp.end_date'
+            )
+            ->where('sp.uuid', $uuid)
+            ->where('sp.statusenabled', true)->first();
 
         if (!$data) {
             return redirect()->back()->with('info', 'Maaf, staging plan tidak ditemukan');
         }
 
-        // contoh data DB:
-        // http://127.0.0.1:8003/storage/staging_plan/xxxx.pdf
-        $fileName = basename($data->document);
+        $pdfUrl = route('fileStagingPlan.show', $uuid);
 
-        $pdfUrl = route('fileStagingPlan.show', ['path' => $fileName]);
-
-        return view('staging-plan.preview', compact('data', 'fileName', 'pdfUrl'));
+        return view('staging-plan.preview', compact('data', 'pdfUrl'));
     }
 }

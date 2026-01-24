@@ -17,7 +17,7 @@
                         <label>End Date</label>
                         <input type="text" id="endDate" class="form-control" value="" name="end_date" required>
                     </div>
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label>Shift</label>
                         <select class="form-select" id="shiftSupport" name="shift_id">
                             <option selected disabled>Pilih shift</option>
@@ -25,7 +25,7 @@
                             <option value="{{ $shh->id }}">{{ $shh->keterangan }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="mb-3">
                         <label>Shift</label>
                         <select class="form-select" id="pitSupport" name="pit_id" required>

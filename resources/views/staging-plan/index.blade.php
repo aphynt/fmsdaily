@@ -26,7 +26,7 @@
                                             <label for="endStagingPlan">End Date</label>
                                             <input type="text" id="endStagingPlan" class="form-control" name="endStagingPlan" value="{{ request('endStagingPlan') ? \Carbon\Carbon::parse(request('endStagingPlan'))->format('m/d/Y') : '' }}">
                                         </div>
-                                        <div class="col-6 col-md-2 mb-2">
+                                        {{-- <div class="col-6 col-md-2 mb-2">
                                             <label for="shift">Shift</label>
                                             <select class="form-select" name="shift" id="shift">
                                                 <option value="Semua" {{ (request('shift') == 'Semua' || !request('shift')) ? 'selected' : '' }}>Semua</option>
@@ -46,7 +46,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="col-12 col-md-2 mb-2 d-flex align-items-end">
                                             <button type="submit" class="btn btn-primary w-100" style="padding-top:10px;padding-bottom:10px;">Tampilkan</button>
@@ -81,7 +81,7 @@
                                         <th>No</th>
                                         <th>Mulai</th>
                                         <th>Selesai</th>
-                                        <th>Shift</th>
+                                        {{-- <th>Shift</th> --}}
                                         <th>Pit</th>
                                         <th>Document</th>
                                         <th>Aksi</th>
@@ -95,7 +95,7 @@
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $stg->start_date }}</td>
                                             <td>{{ $stg->end_date }}</td>
-                                            <td>{{ $stg->shift }}</td>
+                                            {{-- <td>{{ $stg->shift }}</td> --}}
                                             <td>{{ $stg->pit }}</td>
                                             <td>
                                                 <a href="{{ route('stagingplan.preview', $stg->uuid) }}"
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script>
-    var groupColumn = 4;
+    var groupColumn = 3;
     var table = $('#example').DataTable({
     columnDefs: [{ visible: false, targets: groupColumn }],
     order: [[groupColumn, 'asc']],
