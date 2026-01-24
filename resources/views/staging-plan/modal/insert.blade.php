@@ -36,8 +36,15 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label>Upload Gambar</label>
-                        <input type="file" id="image" class="form-control" accept="image/*" name="image" required>
+                        <label for="document" class="form-label">Upload Dokumen (PDF)</label>
+                        <input
+                            type="file"
+                            id="document"
+                            name="document"
+                            class="form-control"
+                            accept="application/pdf"
+                            required
+                        >
                     </div>
                 </div>
                 <div class="modal-footer">

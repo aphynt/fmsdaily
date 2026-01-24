@@ -457,6 +457,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/staging-plan/insert', [StagingPlanController::class, 'insert'])->name('stagingplan.insert');
     Route::get('/staging-plan/delete/{uuid}', [StagingPlanController::class, 'delete'])->name('stagingplan.delete');
     Route::post('/staging-plan/post', [StagingPlanController::class, 'post'])->name('stagingplan.post');
+    Route::get('/staging-plan/preview/{uuid}', [StagingPlanController::class, 'preview'])->name('stagingplan.preview');
+    Route::get('/file-staging-plan/{path}', function ($path) {
+        $fullPath = storage_path('app/public/staging_plan/' . $path);
+
+        abort_unless(File::exists($fullPath), 404);
+
+        return Response::file($fullPath, [
+            'Content-Type' => 'application/pdf',
+        ]);
+    })->where('path', '.*')->name('fileStagingPlan.show');
 
     // Log
     Route::get('/log/index', [LogController::class, 'index'])->name('log.index')->middleware('canAccess');

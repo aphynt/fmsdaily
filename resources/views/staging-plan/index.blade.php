@@ -83,7 +83,7 @@
                                         <th>Selesai</th>
                                         <th>Shift</th>
                                         <th>Pit</th>
-                                        <th>Gambar</th>
+                                        <th>Document</th>
                                         <th>Aksi</th>
                                     </tr>
 
@@ -98,11 +98,9 @@
                                             <td>{{ $stg->shift }}</td>
                                             <td>{{ $stg->pit }}</td>
                                             <td>
-                                                <a href="javascript:void(0)"
+                                                <a href="{{ route('stagingplan.preview', $stg->uuid) }}"
                                                     class="badge text-center me-1"
-                                                    style="font-size:14px; background-color:#001932; color:white; display:inline-block;"
-                                                    onclick="showImagePreview('{{ $stg->image }}')">
-                                                        Lihat Stage
+                                                    style="font-size:14px; background-color:#001932; color:white; display:inline-block;">Lihat Stage
                                                 </a>
                                             </td>
                                             @if (in_array(Auth::user()->role, ['ADMIN', 'PIT CONTROL']))
@@ -183,64 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
-<script>
-    let scale = 1;
-    let originX = 0;
-    let originY = 0;
-    let isDragging = false;
-    let startX, startY;
-
-    const img = document.getElementById('previewImage');
-
-    // OPEN MODAL
-    function showImagePreview(src) {
-        img.src = src;
-        scale = 1;
-        originX = 0;
-        originY = 0;
-        updateTransform();
-        img.style.cursor = 'grab';
-
-        new bootstrap.Modal(document.getElementById('imagePreviewModal')).show();
-    }
-
-    // UPDATE TRANSFORM
-    function updateTransform() {
-        img.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-    }
-
-    // ZOOM DENGAN SCROLL
-    img.addEventListener('wheel', function (e) {
-        e.preventDefault();
-
-        const zoomSpeed = 0.1;
-        scale += e.deltaY < 0 ? zoomSpeed : -zoomSpeed;
-        scale = Math.min(Math.max(scale, 1), 5); // min 1x, max 5x
-
-        updateTransform();
-    });
-
-    // DRAG IMAGE
-    img.addEventListener('mousedown', function (e) {
-        isDragging = true;
-        startX = e.clientX - originX;
-        startY = e.clientY - originY;
-        img.style.cursor = 'grabbing';
-    });
-
-    window.addEventListener('mousemove', function (e) {
-        if (!isDragging) return;
-        originX = e.clientX - startX;
-        originY = e.clientY - startY;
-        updateTransform();
-    });
-
-    window.addEventListener('mouseup', function () {
-        isDragging = false;
-        img.style.cursor = 'grab';
-    });
-</script>
-
 
 <script>
     var groupColumn = 4;

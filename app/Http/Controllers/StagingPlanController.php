@@ -51,8 +51,7 @@ class StagingPlanController extends Controller
                 'sh.keterangan as shift',
                 'ar.keterangan as pit',
                 'sp.start_date',
-                'sp.end_date',
-                'sp.image'
+                'sp.end_date'
             )
             ->where('sp.statusenabled', true)
             ->where(function ($query) use ($startTimeFormatted, $endTimeFormatted) {
@@ -88,16 +87,17 @@ class StagingPlanController extends Controller
         // UPLOAD GAMBAR
         // =========================
         try {
-            $imagePath = null;
-            $imageUrl = null;
+            $documentPath = null;
+            $documentUrl  = null;
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store(
-                'staging_plan',
-                'public'
-            );
-            $imageUrl = asset('storage/' . $imagePath);
-        }
+            if ($request->hasFile('document')) {
+                $documentPath = $request->file('document')->store(
+                    'staging_plan',
+                    'public'
+                );
+
+                $documentUrl = asset('storage/' . $documentPath);
+            }
 
         DB::table('STAGING_PLAN')->insert([
             'pic' => Auth::user()->id,
@@ -107,12 +107,12 @@ class StagingPlanController extends Controller
             'end_date'      => $endDate,
             'shift_id'      => $request->shift_id,
             'pit_id'      => $request->pit_id,
-            'image'         => $imageUrl,
+            'document'      => $documentUrl,
         ]);
 
         return redirect()->back()->with('success', 'Staging Plan berhasil ditambahkan');
         } catch (\Throwable $th) {
-            return redirect()->back()->with('info', 'Staging Plan gagal ditambahkan');
+            return redirect()->back()->with('info', 'Staging Plan gagal ditambahkan..\n'.$th->getMessage());
         }
     }
 
@@ -129,5 +129,24 @@ class StagingPlanController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('info', nl2br('Data gagal dihapus..\n' . $th->getMessage()));
         }
+    }
+
+    public function preview($uuid)
+    {
+        $data = StagingPlan::where('uuid', $uuid)
+            ->where('statusenabled', true)
+            ->first();
+
+        if (!$data) {
+            return redirect()->back()->with('info', 'Maaf, staging plan tidak ditemukan');
+        }
+
+        // contoh data DB:
+        // http://127.0.0.1:8003/storage/staging_plan/xxxx.pdf
+        $fileName = basename($data->document);
+
+        $pdfUrl = route('fileStagingPlan.show', ['path' => $fileName]);
+
+        return view('staging-plan.preview', compact('data', 'fileName', 'pdfUrl'));
     }
 }
