@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\LaporanHarianController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FuelServiceURLController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,11 @@ Route::get('/fuel/getDataFuel/Outgoing', [FuelServiceURLController::class, 'getD
 //Transfer
 Route::post('/fuel/sendPostFuel/Transfer', [FuelServiceURLController::class, 'sendPostFuelTransfer'])->name('fuel.post.transfer');
 Route::get('/fuel/getDataFuel/Transfer', [FuelServiceURLController::class, 'getDataFuelTransfer'])->name('fuel.get.transfer');
+
+
+Route::get('/fuel/getDataFuel/Transfer', [FuelServiceURLController::class, 'getDataFuelTransfer'])->name('fuel.get.transfer');
+
+Route::post('/attendance/receive', [AttendanceController::class, 'receive']);
 
 
 // Route::get('/laporan-pengawas', [APIController::class, 'laporanPengawas'])->name('api.laporan-pengawas');

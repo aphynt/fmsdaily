@@ -111,6 +111,17 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'kantin' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('DB_HOST', '10.72.4.117'),
+            'port'     => env('DB_PORT', '1433'),
+            'database' => 'KANTIN_MESS',
+            'username' => env('DB_USERNAME', 'IT001'),
+            'password' => env('DB_PASSWORD', 'sims@1234'),
+            'charset'  => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'   => '',
+        ],
 
         'daily' => [
             'driver'   => 'sqlsrv',
