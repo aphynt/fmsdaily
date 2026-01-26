@@ -32,7 +32,7 @@ class AttendanceController extends Controller
                     continue;
                 }
 
-                $exists = DB::connection('kantin')->table('attendance_logs')
+                $exists = DB::connection('kantin')->table('KANTIN_MESS.dbo.attendance_logs')
                     ->where('id', $row['id'])
                     ->exists();
 
@@ -41,7 +41,7 @@ class AttendanceController extends Controller
                     continue;
                 }
 
-                DB::connection('kantin')->table('attendance_logs')->insert([
+                DB::connection('kantin')->table('KANTIN_MESS.dbo.attendance_logs')->insert([
                     'id'               => $row['id'],
                     'nik'              => $row['nik'] ?? null,
                     'meal_type'        => $row['meal_type'] ?? null,
