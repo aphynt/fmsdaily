@@ -127,7 +127,7 @@ return [
             'driver'   => 'sqlsrv',
             'host'     => '10.72.5.80',
             'port'     => '1433',
-            'database' => 'KANTIN_MESS',
+            'database' => 'db_payroll',
             'username' => 'sims',
             'password' => 'sims!234%',
             'charset'  => 'utf8',
