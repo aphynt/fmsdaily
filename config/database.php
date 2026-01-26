@@ -123,6 +123,18 @@ return [
             'prefix'   => '',
         ],
 
+        'kkh' => [
+            'driver'   => 'sqlsrv',
+            'host'     => '10.72.5.80',
+            'port'     => '1433',
+            'database' => 'KANTIN_MESS',
+            'username' => 'sims',
+            'password' => 'sims!234%',
+            'charset'  => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'   => '',
+        ],
+
         'daily' => [
             'driver'   => 'sqlsrv',
             'host'     => env('DB_HOST', '10.10.3.73'),
