@@ -42,7 +42,7 @@ class AttendanceController extends Controller
                 }
 
                 DB::connection('kantin')->table('KANTIN_MESS.dbo.attendance_logs')->insert([
-                    'id'               => $row['id'],
+                    // 'id'               => $row['id'],
                     'nik'              => $row['nik'] ?? null,
                     'meal_type'        => $row['meal_type'] ?? null,
                     'status'           => $row['status'] ?? null,
