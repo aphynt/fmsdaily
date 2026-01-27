@@ -522,6 +522,7 @@
                             <a href="#" onclick="window.history.back()" class="action-btn action-secondary">
                                 Kembali
                             </a>
+                            @if (Auth::user()->role == 'ADMIN' || Auth::user()->id == $data['daily']->foreman_id)
                             <a href="#" class="action-btn action-danger" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja{{ $data['daily']->uuid }}">
                                 Hapus
                             </a>
@@ -545,6 +546,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
 
                             <a href="{{ route('form-pengawas-new.pdf', $data['daily']->uuid) }}"

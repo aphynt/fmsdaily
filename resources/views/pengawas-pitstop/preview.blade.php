@@ -412,7 +412,9 @@
 
                             <div class="action-actions">
                                 <a href="#" onclick="window.history.back()" class="action-btn action-secondary">Kembali</a>
+                                @if (Auth::user()->role == 'ADMIN' || Auth::user()->id == $data['daily']->foreman_id)
                                 <a href="#" class="action-btn action-danger" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja{{ $data['daily']->uuid }}">Hapus</a>
+                                @endif
                                 <a href="{{ route('pengawas-pitstop.download', $data['daily']->uuid) }}" target="_blank" class="action-btn action-primary">Download</a>
                                 <a href="{{ route('pengawas-pitstop.cetak', $data['daily']->uuid) }}" target="_blank" class="action-btn action-outline">Print</a>
                             </div>
