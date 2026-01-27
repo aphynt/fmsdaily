@@ -57,6 +57,7 @@ class AttendanceController extends Controller
                     'created_at'       => $row['created_at'] ?? now(),
                     'updated_at'       => now(),
                     'food_category'    => 'basic',
+                    'position'         => 'Mess SIMS',
                 ]);
 
                 $inserted++;
