@@ -192,6 +192,16 @@
         color: #fff;
     }
 
+    .action-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .action-danger:hover {
+        background-color: #c01a2b;
+        color: #fff;
+    }
+
     .action-outline {
         border: 1px solid #0d6efd;
         color: #0d6efd;
@@ -508,23 +518,47 @@
                             </div>
 
                         </div>
-<div class="action-actions">
-    <a href="#" onclick="window.history.back()" class="action-btn action-secondary">
-        Kembali
-    </a>
+                        <div class="action-actions">
+                            <a href="#" onclick="window.history.back()" class="action-btn action-secondary">
+                                Kembali
+                            </a>
+                            <a href="#" class="action-btn action-danger" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja{{ $data['daily']->uuid }}">
+                                Hapus
+                            </a>
+                            <div class="modal fade" id="deleteLaporanKerja{{ $data['daily']->uuid }}" aria-hidden="true" aria-labelledby="..." tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body text-center p-5">
+                                            <lord-icon
+                                                src="/tdrtiskw.json"
+                                                trigger="loop"
+                                                colors="primary:#f7b84b,secondary:#405189"
+                                                style="width:130px;height:130px">
+                                            </lord-icon>
+                                            <div class="mt-4 pt-4">
+                                                <h4>Yakin menghapus Laporan Kerja ini?</h4>
+                                                <p class="text-muted"> Data yang dihapus tidak ditampilkan kembali</p>
+                                                <!-- Toogle to second dialog -->
+                                                <a href="{{ route('form-pengawas-new.delete', $data['daily']->uuid) }}"><span class="badge bg-danger" style="font-size:14px">Hapus</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-    <a href="{{ route('form-pengawas-new.pdf', $data['daily']->uuid) }}"
-       target="_blank"
-       class="action-btn action-primary">
-        Download PDF
-    </a>
 
-    <a href="{{ route('form-pengawas-new.download', $data['daily']->uuid) }}"
-       target="_blank"
-       class="action-btn action-outline">
-        Print
-    </a>
-</div>
+                            <a href="{{ route('form-pengawas-new.pdf', $data['daily']->uuid) }}"
+                            target="_blank"
+                            class="action-btn action-primary">
+                                Download PDF
+                            </a>
+
+                            <a href="{{ route('form-pengawas-new.download', $data['daily']->uuid) }}"
+                            target="_blank"
+                            class="action-btn action-outline">
+                                Print
+                            </a>
+                        </div>
 
                     </div>
                 </div>

@@ -104,8 +104,28 @@
         color: #fff;
     }
 
+    .action-primary:hover {
+        background-color: #0b5ed7;
+        color: #fff;
+    }
+
     .action-secondary {
         background-color: #6c757d;
+        color: #fff;
+    }
+
+    .action-secondary:hover {
+        background-color: #5c636a;
+        color: #fff;
+    }
+
+    .action-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .action-danger:hover {
+        background-color: #c01a2b;
         color: #fff;
     }
 
@@ -114,6 +134,12 @@
         color: #0d6efd;
         background-color: #fff;
     }
+
+    .action-outline:hover {
+        background-color: #0d6efd;
+        color: #fff;
+    }
+
     .table-responsive-horizontal {
         width: 100%;
         overflow-x: auto;
@@ -386,6 +412,7 @@
 
                             <div class="action-actions">
                                 <a href="#" onclick="window.history.back()" class="action-btn action-secondary">Kembali</a>
+                                <a href="#" class="action-btn action-danger" data-bs-toggle="modal" data-bs-target="#deleteLaporanKerja{{ $data['daily']->uuid }}">Hapus</a>
                                 <a href="{{ route('pengawas-pitstop.download', $data['daily']->uuid) }}" target="_blank" class="action-btn action-primary">Download</a>
                                 <a href="{{ route('pengawas-pitstop.cetak', $data['daily']->uuid) }}" target="_blank" class="action-btn action-outline">Print</a>
                             </div>
