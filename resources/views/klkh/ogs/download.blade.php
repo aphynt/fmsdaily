@@ -112,7 +112,7 @@
             <thead>
                 <tr>
                     <th class="noborder nobg" style="padding: 0px'margin-bttom:0px"><img src="{{ public_path('dashboard/assets/images/logo-full.png') }}" width="240px"></th>
-                    <th colspan="5" class="noborder nobg kanan"><p style="margin: 0;">FM-PRD-71/00/08/03/24</p></th>
+                    <th colspan="5" class="noborder nobg kanan"><p style="margin: 0;">FM-PRD-71/01/16/02/26</p></th>
                 </tr>
             </thead>
         </table>
@@ -332,7 +332,7 @@
                 </tr>
                 <tr>
                     <td class="center">10</td>
-                    <td>Tinggi tanggul 1/3 diameter roda terbesar dan lebar tanggul 2 meter</td>
+                    <td>Tinggi tanggul 2/3 diameter roda terbesar dan lebar tanggul 2 meter</td>
                     <td class="center">{!! $ogs->tinggi_tanggul_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $ogs->tinggi_tanggul_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $ogs->tinggi_tanggul_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>

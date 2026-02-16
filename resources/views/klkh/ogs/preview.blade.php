@@ -19,7 +19,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6 text-sm-end">
-                                        <h6>FM-PRD-71/00/08/03/24</h6>
+                                        <h6>FM-PRD-71/01/16/02/26</h6>
                                     </div>
                                 </div>
                             </div>
@@ -236,7 +236,7 @@
                                             </tr>
                                             <tr>
                                                 <td>21</td>
-                                                <td>Tinggi tanggul 1/3 diameter roda terbesar dan lebar tanggul 2 meter</td>
+                                                <td>Tinggi tanggul 2/3 diameter roda terbesar dan lebar tanggul 2 meter</td>
                                                 <td>{{ $ogs->tinggi_tanggul_check == 'true' ? "✔️" : "" }}</td>
                                                 <td>{{ $ogs->tinggi_tanggul_check == 'false' ? "✔️" : "" }}</td>
                                                 <td>{{ $ogs->tinggi_tanggul_check == 'n/a' ? "✔️" : "" }}</td>
