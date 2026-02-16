@@ -236,7 +236,7 @@
                                             </tr>
                                             <tr>
                                                 <td>21</td>
-                                                <td>Tinggi tanggul 2/3 diameter roda terbesar dan lebar tanggul 2 meter</td>
+                                                <td>tinggi tanggul 3/4 diameter roda terbesar dan lebar tanggul 2 meter</td>
                                                 <td>{{ $ogs->tinggi_tanggul_check == 'true' ? "✔️" : "" }}</td>
                                                 <td>{{ $ogs->tinggi_tanggul_check == 'false' ? "✔️" : "" }}</td>
                                                 <td>{{ $ogs->tinggi_tanggul_check == 'n/a' ? "✔️" : "" }}</td>

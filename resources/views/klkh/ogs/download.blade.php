@@ -332,7 +332,7 @@
                 </tr>
                 <tr>
                     <td class="center">10</td>
-                    <td>Tinggi tanggul 2/3 diameter roda terbesar dan lebar tanggul 2 meter</td>
+                    <td>tinggi tanggul 3/4 diameter roda terbesar dan lebar tanggul 2 meter</td>
                     <td class="center">{!! $ogs->tinggi_tanggul_check == 'true' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $ogs->tinggi_tanggul_check == 'false' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>
                     <td class="center">{!! $ogs->tinggi_tanggul_check == 'n/a' ? '<img src="' . public_path('check.png') . '">' : "" !!}</td>

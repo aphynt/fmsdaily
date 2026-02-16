@@ -402,7 +402,7 @@
                                 </div>
                                 <hr>
                                 <div class="mb-3">
-                                    <label for="tinggi_tanggul_check">21. Tinggi tanggul 2/3 diameter roda terbesar dan lebar tanggul 2 meter:</label>
+                                    <label for="tinggi_tanggul_check">21. tinggi tanggul 3/4 diameter roda terbesar dan lebar tanggul 2 meter:</label>
                                     <div class="d-flex justify-content-start">
                                         <label for="tinggi_tanggul_true" class="me-3 px-2 py-2">
                                             <input type="radio" id="tinggi_tanggul_true" name="tinggi_tanggul_check" value="true" required /> Ya
