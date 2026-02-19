@@ -33,8 +33,10 @@ class AttendanceController extends Controller
                 }
 
                 $exists = DB::connection('kantin')->table('KANTIN_MESS.dbo.attendance_logs')
-                    ->where('id', $row['id'])
-                    ->exists();
+                ->where('nik', $row['nik'])
+                ->where('attendance_time', $row['attendance_time'])
+                ->exists();
+
 
                 if ($exists) {
                     $skipped++;
