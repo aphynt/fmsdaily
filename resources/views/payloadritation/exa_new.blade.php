@@ -35,9 +35,9 @@
     $totalPayloadShift = 0;
     $totalPayloadShiftAve = 0;
     $totalPayloadToday = 0;
-    $totalPayloadLess85 = 0;
-    $totalPayload95100 = 0;
-    $totalPayloadMore110 = 0;
+    $totalPayloadLess90 = 0;
+    $totalPayload90115 = 0;
+    $totalPayloadMore115 = 0;
     $totalRitAvgLast3Hour = 0;
     $totalRitAvgShift = 0;
     $totalRitAvgToday = 0;
@@ -160,9 +160,9 @@
                                     <tr>
                                         <th style="background-color:aquamarine;">Last Hour</th>
                                         <th style="background-color:aquamarine;">This Shift</th>
-                                        <th style="background-color:aquamarine;">< 95</th>
-                                        <th style="background-color:aquamarine;">95 - 110</th>
-                                        <th style="background-color:aquamarine;">> 110</th>
+                                        <th style="background-color:aquamarine;">< 90</th>
+                                        <th style="background-color:aquamarine;">90 - 115</th>
+                                        <th style="background-color:aquamarine;">> 115</th>
                                         <th style="background-color:aquamarine;">Last Hour</th>
                                         <th style="background-color:aquamarine;">This Shift</th>
                                         <th style="background-color:aquamarine;">Last Hour</th>
@@ -176,9 +176,9 @@
                                             <td>{{ $dt['ASG_LOADERID'] }}</td>
                                             <td style="text-align: center;">{{ number_format($dt['PAYLOAD_LASTHOUR'], 0) }}</td>
                                             <td style="text-align: center;">{{ number_format($dt['PAYLOAD_SHIFT'], 0) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_8595'], 0) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_95100'], 0) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_MORE110'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_LESS90'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_90115'], 0) }}</td>
+                                            <td style="text-align: center;">{{ number_format($dt['PAYLOAD_MORE115'], 0) }}</td>
                                             <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td>
                                             <td style="text-align: center;">{{ number_format($dt['RITAVG_SHIFT'], 0) }}</td>
                                             <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td>
@@ -188,9 +188,9 @@
                                             $totalPayloadLastHour += $dt['PAYLOAD_LASTHOUR'];
                                             $totalPayloadShift += $dt['PAYLOAD_SHIFT'];
                                             $totalRitLast3Hour += $dt['RIT_LAST3HOUR'];
-                                            $totalPayloadLess85 += $dt['PAYLOAD_8595'];
-                                            $totalPayload95100 += $dt['PAYLOAD_95100'];
-                                            $totalPayloadMore110 += $dt['PAYLOAD_MORE110'];
+                                            $totalPayloadLess90 += $dt['PAYLOAD_LESS90'];
+                                            $totalPayload90115 += $dt['PAYLOAD_90115'];
+                                            $totalPayloadMore115 += $dt['PAYLOAD_MORE115'];
                                             $totalRitAvgLast3Hour += $dt['RIT_LASTHOUR'];
                                             $totalRitAvgShift += $dt['RITAVG_SHIFT'];
                                             $totalRitLastHour += $dt['RIT_LASTHOUR'];
@@ -209,13 +209,13 @@
                                             {{ $countPayloadShift != 0 ? number_format($totalPayloadShift / $countPayloadShift, 0) : 0 }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadLess85, 0) }}
+                                            {{ number_format($totalPayloadLess90, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayload95100, 0) }}
+                                            {{ number_format($totalPayload90115, 0) }}
                                         </td>
                                         <td style="text-align: center;">
-                                            {{ number_format($totalPayloadMore110, 0) }}
+                                            {{ number_format($totalPayloadMore115, 0) }}
                                         </td>
                                         <td style="text-align: center;">
                                             {{ number_format($totalRitAvgLast3Hour, 0) }}
