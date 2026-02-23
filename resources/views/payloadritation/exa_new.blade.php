@@ -48,6 +48,7 @@
     $totalRitLast3Hour = 0;
     $countPayloadShift = 0;
     $totalPayloadShift110 = 0;
+    $totalDistribution = 0;
 @endphp
 
 <section class="pc-container">
@@ -191,6 +192,7 @@
                                             $totalPayloadLess90 += $dt['PAYLOAD_LESS90'];
                                             $totalPayload90115 += $dt['PAYLOAD_90115'];
                                             $totalPayloadMore115 += $dt['PAYLOAD_MORE115'];
+                                            $totalDistribution = $totalPayloadLess90 + $totalPayload90115 + $totalPayloadMore115;
                                             $totalRitAvgLast3Hour += $dt['RIT_LASTHOUR'];
                                             $totalRitAvgShift += $dt['RITAVG_SHIFT'];
                                             $totalRitLastHour += $dt['RIT_LASTHOUR'];
@@ -229,6 +231,19 @@
                                         <td style="text-align: center;">
                                             {{ number_format($totalRitShift, 0) }}
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; font-weight: bold;"></td>
+                                        <td style="text-align: center;">
+                                            {{ $totalDistribution > 0 ? number_format(($totalPayloadLess90 / $totalDistribution) * 100, 0) . '%' : '0%' }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ $totalDistribution > 0 ? number_format(($totalPayload90115 / $totalDistribution) * 100, 0) . '%' : '0%' }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {{ $totalDistribution > 0 ? number_format(($totalPayloadMore115 / $totalDistribution) * 100, 0) . '%' : '0%' }}
+                                        </td>
+                                        <td colspan="4" style="text-align: center; font-weight: bold;"></td>
                                     </tr>
                                 </tfoot>
                             </table>
