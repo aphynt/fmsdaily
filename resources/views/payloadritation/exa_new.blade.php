@@ -150,13 +150,13 @@
                                         <th rowspan="3" style="background-color:aquamarine;">No</th>
                                         <th rowspan="3" style="background-color:aquamarine;">Fleet</th>
                                         <th style="text-align: center;background-color:aquamarine;" colspan="5">Payload</th>
-                                        <th style="text-align: center;background-color:aquamarine;" colspan="4">Ritation</th>
+                                        <th style="text-align: center;background-color:aquamarine;" colspan="2">Ritation</th>
                                     </tr>
                                     <tr>
                                         <th style="text-align: center;background-color:aquamarine;" colspan="2">Average</th>
                                         <th style="text-align: center;background-color:aquamarine;" colspan="3">Distribution</th>
-                                        <th style="text-align: center;background-color:aquamarine;" colspan="2">Average</th>
-                                        <th style="text-align: center;background-color:aquamarine;" colspan="2">Cummulative</th>
+                                        <th style="text-align: center;background-color:aquamarine;">Average</th>
+                                        <th style="text-align: center;background-color:aquamarine;">Cummulative</th>
                                     </tr>
                                     <tr>
                                         <th style="background-color:aquamarine;">Last Hour</th>
@@ -164,9 +164,9 @@
                                         <th style="background-color:aquamarine;">< 90</th>
                                         <th style="background-color:aquamarine;">90 - 115</th>
                                         <th style="background-color:aquamarine;">> 115</th>
-                                        <th style="background-color:aquamarine;">Last Hour</th>
+                                        {{-- <th style="background-color:aquamarine;">Last Hour</th> --}}
                                         <th style="background-color:aquamarine;">This Shift</th>
-                                        <th style="background-color:aquamarine;">Last Hour</th>
+                                        {{-- <th style="background-color:aquamarine;">Last Hour</th> --}}
                                         <th style="background-color:aquamarine;">This Shift</th>
                                     </tr>
                                 </thead>
@@ -180,9 +180,9 @@
                                             <td style="text-align: center;">{{ number_format($dt['PAYLOAD_LESS90'], 0) }}</td>
                                             <td style="text-align: center;">{{ number_format($dt['PAYLOAD_90115'], 0) }}</td>
                                             <td style="text-align: center;">{{ number_format($dt['PAYLOAD_MORE115'], 0) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td>
+                                            {{-- <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td> --}}
                                             <td style="text-align: center;">{{ number_format($dt['RITAVG_SHIFT'], 0) }}</td>
-                                            <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td>
+                                            {{-- <td style="text-align: center;">{{ number_format($dt['RIT_LASTHOUR'], 0) }}</td> --}}
                                             <td style="text-align: center;">{{ number_format($dt['RIT_SHIFT'], 0) }}</td>
                                         </tr>
                                         @php
@@ -201,9 +201,9 @@
                                     @endforeach
 
                                 </tbody>
-                                <tfoot style="background-color:moccasin">
+                                <tfoot style="background-color:moccasin; font-weight:bold;">
                                     <tr>
-                                        <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
+                                        <td colspan="2" style="text-align: center;">Total</td>
                                         <td style="text-align: center;">
                                             {{ $countPayloadShift != 0 ? number_format($totalPayloadLastHour / $countPayloadShift, 0) : 0 }}
                                         </td>
@@ -219,21 +219,22 @@
                                         <td style="text-align: center;">
                                             {{ number_format($totalPayloadMore115, 0) }}
                                         </td>
-                                        <td style="text-align: center;">
+                                        {{-- <td style="text-align: center;">
                                             {{ number_format($totalRitAvgLast3Hour, 0) }}
-                                        </td>
+                                        </td> --}}
                                         <td style="text-align: center;">
                                             {{ number_format($totalRitAvgShift, 0) }}
                                         </td>
-                                        <td style="text-align: center;">
+                                        {{-- <td style="text-align: center;">
                                             {{ number_format($totalRitLastHour, 0) }}
-                                        </td>
+                                        </td> --}}
                                         <td style="text-align: center;">
                                             {{ number_format($totalRitShift, 0) }}
                                         </td>
                                     </tr>
+
                                     <tr>
-                                        <td colspan="4" style="text-align: center; font-weight: bold;"></td>
+                                        <td colspan="4" style="text-align: center;">Persentasi</td>
                                         <td style="text-align: center;">
                                             {{ $totalDistribution > 0 ? number_format(($totalPayloadLess90 / $totalDistribution) * 100, 0) . '%' : '0%' }}
                                         </td>
@@ -243,7 +244,7 @@
                                         <td style="text-align: center;">
                                             {{ $totalDistribution > 0 ? number_format(($totalPayloadMore115 / $totalDistribution) * 100, 0) . '%' : '0%' }}
                                         </td>
-                                        <td colspan="4" style="text-align: center; font-weight: bold;"></td>
+                                        <td colspan="2" style="text-align: center;"></td>
                                     </tr>
                                 </tfoot>
                             </table>
