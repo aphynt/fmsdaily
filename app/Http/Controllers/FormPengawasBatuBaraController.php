@@ -1127,6 +1127,18 @@ class FormPengawasBatuBaraController extends Controller
                 ]);
             });
         } catch (\Throwable $th) {
+
+            Log::error('ERROR SAVE DRAFT BB', [
+                'message'   => $th->getMessage(),
+                'file'      => $th->getFile(),
+                'line'      => $th->getLine(),
+                'trace'     => $th->getTraceAsString(),
+                'request'   => $request->all(),
+                'user_id'   => Auth::user()->id,
+                'url'       => $request->fullUrl(),
+                'ip'        => $request->ip(),
+            ]);
+
             return response()->json(['error' => 'Failed to save draft: ' . $th->getMessage()], 500);
         }
     }
