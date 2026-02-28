@@ -974,9 +974,10 @@ class FormPengawasBatuBaraController extends Controller
     {
 
         // return $request->all();
+        DB::beginTransaction();
 
         try {
-            return DB::transaction(function () use ($request) {
+
                 $typeDraft = true;
                 if($request->actionType == 'finish'){
                     $typeDraft = false;
@@ -1119,15 +1120,16 @@ class FormPengawasBatuBaraController extends Controller
                     );
                 }
             }
+            DB::commit();
                 return response()->json([
                     'success' => true,
                     'message' => 'Draft saved successfully!',
                     'uuid' => $dailyReport->uuid,
                     'data' => $dailyReport,
                 ]);
-            });
         } catch (\Throwable $th) {
 
+        DB::rollBack();
             \Illuminate\Support\Facades\Log::error('ERROR SAVE DRAFT BB', [
                 'message'   => $th->getMessage(),
                 'file'      => $th->getFile(),
