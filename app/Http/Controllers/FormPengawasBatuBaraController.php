@@ -1128,7 +1128,7 @@ class FormPengawasBatuBaraController extends Controller
             });
         } catch (\Throwable $th) {
 
-            Log::error('ERROR SAVE DRAFT BB', [
+            \Illuminate\Support\Facades\Log::error('ERROR SAVE DRAFT BB', [
                 'message'   => $th->getMessage(),
                 'file'      => $th->getFile(),
                 'line'      => $th->getLine(),

@@ -106,34 +106,27 @@ class PayloadRitationController extends Controller
 
         $grouped = $data->groupBy('ASG_LOADERID')->sortBy('ASG_LOADERID')->map(function ($group) {
             return $group->reduce(function ($carry, $item) use ($group) {
-                // Menghitung jumlah elemen dalam kelompok untuk pembagian dinamis
                 $groupCount = $group->count();
 
                 foreach ($item as $key => $value) {
-                    // Daftar field yang dihitung rata-rata
                     $averageFields = [
                         'PAYLOAD_LASTHOUR',
                         'PAYLOAD_SHIFT',
                     ];
 
                     if (in_array($key, $averageFields) && is_numeric($value)) {
-                        // Hitung rata-rata dengan membagi jumlah total dengan jumlah elemen dalam grup
                         $carry[$key] = isset($carry[$key])
-                            ? (($carry[$key] * ($groupCount - 1) + $value) / $groupCount) // Pembagian dinamis
+                            ? (($carry[$key] * ($groupCount - 1) + $value) / $groupCount)
                             : $value;
                     } elseif (is_numeric($value)) {
-                        // Jumlahkan untuk field lainnya yang bukan rata-rata
                         $carry[$key] = isset($carry[$key]) ? $carry[$key] + $value : $value;
                     } else {
-                        // Untuk field yang bukan numerik, tetap simpan nilai pertama
                         $carry[$key] = $carry[$key] ?? $value;
                     }
                 }
                 return $carry;
             });
         });
-
-        // dd($grouped);
 
 
         return view('payloadritation.exa_new', compact('grouped'));
