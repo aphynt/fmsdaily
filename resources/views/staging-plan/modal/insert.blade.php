@@ -36,13 +36,13 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="document" class="form-label">Upload Dokumen (PDF)</label>
+                        <label for="document" class="form-label">Upload Dokumen (PDF / JPG / PNG)</label>
                         <input
                             type="file"
                             id="document"
                             name="document"
                             class="form-control"
-                            accept="application/pdf"
+                            accept="application/pdf,image/*"
                             required
                         >
                     </div>

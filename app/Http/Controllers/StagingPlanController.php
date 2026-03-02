@@ -72,11 +72,16 @@ class StagingPlanController extends Controller
 
     public function post(Request $request)
     {
+        $request->validate([
+            'document' => 'required|file|mimes:pdf,jpg,jpeg,png|max:20000'
+        ]);
+
         try {
             $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
             $endDate   = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
 
             $documentPath = null;
+            $documentUrl = null;
 
             // =========================
             // UPLOAD PDF KE SFTP (10.10.2.6)

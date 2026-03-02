@@ -477,12 +477,14 @@ Route::group(['middleware' => ['auth']], function(){
             abort(404);
         }
 
+        $contentType = $response->header('Content-Type');
+
         // Kembalikan sebagai PDF inline
         return Response::make(
             $response->body(),
             200,
             [
-                'Content-Type'         => 'application/pdf',
+                'Content-Type'         => $contentType,
                 'Content-Disposition' => 'inline',
             ]
         );
