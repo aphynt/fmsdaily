@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Http;
 
 class StagingPlanController extends Controller
 {
@@ -149,7 +150,8 @@ class StagingPlanController extends Controller
                 'sh.keterangan as shift',
                 'ar.keterangan as pit',
                 'sp.start_date',
-                'sp.end_date'
+                'sp.end_date',
+                'sp.document'
             )
             ->where('sp.uuid', $uuid)
             ->where('sp.statusenabled', true)->first();
@@ -158,8 +160,20 @@ class StagingPlanController extends Controller
             return redirect()->back()->with('info', 'Maaf, staging plan tidak ditemukan');
         }
 
-        $pdfUrl = route('fileStagingPlan.show', $uuid);
+        $fileUrl = route('fileStagingPlan.show', $uuid);
 
-        return view('staging-plan.preview', compact('data', 'pdfUrl'));
+        // Ambil content-type dari source asli
+        $response = Http::withOptions([
+            'verify' => false,
+            'timeout' => 10,
+        ])->head($data->document);
+
+        $contentType = $response->header('Content-Type');
+
+        return view('staging-plan.preview', compact(
+            'data',
+            'fileUrl',
+            'contentType'
+        ));
     }
 }

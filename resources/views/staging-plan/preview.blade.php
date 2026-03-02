@@ -18,7 +18,7 @@
                         <span>Kembali</span>
                     </a>
 
-                    <a href="{{ $pdfUrl }}"
+                    <a href="{{ $fileUrl }}"
                        target="_blank"
                        class="btn btn-primary d-flex align-items-center gap-2 px-3">
                         <i class="bi bi-download"></i>
@@ -39,14 +39,38 @@
             <div class="card">
                 <div style="height:90vh">
 
-                    {{-- Universal File Viewer --}}
-                    <iframe
-                        src="{{ $pdfUrl }}"
-                        width="100%"
-                        height="100%"
-                        style="border:0"
-                        allowfullscreen>
-                    </iframe>
+                    {{-- Jika Gambar --}}
+                    @if(Str::startsWith($contentType, 'image/'))
+
+                        <div class="text-center p-3">
+                            <img src="{{ $fileUrl }}"
+                                class="img-fluid rounded shadow"
+                                style="max-height:85vh">
+                        </div>
+
+                    {{-- Jika PDF --}}
+                    @elseif($contentType === 'application/pdf')
+
+                        <iframe
+                            id="pdfViewer"
+                            width="100%"
+                            height="100%"
+                            style="border:0"
+                            allowfullscreen>
+                        </iframe>
+
+                    {{-- Fallback --}}
+                    @else
+
+                        <iframe
+                            src="{{ $fileUrl }}"
+                            width="100%"
+                            height="100%"
+                            style="border:0"
+                            allowfullscreen>
+                        </iframe>
+
+                    @endif
 
                 </div>
             </div>
@@ -54,22 +78,28 @@
     </div>
 </div>
 
+@if($contentType === 'application/pdf')
 <script>
-    (function () {
-
+(function () {
+    const base = "{{ url('/pdfjs/web/viewer.html') }}?file={{ urlencode($fileUrl) }}";
 
     function setSrc() {
         const isMobile = window.matchMedia('(max-width: 768px)').matches ||
                         /android|iphone|ipad|ipod/i.test(navigator.userAgent);
         const zoom = isMobile ? 'page-width' : 'page-fit';
-        document.getElementById('pdfViewer').src = base + '#zoom=' + zoom + '&page=1';
+        document.getElementById('pdfViewer').src =
+            base + '#zoom=' + zoom + '&page=1';
     }
 
     setSrc();
 
     let t;
-    window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(setSrc, 200); });
-    })();
+    window.addEventListener('resize', () => {
+        clearTimeout(t);
+        t = setTimeout(setSrc, 200);
+    });
+})();
 </script>
+@endif
 
 @include('layout.footer')
