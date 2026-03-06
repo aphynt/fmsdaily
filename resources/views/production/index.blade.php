@@ -31,7 +31,7 @@
             {{-- =========================================================
             | KOLOM KIRI
             ========================================================== --}}
-            <div class="col-xl-6 col-md-6">
+            <div class="col-xl-4 col-md-6">
 
                 {{-- ===== CARD SUMMARY ===== --}}
                 <div class="card mb-3">
@@ -122,7 +122,7 @@
                 @endif --}}
             </div>
 
-            <div class="col-xl-6 col-md-6">
+            <div class="col-xl-8 col-md-6">
 
                 <div class="card">
                     <div class="card-body pc-component">
@@ -179,8 +179,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-2">
-                                                    <span style="color: green">{{ round($item->PRODUCTION) }} /
-                                                        {{ round($item->PLAN_PRODUCTION) }}</span>
+                                                    <span style="color: green">
+                                                        {{ round($item->PRODUCTION) }} /
+                                                        {{ round($item->PLAN_PRODUCTION) }}
+                                                    </span>
+                                                    <br>
+                                                    <small style="color:#555">
+                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                    </small>
                                                 </div>
                                             </div>
                                             @endforeach
@@ -216,8 +222,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-2">
-                                                    <span style="color: green">{{ round($item->PRODUCTION) }} /
-                                                        {{ round($item->PLAN_PRODUCTION) }}</span>
+                                                    <span style="color: green">
+                                                        {{ round($item->PRODUCTION) }} /
+                                                        {{ round($item->PLAN_PRODUCTION) }}
+                                                    </span>
+                                                    <br>
+                                                    <small style="color:#555">
+                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                    </small>
                                                 </div>
                                             </div>
                                             @endforeach
@@ -253,8 +265,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-2">
-                                                    <span style="color: green">{{ round($item->PRODUCTION) }} /
-                                                        {{ round($item->PLAN_PRODUCTION) }}</span>
+                                                    <span style="color: green">
+                                                        {{ round($item->PRODUCTION) }} /
+                                                        {{ round($item->PLAN_PRODUCTION) }}
+                                                    </span>
+                                                    <br>
+                                                    <small style="color:#555">
+                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                    </small>
                                                 </div>
                                             </div>
                                             @endforeach
@@ -290,8 +308,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-2">
-                                                    <span style="color: green">{{ round($item->PRODUCTION) }} /
-                                                        {{ round($item->PLAN_PRODUCTION) }}</span>
+                                                    <span style="color: green">
+                                                        {{ round($item->PRODUCTION) }} /
+                                                        {{ round($item->PLAN_PRODUCTION) }}
+                                                    </span>
+                                                    <br>
+                                                    <small style="color:#555">
+                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                    </small>
                                                 </div>
                                             </div>
                                             @endforeach
