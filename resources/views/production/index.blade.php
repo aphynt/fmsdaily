@@ -185,7 +185,7 @@
                                                     </span>
                                                     <br>
                                                     <small style="color:#555">
-                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                        Distance: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
                                                     </small>
                                                 </div>
                                             </div>
@@ -228,7 +228,7 @@
                                                     </span>
                                                     <br>
                                                     <small style="color:#555">
-                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                        Distance: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
                                                     </small>
                                                 </div>
                                             </div>
@@ -271,7 +271,7 @@
                                                     </span>
                                                     <br>
                                                     <small style="color:#555">
-                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                        Distance: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
                                                     </small>
                                                 </div>
                                             </div>
@@ -314,7 +314,7 @@
                                                     </span>
                                                     <br>
                                                     <small style="color:#555">
-                                                        Avg Haul: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
+                                                        Distance: {{ number_format($item->HAUL_DISTANCE ?? 0,2) }} km
                                                     </small>
                                                 </div>
                                             </div>
