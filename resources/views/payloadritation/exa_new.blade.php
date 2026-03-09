@@ -63,7 +63,7 @@
                             <li class="breadcrumb-item"><a href="javascript: void(0)">Excavator</a></li>
                         </ul>
                     </div>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-sm-12">
                             <a href="{{ route('payloadritation.index') }}">
                                 <span class="badge bg-primary" style="font-size:14px">All Summary</span>
@@ -72,7 +72,7 @@
                                 <span class="badge bg-success" style="font-size:14px">Summary per EX</span>
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

@@ -46,9 +46,9 @@ class MonitoringPayloadController extends Controller
         $payload = Ritation::selectRaw('
             VHC_ID,
             CONVERT(DATE, OPR_REPORTTIME) AS report_date,
-            COUNT(CASE WHEN RIT_TONNAGE < 100 THEN 1 END) AS LESS_THAN_100,
-            COUNT(CASE WHEN RIT_TONNAGE BETWEEN 100 AND 115 THEN 1 END) AS BETWEEN_100_AND_115,
-            COUNT(CASE WHEN RIT_TONNAGE > 115 THEN 1 END) AS GREATHER_THAN_115,
+            COUNT(CASE WHEN RIT_TONNAGE < 90 THEN 1 END) AS LESS_THAN_90,
+            COUNT(CASE WHEN RIT_TONNAGE BETWEEN 90 AND 115 THEN 1 END) AS BETWEEN_90_AND_115,
+            COUNT(CASE WHEN RIT_TONNAGE >= 115 THEN 1 END) AS GREATHER_THAN_115,
             MAX(RIT_TONNAGE) AS MAX_PAYLOAD
         ')
         ->whereBetween('OPR_REPORTTIME', [$startTimeFormatted, $endTimeFormatted]);

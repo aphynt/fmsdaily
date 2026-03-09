@@ -25,7 +25,7 @@
 
 @php
 // Variabel untuk menghitung total di footer
-$total_LESS_THAN_100 = 0;
+$total_LESS_THAN_90 = 0;
 $total_BETWEEN_100_AND_115 = 0;
 $total_GREATHER_THAN_115 = 0;
 $total_MAX_PAYLOAD = 0;
@@ -97,15 +97,11 @@ $grand_total_ritasi_2023 = 0;
                                     <tr>
                                         <th style="background-color:aquamarine;" rowspan="2">Unit</th>
                                         <th style="background-color:aquamarine;" colspan="3">Distribusi Payload</th>
-                                        <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">
-                                            Kejadian Payload
-                                            > 115 T
-                                          </th>
                                         <th rowspan="2" style="word-wrap: break-word; white-space: normal;background-color:aquamarine;">Maksimal Payload</th>
                                     </tr>
                                     <tr>
-                                        <th style="background-color:aquamarine;">< 100</th>
-                                        <th style="background-color:aquamarine;">100 - 115</th>
+                                        <th style="background-color:aquamarine;">< 90</th>
+                                        <th style="background-color:aquamarine;">90 - 115</th>
                                         <th style="background-color:aquamarine;">> 115</th>
                                     </tr>
                                 </thead>
@@ -120,20 +116,20 @@ $grand_total_ritasi_2023 = 0;
                                         if ($py['MAX_PAYLOAD'] > 0) {
                                             $count_b++;
                                         }
-                                        $sum_2 += $py['LESS_THAN_100'] + $py['BETWEEN_100_AND_115'] + $py['GREATHER_THAN_115'];
+                                        $sum_2 += $py['LESS_THAN_90'] + $py['BETWEEN_100_AND_115'] + $py['GREATHER_THAN_115'];
 
                                         // Menambahkan nilai ke total
-                                        $total_LESS_THAN_100 += $py['LESS_THAN_100'];
+                                        $total_LESS_THAN_90 += $py['LESS_THAN_90'];
                                         $total_BETWEEN_100_AND_115 += $py['BETWEEN_100_AND_115'];
                                         $total_GREATHER_THAN_115 += $py['GREATHER_THAN_115'];
                                         $total_MAX_PAYLOAD += $py['MAX_PAYLOAD'];
                                     @endphp
                                         <tr>
                                             <td>{{ $py['VHC_ID'] }}</td>
-                                            <td style="text-align: center">{{ round($py['LESS_THAN_100'], 1) }}</td>
-                                            <td style="text-align: center">{{ round($py['BETWEEN_100_AND_115'], 1) }}</td>
+                                            <td style="text-align: center">{{ round($py['LESS_THAN_90'], 1) }}</td>
+                                            <td style="text-align: center">{{ round($py['BETWEEN_90_AND_115'], 1) }}</td>
                                             <td style="text-align: center">{{ round($py['GREATHER_THAN_115'], 1) }}</td>
-                                            <td style="text-align: center">{{ round($py['GREATHER_THAN_115'], 1) }}</td>
+                                            {{-- <td style="text-align: center">{{ round($py['GREATHER_THAN_115'], 1) }}</td> --}}
                                             <td style="text-align: center">{{ round($py['MAX_PAYLOAD'], 1) }}</td>
                                         </tr>
                                     @endforeach
@@ -142,10 +138,10 @@ $grand_total_ritasi_2023 = 0;
                                     {{-- @dd($sum_2) --}}
                                     <tr>
                                         <td>%</td>
-                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_LESS_THAN_100 / $sum_2, 2 ) * 100 : 0 }}</td>
+                                        <td style="text-align: center">{{ $sum_2 != 0 ? round($total_LESS_THAN_90 / $sum_2, 2 ) * 100 : 0 }}</td>
                                         <td style="text-align: center">{{ $sum_2 != 0 ? round($total_BETWEEN_100_AND_115 / $sum_2, 2 ) * 100 : 0 }}</td>
                                         <td style="text-align: center">{{ $sum_2 != 0 ? round($total_GREATHER_THAN_115 / $sum_2, 2 ) * 100 : 0 }}</td>
-                                        <td style="text-align: center">{{ $count_a != 0 ? round($total_GREATHER_THAN_115 / $count_a, 1) : 0 }}</td>
+                                        {{-- <td style="text-align: center">{{ $count_a != 0 ? round($total_GREATHER_THAN_115 / $count_a, 1) : 0 }}</td> --}}
                                         <td style="text-align: center">{{ $count_b != 0 ? round($total_MAX_PAYLOAD / $count_b, 1) : 0 }}</td>
                                     </tr>
                                 </tfoot>
