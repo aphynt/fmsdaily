@@ -465,7 +465,8 @@ class P2HController extends Controller
         ->whereRaw("DATEADD(ms, -DATEPART(ms, A.OPR_REPORTTIME), A.OPR_REPORTTIME) = ?", [$request['OPR_REPORTTIME']])
         ->orderBy('A.CHECKLISTGROUPID')
         ->orderBy('B.CHECKLISTITEMDESCRIPTION')
-        ->get();
+        ->get()
+        ->unique('CHECKLISTITEMDESCRIPTION');
 
         // dd($detail);
 
